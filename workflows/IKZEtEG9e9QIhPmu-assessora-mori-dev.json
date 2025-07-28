@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-06T23:55:43.326Z",
-  "updatedAt": "2025-07-28T19:35:18.000Z",
+  "updatedAt": "2025-07-28T19:57:16.000Z",
   "id": "IKZEtEG9e9QIhPmu",
   "name": "assessora_mori_dev",
   "active": false,
@@ -550,45 +550,6 @@
       ],
       "id": "469abc37-28ca-46f4-9ca8-bca234f15efa",
       "name": "verificar_tipo_assessor"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "ee0bd769-2de7-47f6-8be6-81b8a21cbdf8"
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.2,
-      "position": [
-        -208,
-        256
-      ],
-      "id": "cbee6e4a-1eb6-48fc-9b81-77a6f680f1a2",
-      "name": "Switch1"
     },
     {
       "parameters": {
@@ -1852,6 +1813,45 @@
           "name": "postgresql_db"
         }
       }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ee0bd769-2de7-47f6-8be6-81b8a21cbdf8"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -208,
+        256
+      ],
+      "id": "cbee6e4a-1eb6-48fc-9b81-77a6f680f1a2",
+      "name": "escolha_2"
     }
   ],
   "connections": {
@@ -2093,7 +2093,7 @@
       "main": [
         [
           {
-            "node": "Switch1",
+            "node": "escolha_2",
             "type": "main",
             "index": 0
           }
@@ -2477,12 +2477,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "5e0b848d-04f9-4509-bdf7-3696133f6958",
+  "versionId": "cc8b5e0f-c05c-4b37-87e3-d8e64ef0b466",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T19:35:48.966Z",
-    "version": "2025-07-28T19:35:18.000Z",
+    "backedUpAt": "2025-07-28T21:56:01.895Z",
+    "version": "2025-07-28T19:57:16.000Z",
     "originalId": "IKZEtEG9e9QIhPmu"
   }
 }
