@@ -1,0 +1,412 @@
+{
+  "createdAt": "2025-07-28T14:26:15.344Z",
+  "updatedAt": "2025-07-28T15:37:57.000Z",
+  "id": "ibJbBSmtVAe7Zs9e",
+  "name": "backup_git",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "name": "A cada 6 horas",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1744,
+        368
+      ],
+      "id": "836d7004-7f30-4f5c-a9d8-078124925a6a"
+    },
+    {
+      "parameters": {
+        "filters": {},
+        "requestOptions": {}
+      },
+      "name": "Listar Workflows",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        -1568,
+        368
+      ],
+      "id": "53316342-f556-4610-afa9-8b27a969eb95",
+      "credentials": {
+        "n8nApi": {
+          "id": "REMOVED",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Preparar workflows e limpar credenciais\nconst workflows = items.map(item => {\n  const workflow = item.json;\n  \n  // Criar cópia para não modificar original\n  const cleanWorkflow = JSON.parse(JSON.stringify(workflow));\n  \n  // Limpar dados sensíveis\n  if (cleanWorkflow.nodes) {\n    cleanWorkflow.nodes = cleanWorkflow.nodes.map(node => {\n      if (node.credentials) {\n        Object.keys(node.credentials).forEach(credType => {\n          node.credentials[credType] = {\n            id: 'REMOVED',\n            name: node.credentials[credType].name\n          };\n        });\n      }\n      return node;\n    });\n  }\n  \n  // Adicionar metadados\n  cleanWorkflow.backupMetadata = {\n    backedUpAt: new Date().toISOString(),\n    version: workflow.updatedAt || workflow.createdAt,\n    originalId: workflow.id\n  };\n  \n  const fileName = workflow.name\n    .replace(/[^a-z0-9]/gi, '-')\n    .toLowerCase()\n    .replace(/-+/g, '-')  // Remove múltiplos hífens\n    .replace(/^-|-$/g, ''); // Remove hífens no início/fim\n  \n  // Use apenas o ID numérico se disponível\n  const workflowId = workflow.id || 'unknown';\n  \n  return {\n    json: {\n      path: `workflows/${workflowId}-${fileName}.json`,\n      content: JSON.stringify(cleanWorkflow, null, 2),\n      name: workflow.name,\n      id: workflowId,\n      // ...\n    }\n  };\n});\n\nreturn workflows;"
+      },
+      "name": "Preparar e Limpar",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -1392,
+        368
+      ],
+      "id": "e56f3237-2138-4298-bec5-3d210e4ad83e"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Processar um por vez",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1104,
+        368
+      ],
+      "id": "7951024e-a513-435f-940d-c5d79954aaf2"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "marcosmorimoto",
+        "repository": "n8n-workflows",
+        "filePath": "={{$json.path}}",
+        "asBinaryProperty": false,
+        "additionalParameters": {}
+      },
+      "name": "Buscar arquivo atual",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        560
+      ],
+      "id": "fed27424-1557-42f0-9309-3e63ed914ec6",
+      "webhookId": "6f8792b5-25f3-4af5-b14a-93c0b53002d7",
+      "credentials": {
+        "githubApi": {
+          "id": "REMOVED",
+          "name": "GitHub account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "functionCode": "// Verificar se o arquivo mudou\nconst newContent = $json.content;\nconst path = $json.path;\nconst workflowName = $json.name;\n\n// CORREÇÃO: Verificar se o node anterior teve erro\nconst githubFile = $node[\"Buscar arquivo atual\"].json;\nconst hasError = $node[\"Buscar arquivo atual\"].error !== undefined;\n\n// Se arquivo não existe no GitHub, precisa criar\nif (hasError || !githubFile || !githubFile.sha) {\n  return {\n    json: {\n      ...items[0].json,\n      action: 'create',\n      changed: true,\n      reason: 'Arquivo novo'\n    }\n  };\n}\n\n// Se existe, comparar conteúdo\nconst existingContent = githubFile.content ? \n  Buffer.from(githubFile.content, 'base64').toString('utf8') : \n  '';\n\n// Comparar apenas o conteúdo relevante (ignorar backupMetadata)\nconst parseContent = (content) => {\n  try {\n    const parsed = JSON.parse(content);\n    delete parsed.backupMetadata;\n    return JSON.stringify(parsed, null, 2);\n  } catch (e) {\n    return content;\n  }\n};\n\nconst existingNormalized = parseContent(existingContent);\nconst newNormalized = parseContent(newContent);\n\n// Verificar se mudou\nconst changed = existingNormalized !== newNormalized;\n\nreturn {\n  json: {\n    ...items[0].json,\n    action: githubFile.sha ? 'update' : 'create',\n    changed: changed,\n    sha: githubFile.sha || '',\n    reason: changed ? 'Conteúdo modificado' : 'Sem mudanças'\n  }\n};"
+      },
+      "name": "Detectar mudanças",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -736,
+        560
+      ],
+      "id": "95dfddb7-4a95-4537-a238-13993b545814"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "abc123",
+              "leftValue": "={{ $json.changed }}",
+              "rightValue": "={{ true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Mudou?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        560
+      ],
+      "id": "3a8147f9-d525-4422-b534-a9478bfa3022"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "def456",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "create",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Criar ou Atualizar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        432
+      ],
+      "id": "84b80b4e-b26c-48d0-9fad-ed725ec93d0e"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": "marcosmorimoto",
+        "repository": "n8n-workflows",
+        "filePath": "={{ $('Preparar e Limpar').item.json.path }}",
+        "fileContent": "={{ $('Preparar e Limpar').item.json.content }}",
+        "commitMessage": "=Commit inicial automático: {{ $('Preparar e Limpar').item.json.name }}"
+      },
+      "name": "Criar novo",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        128
+      ],
+      "id": "4a530267-3f16-432d-a309-328ae75bbfae",
+      "webhookId": "3cd289ef-36a9-41fe-af01-a760190bf933",
+      "credentials": {
+        "githubApi": {
+          "id": "REMOVED",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "edit",
+        "owner": "marcosmorimoto",
+        "repository": "n8n-workflows",
+        "filePath": "={{ $('Processar um por vez').item.json.path }}",
+        "fileContent": "={{ $('Processar um por vez').item.json.content }}",
+        "commitMessage": "=Atualizado. Backup automático n8n."
+      },
+      "name": "Atualizar existente",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        688
+      ],
+      "id": "e7ee0925-6ea5-42ba-b07a-c29d8b5f97ac",
+      "webhookId": "675c9786-e9d0-4bad-87de-b7b80b1fb4dc",
+      "credentials": {
+        "githubApi": {
+          "id": "REMOVED",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Contar mudanças\nconst stats = {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Acessar todas as execuções do split batch\nconst allRuns = $items(\"Detectar mudanças\", 0, -1);\n\nallRuns.forEach(item => {\n  stats.total++;\n  if (item.json.changed) {\n    if (item.json.action === 'create') {\n      stats.criados++;\n    } else {\n      stats.atualizados++;\n    }\n  } else {\n    stats.semMudancas++;\n  }\n});\n\nreturn {\n  json: {\n    resumo: `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Resumo final",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        80
+      ],
+      "id": "3ee67d21-3b20-4b52-8da9-125018be61f6"
+    },
+    {
+      "parameters": {
+        "content": "=📊 {{$json.resumo}}\n\n✅ Total processado: {{$json.stats.total}}\n✨ Novos: {{$json.stats.criados}}\n🔄 Atualizados: {{$json.stats.atualizados}}\n➖ Sem mudanças: {{$json.stats.semMudancas}}\n\n🕒 {{$now.format('dd/MM/yyyy HH:mm')}}",
+        "height": 200,
+        "width": 300
+      },
+      "name": "Resultado",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        368
+      ],
+      "id": "adf30b89-e94f-4fa5-8636-c0778b293773"
+    }
+  ],
+  "connections": {
+    "A cada 6 horas": {
+      "main": [
+        [
+          {
+            "node": "Listar Workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar Workflows": {
+      "main": [
+        [
+          {
+            "node": "Preparar e Limpar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar e Limpar": {
+      "main": [
+        [
+          {
+            "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Processar um por vez": {
+      "main": [
+        [
+          {
+            "node": "Resumo final",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar arquivo atual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar arquivo atual": {
+      "main": [
+        [
+          {
+            "node": "Detectar mudanças",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Detectar mudanças": {
+      "main": [
+        [
+          {
+            "node": "Mudou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mudou?": {
+      "main": [
+        [
+          {
+            "node": "Criar ou Atualizar?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar ou Atualizar?": {
+      "main": [
+        [
+          {
+            "node": "Criar novo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Atualizar existente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar novo": {
+      "main": [
+        [
+          {
+            "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualizar existente": {
+      "main": [
+        [
+          {
+            "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "80ac51b4-3ad1-4077-a86e-91d9c4f5ec6e",
+  "triggerCount": 0,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-07-28T15:37:59.318Z",
+    "version": "2025-07-28T15:37:57.000Z",
+    "originalId": "ibJbBSmtVAe7Zs9e"
+  }
+}
