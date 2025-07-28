@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T00:19:28.821Z",
-  "updatedAt": "2025-07-28T17:19:12.000Z",
+  "updatedAt": "2025-07-28T19:32:16.000Z",
   "id": "lUNrd96wHxS29tU5",
   "name": "assessor_prestacao_servicos",
   "active": true,
@@ -171,7 +171,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "=bearer {{ $('Dados').item.json['Api Key Groq'] }}"
+              "value": "=bearer {{ $('Dados1').item.json['Api Key Groq'] }}"
             }
           ]
         },
@@ -2332,12 +2332,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "069eb27f-cc69-4bb7-9638-0a83e3b19441",
+  "versionId": "1b3cc7df-d4d3-4aa6-bd05-36142d0cdba0",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T18:30:41.209Z",
-    "version": "2025-07-28T17:19:12.000Z",
+    "backedUpAt": "2025-07-28T21:56:01.912Z",
+    "version": "2025-07-28T19:32:16.000Z",
     "originalId": "lUNrd96wHxS29tU5"
   }
 }
