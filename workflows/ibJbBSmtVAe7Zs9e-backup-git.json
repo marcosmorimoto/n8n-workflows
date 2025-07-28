@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-28T21:55:58.000Z",
+  "updatedAt": "2025-07-28T22:08:46.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": false,
@@ -110,84 +110,6 @@
           },
           "conditions": [
             {
-              "id": "abc123",
-              "leftValue": "={{ $json.createdAt_git }}",
-              "rightValue": "={{ $json.createdAt_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "8d2aafb5-cc38-4c69-a228-75d26d5db0d3",
-              "leftValue": "={{ $json.updatedAt_git }}",
-              "rightValue": "={{ $json.updatedAt_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "99d3c30c-00b9-4168-a588-515a7e758e38",
-              "leftValue": "={{ $json.content_id_git }}",
-              "rightValue": "={{ $json.id_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "9e9c1052-ef3a-4f4a-9a75-8bbd8390b10b",
-              "leftValue": "={{ $json.content_name_git }}",
-              "rightValue": "={{ $json.name_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "683ebdd8-7582-43c4-817d-d4212d42e507",
-              "leftValue": "={{ $json.content_active_git }}",
-              "rightValue": "={{ $json.active_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            },
-            {
-              "id": "1fb8f259-3d4f-4cb6-a1d1-53aaedf14ff3",
-              "leftValue": "={{ $json.Content_isArchived_git }}",
-              "rightValue": "={{ $json.isArchived_n8n }}",
-              "operator": {
-                "type": "string",
-                "operation": "notEquals"
-              }
-            }
-          ],
-          "combinator": "or"
-        },
-        "options": {}
-      },
-      "name": "Mudou?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [
-        -96,
-        560
-      ],
-      "id": "3a8147f9-d525-4422-b534-a9478bfa3022"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 1
-          },
-          "conditions": [
-            {
               "id": "def456",
               "leftValue": "={{ $json.action }}",
               "rightValue": "create",
@@ -205,7 +127,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        304,
+        32,
         544
       ],
       "id": "84b80b4e-b26c-48d0-9fad-ed725ec93d0e"
@@ -223,8 +145,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        832,
-        96
+        288,
+        352
       ],
       "id": "4a530267-3f16-432d-a309-328ae75bbfae",
       "webhookId": "3cd289ef-36a9-41fe-af01-a760190bf933",
@@ -250,8 +172,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        672,
-        704
+        288,
+        672
       ],
       "id": "e7ee0925-6ea5-42ba-b07a-c29d8b5f97ac",
       "webhookId": "675c9786-e9d0-4bad-87de-b7b80b1fb4dc",
@@ -265,7 +187,7 @@
     },
     {
       "parameters": {
-        "functionCode": "// Contar mudanças\nconst stats = {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Acessar todas as execuções do split batch\nconst allRuns = $items(\"Detectar mudanças\", 0, -1);\n\nallRuns.forEach(item => {\n  stats.total++;\n  if (item.json.changed) {\n    if (item.json.action === 'create') {\n      stats.criados++;\n    } else {\n      stats.atualizados++;\n    }\n  } else {\n    stats.semMudancas++;\n  }\n});\n\nreturn {\n  json: {\n    resumo: `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};"
+        "functionCode": "// Contar mudanças\nconst stats = {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Acessar todas as execuções do split batch\nconst allRuns = $items(\"Processar um por vez\", 0, -1);\n\nallRuns.forEach(item => {\n  stats.total++;\n  if (item.json.changed) {\n    if (item.json.action === 'create') {\n      stats.criados++;\n    } else {\n      stats.atualizados++;\n    }\n  } else {\n    stats.semMudancas++;\n  }\n});\n\nreturn {\n  json: {\n    resumo: `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};"
       },
       "name": "Resumo final",
       "type": "n8n-nodes-base.function",
@@ -283,7 +205,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -688,
+        -656,
         560
       ],
       "id": "fa285d1a-54ff-4bba-8735-fa7b9cc4547f",
@@ -377,6 +299,84 @@
       ],
       "id": "ba070b2e-6d1b-42f9-935e-c6d18685e5cf",
       "name": "campos_workflow_git_e_n8n"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "abc123",
+              "leftValue": "={{ $json.createdAt_git }}",
+              "rightValue": "={{ $json.createdAt_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "8d2aafb5-cc38-4c69-a228-75d26d5db0d3",
+              "leftValue": "={{ $json.updatedAt_git }}",
+              "rightValue": "={{ $json.updatedAt_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "99d3c30c-00b9-4168-a588-515a7e758e38",
+              "leftValue": "={{ $json.content_id_git }}",
+              "rightValue": "={{ $json.id_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "9e9c1052-ef3a-4f4a-9a75-8bbd8390b10b",
+              "leftValue": "={{ $json.content_name_git }}",
+              "rightValue": "={{ $json.name_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "683ebdd8-7582-43c4-817d-d4212d42e507",
+              "leftValue": "={{ $json.content_active_git }}",
+              "rightValue": "={{ $json.active_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "1fb8f259-3d4f-4cb6-a1d1-53aaedf14ff3",
+              "leftValue": "={{ $json.Content_isArchived_git }}",
+              "rightValue": "={{ $json.isArchived_n8n }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "name": "Mudou?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -224,
+        560
+      ],
+      "id": "c0ceedea-3b51-417c-a159-be32db761b81"
     }
   ],
   "connections": {
@@ -436,24 +436,6 @@
         [
           {
             "node": "convert_base64_git",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Mudou?": {
-      "main": [
-        [
-          {
-            "node": "Criar ou Atualizar?",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Processar um por vez",
             "type": "main",
             "index": 0
           }
@@ -521,6 +503,24 @@
           }
         ]
       ]
+    },
+    "Mudou?": {
+      "main": [
+        [
+          {
+            "node": "Criar ou Atualizar?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -531,12 +531,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0046fc86-f31b-457e-a695-7373bee2b1b1",
+  "versionId": "3bd3d644-6235-4b17-9fbe-567db674a958",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T21:56:01.901Z",
-    "version": "2025-07-28T21:55:58.000Z",
+    "backedUpAt": "2025-07-28T22:09:00.942Z",
+    "version": "2025-07-28T22:08:46.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
