@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-28T15:37:57.000Z",
+  "updatedAt": "2025-07-28T16:52:55.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": false,
@@ -243,21 +243,6 @@
         80
       ],
       "id": "3ee67d21-3b20-4b52-8da9-125018be61f6"
-    },
-    {
-      "parameters": {
-        "content": "=📊 {{$json.resumo}}\n\n✅ Total processado: {{$json.stats.total}}\n✨ Novos: {{$json.stats.criados}}\n🔄 Atualizados: {{$json.stats.atualizados}}\n➖ Sem mudanças: {{$json.stats.semMudancas}}\n\n🕒 {{$now.format('dd/MM/yyyy HH:mm')}}",
-        "height": 200,
-        "width": 300
-      },
-      "name": "Resultado",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        240,
-        368
-      ],
-      "id": "adf30b89-e94f-4fa5-8636-c0778b293773"
     }
   ],
   "connections": {
@@ -401,12 +386,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "80ac51b4-3ad1-4077-a86e-91d9c4f5ec6e",
+  "versionId": "6de524bb-e234-42ac-a8e7-beae65133d02",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T15:37:59.318Z",
-    "version": "2025-07-28T15:37:57.000Z",
+    "backedUpAt": "2025-07-28T18:30:41.199Z",
+    "version": "2025-07-28T16:52:55.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
