@@ -1,0 +1,34 @@
+{
+  "createdAt": "2025-07-26T16:58:44.352Z",
+  "updatedAt": "2025-07-26T17:08:17.000Z",
+  "id": "I0Wez9Bb8zUvCNpe",
+  "name": "assessor_financeiro",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2335d85d-e028-472b-8dd0-ae9ff402ee9f",
+      "name": "When chat message received",
+      "webhookId": "3524a187-00f2-4c20-9b45-c3f4ea09754d"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "a9da94da-a1a2-460d-a956-75fbc3b5cb5f",
+  "triggerCount": 0,
+  "tags": []
+}
