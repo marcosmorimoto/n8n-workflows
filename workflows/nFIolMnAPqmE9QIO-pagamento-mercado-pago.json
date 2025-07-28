@@ -1,0 +1,71 @@
+{
+  "createdAt": "2025-07-19T18:49:12.240Z",
+  "updatedAt": "2025-07-21T13:32:04.000Z",
+  "id": "nFIolMnAPqmE9QIO",
+  "name": "pagamento_mercado_pago",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d70eca1b-ba9c-45db-b05b-e39036a9327d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.mercadopago.com/v1/payment_methods?payment_type_id=bank_transfer",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "payment_type_id",
+              "value": "bank_transfer"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "55ae7684-2e35-4ead-badf-fb2625876373",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "233e4001-0d7a-4bf0-b390-25d30efc0366",
+  "triggerCount": 0,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-07-28T15:37:59.330Z",
+    "version": "2025-07-21T13:32:04.000Z",
+    "originalId": "nFIolMnAPqmE9QIO"
+  }
+}
