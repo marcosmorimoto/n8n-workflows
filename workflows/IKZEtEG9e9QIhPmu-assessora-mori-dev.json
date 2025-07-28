@@ -1,0 +1,2488 @@
+{
+  "createdAt": "2025-06-06T23:55:43.326Z",
+  "updatedAt": "2025-07-28T19:35:18.000Z",
+  "id": "IKZEtEG9e9QIhPmu",
+  "name": "assessora_mori_dev",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        128
+      ],
+      "id": "cfe065b0-219a-437c-95d4-0445c29a4d06",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algo no banco de dados.",
+        "workflowId": {
+          "__rl": true,
+          "value": "ZcCClCQNB0RUwo25",
+          "mode": "list",
+          "cachedResultName": "TOOL - Interagir com DB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "prompt"
+          ],
+          "schema": [
+            {
+              "id": "prompt",
+              "displayName": "prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        128
+      ],
+      "id": "3f9b1e8a-1bc2-41bf-be7c-a9de9ea34cd3",
+      "name": "acessar_banco",
+      "notesInFlow": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        192,
+        416
+      ],
+      "id": "115a2de3-5a6f-4720-b910-1cb675e73663",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=nome_cliente: {{ $('Dados1').item.json.apelido }}\nprompt: {{ $('Mensagem Final').item.json.Mensagem }}.",
+        "options": {
+          "systemMessage": "=Seu nome é Mori (feminino) e você gerencia prestações de serviço.\n\nInstruções de Comunicação Natural:\n\n- Use o nome do cliente ({{ $('Dados1').item.json.apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n\n- Só explique suas atividades se o cliente perguntar diretamente.\n\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n\n- Se perguntarem sobre suas atividades, responda com uma linguagem leve, como em um bate-papo.\n\n- Se o usuário pedir uma ação direta (cadastrar, consultar etc.), comece direto pela solução, sem repetir informações já fornecidas na conversa.\n\n- Seja empática, sucinta e mantenha o tom da conversa leve e informal.\n\n\nExemplos de Interação:\n\n[Usuário]\nOlá\n\n[Mori]\nOi, Marcos! Como posso te ajudar hoje?\n\n[Usuário]\nTudo bem com você?\n\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n[Usuário]\nQuais são suas atividades?\n\n[Mori]\nSou responsável pelo gerenciamento dos serviços prestados. Posso te ajudar a cadastrar, consultar, atualizar ou excluir serviços. Precisa de alguma dessas opções?\n\n[Usuário]\nQuero atualizar um serviço.\n\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja atualizar, por favor.\n\n## Pontos de atenção!\n\n- Tome cuidado para não extender muito a conversa em assuntos que não sejam referentes a suas atividades. Tente sair do assunto de forma inteligente.\n- Evite enviar emojis de forma exagerada."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        992,
+        304
+      ],
+      "id": "1c1ed2cc-0c26-4c8a-b560-9e11429474cd",
+      "name": "Outros Assuntos",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": "gemma2-9b-it",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        992,
+        496
+      ],
+      "id": "55053db6-a465-419a-99ef-90739af97e91",
+      "name": "Groq Chat Model2",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        496
+      ],
+      "id": "425ba292-a2ac-41d1-8bf1-5eb851e38e7e",
+      "name": "Redis Chat Memory2",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        320,
+        416
+      ],
+      "id": "5b85854b-7afc-4f37-be3c-af8d9cff9a19",
+      "name": "Redis Chat Memory1",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.todas_mensagens }}",
+        "options": {
+          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar se a mensagem se refere a uma operação em banco de dados relacionada à prestação de serviços ou a qualquer outro tipo de conteúdo.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de serviços, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nOPERACAO_DE_BANCO-CRIAR\n\nOPERACAO_DE_BANCO-CONSULTAR\n\nOPERACAO_DE_BANCO-ATUALIZAR\n\nOPERACAO_DE_BANCO-DELETAR\n\nPara qualquer outra mensagem (saudações, dúvidas sobre o agente ou assuntos não relacionados a operações de banco), responda somente:\n\nOUTRO_TIPO_OPERACAO\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO-CONSULTAR ou OUTRO_TIPO_OPERACAO).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO-ATUALIZAR (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Bom dia, como você está?” → OUTRO_TIPO_OPERACAO (Apenas comprimento)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        192,
+        176
+      ],
+      "id": "2a05d535-5aa7-414e-988d-51638ab3f5c2",
+      "name": "Classifica Mensagem"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "10954cf5-8793-4f82-a4d3-ef081ece52a3",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "OPERACAO_DE_BANCO",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        176
+      ],
+      "id": "e08c9627-c047-4401-8360-5723de0b5a27",
+      "name": "Condicional Operação DB"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  if ($input.first().json.output === \"OPERACAO_DE_BANCO-CRIAR\") {\n    return {\n      json: {\n        prompt: `**Criar novo serviço:**\n- Colete todos os dados obrigatórios do usuário. Se faltar informação, pergunte apenas pelo dado faltante, sem exibir prévia do serviço.\n- Utilize sempre o id_prestador fornecido na mensagem.\n- Defina pagou_total como \"SIM\" apenas se valor_pago ≥ valor_servico.\n- Normalize o campo servico em formato padronizado (ex.: \"Instalei um box\" → \"INSTALAÇÃO DE BOX\").\n- Não crie o serviço na primeira interação.\n- Após coletar todos os dados obrigatórios, exiba uma prévia com os campos (exceto id_servico e id_prestador) e solicite confirmação no formato:\n\n\"Esses foram os dados coletados, posso cadastrar o serviço?\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\"\n\n- Se o usuário solicitar alterações, atualize os dados e reenvie a prévia até a confirmação.\n- Após confirmação, chame a tool acessar_banco com os dados completos e formatados em maiúsculo, conforme exemplo:\n\n\"Operação: Inserir novo registro; id_prestador: XXX, local: XXX, nome_cliente: XXX...\".\n\nObs.: Todos os textos devem ser salvos em letras maiúsculas.`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-CONSULTAR\"){\n    return {\n      json: {\n        prompt: `**Consultar serviço (OPERACAO_DE_BANCO-CONSULTAR):**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-ATUALIZAR\"){\n    return {\n      json: {\n        prompt: `**Atualizar serviço (OPERACAO_DE_BANCO-ATUALIZAR):**\n- Para atualizar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja atualizar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer atualizar.\n- SEMPRE confirme com o usuário os dados que irá atualizar, mostrando uma prévia de como os dados ficartão após sua atualizaçãp.\n- ATENÇÃO! Com a confirmação do usuário, chame OBRIGATORIAMENTE a tool \"acessar_banco\" para atualizar a informação do serviço passando o id do serviço e a instrução de atualização de forma literal, como o exemplo abaixo.\n\n\"Operação: Atualizar registro; Atualizar o campo: valor_pago para XXX; Filtro: id: XXX\"\n\n- O campo pagou_total será SIM somente se valor_pago for igual ou maior que valor_servico.\n- Caso valor_pago seja igual ou maior que valor_servico, altere pagou_total para SIM.\n- Somente se o serviço for atualizado com sucesso no banco de dados chamando a tool \"acessar_banco\", informe ao usuário que o serviço foi atualizado, e exiba os dados do serviço atualizados, no formato abaixo.\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\")\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-DELETAR\"){\n    return {\n      json: {\n        prompt: `**Deletar serviço (OPERACAO_DE_BANCO-DELETAR):**\n- Para deletar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja deletar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer deletar.\n- ATENÇÃO! Delete o serviço apenas com a confirmação do usuário.\n- ATENÇÃO! Assim que tiver o serviço que deverá ser deletado, chame a tool \"acessar_banco\" passando o id do serviço e a instrução de deleção de forma literal, como o exemplo abaixo.\n\n\"Operação: Deletar registro; Filtro: id: XXX;\"\n\n- Se o registro for deletado com sucesso, informe ao usuário que o serviço foi apagado.\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\") \nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };  \n  } else {\n    // Tipo de operação não reconhecido\n    return {\n      json: {\n        prompt: \"NULL\"\n      }\n    };\n  }\n  \n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        -64
+      ],
+      "id": "ebab3b21-689b-4007-a2a8-a6486ae45f7f",
+      "name": "Economia de tokens do prompt"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Mensagem: {{ $('Mensagem Final').item.json.Mensagem }};\nid_prestador: {{ $('Dados').item.json.quem_mandou }}; ",
+        "options": {
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\" etc.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('Dados').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('Dados').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        992,
+        -64
+      ],
+      "id": "5c791b16-b0ce-496b-825c-2569b891b480",
+      "name": "Operações de banco de dados",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Buffer de mensagens enviadas em sequencia\nCaso o usuário envie mais de uma mensagem em seguida da outra, esse trecho irá agrupar todas as mensagens para o agente responder uma única vez",
+        "height": 500,
+        "width": 1260,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1936,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "e03f74d6-30c1-4f1a-8747-7f99186e447f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
+        "messageData": "={{ $json.Mensagem }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1888,
+        240
+      ],
+      "id": "7c5581b8-2862-4045-82e8-67d4c64c3d76",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 7
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1680,
+        240
+      ],
+      "id": "f457971e-5c3f-4671-905e-ef4a8a4fe08d",
+      "name": "Wait",
+      "webhookId": "bcf85897-33a2-4384-a894-a113cad1fd1c"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "mensagens",
+        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        240
+      ],
+      "id": "6ebf9b61-e348-4237-a161-37c569045a9d",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "94ee1ab8-d45e-4763-9129-b4cc5c97c817",
+              "leftValue": "={{ $json.mensagens.last() }}",
+              "rightValue": "={{ $('Wait').item.json.Mensagem }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1280,
+        240
+      ],
+      "id": "2f55cff5-ec13-4ffc-96d6-6c233fb0ef30",
+      "name": "If2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        400
+      ],
+      "id": "0585724b-4464-4e52-ad8e-a73a15bee05a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5a0796be-98b0-4c4b-9500-9530a67814bc",
+              "name": "todas_mensagens",
+              "value": "={{ $json.mensagens.join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        144
+      ],
+      "id": "3a4ada7a-8eab-40a2-a6ab-4c080ed249be",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -848,
+        144
+      ],
+      "id": "85ffcdcd-56b0-4050-8994-995aaeb9fa0a",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        144
+      ],
+      "id": "51a8bf93-4148-41eb-a0b2-7ab9334e2b52",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.9
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        992,
+        128
+      ],
+      "id": "3b30b851-52a1-4832-8fbb-801fcc9af38b",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Prestação de serviço\nBloco responsável por gerenciar prestação de serviços",
+        "height": 768,
+        "width": 1632,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "33c9272f-9cd6-4058-b3ba-393dd47ca7ac",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        496
+      ],
+      "id": "fdfcf57d-56dc-4695-a017-c9dc8ea1703f",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -432,
+        496
+      ],
+      "id": "7a90ff6d-1129-4e0f-bd40-1dc907d659cd",
+      "name": "Redis Chat Memory3",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.todas_mensagens }}",
+        "options": {
+          "systemMessage": "=Você deverá identificar qual será o agente irá analisar a mensagem do usuário.\n\nAtualmente temos 2 tipos de agentes.\n\n1 - Gerenciador de prestação de serviços\n2 - Gerenciador de gastos pessoais\n\nSe a mensagem indicar algo relacionado a prestação de serviço, responda exatamente com o rótulo abaixo (sem aspas):\n\nPRESTACAO_SERVICO\n\nSe a mensagem indicar algo relacionado a gastos pessoais, responda exatamente com o rótulo abaixo (sem aspas):\n\nGASTOS_PESSOAIS\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: PRESTACAO_SERVICO ou GASTOS_PESSOAIS).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → PRESTACAO_SERVICO (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Gastei 800 reais em uma roupa no shopping” → GASTOS_PESSOAIS (Apenas comprimento)\n\nMensagem: “Coloquei 200 reais de gasolina” → GASTOS_PESSOAIS (Apenas comprimento)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        256
+      ],
+      "id": "469abc37-28ca-46f4-9ca8-bca234f15efa",
+      "name": "verificar_tipo_assessor"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ee0bd769-2de7-47f6-8be6-81b8a21cbdf8"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -208,
+        256
+      ],
+      "id": "cbee6e4a-1eb6-48fc-9b81-77a6f680f1a2",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "c1a83321-ef6f-4302-b21c-af2e51aca658",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -4976,
+        240
+      ],
+      "id": "d76d00ca-21b8-44d0-bbe1-d444090c3c88",
+      "name": "Webhook",
+      "webhookId": "c1a83321-ef6f-4302-b21c-af2e51aca658"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
+              "name": "quem_mandou",
+              "value": "={{ $json.body.data.key.remoteJid }}",
+              "type": "string"
+            },
+            {
+              "id": "33246954-7d18-4e4f-9fad-6ea502bdc1d9",
+              "name": "instancia",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            },
+            {
+              "id": "f6bd84a0-19ab-4468-b277-f18d3593df84",
+              "name": "mensagem",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "dfa2fa9b-529c-4789-af36-5f119c05a921",
+              "name": "id_mensagem",
+              "value": "={{ $json.body.data.key.id }}",
+              "type": "string"
+            },
+            {
+              "id": "39ddec5c-3f95-4728-b371-d5e7761e7b0c",
+              "name": "nome_pessoa",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "1bb9e850-9bc1-462a-b865-ced89c4c341e",
+              "name": "fromMe",
+              "value": "={{ $json.body.data.key.fromMe }}",
+              "type": "string"
+            },
+            {
+              "id": "19873c8e-744a-4094-b871-7921c81d8154",
+              "name": "quem_recebeu",
+              "value": "={{ $json.body.sender }}",
+              "type": "string"
+            },
+            {
+              "id": "6922940a-6d82-47f7-b17f-ca313b33ef5d",
+              "name": "tipoMensagem",
+              "value": "={{ $json.body.data.messageType }}",
+              "type": "string"
+            },
+            {
+              "id": "92ef47c9-5b0f-436a-b83b-dbc16767d1fa",
+              "name": "nome_quem_mandou",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "a45c2353-169c-40b7-b3bb-80a2855f2059",
+              "name": "base64",
+              "value": "={{ $json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4768,
+        240
+      ],
+      "id": "bb844ba1-e5c7-4c6e-bbd1-0ea5da23e021",
+      "name": "Dados",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d129169f-da72-4749-8a7d-8cad35bd9b6c",
+              "name": "Mensagem",
+              "value": "={{ $json.mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2384,
+        240
+      ],
+      "id": "9102b76c-7ac0-4d11-be7c-dfc32698964b",
+      "name": "Mensagem Texto"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {
+          "mimeType": "audio/mpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2832,
+        48
+      ],
+      "id": "79dfbaf4-c70c-48ad-839d-905cd64b473d",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=bearer {{ $('Dados1').item.json['Api Key Groq'] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "whisper-large-v3-turbo"
+            },
+            {
+              "name": "temperature",
+              "value": "0"
+            },
+            {
+              "name": "response_format",
+              "value": "verbose_json"
+            },
+            {
+              "name": "language",
+              "value": "pt"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2608,
+        48
+      ],
+      "id": "c2e4e056-292f-4ee0-808a-998745588c28",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20efe648-8d5e-41f7-b604-67588fda90f1",
+              "name": "Mensagem",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2384,
+        48
+      ],
+      "id": "f7813950-9f6d-41c3-a48e-9df49ea61f7c",
+      "name": "Set Transcription"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nDesculpe, não encontrei seu numero cadastrado em minha base de clientes.\nEnviei seu contato para nosso time de cadastro, em eles entrarão em contato com você em breve.",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3472,
+        1200
+      ],
+      "id": "8385f28b-e3a8-48c8-942f-0341637a7e6d",
+      "name": "Evolution API2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número não possui cadastro em nossa base de clientes.\n\n*Nome:* {{ $('Dados2').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3248,
+        1200
+      ],
+      "id": "ea425ef6-56f6-4eb3-b46d-bcbdcf15a6b2",
+      "name": "Evolution API3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "33246954-7d18-4e4f-9fad-6ea502bdc1d9",
+              "name": "instancia",
+              "value": "={{ $('Dados').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "f6bd84a0-19ab-4468-b277-f18d3593df84",
+              "name": "mensagem",
+              "value": "={{ $('Dados').item.json.mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "dfa2fa9b-529c-4789-af36-5f119c05a921",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "1bb9e850-9bc1-462a-b865-ced89c4c341e",
+              "name": "fromMe",
+              "value": "={{ $('Dados').item.json.fromMe }}",
+              "type": "string"
+            },
+            {
+              "id": "19873c8e-744a-4094-b871-7921c81d8154",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "8352b37d-6a2f-4c1d-9f65-ba1f86574c67",
+              "name": "Api Key Groq",
+              "value": "={{ $json.valor }}",
+              "type": "string"
+            },
+            {
+              "id": "6922940a-6d82-47f7-b17f-ca313b33ef5d",
+              "name": "tipoMensagem",
+              "value": "={{ $('Dados').item.json.tipoMensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "92ef47c9-5b0f-436a-b83b-dbc16767d1fa",
+              "name": "nome_quem_mandou",
+              "value": "={{ $('Dados').item.json.nome_quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "307ade8b-972a-45db-8d9a-127d63f4231d",
+              "name": "apelido",
+              "value": "={{ $json.apelido }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3648,
+        224
+      ],
+      "id": "8f693452-034c-4147-ba31-c1fe38e81a37",
+      "name": "Dados1",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e24a7c38-e17a-4b9d-b104-d8a77e345452",
+              "name": "Mensagem",
+              "value": "={{ $json.Mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2160,
+        240
+      ],
+      "id": "3af41afa-3d66-47c4-abc8-7c8099cde652",
+      "name": "Mensagem Final"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "d73fb0a4-f794-4f48-8337-355d456228ef",
+              "name": "nome_quem_mandou",
+              "value": "={{ $('Dados').item.json.nome_quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "048d48c5-be13-4392-9c20-c86f8add6c69",
+              "name": "apelido",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.nome_apelido }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4368,
+        240
+      ],
+      "id": "bf99e60d-e557-4f19-891a-9f23ed827831",
+      "name": "Dados2",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT \n  COALESCE(\n    (SELECT 'S' \n     FROM tb_clientes \n     WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n       AND status = 'A'\n     LIMIT 1),\n    'N'\n  ) AS qtd_cliente_ativo,\n  dados.nome_apelido\nFROM (VALUES (1)) AS dummy -- Linha artificial para garantir retorno\nLEFT JOIN (\n  SELECT nome_apelido\n  FROM tb_clientes \n  WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n    AND status = 'A'\n  GROUP BY nome_apelido\n) AS dados ON true",
+        "options": {
+          "largeNumbersOutput": "text"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -4560,
+        240
+      ],
+      "id": "983a4f08-4297-4c55-a50a-8bcdd8730a03",
+      "name": "Verificar Cliente Ativo",
+      "alwaysOutputData": false,
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select 'CLIENTE' tipo_cliente,\n       id_whatsapp,\n       qtd_msg_pre_cliente,\n       status\n  from tb_clientes\n where id_whatsapp = '{{ $json.quem_mandou }}'\n union\nselect 'PRE CLIENTE' tipo_cliente,\n       id_whatsapp,\n       qtd_msg_pre_cliente,\n       status\n  from tb_pre_clientes pre\n where id_whatsapp = '{{ $json.quem_mandou }}'\n   and not exists (select 1\n                     from tb_clientes cli\n                    where cli.id_whatsapp = pre.id_whatsapp)",
+        "options": {
+          "replaceEmptyStrings": false
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -4160,
+        608
+      ],
+      "id": "2fdaa174-9364-445d-b667-9aecd81e0eb9",
+      "name": "Validar Pre Clientes",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Cadastrar usuários novos na tabela tb_pre_clientes e enviar mensagem",
+        "height": 248,
+        "width": 640,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3696,
+        1120
+      ],
+      "id": "862af9e5-b5a4-458e-b9c6-6279a7ba1e68",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Validar retorno nulo da consulta anterior').item.json.status }}",
+                    "rightValue": "NULL",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6e9e7d13-1abf-4e13-82dd-dc3f3c6e71db"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "44174a24-1165-4157-b834-13deba7935ec",
+                    "leftValue": "={{ $('Validar retorno nulo da consulta anterior').item.json.status }}",
+                    "rightValue": "A",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "afb75c76-e256-4033-bccb-6783ce71997c",
+                    "leftValue": "={{ $('Validar retorno nulo da consulta anterior').item.json.status }}",
+                    "rightValue": "P",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -3936,
+        1456
+      ],
+      "id": "d654056e-7c01-4928-9734-60ef2625b067",
+      "name": "Switch3"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "insert \n  into tb_pre_clientes\n       (id_whatsapp,\n        nome_cliente,\n        dt_cadastro,\n        status)\n values ('{{ $('Dados2').item.json.quem_mandou }}',\n         '{{ $('Dados2').item.json.nome_quem_mandou }}',\n         NOW(),\n         'P')",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -3680,
+        1200
+      ],
+      "id": "ea3fbe3b-e336-4423-a967-5d4eabc7962e",
+      "name": "Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cf09c0ac-4df4-47db-8628-92bdaddf8ee8",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados2').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "84d25387-525e-46c5-b9b7-ecfd31853e01",
+              "name": "nome_quem_mandou",
+              "value": "={{ $('Dados2').item.json.nome_quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "a4470a81-bd5a-4870-8abb-29f9b24a78d9",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "2b013f21-8a49-4c16-ae6d-a06260056a0a",
+              "name": "qtd_msg_pre_cliente",
+              "value": "={{ $json.qtd_msg_pre_cliente }}",
+              "type": "number"
+            },
+            {
+              "id": "38559e08-b236-4ca5-86cd-4571a84adff4",
+              "name": "tipo_cliente",
+              "value": "={{ $json.tipo_cliente }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -4160,
+        880
+      ],
+      "id": "dc26284e-71f9-4b64-9756-e4bf1ce45294",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nVocê possui alguma pendência em seu cadastro.\nJá acionamos a equipe responsável, e em breve entrarão em contato com você.",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3680,
+        1472
+      ],
+      "id": "8fbc5518-a16d-4707-b414-b4f21a04c5ea",
+      "name": "Evolution API4",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Cadastro existente, porém possui pendencias na tabela principal tb_clientes",
+        "height": 240,
+        "width": 640,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3696,
+        1408
+      ],
+      "id": "d9548752-7e04-46cb-9917-f75172d638e3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número possui alguma pendência no cadastro.\n\n*Nome:* {{ $('Dados2').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3456,
+        1472
+      ],
+      "id": "9bcb134e-9d5b-4683-933d-173b764594e8",
+      "name": "Evolution API5",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nSeu cadastro já foi direcionado para a equipe responsável e está em analise no momento. \nEm breve entrarão em contato com você.",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3680,
+        1792
+      ],
+      "id": "96603f2d-fb0d-42de-9108-8a6790e02344",
+      "name": "Evolution API6",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Cadastro em andamento, ainda não foi processado na tabela pre clientes",
+        "height": 240,
+        "width": 640,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3696,
+        1712
+      ],
+      "id": "1b86cc54-4701-4320-81d3-6bddec08d9ed",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Verificar Cliente Ativo').item.json.qtd_cliente_ativo }}",
+                    "rightValue": "S",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "11848561-5fdf-44b0-b22f-aaf80197d1c6"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9c64e56f-63aa-460e-9a7f-8af35cd9c1df",
+                    "leftValue": "={{ $('Verificar Cliente Ativo').item.json.qtd_cliente_ativo }}",
+                    "rightValue": "N",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -4176,
+        240
+      ],
+      "id": "1914ef76-c4e0-4eaa-8f71-c3f49f96a94a",
+      "name": "Validar Cadastro Usuário"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Dados').item.json.tipoMensagem }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "5563aad4-0c4a-470d-800b-7286ac3c187b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bb579cb8-71a2-450d-9159-2c4f0e2da6a1",
+                    "leftValue": "={{ $('Dados').item.json.tipoMensagem }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -3360,
+        224
+      ],
+      "id": "d12f0e48-2400-4dcd-a8b6-1b5abe75d2fe",
+      "name": "Texto ou Audio"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  //item.json.myNewField = 1;\n  if (item.json && Object.keys(item.json).length > 0) {\n    // Mantém o item original se tiver dados\n    return item;\n  } else {\n    // Retorna um item especial quando vazio\n    return {\n      json: {\n        status: \"NULL\"\n      }\n    };\n  }\n}\n\nreturn $input.all();\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3952,
+        608
+      ],
+      "id": "89501702-da59-4632-aebe-54e1403cfb87",
+      "name": "Validar retorno nulo da consulta anterior"
+    },
+    {
+      "parameters": {
+        "content": "## Analisar usuário com cadastro em andamento ou desativado enviando mensagem\nVerificar quantas vezes o usuário enviou mensagens enquanto o cadastro estava em andamento ou com alguma pendência.\nCaso o usuário persistir em enviar mensagens enquanto o cadastro está sendo analisado, o usuário entrará em uma black list e o contato será bloqueado para evitar chamadas excessivas.",
+        "height": 620,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3696,
+        416
+      ],
+      "typeVersion": 1,
+      "id": "90778e40-1c01-4f14-94ac-fb8de4fe56b1",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "block-contact",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        848
+      ],
+      "id": "97d4533e-0835-4dcd-bdd6-f8844ff5846e",
+      "name": "Bloquear contato",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e9cb5eb5-43a0-4a22-9c47-fb64efca64ea",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "NULL",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "8674db17-e932-491b-a9e7-fbece1d4f1ec",
+              "leftValue": "={{ $json.qtd_msg_pre_cliente }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3936,
+        880
+      ],
+      "id": "a8ac9472-86f4-410c-bf24-77185b3fa0a6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_clientes\n   set qtd_msg_pre_cliente = COALESCE(qtd_msg_pre_cliente, 0) + 1\n where id_whatsapp = '{{ $('Dados2').item.json.quem_mandou }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -3248,
+        1472
+      ],
+      "id": "0d3f5424-a916-45cb-8c38-e69464356005",
+      "name": "Atualizar quantidade de msg enviada",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_pre_clientes\n   set qtd_msg_pre_cliente = COALESCE(qtd_msg_pre_cliente, 0) + 1\n where id_whatsapp = '{{ $('Dados2').item.json.quem_mandou }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -3472,
+        1792
+      ],
+      "id": "ce42cbe0-8ca2-4b27-bcf4-a1a8426a94f7",
+      "name": "Atualizar quantidade de msg enviada1",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nConforme informado, encontramos alguma pendencia no seu cadastro, mas fique tranquilo, nosso time irá entrar em contato com você em breve 😉\nSó pedimos para evitar enviar mensagem por esse canal, pois como medida de segurança, o sistema pode bloquear o seu número 🫠",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        528
+      ],
+      "id": "dd366f54-262c-433d-8cf2-429c0443cf42",
+      "name": "Evolution API7",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tipo_cliente }}",
+                    "rightValue": "CLIENTE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b6f4a23e-791f-42b3-943b-3ff2cee8cacf"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f63fe5cb-238e-4a74-a0f6-71a0c11d198e",
+                    "leftValue": "={{ $json.tipo_cliente }}",
+                    "rightValue": "PRE CLIENTE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -3472,
+        608
+      ],
+      "id": "66db5935-12ca-46c9-936b-9db40222c7e6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fec883c4-7afb-4ef5-90fe-a382947d0a50",
+              "leftValue": "={{ $json.qtd_msg_pre_cliente }}",
+              "rightValue": 6,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3680,
+        752
+      ],
+      "id": "48e1cf05-6b29-4127-aa26-6b23cba4a4a0",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nConforme informado, seu cadastro está em análise, mas fique tranquilo, nosso time irá entrar em contato com você em breve 😉\nSó pedimos para evitar enviar mensagem por esse canal, pois como medida de segurança, o sistema pode bloquear o seu número 🫠",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3200,
+        688
+      ],
+      "id": "8316864c-3d68-4ec5-9087-88a692a9b940",
+      "name": "Evolution API8",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Olá {{ $json.nome_quem_mandou }},\n\nComo medida de segurança, o sistema bloqueou o seu número 🫠\nFique tranquilo, nossa equipe irá entrar em contato para entender o que ocorreu com o seu cadastro.",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -3472,
+        848
+      ],
+      "id": "70c67485-a89a-4dad-96cc-4a410cbd47a0",
+      "name": "Evolution API9",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_clientes\n   set qtd_msg_pre_cliente = COALESCE(qtd_msg_pre_cliente, 0) + 1\n where id_whatsapp = '{{ $('Dados2').item.json.quem_mandou }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2976,
+        512
+      ],
+      "id": "e2c79322-ee84-4bf0-ad09-cb805da41ae4",
+      "name": "Atualizar quantidade de msg enviada2",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_pre_clientes\n   set qtd_msg_pre_cliente = COALESCE(qtd_msg_pre_cliente, 0) + 1\n where id_whatsapp = '{{ $('Dados2').item.json.quem_mandou }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -2976,
+        720
+      ],
+      "id": "469411ff-468b-49dd-91ee-b7af27914b78",
+      "name": "Atualizar quantidade de msg enviada3",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Supabase - Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "block-contact",
+        "instanceName": "=Secretaria",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "status": "unblock"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -2976,
+        880
+      ],
+      "id": "42457b7b-8edc-48af-aef6-330e3666e8ed",
+      "name": "Desbloquear contato",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "164b2867-95e9-484f-9c9a-c524c344bead",
+              "name": "base64",
+              "value": "={{ $('Dados').item.json.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3040,
+        48
+      ],
+      "id": "aad383df-3977-4033-b215-37624735cb45",
+      "name": "base64"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select valor\n  from tb_parametros \n where cod_parametro = 'GROQ_API_KEY'",
+        "options": {
+          "largeNumbersOutput": "text"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -3904,
+        224
+      ],
+      "id": "0cccc30c-e248-47ed-a4a6-bac702583320",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Operações de banco de dados",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "acessar_banco": {
+      "ai_tool": [
+        [
+          {
+            "node": "Operações de banco de dados",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Mensagem",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outros Assuntos": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Outros Assuntos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "Outros Assuntos",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Classifica Mensagem",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classifica Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Condicional Operação DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Condicional Operação DB": {
+      "main": [
+        [
+          {
+            "node": "Economia de tokens do prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Outros Assuntos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Economia de tokens do prompt": {
+      "main": [
+        [
+          {
+            "node": "Operações de banco de dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Operações de banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Operações de banco de dados",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verificar_tipo_assessor": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Verificar Cliente Ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Texto": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Set Transcription",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Transcription": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API2": {
+      "main": [
+        [
+          {
+            "node": "Evolution API3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados1": {
+      "main": [
+        [
+          {
+            "node": "Texto ou Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados2": {
+      "main": [
+        [
+          {
+            "node": "Validar Cadastro Usuário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar Cliente Ativo": {
+      "main": [
+        [
+          {
+            "node": "Dados2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Pre Clientes": {
+      "main": [
+        [
+          {
+            "node": "Validar retorno nulo da consulta anterior",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Evolution API4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Evolution API6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "Evolution API2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API4": {
+      "main": [
+        [
+          {
+            "node": "Evolution API5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API5": {
+      "main": [
+        [
+          {
+            "node": "Atualizar quantidade de msg enviada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API6": {
+      "main": [
+        [
+          {
+            "node": "Atualizar quantidade de msg enviada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar Cadastro Usuário": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validar Pre Clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Texto ou Audio": {
+      "main": [
+        [
+          {
+            "node": "base64",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mensagem Texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar retorno nulo da consulta anterior": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API7": {
+      "main": [
+        [
+          {
+            "node": "Atualizar quantidade de msg enviada2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Evolution API7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Evolution API8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Evolution API9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API8": {
+      "main": [
+        [
+          {
+            "node": "Atualizar quantidade de msg enviada3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evolution API9": {
+      "main": [
+        [
+          {
+            "node": "Bloquear contato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base64": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Dados1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Final": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5e0b848d-04f9-4509-bdf7-3696133f6958",
+  "triggerCount": 1,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-07-28T19:35:48.966Z",
+    "version": "2025-07-28T19:35:18.000Z",
+    "originalId": "IKZEtEG9e9QIhPmu"
+  }
+}
