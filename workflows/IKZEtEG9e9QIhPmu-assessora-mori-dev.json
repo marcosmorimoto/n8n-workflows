@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-06T23:55:43.326Z",
-  "updatedAt": "2025-07-28T19:57:16.000Z",
+  "updatedAt": "2025-07-28T22:12:19.000Z",
   "id": "IKZEtEG9e9QIhPmu",
   "name": "assessora_mori_dev",
   "active": false,
@@ -1851,7 +1851,7 @@
         256
       ],
       "id": "cbee6e4a-1eb6-48fc-9b81-77a6f680f1a2",
-      "name": "escolha_2"
+      "name": "escolha"
     }
   ],
   "connections": {
@@ -2093,7 +2093,7 @@
       "main": [
         [
           {
-            "node": "escolha_2",
+            "node": "escolha",
             "type": "main",
             "index": 0
           }
@@ -2477,12 +2477,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "cc8b5e0f-c05c-4b37-87e3-d8e64ef0b466",
+  "versionId": "a7077e55-6af1-46de-b45f-2f65c3b6bdb7",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T21:56:01.895Z",
-    "version": "2025-07-28T19:57:16.000Z",
+    "backedUpAt": "2025-07-28T22:12:23.952Z",
+    "version": "2025-07-28T22:12:19.000Z",
     "originalId": "IKZEtEG9e9QIhPmu"
   }
 }
