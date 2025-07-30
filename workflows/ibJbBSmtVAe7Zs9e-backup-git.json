@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-30T03:39:12.000Z",
+  "updatedAt": "2025-07-30T03:46:55.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -11,8 +11,7 @@
         "rule": {
           "interval": [
             {
-              "field": "hours",
-              "hoursInterval": 6
+              "triggerAtHour": 8
             }
           ]
         }
@@ -417,6 +416,29 @@
       ],
       "id": "c1633cb5-f759-43eb-8bee-fc050703ce68",
       "name": "Qtd Novos"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "Secretaria",
+        "remoteJid": "5511948456707@s.whatsapp.net",
+        "messageText": "=Olá Sr. Marcos, td bem?\n\nSegue abaixo um relatório do processo de backup automático dos seus workflows no GitHub.\n\n*Qtd Novos Workflows:* {{ $json.qtdNovos }}\n*Qtd Atualizados Workflows:* {{ $json.qtdAtualizados }}\n*Qtd Sem Atualização Workflows:* {{ $json.qtdSemMudancas }}\n\nHorário: {{ $json.timestamp }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        352
+      ],
+      "id": "72ad2f3a-ab34-42fb-999e-54a84bda50a0",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -594,22 +616,37 @@
           }
         ]
       ]
+    },
+    "Resumo Final": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:A cada 6 horas": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bb9a503c-90dd-4116-8be7-b5e98b6a35fe",
-  "triggerCount": 0,
+  "versionId": "98db3b88-d201-4d6c-85b4-07ab42276ed8",
+  "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-30T03:39:14.844Z",
-    "version": "2025-07-30T03:39:12.000Z",
+    "backedUpAt": "2025-07-30T03:48:22.198Z",
+    "version": "2025-07-30T03:46:55.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
