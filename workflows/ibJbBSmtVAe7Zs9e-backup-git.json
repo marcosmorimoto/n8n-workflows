@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-30T03:46:55.000Z",
+  "updatedAt": "2025-07-30T03:51:42.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": true,
@@ -127,7 +127,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        240,
+        0,
         544
       ],
       "id": "84b80b4e-b26c-48d0-9fad-ed725ec93d0e"
@@ -145,7 +145,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        784,
+        544,
         336
       ],
       "id": "4a530267-3f16-432d-a309-328ae75bbfae",
@@ -172,7 +172,7 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        784,
+        544,
         640
       ],
       "id": "e7ee0925-6ea5-42ba-b07a-c29d8b5f97ac",
@@ -385,7 +385,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        560,
+        320,
         640
       ],
       "id": "f349bcf6-f941-4ffc-a913-845e72f8ea24",
@@ -411,7 +411,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        560,
+        320,
         336
       ],
       "id": "c1633cb5-f759-43eb-8bee-fc050703ce68",
@@ -422,7 +422,7 @@
         "resource": "messages-api",
         "instanceName": "Secretaria",
         "remoteJid": "5511948456707@s.whatsapp.net",
-        "messageText": "=Olá Sr. Marcos, td bem?\n\nSegue abaixo um relatório do processo de backup automático dos seus workflows no GitHub.\n\n*Qtd Novos Workflows:* {{ $json.qtdNovos }}\n*Qtd Atualizados Workflows:* {{ $json.qtdAtualizados }}\n*Qtd Sem Atualização Workflows:* {{ $json.qtdSemMudancas }}\n\nHorário: {{ $json.timestamp }}",
+        "messageText": "=Olá Sr. Marcos, td bem?\n\nSegue abaixo um relatório do processo de backup automático dos seus workflows no GitHub.\n\n*Qtd Workflows Novos:* {{ $json.qtdNovos }}\n*Qtd Workflows Atualizados:* {{ $json.qtdAtualizados }}\n*Qtd Workflows Sem Atualização:* {{ $json.qtdSemMudancas }}\n\n*Horário:* {{ $json.timestamp }}",
         "options_message": {}
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
@@ -641,12 +641,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "98db3b88-d201-4d6c-85b4-07ab42276ed8",
+  "versionId": "87b5c5a5-343c-4c94-a859-2bb83f001416",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-30T03:48:22.198Z",
-    "version": "2025-07-30T03:46:55.000Z",
+    "backedUpAt": "2025-07-30T11:00:21.081Z",
+    "version": "2025-07-30T03:51:42.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
