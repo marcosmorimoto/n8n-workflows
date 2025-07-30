@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-28T22:08:46.000Z",
+  "updatedAt": "2025-07-30T03:19:36.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": false,
@@ -111,11 +111,12 @@
           "conditions": [
             {
               "id": "def456",
-              "leftValue": "={{ $json.action }}",
+              "leftValue": "={{ $json.content_id_git }}",
               "rightValue": "create",
               "operator": {
                 "type": "string",
-                "operation": "equals"
+                "operation": "empty",
+                "singleValue": true
               }
             }
           ],
@@ -127,7 +128,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        32,
+        240,
         544
       ],
       "id": "84b80b4e-b26c-48d0-9fad-ed725ec93d0e"
@@ -145,8 +146,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        288,
-        352
+        784,
+        336
       ],
       "id": "4a530267-3f16-432d-a309-328ae75bbfae",
       "webhookId": "3cd289ef-36a9-41fe-af01-a760190bf933",
@@ -172,8 +173,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1,
       "position": [
-        288,
-        672
+        784,
+        640
       ],
       "id": "e7ee0925-6ea5-42ba-b07a-c29d8b5f97ac",
       "webhookId": "675c9786-e9d0-4bad-87de-b7b80b1fb4dc",
@@ -187,7 +188,7 @@
     },
     {
       "parameters": {
-        "functionCode": "// Contar mudanças\nconst stats = {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Acessar todas as execuções do split batch\nconst allRuns = $items(\"Processar um por vez\", 0, -1);\n\nallRuns.forEach(item => {\n  stats.total++;\n  if (item.json.changed) {\n    if (item.json.action === 'create') {\n      stats.criados++;\n    } else {\n      stats.atualizados++;\n    }\n  } else {\n    stats.semMudancas++;\n  }\n});\n\nreturn {\n  json: {\n    resumo: `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};"
+        "functionCode": "// Recuperar as mesmas estatísticas\nconst staticData = $getWorkflowStaticData('global');\nconst stats = staticData.stats || {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Usar os valores\nconst resumo = `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`;\n\n// Limpar para próxima execução (opcional)\nstaticData.stats = null;\n\nreturn {\n  json: {\n    resumo,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};\n"
       },
       "name": "Resumo final",
       "type": "n8n-nodes-base.function",
@@ -377,6 +378,45 @@
         560
       ],
       "id": "c0ceedea-3b51-417c-a159-be32db761b81"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recuperar contador global\nconst staticData = $getWorkflowStaticData('global');\nlet contador = staticData.semMudancas || 0;\n\n// Incrementar pelo número de itens\ncontador += $input.all().length;\n\n// Salvar\nstaticData.semMudancas = contador;\n\n// Retornar todos os itens com o contador\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    semMudancasTotal: contador\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -432,
+        880
+      ],
+      "id": "8dc6c900-b233-4197-b6ef-152f483dbe29",
+      "name": "Qtd Não Atualizados"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recuperar contador global\nconst staticData = $getWorkflowStaticData('global');\nlet contador = staticData.criados || 0;\n\n// Incrementar pelo número de itens\ncontador += $input.all().length;\n\n// Salvar\nstaticData.criados = contador;\n\n// Retornar todos os itens com o contador\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    criadosTotal: contador\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        336
+      ],
+      "id": "c1633cb5-f759-43eb-8bee-fc050703ce68",
+      "name": "Qtd Novos Workflows"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recuperar contador global\nconst staticData = $getWorkflowStaticData('global');\nlet contador = staticData.atualizados || 0;\n\n// Incrementar pelo número de itens\ncontador += $input.all().length;\n\n// Salvar\nstaticData.atualizados = contador;\n\n// Retornar todos os itens com o contador\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    atualizadosTotal: contador\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        640
+      ],
+      "id": "f349bcf6-f941-4ffc-a913-845e72f8ea24",
+      "name": "Qtd Atualizados"
     }
   ],
   "connections": {
@@ -446,14 +486,14 @@
       "main": [
         [
           {
-            "node": "Criar novo",
+            "node": "Qtd Novos Workflows",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Atualizar existente",
+            "node": "Qtd Atualizados",
             "type": "main",
             "index": 0
           }
@@ -515,7 +555,40 @@
         ],
         [
           {
+            "node": "Qtd Não Atualizados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qtd Não Atualizados": {
+      "main": [
+        [
+          {
             "node": "Processar um por vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qtd Novos Workflows": {
+      "main": [
+        [
+          {
+            "node": "Criar novo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qtd Atualizados": {
+      "main": [
+        [
+          {
+            "node": "Atualizar existente",
             "type": "main",
             "index": 0
           }
@@ -531,12 +604,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3bd3d644-6235-4b17-9fbe-567db674a958",
+  "versionId": "1dea0148-1524-4e59-b780-bb22a54ad18a",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T22:09:00.942Z",
-    "version": "2025-07-28T22:08:46.000Z",
+    "backedUpAt": "2025-07-30T03:22:20.778Z",
+    "version": "2025-07-30T03:19:36.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
