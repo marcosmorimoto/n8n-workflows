@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-30T03:31:48.000Z",
+  "updatedAt": "2025-07-30T03:32:25.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": false,
@@ -394,7 +394,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Recuperar as mesmas estatísticas\nconst staticData = $getWorkflowStaticData('global');\nconst stats = staticData.stats || {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Usar os valores\nconst qtdNovos = $('Qtd Novos').first().json.criadosTotal;\nconst qtdAtualizados = $('Qtd Atualizados').first().json.atualizadosTotal\nconst qtdSemMudancas = $('Qtd Não Atualizados').first().json.semMudancasTotal;\n\n// Limpar para próxima execução (opcional)\nstaticData.stats = null;\n\nreturn {\n  json: {\n    qtdNovos,\n    qtdAtualizados,\n    qtdSemMudancas,\n    timestamp: new Date().toISOString()\n  }\n};\n"
+        "jsCode": "// Recuperar as mesmas estatísticas\nconst staticData = $getWorkflowStaticData('global');\nconst stats = staticData.stats || {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Usar os valores\nconst qtdNovos = $('Qtd Novos').first().json.criadosTotal;\nconst qtdAtualizados = $('Qtd Atualizados').first().json.atualizadosTotal;\nconst qtdSemMudancas = $('Qtd Não Atualizados').first().json.semMudancasTotal;\n\n// Limpar para próxima execução (opcional)\nstaticData.stats = null;\n\nreturn {\n  json: {\n    qtdNovos,\n    qtdAtualizados,\n    qtdSemMudancas,\n    timestamp: new Date().toISOString()\n  }\n};\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -604,12 +604,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fe04f445-0840-4263-b584-ca6b18389ea4",
+  "versionId": "483c9daf-56ed-48ca-bfe6-5383e2c0a1c1",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-30T03:31:49.938Z",
-    "version": "2025-07-30T03:31:48.000Z",
+    "backedUpAt": "2025-07-30T03:32:29.412Z",
+    "version": "2025-07-30T03:32:25.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
