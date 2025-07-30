@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-30T03:19:36.000Z",
+  "updatedAt": "2025-07-30T03:28:51.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": false,
@@ -185,19 +185,6 @@
         }
       },
       "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "functionCode": "// Recuperar as mesmas estatísticas\nconst staticData = $getWorkflowStaticData('global');\nconst stats = staticData.stats || {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Usar os valores\nconst resumo = `Backup concluído: ${stats.criados} novos, ${stats.atualizados} atualizados, ${stats.semMudancas} sem mudanças`;\n\n// Limpar para próxima execução (opcional)\nstaticData.stats = null;\n\nreturn {\n  json: {\n    resumo,\n    stats,\n    timestamp: new Date().toISOString()\n  }\n};\n"
-      },
-      "name": "Resumo final",
-      "type": "n8n-nodes-base.function",
-      "typeVersion": 1,
-      "position": [
-        -864,
-        352
-      ],
-      "id": "3ee67d21-3b20-4b52-8da9-125018be61f6"
     },
     {
       "parameters": {
@@ -417,6 +404,19 @@
       ],
       "id": "f349bcf6-f941-4ffc-a913-845e72f8ea24",
       "name": "Qtd Atualizados"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recuperar as mesmas estatísticas\nconst staticData = $getWorkflowStaticData('global');\nconst stats = staticData.stats || {\n  total: 0,\n  criados: 0,\n  atualizados: 0,\n  semMudancas: 0\n};\n\n// Usar os valores\nconst qtdNovos = $input.first().json.criadosTotal;\nconst qtdAtualizados = $input.first().json.atualizadosTotal;\nconst qtdSemMudancas = $input.first().json.semMudancasTotal;\n\n// Limpar para próxima execução (opcional)\nstaticData.stats = null;\n\nreturn {\n  json: {\n    qtdNovos,\n    qtdAtualizados,\n    qtdSemMudancas,\n    timestamp: new Date().toISOString()\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        352
+      ],
+      "id": "67dfeac0-1a23-46ba-8880-bbfc884379f4",
+      "name": "Resumo Final"
     }
   ],
   "connections": {
@@ -457,7 +457,7 @@
       "main": [
         [
           {
-            "node": "Resumo final",
+            "node": "Resumo Final",
             "type": "main",
             "index": 0
           }
@@ -604,12 +604,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1dea0148-1524-4e59-b780-bb22a54ad18a",
+  "versionId": "9e7bca0d-173d-4d40-b9e7-b9f588eb5fe7",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-30T03:22:20.778Z",
-    "version": "2025-07-30T03:19:36.000Z",
+    "backedUpAt": "2025-07-30T03:28:54.293Z",
+    "version": "2025-07-30T03:28:51.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
