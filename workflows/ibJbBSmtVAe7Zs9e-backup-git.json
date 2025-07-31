@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-28T14:26:15.344Z",
-  "updatedAt": "2025-07-31T22:26:59.000Z",
+  "updatedAt": "2025-07-31T22:27:56.000Z",
   "id": "ibJbBSmtVAe7Zs9e",
   "name": "backup_git",
   "active": true,
@@ -11,7 +11,8 @@
         "rule": {
           "interval": [
             {
-              "triggerAtHour": 8
+              "field": "seconds",
+              "secondsInterval": 10
             }
           ]
         }
@@ -646,12 +647,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fae26763-1619-4834-beec-ed9f44894baa",
+  "versionId": "e696044d-16b3-405c-94af-13c702da8084",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-31T22:27:19.109Z",
-    "version": "2025-07-31T22:26:59.000Z",
+    "backedUpAt": "2025-07-31T22:28:00.137Z",
+    "version": "2025-07-31T22:27:56.000Z",
     "originalId": "ibJbBSmtVAe7Zs9e"
   }
 }
