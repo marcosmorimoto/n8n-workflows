@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T00:19:28.821Z",
-  "updatedAt": "2025-07-28T19:32:16.000Z",
+  "updatedAt": "2025-08-02T22:49:48.000Z",
   "id": "lUNrd96wHxS29tU5",
   "name": "assessor_prestacao_servicos",
   "active": true,
@@ -374,7 +374,7 @@
       "parameters": {
         "model": "gemma2-9b-it",
         "options": {
-          "temperature": 1
+          "temperature": 0.7
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -2332,12 +2332,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1b3cc7df-d4d3-4aa6-bd05-36142d0cdba0",
+  "versionId": "6af93d12-3fc7-4359-a0e8-ea39484c3821",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T21:56:01.912Z",
-    "version": "2025-07-28T19:32:16.000Z",
+    "backedUpAt": "2025-08-03T11:00:30.123Z",
+    "version": "2025-08-02T22:49:48.000Z",
     "originalId": "lUNrd96wHxS29tU5"
   }
 }
