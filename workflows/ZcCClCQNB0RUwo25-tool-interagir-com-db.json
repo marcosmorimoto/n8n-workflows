@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-18T03:23:00.243Z",
-  "updatedAt": "2025-07-13T00:30:33.000Z",
+  "updatedAt": "2025-08-04T01:51:15.000Z",
   "id": "ZcCClCQNB0RUwo25",
   "name": "TOOL - Interagir com DB",
   "active": false,
@@ -37,7 +37,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        220,
+        224,
         0
       ],
       "id": "a2d1733b-b752-468e-91ea-9e46c70bb70c",
@@ -51,8 +51,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        140,
-        240
+        224,
+        176
       ],
       "id": "e7a5a3f9-a80b-4f46-a54b-7030aa80558d",
       "name": "Google Gemini Chat Model",
@@ -80,7 +80,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       },
       "onError": "continueErrorOutput"
@@ -92,7 +92,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        580,
+        592,
         0
       ],
       "id": "5330cbda-2e01-439c-a0a0-f98c85e57b18",
@@ -152,13 +152,21 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "6cc7517c-4956-423b-8840-6c4ae3edb870",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "prompt": "Operação: Consultar registro; Filtro: id_prestador: 5511948456707@s.whatsapp.net, pagou_total: NÃO"
+        }
+      }
+    ]
+  },
+  "versionId": "b791ec2c-35d5-4164-b484-47b921ae0a47",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T18:30:41.197Z",
-    "version": "2025-07-13T00:30:33.000Z",
+    "backedUpAt": "2025-08-04T11:00:30.174Z",
+    "version": "2025-08-04T01:51:15.000Z",
     "originalId": "ZcCClCQNB0RUwo25"
   }
 }
