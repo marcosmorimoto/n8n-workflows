@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T00:19:28.821Z",
-  "updatedAt": "2025-08-02T22:49:48.000Z",
+  "updatedAt": "2025-08-04T00:43:09.000Z",
   "id": "lUNrd96wHxS29tU5",
   "name": "assessor_prestacao_servicos",
   "active": true,
@@ -357,7 +357,7 @@
         "promptType": "define",
         "text": "=nome_cliente: {{ $('Dados1').item.json.apelido }}\nprompt: {{ $('Mensagem Final').item.json.Mensagem }}.",
         "options": {
-          "systemMessage": "=Seu nome é Mori (feminino) e você gerencia prestações de serviço.\n\nInstruções de Comunicação Natural:\n\n- Use o nome do cliente ({{ $('Dados1').item.json.apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n\n- Só explique suas atividades se o cliente perguntar diretamente.\n\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n\n- Se perguntarem sobre suas atividades, responda com uma linguagem leve, como em um bate-papo.\n\n- Se o usuário pedir uma ação direta (cadastrar, consultar etc.), comece direto pela solução, sem repetir informações já fornecidas na conversa.\n\n- Seja empática, sucinta e mantenha o tom da conversa leve e informal.\n\n\nExemplos de Interação:\n\n[Usuário]\nOlá\n\n[Mori]\nOi, Marcos! Como posso te ajudar hoje?\n\n[Usuário]\nTudo bem com você?\n\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n[Usuário]\nQuais são suas atividades?\n\n[Mori]\nSou responsável pelo gerenciamento dos serviços prestados. Posso te ajudar a cadastrar, consultar, atualizar ou excluir serviços. Precisa de alguma dessas opções?\n\n[Usuário]\nQuero atualizar um serviço.\n\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja atualizar, por favor.\n\n## Pontos de atenção!\n\n- Tome cuidado para não extender muito a conversa em assuntos que não sejam referentes a suas atividades. Tente sair do assunto de forma inteligente.\n- Evite enviar emojis de forma exagerada."
+          "systemMessage": "=Seu nome é Mori (feminino) e você gerencia prestações de serviço.\n\nInstruções de Comunicação Natural:\n\n- Use o nome do cliente ({{ $('Dados1').item.json.apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n\n- Só explique suas atividades se o cliente perguntar diretamente.\n\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n\n- Se perguntarem sobre suas atividades, responda com uma linguagem leve, como em um bate-papo.\n\n- Seja empática, sucinta e mantenha o tom da conversa leve e formal, o mais natural possivel.\n\n\nExemplos de Interação:\n\n[Usuário]\nOlá\n\n[Mori]\nOi, Marcos! Como posso te ajudar hoje?\n\n[Usuário]\nTudo bem com você?\n\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n[Usuário]\nQuais são suas atividades?\n\n[Mori]\nSou responsável pelo gerenciamento dos serviços prestados. Posso te ajudar a cadastrar, consultar, atualizar ou excluir serviços. Precisa de alguma dessas opções?\n\n[Usuário]\nQuero atualizar um serviço.\n\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja atualizar, por favor.\n\n## Pontos de atenção!\n\n- Tome cuidado para não extender muito a conversa em assuntos que não sejam referentes a suas atividades. Tente sair do assunto de forma inteligente.\n- Não enviar emojis."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -372,9 +372,9 @@
     },
     {
       "parameters": {
-        "model": "gemma2-9b-it",
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
         "options": {
-          "temperature": 0.7
+          "temperature": 1
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
@@ -475,7 +475,7 @@
             {
               "id": "307ade8b-972a-45db-8d9a-127d63f4231d",
               "name": "apelido",
-              "value": "={{ $json.apelido }}",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.nome_apelido }}",
               "type": "string"
             }
           ]
@@ -644,7 +644,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -668,7 +668,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -790,7 +790,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1186,7 +1186,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1207,7 +1207,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1398,7 +1398,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1419,7 +1419,7 @@
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -2331,13 +2331,72 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "6af93d12-3fc7-4359-a0e8-ea39484c3821",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "axios/1.7.9",
+            "content-length": "911",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "a01f085a8a9f",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Secretaria",
+            "data": {
+              "key": {
+                "remoteJid": "5511948456707@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3A93986596A095B66DD8"
+              },
+              "pushName": "Marcos",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Td bem?",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "5XoV5Sf3bqEYHg==",
+                    "senderTimestamp": "1752088572",
+                    "recipientKeyHash": "15Og6NYyHWkhjw==",
+                    "recipientTimestamp": "1753277786"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "R84OYpE9vVSnEKbPWj5NjYuBw7WVB4FoYlKZ76LhWnE="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1754257320,
+              "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
+              "source": "ios"
+            },
+            "destination": "https://n8n.mx4solucoes.com.br/webhook/c1a83321-ef6f-4302-b21c-af2e51aca658",
+            "date_time": "2025-08-03T18:42:01.016Z",
+            "sender": "5511919861358@s.whatsapp.net",
+            "server_url": "https://evolutionapi.mx4solucoes.com.br",
+            "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/c1a83321-ef6f-4302-b21c-af2e51aca658",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "04dc627e-dd39-4b43-a423-1380d8c5c3f2",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-03T11:00:30.123Z",
-    "version": "2025-08-02T22:49:48.000Z",
+    "backedUpAt": "2025-08-04T11:00:30.210Z",
+    "version": "2025-08-04T00:43:09.000Z",
     "originalId": "lUNrd96wHxS29tU5"
   }
 }
