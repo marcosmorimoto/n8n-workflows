@@ -1,0 +1,135 @@
+{
+  "createdAt": "2025-07-26T16:58:44.352Z",
+  "updatedAt": "2025-08-04T01:28:30.000Z",
+  "id": "I0Wez9Bb8zUvCNpe",
+  "name": "assessor_controle_gastos",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2335d85d-e028-472b-8dd0-ae9ff402ee9f",
+      "name": "When chat message received",
+      "webhookId": "3524a187-00f2-4c20-9b45-c3f4ea09754d"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        256,
+        208
+      ],
+      "id": "b64c0b0c-8d77-4421-8578-3f7b1a744ede",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "=Você deverá identificar qual será o agente irá analisar a mensagem do usuário.\n\nAtualmente temos 2 tipos de agentes.\n\n1 - Gerenciador de prestação de serviços\n2 - Gerenciador de gastos pessoais\n\nSe a mensagem indicar algo relacionado a prestação de serviço, responda exatamente com o rótulo abaixo (sem aspas):\n\nPRESTACAO_SERVICO\n\nSe a mensagem indicar algo relacionado a gastos pessoais, responda exatamente com o rótulo abaixo (sem aspas):\n\nGASTOS_PESSOAIS\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: PRESTACAO_SERVICO ou GASTOS_PESSOAIS).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → PRESTACAO_SERVICO (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Gastei 800 reais em uma roupa no shopping” → GASTOS_PESSOAIS (Apenas comprimento)\n\nMensagem: “Coloquei 200 reais de gasolina” → GASTOS_PESSOAIS (Apenas comprimento)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        256,
+        0
+      ],
+      "id": "96aa4e67-9fcc-45f2-9d7f-f044241c60a9",
+      "name": "verificar_tipo_assessor"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=teste",
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        384,
+        208
+      ],
+      "id": "67434a1e-8e1d-47c1-8810-e36956efad17",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "verificar_tipo_assessor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "362726dc-6b48-47c8-b90e-c981e3bb7d0c",
+  "triggerCount": 0,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-04T11:00:30.111Z",
+    "version": "2025-08-04T01:28:30.000Z",
+    "originalId": "I0Wez9Bb8zUvCNpe"
+  }
+}
