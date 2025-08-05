@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:36:31.423Z",
-  "updatedAt": "2025-08-04T02:13:14.000Z",
+  "updatedAt": "2025-08-05T03:33:43.000Z",
   "id": "EvfzKKnz5BGCOjJ2",
   "name": "assessor_main_dev",
   "active": false,
@@ -453,7 +453,7 @@
         "promptType": "define",
         "text": "={{ $json.todas_mensagens }}",
         "options": {
-          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar se a mensagem se refere a uma operação em banco de dados relacionada à prestação de serviços ou a qualquer outro tipo de conteúdo.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de serviços, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nOPERACAO_DE_BANCO-CRIAR\n\nOPERACAO_DE_BANCO-CONSULTAR\n\nOPERACAO_DE_BANCO-ATUALIZAR\n\nOPERACAO_DE_BANCO-DELETAR\n\nPara qualquer outra mensagem (saudações, dúvidas sobre o agente ou assuntos não relacionados a operações de banco), responda somente:\n\nOUTRO_TIPO_OPERACAO\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO-CONSULTAR ou OUTRO_TIPO_OPERACAO).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO-ATUALIZAR (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Bom dia, como você está?” → OUTRO_TIPO_OPERACAO (Apenas comprimento)"
+          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar se a mensagem se refere a uma operação em banco de dados relacionada à prestação de serviços, gastos pessoais ou a qualquer outro tipo de conteúdo.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de prestação de serviços ou gastos pessoais, responda exatamente o rótulo abaixo:\n\nOPERACAO_DE_BANCO\n\nPara qualquer outra mensagem (saudações, dúvidas sobre o agente ou assuntos não relacionados a operações de banco de prestação de serviços ou gastos pessoais), responda somente:\n\nOUTRO_TIPO_OPERACAO\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO ou OUTRO_TIPO_OPERACAO).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Gastei 300 reais no posto de gasolina hoje” → OPERACAO_DE_BANCO (Indica a criação de um novo gasto pessoal)\n\nMensagem: “Comprei uma bolsa no shoping de 500 reais” → OPERACAO_DE_BANCO (Indica a criação de um novo gasto pessoal)\n\nMensagem: “Bom dia, como você está?” → OUTRO_TIPO_OPERACAO (Apenas comprimento)"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1501,29 +1501,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5a0796be-98b0-4c4b-9500-9530a67814bc",
-              "name": "todas_mensagens",
-              "value": "={{ $json.mensagens.join(\" \") }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1056,
-        144
-      ],
-      "id": "1cf07298-a702-4ef4-8bc1-a94f661663e0",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
         "operation": "delete",
         "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}"
       },
@@ -1638,7 +1615,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $json.chatInput }}",
+        "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
         "options": {
           "systemMessage": "=Você deverá identificar qual será o agente irá analisar a mensagem do usuário.\n\nAtualmente temos 2 tipos de agentes.\n\n1 - Gerenciador de prestação de serviços\n2 - Gerenciador de gastos pessoais\n\nSe a mensagem indicar algo relacionado a prestação de serviço, responda exatamente com o rótulo abaixo (sem aspas):\n\nPRESTACAO_SERVICO\n\nSe a mensagem indicar algo relacionado a gastos pessoais, responda exatamente com o rótulo abaixo (sem aspas):\n\nGASTOS_PESSOAIS\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: PRESTACAO_SERVICO ou GASTOS_PESSOAIS).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → PRESTACAO_SERVICO (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → PRESTACAO_SERVICO (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Gastei 800 reais em uma roupa no shopping” → GASTOS_PESSOAIS (Apenas comprimento)\n\nMensagem: “Coloquei 200 reais de gasolina” → GASTOS_PESSOAIS (Apenas comprimento)"
         }
@@ -1694,11 +1671,199 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        576,
+        1360,
         -32
       ],
       "id": "939fc863-1b1e-469e-8daa-aea97596b4e1",
       "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output }}",
+                    "rightValue": "PRESTACAO_SERVICO",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "7969671e-8de4-4eb7-a414-ad88774ef205"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        528,
+        -32
+      ],
+      "id": "6a35a8c8-18b7-4492-8310-f081226609b3",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        752,
+        176
+      ],
+      "id": "84a9cfca-0180-4cb5-9dec-6ead6772f09a",
+      "name": "Groq Chat Model3",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        176
+      ],
+      "id": "db12db22-2db2-48fa-919e-0ae6aabcf03f",
+      "name": "Redis Chat Memory3",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada à prestação de serviços.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de serviços, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nOPERACAO_DE_BANCO-CRIAR\n\nOPERACAO_DE_BANCO-CONSULTAR\n\nOPERACAO_DE_BANCO-ATUALIZAR\n\nOPERACAO_DE_BANCO-DELETAR\n\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO-CONSULTAR).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO-ATUALIZAR (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        752,
+        -32
+      ],
+      "id": "09e2d05e-3a71-4adf-8bc5-ad3bf68d08ad",
+      "name": "Classifica Mensagem1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "64c49aac-747a-469d-b5a4-82a4fd3a8549",
+              "name": "output",
+              "value": "={{ $('Switch1').item.json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados1').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados1').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
+              "name": "apelido",
+              "value": "={{ $('Dados1').item.json.apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "todas_mensagens",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados1').item.json.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1136,
+        -32
+      ],
+      "id": "268ef7f2-faf5-49c6-84ea-dc8d71ac0b2e",
+      "name": "consolidar dados para subworkflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5a0796be-98b0-4c4b-9500-9530a67814bc",
+              "name": "todas_mensagens",
+              "value": "={{ $json.mensagens.join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1056,
+        144
+      ],
+      "id": "1cf07298-a702-4ef4-8bc1-a94f661663e0",
+      "name": "mensagens consolidadas"
     }
   ],
   "connections": {
@@ -2169,7 +2334,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields1",
+            "node": "mensagens consolidadas",
             "type": "main",
             "index": 0
           }
@@ -2177,17 +2342,6 @@
         [
           {
             "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Redis2",
             "type": "main",
             "index": 0
           }
@@ -2253,7 +2407,73 @@
       "main": [
         [
           {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Classifica Mensagem1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Mensagem1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "Classifica Mensagem1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classifica Mensagem1": {
+      "main": [
+        [
+          {
+            "node": "consolidar dados para subworkflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidar dados para subworkflow": {
+      "main": [
+        [
+          {
             "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mensagens consolidadas": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
             "type": "main",
             "index": 0
           }
@@ -2266,72 +2486,13 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "host": "n8n.mx4solucoes.com.br",
-            "user-agent": "axios/1.7.9",
-            "content-length": "911",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "content-type": "application/json",
-            "x-forwarded-for": "172.18.0.1",
-            "x-forwarded-host": "n8n.mx4solucoes.com.br",
-            "x-forwarded-port": "443",
-            "x-forwarded-proto": "https",
-            "x-forwarded-server": "a01f085a8a9f",
-            "x-real-ip": "172.18.0.1"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "Secretaria",
-            "data": {
-              "key": {
-                "remoteJid": "5511948456707@s.whatsapp.net",
-                "fromMe": false,
-                "id": "3A93986596A095B66DD8"
-              },
-              "pushName": "Marcos",
-              "status": "DELIVERY_ACK",
-              "message": {
-                "conversation": "Td bem?",
-                "messageContextInfo": {
-                  "deviceListMetadata": {
-                    "senderKeyHash": "5XoV5Sf3bqEYHg==",
-                    "senderTimestamp": "1752088572",
-                    "recipientKeyHash": "15Og6NYyHWkhjw==",
-                    "recipientTimestamp": "1753277786"
-                  },
-                  "deviceListMetadataVersion": 2,
-                  "messageSecret": "R84OYpE9vVSnEKbPWj5NjYuBw7WVB4FoYlKZ76LhWnE="
-                }
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1754257320,
-              "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
-              "source": "ios"
-            },
-            "destination": "https://n8n.mx4solucoes.com.br/webhook/c1a83321-ef6f-4302-b21c-af2e51aca658",
-            "date_time": "2025-08-03T18:42:01.016Z",
-            "sender": "5511919861358@s.whatsapp.net",
-            "server_url": "https://evolutionapi.mx4solucoes.com.br",
-            "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
-          },
-          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/c1a83321-ef6f-4302-b21c-af2e51aca658",
-          "executionMode": "production"
-        }
-      }
-    ]
-  },
-  "versionId": "ba65e5c9-cc16-4679-ae4d-4cacc928d868",
+  "pinData": {},
+  "versionId": "4acafe8c-9c00-44f5-8b36-17211315d49b",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-04T11:00:30.109Z",
-    "version": "2025-08-04T02:13:14.000Z",
+    "backedUpAt": "2025-08-05T11:00:31.920Z",
+    "version": "2025-08-05T03:33:43.000Z",
     "originalId": "EvfzKKnz5BGCOjJ2"
   }
 }
