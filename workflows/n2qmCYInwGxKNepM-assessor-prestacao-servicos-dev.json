@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:37:33.219Z",
-  "updatedAt": "2025-08-04T01:41:06.000Z",
+  "updatedAt": "2025-08-05T03:33:06.000Z",
   "id": "n2qmCYInwGxKNepM",
   "name": "assessor_prestacao_servicos_dev",
   "active": false,
@@ -9,7 +9,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionKey": "=cadastrar_alterar_consultar_{{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
         "sessionTTL": 3600,
         "contextWindowLength": 0
       },
@@ -88,9 +88,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Mensagem: {{ $('Mensagem Final').item.json.Mensagem }};\nid_prestador: {{ $('Dados').item.json.quem_mandou }}; ",
+        "text": "=Mensagem: {{ $('When Executed by Another Workflow').item.json.todas_mensagens }};\nid_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}; ",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\" etc.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('Dados').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('Dados').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\" etc.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('When Executed by Another Workflow').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -131,7 +131,9 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "inputSource": "passthrough"
+      },
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
@@ -140,6 +142,31 @@
       ],
       "id": "4e07da8b-4641-4354-8fb0-17a6bfabb4f7",
       "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('When Executed by Another Workflow').item.json.instancia }}",
+        "remoteJid": "={{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        640,
+        -96
+      ],
+      "id": "0aa1cf9b-7f39-4045-96a4-db7503d34c7d",
+      "name": "Enviar texto",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -197,6 +224,17 @@
           }
         ]
       ]
+    },
+    "Operações de banco de dados": {
+      "main": [
+        [
+          {
+            "node": "Enviar texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -206,13 +244,26 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "f726b820-4b79-4f00-a79c-a0fd2279cd6e",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "output": "PRESTACAO_SERVICO",
+          "quem_mandou": "5511948456707@s.whatsapp.net",
+          "id_mensagem": "3A96D4C9AAB9741A6162",
+          "quem_recebeu": "5511919861358@s.whatsapp.net",
+          "apelido": "Marcos",
+          "todas_mensagens": "Instalei um box na casa da ana"
+        }
+      }
+    ]
+  },
+  "versionId": "3a28cfa6-4b59-456c-b6b7-4962624f0cc4",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-04T11:00:30.213Z",
-    "version": "2025-08-04T01:41:06.000Z",
+    "backedUpAt": "2025-08-05T11:00:32.044Z",
+    "version": "2025-08-05T03:33:06.000Z",
     "originalId": "n2qmCYInwGxKNepM"
   }
 }
