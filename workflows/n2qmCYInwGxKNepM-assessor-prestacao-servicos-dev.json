@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:37:33.219Z",
-  "updatedAt": "2025-08-05T03:33:06.000Z",
+  "updatedAt": "2025-08-08T22:14:11.000Z",
   "id": "n2qmCYInwGxKNepM",
   "name": "assessor_prestacao_servicos_dev",
   "active": false,
@@ -9,7 +9,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=cadastrar_alterar_consultar_{{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+        "sessionKey": "=assessor_{{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
         "sessionTTL": 3600,
         "contextWindowLength": 0
       },
@@ -258,12 +258,12 @@
       }
     ]
   },
-  "versionId": "3a28cfa6-4b59-456c-b6b7-4962624f0cc4",
+  "versionId": "2c817b80-fa13-4289-bf53-4d4f35ff7346",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-05T11:00:32.044Z",
-    "version": "2025-08-05T03:33:06.000Z",
+    "backedUpAt": "2025-08-09T11:00:30.097Z",
+    "version": "2025-08-08T22:14:11.000Z",
     "originalId": "n2qmCYInwGxKNepM"
   }
 }
