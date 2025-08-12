@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:36:31.423Z",
-  "updatedAt": "2025-08-09T03:42:07.000Z",
+  "updatedAt": "2025-08-12T00:14:24.000Z",
   "id": "EvfzKKnz5BGCOjJ2",
   "name": "assessor_main_dev",
   "active": false,
@@ -1383,7 +1383,7 @@
             },
             {
               "category": "controle de gastos",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais"
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas financeiros, verificar status de metas, criar ou modificar alertas."
             },
             {
               "category": "prestação de serviços",
@@ -1729,7 +1729,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1344,
+        1648,
         224
       ],
       "id": "b416fe8d-69ed-4366-b6fa-47fbbe2a061b",
@@ -1787,12 +1787,6 @@
               "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
               "name": "output",
               "value": "={{ $json.output }}",
-              "type": "string"
-            },
-            {
-              "id": "64c49aac-747a-469d-b5a4-82a4fd3a8549",
-              "name": "output",
-              "value": "={{ $('Switch1').item.json.output }}",
               "type": "string"
             },
             {
@@ -2195,7 +2189,7 @@
         "promptType": "define",
         "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
         "options": {
-          "systemMessage": "=Você é um classificador de mensagens.\nObjetivo: Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada ao controle de gastos pessoais.\nRegras de classificação:\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de gastos pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nGASTO-CRIAR - Para registrar novos gastos\nGASTO-CONSULTAR - Para buscar/visualizar gastos existentes\nGASTO-ATUALIZAR - Para modificar gastos já registrados\nGASTO-DELETAR - Para excluir gastos registrados\nMETA-CONFIGURAR - Para definir ou alterar metas financeiras\nMETA-CONSULTAR - Para verificar status de metas\nALERTA-CONFIGURAR - Para criar ou modificar alertas\n\nFormato de resposta:\nApenas o rótulo correspondente (por exemplo: GASTO-CONSULTAR).\nNenhum texto adicional.\nExemplos:\nMensagem: \"Gastei R$ 45,30 com almoço hoje\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Comprei uma camisa por 89 reais ontem\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Quero ver meus gastos desta semana\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Mostra os gastos do mês passado\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Aquele gasto de R$ 50,00 era R$ 60,00 na verdade\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Preciso corrigir o valor daquele almoço de ontem\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Apaga aquele gasto do supermercado\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Remove o registro de R$ 25,00 de hoje\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Gera um relatório dos meus gastos\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero um resumo dos gastos do trimestre\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero definir uma meta de R$ 1500 para este mês\" → META-CONFIGURAR\n(Indica que precisa configurar uma meta financeira)\nMensagem: \"Como está minha meta do mês?\" → META-CONSULTAR\n(Indica que precisa consultar status de meta)\nMensagem: \"Configura um alerta quando eu gastar mais de R$ 100 por dia\" → ALERTA-CONFIGURAR\n(Indica que precisa configurar um alerta)"
+          "systemMessage": "=Você é um classificador de mensagens.\nObjetivo: Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada ao controle de gastos pessoais.\nRegras de classificação:\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de gastos pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nGASTO-CRIAR - Para registrar novos gastos\nGASTO-CONSULTAR - Para buscar/visualizar gastos existentes\nGASTO-ATUALIZAR - Para modificar gastos já registrados\nGASTO-DELETAR - Para excluir gastos registrados\nMETA-CONFIGURAR - Para definir ou alterar metas financeiras\nMETA-CONSULTAR - Para verificar status de metas\n\nFormato de resposta:\nApenas o rótulo correspondente (por exemplo: GASTO-CONSULTAR).\nNenhum texto adicional.\n\nExemplos:\nMensagem: \"Gastei R$ 45,30 com almoço hoje\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Comprei uma camisa por 89 reais ontem\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Quero ver meus gastos desta semana\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Mostra os gastos do mês passado\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Aquele gasto de R$ 50,00 era R$ 60,00 na verdade\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Preciso corrigir o valor daquele almoço de ontem\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Apaga aquele gasto do supermercado\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Remove o registro de R$ 25,00 de hoje\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Gera um relatório dos meus gastos\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero um resumo dos gastos do trimestre\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero definir uma meta de R$ 1500 para este mês\" → META-CONFIGURAR\n(Indica que precisa configurar uma meta financeira)\nMensagem: \"Como está minha meta do mês?\" → META-CONSULTAR\n(Indica que precisa consultar status de meta)\nMensagem: \"Configura um alerta quando eu gastar mais de R$ 100 por dia\" → ALERTA-CONFIGURAR\n(Indica que precisa configurar um alerta)"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -2223,6 +2217,31 @@
       ],
       "id": "bc8bfb51-3495-407f-bdd1-73f767636f90",
       "name": "Classifica Prestacao Servico"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        224
+      ],
+      "id": "3591281a-95d0-4d63-95d1-b0aa9b3f7ccc",
+      "name": "Enviar Mensagem Conversa1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -2791,7 +2810,7 @@
       "main": [
         [
           {
-            "node": "Execute Workflow3",
+            "node": "Enviar Mensagem Conversa1",
             "type": "main",
             "index": 0
           }
@@ -2942,12 +2961,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "12752746-64ef-4c27-8930-e5c0090a8fd4",
+  "versionId": "2f35a90e-1408-46f8-9faf-deab92ce2ac2",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-09T11:00:30.021Z",
-    "version": "2025-08-09T03:42:07.000Z",
+    "backedUpAt": "2025-08-12T11:00:30.306Z",
+    "version": "2025-08-12T00:14:24.000Z",
     "originalId": "EvfzKKnz5BGCOjJ2"
   }
 }
