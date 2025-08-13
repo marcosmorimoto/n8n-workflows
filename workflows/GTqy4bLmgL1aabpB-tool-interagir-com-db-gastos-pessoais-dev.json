@@ -1,0 +1,209 @@
+{
+  "createdAt": "2025-08-13T00:24:24.001Z",
+  "updatedAt": "2025-08-13T04:27:10.000Z",
+  "id": "GTqy4bLmgL1aabpB",
+  "name": "TOOL - Interagir com DB Gastos Pessoais Dev",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "prompt"
+            },
+            {
+              "name": "tabela"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -480,
+        -64
+      ],
+      "id": "bff47cf1-662a-4992-bfcc-394bc0e1ed6c",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado.\n\nPor exemplo, WHERE TRANSLATE(UPPER(pagou_total),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \nO nome da tabela será passado no prompt e pode ser a tabela tb_gastos_transacoes ou a tabela tb_gastos_limites.\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_gastos_transacoes (\n    id bigint DEFAULT public.func_gerar_id_gasto_transacoes() NOT NULL,\n    id_cliente bigint NOT NULL,\n    dt_gasto date,\n    descricao_gasto text,\n    valor text,\n    categoria text NOT NULL\n);\n\nCREATE TABLE public.tb_gastos_limites (\n    id_cliente bigint NOT NULL,\n    periodo text NOT NULL,\n    valor_limite double precision NOT NULL,\n    dt_inicio date NOT NULL,\n    dt_fim date NOT NULL,\n    renova_automatico character(1) NOT NULL,\n    dt_cadastro date NOT NULL,\n    dt_alteracao date,\n    status text NOT NULL\n);"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        -64
+      ],
+      "id": "ee8644fa-b8c8-48e8-822b-918434995ec3",
+      "name": "Gerar script SQL"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.sql_query }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        320,
+        -64
+      ],
+      "id": "a85a18cf-6461-4d50-bf50-e35848e778ac",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json.output;\n\n// 1. Remove os blocos ```sql e ```\nlet clean = input\n   .replace(/^```sql\\s*|\\s*```$/gi, '')\n   .replace(/```/g, '')\n   .replace(/\\n/g, ' ')\n   .replace(/\\s+/g, ' ')\n   .trim();\n\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        -64
+      ],
+      "id": "2f32419c-48cb-4c31-a3d4-66b5022fe10d",
+      "name": "Remover Markdown SQL"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        96
+      ],
+      "id": "fa704832-428c-4461-959e-2b797842386f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "REMOVED",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1,
+          "reasoningEffort": "low"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        96
+      ],
+      "id": "05c098e5-8773-4860-909f-de4ede3d24cb",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Gerar script SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerar script SQL": {
+      "main": [
+        [
+          {
+            "node": "Remover Markdown SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remover Markdown SQL": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Gerar script SQL",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "prompt": "Operação: Inserir novo registro na tabela tb_gastos_transacoes; id_cliente: 1, dt_gasto: 13/08/2025, descricao_gasto: ALUMINIO PARA INSTALACAO DE BOX DE BANHEIRO, valor: 100,00, categoria: MORADIA"
+        }
+      }
+    ]
+  },
+  "versionId": "5a3fc02f-d7d6-4098-b54d-4be4ea498581",
+  "triggerCount": 0,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-13T11:00:30.717Z",
+    "version": "2025-08-13T04:27:10.000Z",
+    "originalId": "GTqy4bLmgL1aabpB"
+  }
+}
