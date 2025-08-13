@@ -1,188 +1,26 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-04T01:34:17.000Z",
+  "updatedAt": "2025-08-13T04:02:04.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "content": "## Buffer de mensagens enviadas em sequencia\nCaso o usuário envie mais de uma mensagem em seguida da outra, esse trecho irá agrupar todas as mensagens para o agente responder uma única vez",
-        "height": 500,
-        "width": 1260,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        896,
-        -16
-      ],
-      "typeVersion": 1,
-      "id": "4d41b92d-6aed-49cc-9002-56d8e5f215c6",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "operation": "push",
-        "list": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
-        "messageData": "={{ $json.Mensagem }}",
-        "tail": true
-      },
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        944,
-        176
-      ],
-      "id": "a5c53b10-181e-4603-89f5-67653d19ff8e",
-      "name": "Redis",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "amount": 7
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        1152,
-        176
-      ],
-      "id": "34a00e14-186e-46de-a222-f37dfbad284f",
-      "name": "Wait",
-      "webhookId": "bcf85897-33a2-4384-a894-a113cad1fd1c"
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "propertyName": "mensagens",
-        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        1344,
-        176
-      ],
-      "id": "ff0281c4-df02-4de6-96ee-3e4f4c2bada3",
-      "name": "Redis1",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "94ee1ab8-d45e-4763-9129-b4cc5c97c817",
-              "leftValue": "={{ $json.mensagens.last() }}",
-              "rightValue": "={{ $('Wait').item.json.Mensagem }}",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [
-        1552,
-        176
-      ],
-      "id": "c7f89b84-a80d-4b41-9b78-866c2c2e3efa",
-      "name": "If2"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        1776,
-        336
-      ],
-      "id": "e4437502-ac55-4b79-96c8-3fc0b1266cb0",
-      "name": "No Operation, do nothing"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5a0796be-98b0-4c4b-9500-9530a67814bc",
-              "name": "todas_mensagens",
-              "value": "={{ $json.mensagens.join(\" \") }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1776,
-        80
-      ],
-      "id": "5a6776e6-1b8f-4171-b8b6-6c925fb4caa4",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
-        "operation": "delete",
-        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}"
-      },
-      "type": "n8n-nodes-base.redis",
-      "typeVersion": 1,
-      "position": [
-        1984,
-        80
-      ],
-      "id": "f5b3cff0-373f-4254-8bb8-a3d4652810c0",
-      "name": "Redis2",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "httpMethod": "POST",
-        "path": "c1a83321-ef6f-4302-b21c-af2e51aca658",
+        "path": "b70f51f4-392d-43ef-a4c9-073b4e7a1635",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -2144,
-        176
+        -11200,
+        -1392
       ],
-      "id": "3eedb8d5-40cd-4c03-b146-b8bf9450115a",
+      "id": "9c2bc24f-0536-455c-867b-49183ed840c0",
       "name": "Webhook",
-      "webhookId": "c1a83321-ef6f-4302-b21c-af2e51aca658"
+      "webhookId": "b70f51f4-392d-43ef-a4c9-073b4e7a1635"
     },
     {
       "parameters": {
@@ -255,10 +93,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1936,
-        176
+        -10992,
+        -1392
       ],
-      "id": "f829e042-f266-471e-b7d2-d2c97ae8a9a2",
+      "id": "19031eed-0a9f-42b3-a551-c3a2f91baa6c",
       "name": "Dados",
       "notesInFlow": false
     },
@@ -279,10 +117,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        448,
-        176
+        -8608,
+        -1392
       ],
-      "id": "2d00e680-c755-4014-b5f4-9db301e9d637",
+      "id": "73897007-87be-4b12-be69-5b412bdf14e8",
       "name": "Mensagem Texto"
     },
     {
@@ -296,10 +134,10 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        0,
-        -16
+        -9056,
+        -1584
       ],
-      "id": "53647ea1-dc99-4e95-ab2f-e11db60d312e",
+      "id": "aa7d5598-c082-4927-a305-d89faa7ccc6d",
       "name": "Convert to File"
     },
     {
@@ -347,10 +185,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        224,
-        -16
+        -8832,
+        -1584
       ],
-      "id": "16499c45-9ce8-4e7a-b348-48e59bf04b8c",
+      "id": "2fd3cd7f-256e-4644-bca2-2539908aa255",
       "name": "HTTP Request"
     },
     {
@@ -370,10 +208,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        448,
-        -16
+        -8608,
+        -1584
       ],
-      "id": "33767b4c-8b7c-4886-9d6e-887d339d5021",
+      "id": "65e8636d-dbeb-469c-9629-8beced0e9e79",
       "name": "Set Transcription"
     },
     {
@@ -389,10 +227,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -640,
-        1136
+        -9696,
+        -432
       ],
-      "id": "ad883618-f78b-413b-a9dc-442aca6e78af",
+      "id": "cd90a6b2-30c5-4a37-9ba7-db41266f24a0",
       "name": "Evolution API2",
       "credentials": {
         "evolutionApi": {
@@ -406,7 +244,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('Dados').item.json.instancia }}",
         "remoteJid": "=5511948456707@s.whatsapp.net",
-        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número não possui cadastro em nossa base de clientes.\n\n*Nome:* {{ $('Dados2').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
+        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número não possui cadastro em nossa base de clientes.\n\n*Nome:* {{ $('Dados Contrato').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
         "options_message": {
           "delay": 1200
         }
@@ -414,10 +252,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -416,
-        1136
+        -9472,
+        -432
       ],
-      "id": "c6e6b651-9d8c-4452-a34f-74a63f50f396",
+      "id": "997ad197-14b1-42e8-af7b-f94215982378",
       "name": "Evolution API3",
       "credentials": {
         "evolutionApi": {
@@ -487,7 +325,7 @@
             {
               "id": "307ade8b-972a-45db-8d9a-127d63f4231d",
               "name": "apelido",
-              "value": "={{ $json.apelido }}",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.nome_apelido }}",
               "type": "string"
             }
           ]
@@ -497,10 +335,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -816,
-        160
+        -9872,
+        -1408
       ],
-      "id": "f7549816-92d0-4e0c-a9aa-035fce577763",
+      "id": "32ac5ed7-0d3d-4841-8d6d-3277ec46ca59",
       "name": "Dados1",
       "notesInFlow": false
     },
@@ -521,52 +359,16 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        672,
-        176
+        -8384,
+        -1392
       ],
-      "id": "f4b473b4-1ab1-4844-8ecb-a0bdcdfbdfe1",
+      "id": "235a9911-b7bd-4dfa-ae84-72e599a8173f",
       "name": "Mensagem Final"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
-              "name": "quem_mandou",
-              "value": "={{ $('Dados').item.json.quem_mandou }}",
-              "type": "string"
-            },
-            {
-              "id": "d73fb0a4-f794-4f48-8337-355d456228ef",
-              "name": "nome_quem_mandou",
-              "value": "={{ $('Dados').item.json.nome_quem_mandou }}",
-              "type": "string"
-            },
-            {
-              "id": "048d48c5-be13-4392-9c20-c86f8add6c69",
-              "name": "apelido",
-              "value": "={{ $('Verificar Cliente Ativo').item.json.nome_apelido }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1536,
-        176
-      ],
-      "id": "153e19a0-c2bf-4db7-b431-163c2632852e",
-      "name": "Dados2",
-      "notesInFlow": false
-    },
-    {
-      "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT \n  COALESCE(\n    (SELECT 'S' \n     FROM tb_clientes \n     WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n       AND status = 'A'\n     LIMIT 1),\n    'N'\n  ) AS qtd_cliente_ativo,\n  dados.nome_apelido\nFROM (VALUES (1)) AS dummy -- Linha artificial para garantir retorno\nLEFT JOIN (\n  SELECT nome_apelido\n  FROM tb_clientes \n  WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n    AND status = 'A'\n  GROUP BY nome_apelido\n) AS dados ON true",
+        "query": "SELECT COALESCE((SELECT 'S' \n                   FROM tb_clientes \n                  WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n                    AND status = 'A'\n                  LIMIT 1),'N') AS qtd_cliente_ativo,\n       dados.nome_apelido,\n       (SELECT STRING_AGG(nome_produto, ', ') AS produtos\n          FROM tb_contratos a,\n               tb_clientes b,\n               tb_produtos c\n         WHERE a.id_cliente = b.id\n           AND a.id_produto = c.id\n           AND b.id_whatsapp = '{{ $json.quem_mandou }}'\n           AND a.dt_fim IS NULL) produtos_contratados,\n       (SELECT b.id\n          FROM tb_clientes b\n         WHERE b.id_whatsapp = '{{ $json.quem_mandou }}') id_cliente\n  FROM (VALUES (1)) AS dummy -- Linha artificial para garantir retorno\n       LEFT JOIN \n       (SELECT nome_apelido\n          FROM tb_clientes \n         WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n           AND status = 'A'\n         GROUP BY nome_apelido) AS dados ON true;",
         "options": {
           "largeNumbersOutput": "text"
         }
@@ -574,16 +376,16 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1728,
-        176
+        -10784,
+        -1392
       ],
-      "id": "0cdfd73f-826e-4237-b16f-250743a9ee88",
+      "id": "9c9ea232-1be0-4ae7-9a71-a1043043ab8a",
       "name": "Verificar Cliente Ativo",
       "alwaysOutputData": false,
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -598,16 +400,16 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1328,
-        544
+        -10384,
+        -1024
       ],
-      "id": "5f3aa5f0-1c98-4eb3-8036-108b48bfa31e",
+      "id": "30e6ad06-41cb-42e4-a58d-17a67b9c0476",
       "name": "Validar Pre Clientes",
       "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -621,10 +423,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -864,
-        1056
+        -9920,
+        -512
       ],
-      "id": "e8ba38ae-1f8f-4059-9bf8-e059bae559f4",
+      "id": "ad0f7a70-4f8e-455d-b7e7-a8cb1d3a4923",
       "name": "Sticky Note"
     },
     {
@@ -706,10 +508,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -1104,
-        1392
+        -10160,
+        -176
       ],
-      "id": "df1758f5-7613-4f76-a3eb-9db0e522d89a",
+      "id": "334e0fd1-ab30-4f30-b2c7-5c2eb5089c25",
       "name": "Switch3"
     },
     {
@@ -721,15 +523,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -848,
-        1136
+        -9904,
+        -432
       ],
-      "id": "e77348b5-c5a8-4e5a-a02a-28405b3712af",
+      "id": "03850d8a-1adf-401f-9fac-b3666236f108",
       "name": "Postgres",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -740,13 +542,13 @@
             {
               "id": "cf09c0ac-4df4-47db-8628-92bdaddf8ee8",
               "name": "quem_mandou",
-              "value": "={{ $('Dados2').item.json.quem_mandou }}",
+              "value": "={{ $('Dados Contrato').item.json.quem_mandou }}",
               "type": "string"
             },
             {
               "id": "84d25387-525e-46c5-b9b7-ecfd31853e01",
               "name": "nome_quem_mandou",
-              "value": "={{ $('Dados2').item.json.nome_quem_mandou }}",
+              "value": "={{ $('Dados Contrato').item.json.nome_quem_mandou }}",
               "type": "string"
             },
             {
@@ -774,10 +576,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1328,
-        816
+        -10384,
+        -752
       ],
-      "id": "539332ee-3df0-4120-a14c-95d1c4dc3aa8",
+      "id": "984f9519-5339-44d3-a00b-5e2b47b24bd8",
       "name": "Edit Fields"
     },
     {
@@ -793,10 +595,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -848,
-        1408
+        -9904,
+        -160
       ],
-      "id": "c562f180-1090-4024-8f69-128250c8279c",
+      "id": "d85f79b8-b039-4b1a-8943-57904a429771",
       "name": "Evolution API4",
       "credentials": {
         "evolutionApi": {
@@ -815,10 +617,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -864,
-        1344
+        -9920,
+        -224
       ],
-      "id": "1df2670e-aa72-41b4-95d1-947c1f135544",
+      "id": "9b390605-b0e2-4c2f-87ea-562cea3ad2a5",
       "name": "Sticky Note1"
     },
     {
@@ -826,7 +628,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('Dados').item.json.instancia }}",
         "remoteJid": "=5511948456707@s.whatsapp.net",
-        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número possui alguma pendência no cadastro.\n\n*Nome:* {{ $('Dados2').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
+        "messageText": "=Olá,\n\nO contato abaixo tentou entrar em contato com a Mori, porém esse número possui alguma pendência no cadastro.\n\n*Nome:* {{ $('Dados Contrato').item.json.nome_quem_mandou }}\n*Número:* {{ $('Dados').item.json.quem_mandou.split('@')[0] }} \n",
         "options_message": {
           "delay": 1200
         }
@@ -834,10 +636,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -624,
-        1408
+        -9680,
+        -160
       ],
-      "id": "bc7add71-e606-4920-8a8f-6a949bd4c39c",
+      "id": "d4c20a6b-2dd7-4f7b-b0de-9a842fa2f144",
       "name": "Evolution API5",
       "credentials": {
         "evolutionApi": {
@@ -859,10 +661,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -848,
-        1728
+        -9904,
+        176
       ],
-      "id": "94926fd9-e510-4505-aad1-2c522d7b0472",
+      "id": "4b9ce181-9692-42f8-8c88-59543bc24da9",
       "name": "Evolution API6",
       "credentials": {
         "evolutionApi": {
@@ -881,10 +683,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -864,
-        1648
+        -9920,
+        96
       ],
-      "id": "d2976783-ed30-4aed-a99a-e961027c94d3",
+      "id": "a9197107-3d7b-41e4-976a-da6a1960352b",
       "name": "Sticky Note2"
     },
     {
@@ -945,10 +747,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -1344,
-        176
+        -10400,
+        -1392
       ],
-      "id": "663458d1-cfe0-4d6e-83ff-1a378691fcbb",
+      "id": "a0635e9e-238f-4b21-a65c-40b78e2d14f5",
       "name": "Validar Cadastro Usuário"
     },
     {
@@ -1009,10 +811,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -528,
-        160
+        -9584,
+        -1408
       ],
-      "id": "99974003-f176-4c6e-a259-5c98ba8d5c37",
+      "id": "3076f197-8e9b-4806-88b6-b9d00600953c",
       "name": "Texto ou Audio"
     },
     {
@@ -1022,10 +824,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1120,
-        544
+        -10176,
+        -1024
       ],
-      "id": "5e638786-5626-4a42-ab45-4bd4387bc9dc",
+      "id": "651b35c4-cc5e-4341-aac0-2e6fe4c8d3c1",
       "name": "Validar retorno nulo da consulta anterior"
     },
     {
@@ -1036,11 +838,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -864,
-        352
+        -9920,
+        -1216
       ],
       "typeVersion": 1,
-      "id": "feef5f4a-d0ec-422e-ae6c-ea545791f50b",
+      "id": "b90232b2-89e2-475c-9de9-09b936b8a4b2",
       "name": "Sticky Note3"
     },
     {
@@ -1053,10 +855,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -368,
-        784
+        -9424,
+        -784
       ],
-      "id": "b54109ad-9df7-4136-80c8-8a177cacd731",
+      "id": "c59fa3a4-6977-490d-9e9e-edeaaaba5c5e",
       "name": "Bloquear contato",
       "credentials": {
         "evolutionApi": {
@@ -1102,10 +904,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1104,
-        816
+        -10160,
+        -752
       ],
-      "id": "bf2a098a-f809-4471-a8c4-dd8be5004f13",
+      "id": "cbed6d4d-570d-45c6-aa49-17e746affced",
       "name": "If"
     },
     {
@@ -1117,15 +919,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -416,
-        1408
+        -9472,
+        -160
       ],
-      "id": "b18de7a1-f4e7-48c5-8a9d-f6beb8869d9a",
+      "id": "2d824c7b-d748-460f-88f6-0e0c70585ef0",
       "name": "Atualizar quantidade de msg enviada",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1138,15 +940,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -640,
-        1728
+        -9696,
+        176
       ],
-      "id": "97da0c7d-dd14-4633-a6cd-b96665aa5cac",
+      "id": "cc0eeef3-0218-4591-9166-812b1c2fcff9",
       "name": "Atualizar quantidade de msg enviada1",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1163,10 +965,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -368,
-        464
+        -9424,
+        -1104
       ],
-      "id": "05999818-1658-46c6-b926-8084ca068704",
+      "id": "b0fb046c-d823-4e6f-892b-7076eabb663e",
       "name": "Evolution API7",
       "credentials": {
         "evolutionApi": {
@@ -1231,10 +1033,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -640,
-        544
+        -9696,
+        -1024
       ],
-      "id": "104d4bf0-35ce-4ff4-8c20-efa3209679b0",
+      "id": "af35ffc4-67c1-44fb-8eb8-b0d0987874c1",
       "name": "Switch"
     },
     {
@@ -1264,10 +1066,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -848,
-        688
+        -9904,
+        -880
       ],
-      "id": "63211ef6-ddd4-4ec5-986a-242474410442",
+      "id": "5adb9c25-de7c-462a-a001-795ba30af234",
       "name": "If1"
     },
     {
@@ -1283,10 +1085,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -368,
-        624
+        -9424,
+        -944
       ],
-      "id": "864bcfc3-db22-4c8a-9b05-080e91c138ce",
+      "id": "6f3c0ba6-de66-4a7c-88b0-45cd3b6a87b8",
       "name": "Evolution API8",
       "credentials": {
         "evolutionApi": {
@@ -1308,10 +1110,10 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -640,
-        784
+        -9696,
+        -784
       ],
-      "id": "5230b03d-fe5c-4b8f-8223-82d2f57f6eab",
+      "id": "d97ea47f-8498-4881-bb1d-4357f722e4bc",
       "name": "Evolution API9",
       "credentials": {
         "evolutionApi": {
@@ -1329,15 +1131,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -144,
-        448
+        -9200,
+        -1120
       ],
-      "id": "5d58b8a4-bc34-4f2c-9962-9eb169a98954",
+      "id": "078b1bda-05ca-465b-9fa5-0d5bcb8c4e25",
       "name": "Atualizar quantidade de msg enviada2",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1350,15 +1152,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -144,
-        656
+        -9200,
+        -912
       ],
-      "id": "ca207386-2ae5-47de-ba6f-ef195ee6c285",
+      "id": "772b7343-b519-4d75-9e10-894a4dc0a18f",
       "name": "Atualizar quantidade de msg enviada3",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
-          "name": "Supabase - Postgres"
+          "name": "postgresql_db"
         }
       }
     },
@@ -1373,15 +1175,154 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -144,
-        816
+        -9200,
+        -752
       ],
-      "id": "803f94ae-cef4-4c90-b6b1-27c39b978da9",
+      "id": "24e00ad5-aadb-45b7-acdf-cc6fe115ca43",
       "name": "Desbloquear contato",
       "credentials": {
         "evolutionApi": {
           "id": "REMOVED",
           "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Buffer de mensagens enviadas em sequencia\nCaso o usuário envie mais de uma mensagem em seguida da outra, esse trecho irá agrupar todas as mensagens para o agente responder uma única vez",
+        "height": 500,
+        "width": 1260,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -8208,
+        -1584
+      ],
+      "typeVersion": 1,
+      "id": "93c9005f-c707-40b0-b034-30af4ba4b8b4",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
+        "messageData": "={{ $json.Mensagem }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -8144,
+        -1392
+      ],
+      "id": "99437958-2ade-429a-a6dc-ed9cf0a93506",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 7
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -7936,
+        -1392
+      ],
+      "id": "e55fa06b-46c3-4d90-bfd5-7b9032b48318",
+      "name": "Wait",
+      "webhookId": "a56f0faf-3fe1-4e95-985d-ef1484dd53ad"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "mensagens",
+        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -7744,
+        -1392
+      ],
+      "id": "89d2417e-a4a9-449d-88d6-28f9c093ba13",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "94ee1ab8-d45e-4763-9129-b4cc5c97c817",
+              "leftValue": "={{ $json.mensagens.last() }}",
+              "rightValue": "={{ $('Wait').item.json.Mensagem }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -7536,
+        -1392
+      ],
+      "id": "cfd8177c-bc1d-4ccb-9839-9ed3cdb015a1",
+      "name": "If2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -7312,
+        -1232
+      ],
+      "id": "e563eca2-7741-41bb-a7d0-d1a6a6feee30",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=buffer_msg_{{ $('Dados').item.json.quem_mandou }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -7104,
+        -1488
+      ],
+      "id": "cfbff45b-566b-448c-a1a0-8aad1d580acb",
+      "name": "Redis2",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
         }
       }
     },
@@ -1402,11 +1343,436 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -208,
-        -16
+        -9264,
+        -1584
       ],
-      "id": "f7dba541-722a-44d1-a08e-d9d83f4690ed",
+      "id": "aacd2ee8-a77e-4043-8a2c-be211107f0ea",
       "name": "base64"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5a0796be-98b0-4c4b-9500-9530a67814bc",
+              "name": "todas_mensagens",
+              "value": "={{ $json.mensagens.join(\" \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -7312,
+        -1488
+      ],
+      "id": "6a1dc01b-1191-42ec-a153-602a144e8d2d",
+      "name": "mensagens consolidadas"
+    },
+    {
+      "parameters": {
+        "inputText": "=Contexto da conversa:\n{{ $json.messages.toJsonString() }}\n\nMensagem Atual:\n{{ $('Mensagem Final').item.json.Mensagem }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "cumprimentos duvidas e despedidas",
+              "description": "Se o usuário esteja realizando um cumprimento, saudação, dúvidas sobre as atividades do agente, ou se estiver se despedindo, agradecendo ou encerrando a conversa"
+            },
+            {
+              "category": "controle de gastos",
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas financeiros, verificar status de metas, criar ou modificar alertas."
+            },
+            {
+              "category": "prestação de serviços",
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gerenciamento de prestação de serviços ou atividades remuneradas, como registrar novas prestações de serviço, buscar/visualizar serviços prestados cadastrados, modificar prestações de serviço já registrados, excluir prestações de serviços registrados."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -6528,
+        -1408
+      ],
+      "id": "6af5bb18-d340-4a17-83b3-0231d3b874bc",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -6528,
+        -1216
+      ],
+      "id": "9cf8e719-94d7-464d-9972-ddeddf77272c",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3800,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -6896,
+        -1216
+      ],
+      "id": "03a2af2e-4fba-4e23-81c4-65c43aa0db93",
+      "name": "Redis Chat Memory5",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -5392,
+        -1776
+      ],
+      "id": "df8caa8d-90d2-41c1-bbfd-e5f1d2d10e20",
+      "name": "Redis Chat Memory6",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "groupMessages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        -6896,
+        -1392
+      ],
+      "id": "1f23af83-a545-44f6-822d-e66607ac2e39",
+      "name": "Contexto Conversa"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -5536,
+        -592
+      ],
+      "id": "d6032cc7-f03e-4c8e-9bd5-6a1a3691716c",
+      "name": "Groq Chat Model8",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -5408,
+        -592
+      ],
+      "id": "f7930ce1-bdee-40b3-8c09-9c0113daa9a6",
+      "name": "Redis Chat Memory9",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.qtd }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "bced5865-fff5-428d-8608-004adea8dc99"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2348f4de-97ac-41ce-823d-a5bef7149a5d",
+                    "leftValue": "={{ $json.qtd }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lte"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -5776,
+        -784
+      ],
+      "id": "b32f9fbb-5142-4b9a-a8fc-1ed7573fc0c9",
+      "name": "Switch5"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Texto ou Audio').item.json.instancia }}",
+        "remoteJid": "={{ $('Texto ou Audio').item.json.quem_mandou }}",
+        "messageText": "={{ $('Texto ou Audio').item.json.nome_quem_mandou }}, infelizmente não encontrei esse serviço ativo em seu contrato. Estou enviando seu contato para a equipe de cadastro realizar o procedimento para habilitar essa funcionalidade em seu contrato. Em breve eles entrarão em contato com você.",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -5520,
+        -400
+      ],
+      "id": "6e7a5ed1-77ea-41fa-bfc6-9ca41c677a07",
+      "name": "Enviar texto3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -5280,
+        -1200
+      ],
+      "id": "f9d2bcf1-1937-4af2-8292-0a41c890e73a",
+      "name": "Groq Chat Model9",
+      "credentials": {
+        "groqApi": {
+          "id": "REMOVED",
+          "name": "Groq account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -5392,
+        -1200
+      ],
+      "id": "67693df1-c260-4117-a613-bc29befa4252",
+      "name": "Redis Chat Memory10",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.qtd }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    },
+                    "id": "bced5865-fff5-428d-8608-004adea8dc99"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2348f4de-97ac-41ce-823d-a5bef7149a5d",
+                    "leftValue": "={{ $json.qtd }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lte"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -5776,
+        -1392
+      ],
+      "id": "ac8b59de-eee4-4a5a-af90-65083d502ccf",
+      "name": "Switch6"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Texto ou Audio').item.json.instancia }}",
+        "remoteJid": "={{ $('Texto ou Audio').item.json.quem_mandou }}",
+        "messageText": "={{ $('Texto ou Audio').item.json.nome_quem_mandou }}, infelizmente não encontrei esse serviço ativo em seu contrato. Estou enviando seu contato para a equipe de cadastro realizar o procedimento para habilitar essa funcionalidade em seu contrato. Em breve eles entrarão em contato com você.",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -5536,
+        -1024
+      ],
+      "id": "efa4e206-8c34-45bd-b67c-37232bb21413",
+      "name": "Enviar texto4",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -5520,
+        -1776
+      ],
+      "id": "279f64a8-4368-497a-ad6b-d4cd67882017",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -1419,11 +1785,11 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -1072,
-        160
+        -10128,
+        -1408
       ],
-      "id": "f3d2ef36-89f9-44e6-b2bc-2f619e143e96",
-      "name": "Execute a SQL query",
+      "id": "38a0b110-ac97-43df-ba74-f36d6b00bcb9",
+      "name": "Buscar Parametro API",
       "credentials": {
         "postgres": {
           "id": "REMOVED",
@@ -1433,257 +1799,147 @@
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
-        "sessionTTL": 3600,
-        "contextWindowLength": 0
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        3184,
-        -176
-      ],
-      "id": "4ebc9f0e-c55d-4d6b-99ef-c4b70a6f2aee",
-      "name": "Redis Chat Memory",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algo no banco de dados.",
-        "workflowId": {
-          "__rl": true,
-          "value": "ZcCClCQNB0RUwo25",
-          "mode": "list",
-          "cachedResultName": "TOOL - Interagir com DB"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "prompt"
-          ],
-          "schema": [
+        "assignments": {
+          "assignments": [
             {
-              "id": "prompt",
-              "displayName": "prompt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        3296,
-        -176
-      ],
-      "id": "77e73764-dbe2-43c1-8601-b7c61aaa7e5f",
-      "name": "acessar_banco",
-      "notesInFlow": false,
-      "retryOnFail": false
-    },
-    {
-      "parameters": {
-        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "options": {
-          "temperature": 1
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        2208,
-        416
-      ],
-      "id": "2fc7444f-c9d4-48ae-90cd-23ebeb97dc05",
-      "name": "Groq Chat Model1",
-      "credentials": {
-        "groqApi": {
-          "id": "REMOVED",
-          "name": "Groq account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "=nome_cliente: {{ $('Dados1').item.json.apelido }}\nprompt: {{ $('Mensagem Final').item.json.Mensagem }}.",
-        "options": {
-          "systemMessage": "=Seu nome é Mori (feminino) e você gerencia prestações de serviço.\n\nInstruções de Comunicação Natural:\n\n- Use o nome do cliente ({{ $('Dados1').item.json.apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n\n- Só explique suas atividades se o cliente perguntar diretamente.\n\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n\n- Se perguntarem sobre suas atividades, responda com uma linguagem leve, como em um bate-papo.\n\n- Seja empática, sucinta e mantenha o tom da conversa leve e formal, o mais natural possivel.\n\n\nExemplos de Interação:\n\n[Usuário]\nOlá\n\n[Mori]\nOi, Marcos! Como posso te ajudar hoje?\n\n[Usuário]\nTudo bem com você?\n\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n[Usuário]\nQuais são suas atividades?\n\n[Mori]\nSou responsável pelo gerenciamento dos serviços prestados. Posso te ajudar a cadastrar, consultar, atualizar ou excluir serviços. Precisa de alguma dessas opções?\n\n[Usuário]\nQuero atualizar um serviço.\n\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja atualizar, por favor.\n\n## Pontos de atenção!\n\n- Tome cuidado para não extender muito a conversa em assuntos que não sejam referentes a suas atividades. Tente sair do assunto de forma inteligente.\n- Não enviar emojis."
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2,
-      "position": [
-        3008,
-        304
-      ],
-      "id": "511d080b-4d1a-43db-82bb-92b2d87cc61d",
-      "name": "Outros Assuntos",
-      "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {
-        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "options": {
-          "temperature": 1
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        3008,
-        496
-      ],
-      "id": "b596187a-c17c-476a-a759-f87deb838057",
-      "name": "Groq Chat Model2",
-      "credentials": {
-        "groqApi": {
-          "id": "REMOVED",
-          "name": "Groq account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
-        "sessionTTL": 3600,
-        "contextWindowLength": 0
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        3136,
-        496
-      ],
-      "id": "d0688920-d542-4ff9-b38b-8455854da140",
-      "name": "Redis Chat Memory2",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=cadastrar_alterar_consultar_{{ $('Dados').item.json.quem_mandou }}",
-        "sessionTTL": 3600,
-        "contextWindowLength": 0
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        2336,
-        416
-      ],
-      "id": "f2f79c2c-3cd9-406d-b65f-c907f144178e",
-      "name": "Redis Chat Memory1",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.todas_mensagens }}",
-        "options": {
-          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar se a mensagem se refere a uma operação em banco de dados relacionada à prestação de serviços ou a qualquer outro tipo de conteúdo.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de serviços, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nOPERACAO_DE_BANCO-CRIAR\n\nOPERACAO_DE_BANCO-CONSULTAR\n\nOPERACAO_DE_BANCO-ATUALIZAR\n\nOPERACAO_DE_BANCO-DELETAR\n\nPara qualquer outra mensagem (saudações, dúvidas sobre o agente ou assuntos não relacionados a operações de banco), responda somente:\n\nOUTRO_TIPO_OPERACAO\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO-CONSULTAR ou OUTRO_TIPO_OPERACAO).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO-ATUALIZAR (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Bom dia, como você está?” → OUTRO_TIPO_OPERACAO (Apenas comprimento)"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2,
-      "position": [
-        2208,
-        176
-      ],
-      "id": "dc14ab03-9803-4e9c-89fa-2d267c143729",
-      "name": "Classifica Mensagem"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "loose",
-            "version": 2
-          },
-          "conditions": [
+              "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
             {
-              "id": "10954cf5-8793-4f82-a4d3-ef081ece52a3",
-              "leftValue": "={{ $json.output }}",
-              "rightValue": "OPERACAO_DE_BANCO",
-              "operator": {
-                "type": "string",
-                "operation": "contains"
-              }
+              "id": "d73fb0a4-f794-4f48-8337-355d456228ef",
+              "name": "nome_quem_mandou",
+              "value": "={{ $('Dados').item.json.nome_quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "048d48c5-be13-4392-9c20-c86f8add6c69",
+              "name": "apelido",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.nome_apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "0c33c1c3-37e4-4bbb-b6bc-607d9fac20fa",
+              "name": "produtos_contratados",
+              "value": "={{ $json.produtos_contratados }}",
+              "type": "string"
             }
-          ],
-          "combinator": "and"
+          ]
         },
-        "looseTypeValidation": true,
         "options": {}
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
       "position": [
-        2576,
-        176
+        -10592,
+        -1392
       ],
-      "id": "a8e33b4c-4776-4853-9e60-be4ef0590d76",
-      "name": "Condicional Operação DB"
+      "id": "5501dbbb-aa6d-4df3-a6be-ac9134eb7453",
+      "name": "Dados Contrato",
+      "notesInFlow": false
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  if ($input.first().json.output === \"OPERACAO_DE_BANCO-CRIAR\") {\n    return {\n      json: {\n        prompt: `**Criar novo serviço:**\n- Colete todos os dados obrigatórios do usuário. Se faltar informação, pergunte apenas pelo dado faltante, sem exibir prévia do serviço.\n- Utilize sempre o id_prestador fornecido na mensagem.\n- Defina pagou_total como \"SIM\" apenas se valor_pago ≥ valor_servico.\n- Normalize o campo servico em formato padronizado (ex.: \"Instalei um box\" → \"INSTALAÇÃO DE BOX\").\n- Não crie o serviço na primeira interação.\n- Após coletar todos os dados obrigatórios, exiba uma prévia com os campos (exceto id_servico e id_prestador) e solicite confirmação no formato:\n\n\"Esses foram os dados coletados, posso cadastrar o serviço?\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\"\n\n- Se o usuário solicitar alterações, atualize os dados e reenvie a prévia até a confirmação.\n- Após confirmação, chame a tool acessar_banco com os dados completos e formatados em maiúsculo, conforme exemplo:\n\n\"Operação: Inserir novo registro; id_prestador: XXX, local: XXX, nome_cliente: XXX...\".\n\nObs.: Todos os textos devem ser salvos em letras maiúsculas.`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-CONSULTAR\"){\n    return {\n      json: {\n        prompt: `**Consultar serviço (OPERACAO_DE_BANCO-CONSULTAR):**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-ATUALIZAR\"){\n    return {\n      json: {\n        prompt: `**Atualizar serviço (OPERACAO_DE_BANCO-ATUALIZAR):**\n- Para atualizar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja atualizar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer atualizar.\n- SEMPRE confirme com o usuário os dados que irá atualizar, mostrando uma prévia de como os dados ficartão após sua atualizaçãp.\n- ATENÇÃO! Com a confirmação do usuário, chame OBRIGATORIAMENTE a tool \"acessar_banco\" para atualizar a informação do serviço passando o id do serviço e a instrução de atualização de forma literal, como o exemplo abaixo.\n\n\"Operação: Atualizar registro; Atualizar o campo: valor_pago para XXX; Filtro: id: XXX\"\n\n- O campo pagou_total será SIM somente se valor_pago for igual ou maior que valor_servico.\n- Caso valor_pago seja igual ou maior que valor_servico, altere pagou_total para SIM.\n- Somente se o serviço for atualizado com sucesso no banco de dados chamando a tool \"acessar_banco\", informe ao usuário que o serviço foi atualizado, e exiba os dados do serviço atualizados, no formato abaixo.\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\")\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-DELETAR\"){\n    return {\n      json: {\n        prompt: `**Deletar serviço (OPERACAO_DE_BANCO-DELETAR):**\n- Para deletar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja deletar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer deletar.\n- ATENÇÃO! Delete o serviço apenas com a confirmação do usuário.\n- ATENÇÃO! Assim que tiver o serviço que deverá ser deletado, chame a tool \"acessar_banco\" passando o id do serviço e a instrução de deleção de forma literal, como o exemplo abaixo.\n\n\"Operação: Deletar registro; Filtro: id: XXX;\"\n\n- Se o registro for deletado com sucesso, informe ao usuário que o serviço foi apagado.\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\") \nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };  \n  } else {\n    // Tipo de operação não reconhecido\n    return {\n      json: {\n        prompt: \"NULL\"\n      }\n    };\n  }\n  \n}"
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let prompt = ``;\n  \n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"PRESTACAO_SERVICO\")) {\n    prompt += `Você está habilitada para ajudar com gerenciamento de serviços prestados.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento dos serviços prestados - cadastrar, consultar, atualizar ou excluir serviços.\"\n\nExemplos de interação para prestação de serviços:\n[Usuário]\nPreciso cadastrar um serviço.\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja cadastrar, por favor.\n\n[Usuário]\nQuero atualizar um serviço.\n[Mori]\nPerfeito! Me informe qual serviço você deseja atualizar e quais alterações precisa fazer.\n\n`;\n  } \n  ($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")\n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")){\n    prompt += `Você está habilitada para ajudar com controle de gastos pessoais.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o controle dos seus gastos pessoais - registrar, consultar, atualizar ou excluir gastos, além de gerar relatórios e configurar metas.\"\n\nExemplos de interação para gastos pessoais:\n[Usuário]\nQuero registrar um gasto.\n[Mori]\nPerfeito! Me informe o valor gasto, com o que você gastou e em que data, por favor.\n\n[Usuário]\nPreciso ver meus gastos.\n[Mori]\nClaro! Me diga o período que você gostaria de consultar ou se quer ver algo específico.\n\n`;\n  } \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    prompt: prompt\n  }\n};\n  \n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2880,
-        -368
+        -6016,
+        -1936
       ],
-      "id": "cc579cdb-386e-4fdc-bf40-9db26b9db508",
+      "id": "1d72a2dd-c13e-4f1e-80fb-36da75b37bbf",
       "name": "Economia de tokens do prompt"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "=Mensagem: {{ $('Mensagem Final').item.json.Mensagem }};\nid_prestador: {{ $('Dados').item.json.quem_mandou }}; ",
-        "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\" etc.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('Dados').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('Dados').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
-        }
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let qtd_contrato_ativo = 0;\n  \n  if ($('Dados Contrato').first().json.produtos_contratados.includes(\"GASTOS_PESSOAIS\")) {\n    qtd_contrato_ativo = 1;\n  } \n  \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    qtd: qtd_contrato_ativo\n  }\n};\n  \n}"
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
+      "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3056,
-        -368
+        -6032,
+        -1392
       ],
-      "id": "0896ef60-06f8-4bd1-b3a8-3f319bbbf5b2",
-      "name": "Operações de banco de dados",
-      "onError": "continueRegularOutput"
+      "id": "5157b198-b549-4dd4-93e6-7237ba2c8aad",
+      "name": "Verificar produto ativo GASTOS_PESSOAIS"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let qtd_contrato_ativo = 0;\n  \n  if ($('Dados Contrato').first().json.produtos_contratados.includes(\"PRESTACAO_SERVICO\")) {\n    qtd_contrato_ativo = 1;\n  } \n  \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    qtd: qtd_contrato_ativo\n  }\n};\n  \n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6016,
+        -784
+      ],
+      "id": "1cebc2a6-e58a-4586-a305-5dc75731e130",
+      "name": "Verificar produto ativo PRESTACAO_SERVICO"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.prompt }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "bced5865-fff5-428d-8608-004adea8dc99"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e6547e26-b5a9-44d9-b2ae-302f031ae1df",
+                    "leftValue": "={{ $json.prompt }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -5776,
+        -1936
+      ],
+      "id": "84a1dbae-4082-45cd-9b0d-74a86936bf25",
+      "name": "Switch7"
     },
     {
       "parameters": {
@@ -1692,17 +1948,17 @@
         "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
         "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
         "options_message": {
-          "delay": 4000
+          "delay": 2000
         }
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        3536,
-        144
+        -5136,
+        -1952
       ],
-      "id": "d0242fb7-41ce-4122-8248-fd0e8889e940",
-      "name": "Enviar texto",
+      "id": "fb58e661-153f-471c-bf73-daa9681a4bd0",
+      "name": "Enviar Mensagem Conversa",
       "credentials": {
         "evolutionApi": {
           "id": "REMOVED",
@@ -1712,106 +1968,296 @@
     },
     {
       "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Texto ou Audio').item.json.instancia }}",
+        "remoteJid": "={{ $('Texto ou Audio').item.json.quem_mandou }}",
+        "messageText": "={{ $('Texto ou Audio').item.json.nome_quem_mandou }}, infelizmente não encontrei nenhum contrato ativo em seu nome. Estou enviando seu contato para a equipe de cadastro realizar uma analise mais detalhada em seu cadastro. Em breve eles entrarão em contato com você.",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -5520,
+        -1616
+      ],
+      "id": "34688c03-330a-4928-91c0-f1e035cb5853",
+      "name": "Enviar Mensagem Sem Produto Ativo",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "=Seu nome é Mori (feminino) e você é uma assistente pessoal especializada.\n\nInstruções de Comunicação Natural:\n- Use o nome do cliente ({{ $('Verificar Cliente Ativo').item.json.nome_apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n- Só explique suas atividades se o cliente perguntar diretamente.\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n- Se perguntarem sobre suas atividades, responda com base nos serviços habilitados para o usuário.\n- Seja empática, sucinta e mantenha o tom da conversa leve e formal, o mais natural possível.\n\n{{ $json.prompt }}\n\nPontos de Atenção:\n- Tome cuidado para não estender muito a conversa em assuntos que não sejam referentes às suas atividades habilitadas.\n- Tente sair do assunto de forma inteligente, redirecionando para as funcionalidades disponíveis.\n- Não envie emojis.\n- Sempre base suas respostas sobre atividades nos serviços habilitados para aquele usuário específico.\n\nExemplos de redirecionamento:\n[Usuário]\nQual a previsão do tempo?\n[Mori]\nNão tenho acesso a informações sobre o tempo. Como posso te ajudar com suas atividades hoje?\n\n[Usuário]\nTudo bem com você?\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -5520,
+        -1952
+      ],
+      "id": "32cdf2b3-6e9c-436a-b5ae-0fdab3aeb6a6",
+      "name": "Outros Assuntos",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "=Você é um classificador de mensagens.\nObjetivo: Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada ao controle de gastos pessoais.\nRegras de classificação:\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de gastos pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nGASTO-CRIAR - Para registrar novos gastos\nGASTO-CONSULTAR - Para buscar/visualizar gastos existentes\nGASTO-ATUALIZAR - Para modificar gastos já registrados\nGASTO-DELETAR - Para excluir gastos registrados\nMETA-CONFIGURAR - Para definir ou alterar metas financeiras\nMETA-CONSULTAR - Para verificar status de metas\n\nFormato de resposta:\nApenas o rótulo correspondente (por exemplo: GASTO-CONSULTAR).\nNenhum texto adicional.\n\nExemplos:\nMensagem: \"Gastei R$ 45,30 com almoço hoje\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Comprei uma camisa por 89 reais ontem\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Quero ver meus gastos desta semana\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Mostra os gastos do mês passado\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Aquele gasto de R$ 50,00 era R$ 60,00 na verdade\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Preciso corrigir o valor daquele almoço de ontem\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Apaga aquele gasto do supermercado\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Remove o registro de R$ 25,00 de hoje\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Gera um relatório dos meus gastos\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero um resumo dos gastos do trimestre\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero definir uma meta de R$ 1500 para este mês\" → META-CONFIGURAR\n(Indica que precisa configurar uma meta financeira)\nMensagem: \"Como está minha meta do mês?\" → META-CONSULTAR\n(Indica que precisa consultar status de meta)\nMensagem: \"Configura um alerta quando eu gastar mais de R$ 100 por dia\" → ALERTA-CONFIGURAR\n(Indica que precisa configurar um alerta)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -5520,
+        -1408
+      ],
+      "id": "73bebd49-3ad2-41b8-afaf-0a9758b273cd",
+      "name": "Classifica Gastos"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
+        "options": {
+          "systemMessage": "=Você é um classificador de mensagens.\n\nObjetivo: identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada à prestação de serviços.\n\nRegras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de serviços, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nOPERACAO_DE_BANCO-CRIAR\n\nOPERACAO_DE_BANCO-CONSULTAR\n\nOPERACAO_DE_BANCO-ATUALIZAR\n\nOPERACAO_DE_BANCO-DELETAR\n\n\nFormato de resposta:\n\nApenas o rótulo correspondente (por exemplo: OPERACAO_DE_BANCO-CONSULTAR).\n\nNenhum texto adicional.\n\nExemplos:\n\nMensagem: “Recebi um pagamento de um cliente.” → OPERACAO_DE_BANCO-ATUALIZAR (Indica que precisa atualizar algum serviço com algum valor)\n\nMensagem: “Fiz um serviço na casa de um cliente hoje na vila madalena e ele não me pagou” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)\n\nMensagem: “Instalei um espelho na casa do Romeu no ipiranga hoje e cobrei 300 reais” → OPERACAO_DE_BANCO-CRIAR (Indica que precisa criar um novo registro referente ao serviço prestado)"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -5536,
+        -800
+      ],
+      "id": "47544629-fe04-4536-ba25-50d9ed3007fe",
+      "name": "Classifica Prestacao Servico"
+    },
+    {
+      "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1",
+          "value": "o4-mini",
           "mode": "list",
-          "cachedResultName": "gpt-4.1"
+          "cachedResultName": "o4-mini"
         },
         "options": {
-          "temperature": 0.9
+          "temperature": 1
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        3056,
-        -176
+        -5520,
+        -1200
       ],
-      "id": "9d33b2bf-3710-40ba-9d2b-e5d0a2bb77d3",
-      "name": "OpenAI Chat Model1",
+      "id": "f46ba883-2344-47f7-8b03-6e8cd9739f9f",
+      "name": "OpenAI Chat Model2",
       "credentials": {
         "openAiApi": {
           "id": "REMOVED",
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "78gD43G3M5P79FVC",
+          "mode": "list",
+          "cachedResultName": "assessor_controle_gastos_dev"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -4912,
+        -1408
+      ],
+      "id": "ddfca0fc-8946-4930-9d53-fa75e3fb0b44",
+      "name": "Chamar Workflow Controle Gastos"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "n2qmCYInwGxKNepM",
+          "mode": "list",
+          "cachedResultName": "assessor_prestacao_servicos_dev"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -4928,
+        -800
+      ],
+      "id": "9c843724-6236-46ec-8e3b-a2ef90c3858e",
+      "name": "Chamar Workflow Prestacao Servico"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados1').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados1').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
+              "name": "apelido",
+              "value": "={{ $('Dados1').item.json.apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "todas_mensagens",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados1').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "ed0269d4-3acc-4d7f-85f4-35f91e728b08",
+              "name": "id_cliente",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.id_cliente }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5136,
+        -1408
+      ],
+      "id": "fc5d1a31-f633-411e-ab17-86c8bcf85475",
+      "name": "consolidar dados para controle gastos"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "64c49aac-747a-469d-b5a4-82a4fd3a8549",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados1').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados1').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
+              "name": "apelido",
+              "value": "={{ $('Dados1').item.json.apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "todas_mensagens",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados1').item.json.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5152,
+        -800
+      ],
+      "id": "8242de0c-c1c6-4add-ace2-22f2d8dcfaed",
+      "name": "consolidar dados para prestacao servico"
     }
   ],
   "connections": {
-    "Redis": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "Redis1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis1": {
-      "main": [
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If2": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Redis2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis2": {
-      "main": [
-        [
-          {
-            "node": "Classifica Mensagem",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Webhook": {
       "main": [
         [
@@ -1911,22 +2357,11 @@
         ]
       ]
     },
-    "Dados2": {
-      "main": [
-        [
-          {
-            "node": "Validar Cadastro Usuário",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Verificar Cliente Ativo": {
       "main": [
         [
           {
-            "node": "Dados2",
+            "node": "Dados Contrato",
             "type": "main",
             "index": 0
           }
@@ -2028,7 +2463,7 @@
       "main": [
         [
           {
-            "node": "Execute a SQL query",
+            "node": "Buscar Parametro API",
             "type": "main",
             "index": 0
           }
@@ -2158,6 +2593,68 @@
         ]
       ]
     },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "mensagens consolidadas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "Contexto Conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "base64": {
       "main": [
         [
@@ -2169,106 +2666,18 @@
         ]
       ]
     },
-    "Execute a SQL query": {
+    "mensagens consolidadas": {
       "main": [
         [
           {
-            "node": "Dados1",
+            "node": "Redis2",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Redis Chat Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "Operações de banco de dados",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "acessar_banco": {
-      "ai_tool": [
-        [
-          {
-            "node": "Operações de banco de dados",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Groq Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Classifica Mensagem",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Outros Assuntos": {
-      "main": [
-        [
-          {
-            "node": "Enviar texto",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Groq Chat Model2": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Outros Assuntos",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis Chat Memory2": {
-      "ai_memory": [
-        [
-          {
-            "node": "Outros Assuntos",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Redis Chat Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "Classifica Mensagem",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Classifica Mensagem": {
-      "main": [
-        [
-          {
-            "node": "Condicional Operação DB",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Condicional Operação DB": {
+    "Text Classifier": {
       "main": [
         [
           {
@@ -2279,29 +2688,127 @@
         ],
         [
           {
+            "node": "Verificar produto ativo GASTOS_PESSOAIS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Verificar produto ativo PRESTACAO_SERVICO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory5": {
+      "ai_memory": [
+        [
+          {
+            "node": "Contexto Conversa",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory6": {
+      "ai_memory": [
+        [
+          {
             "node": "Outros Assuntos",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contexto Conversa": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Economia de tokens do prompt": {
+    "Groq Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Prestacao Servico",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory9": {
+      "ai_memory": [
+        [
+          {
+            "node": "Classifica Prestacao Servico",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch5": {
       "main": [
         [
           {
-            "node": "Operações de banco de dados",
+            "node": "Classifica Prestacao Servico",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto3",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Operações de banco de dados": {
+    "Redis Chat Memory10": {
+      "ai_memory": [
+        [
+          {
+            "node": "Classifica Gastos",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch6": {
       "main": [
         [
           {
-            "node": "Enviar texto",
+            "node": "Classifica Gastos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar texto4",
             "type": "main",
             "index": 0
           }
@@ -2312,8 +2819,147 @@
       "ai_languageModel": [
         [
           {
-            "node": "Operações de banco de dados",
+            "node": "Outros Assuntos",
             "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Parametro API": {
+      "main": [
+        [
+          {
+            "node": "Dados1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Contrato": {
+      "main": [
+        [
+          {
+            "node": "Validar Cadastro Usuário",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Economia de tokens do prompt": {
+      "main": [
+        [
+          {
+            "node": "Switch7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar produto ativo GASTOS_PESSOAIS": {
+      "main": [
+        [
+          {
+            "node": "Switch6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verificar produto ativo PRESTACAO_SERVICO": {
+      "main": [
+        [
+          {
+            "node": "Switch5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch7": {
+      "main": [
+        [
+          {
+            "node": "Outros Assuntos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Mensagem Sem Produto Ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outros Assuntos": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classifica Gastos": {
+      "main": [
+        [
+          {
+            "node": "consolidar dados para controle gastos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classifica Prestacao Servico": {
+      "main": [
+        [
+          {
+            "node": "consolidar dados para prestacao servico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Gastos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidar dados para controle gastos": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Controle Gastos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidar dados para prestacao servico": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Prestacao Servico",
+            "type": "main",
             "index": 0
           }
         ]
@@ -2326,12 +2972,12 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "6ecd2116-4df1-4fd1-815c-837e86ae1906",
-  "triggerCount": 0,
+  "versionId": "27a8db61-6f22-4d0b-8be8-29cdedfc5c46",
+  "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-04T11:00:30.234Z",
-    "version": "2025-08-04T01:34:17.000Z",
+    "backedUpAt": "2025-08-13T11:00:30.783Z",
+    "version": "2025-08-13T04:02:04.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
