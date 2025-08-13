@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:36:31.423Z",
-  "updatedAt": "2025-08-12T00:14:24.000Z",
+  "updatedAt": "2025-08-13T03:31:10.000Z",
   "id": "EvfzKKnz5BGCOjJ2",
   "name": "assessor_main_dev",
   "active": false,
@@ -368,7 +368,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT COALESCE((SELECT 'S' \n                   FROM tb_clientes \n                  WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n                    AND status = 'A'\n                  LIMIT 1),'N') AS qtd_cliente_ativo,\n       dados.nome_apelido,\n       (SELECT STRING_AGG(nome_produto, ', ') AS produtos\n          FROM tb_contratos a,\n               tb_clientes b,\n               tb_produtos c\n         WHERE a.id_cliente = b.id\n           AND a.id_produto = c.id\n           AND b.id_whatsapp = '{{ $json.quem_mandou }}'\n           AND a.dt_fim IS NULL) produtos_contratados\n  FROM (VALUES (1)) AS dummy -- Linha artificial para garantir retorno\n       LEFT JOIN \n       (SELECT nome_apelido\n          FROM tb_clientes \n         WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n           AND status = 'A'\n         GROUP BY nome_apelido) AS dados ON true;",
+        "query": "SELECT COALESCE((SELECT 'S' \n                   FROM tb_clientes \n                  WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n                    AND status = 'A'\n                  LIMIT 1),'N') AS qtd_cliente_ativo,\n       dados.nome_apelido,\n       (SELECT STRING_AGG(nome_produto, ', ') AS produtos\n          FROM tb_contratos a,\n               tb_clientes b,\n               tb_produtos c\n         WHERE a.id_cliente = b.id\n           AND a.id_produto = c.id\n           AND b.id_whatsapp = '{{ $json.quem_mandou }}'\n           AND a.dt_fim IS NULL) produtos_contratados,\n       (SELECT b.id\n          FROM tb_clientes b\n         WHERE b.id_whatsapp = '{{ $json.quem_mandou }}') id_cliente\n  FROM (VALUES (1)) AS dummy -- Linha artificial para garantir retorno\n       LEFT JOIN \n       (SELECT nome_apelido\n          FROM tb_clientes \n         WHERE id_whatsapp = '{{ $json.quem_mandou }}'\n           AND status = 'A'\n         GROUP BY nome_apelido) AS dados ON true;",
         "options": {
           "largeNumbersOutput": "text"
         }
@@ -1387,7 +1387,7 @@
             },
             {
               "category": "prestação de serviços",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gerenciamento de prestação de serviços"
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gerenciamento de prestação de serviços ou atividades remuneradas, como registrar novas prestações de serviço, buscar/visualizar serviços prestados cadastrados, modificar prestações de serviço já registrados, excluir prestações de serviços registrados."
             }
           ]
         },
@@ -1406,11 +1406,13 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4o-mini",
+          "value": "o4-mini",
           "mode": "list",
-          "cachedResultName": "gpt-4o-mini"
+          "cachedResultName": "o4-mini"
         },
-        "options": {}
+        "options": {
+          "temperature": 1
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
@@ -1488,33 +1490,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "n2qmCYInwGxKNepM",
-          "mode": "list",
-          "cachedResultName": "assessor_prestacao_servicos_dev"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1328,
-        832
-      ],
-      "id": "321825a9-53e2-4c79-96b9-0d524153b590",
-      "name": "Execute Workflow2"
-    },
-    {
-      "parameters": {
         "model": "meta-llama/llama-4-scout-17b-16e-instruct",
         "options": {
           "temperature": 1
@@ -1556,71 +1531,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
-              "name": "output",
-              "value": "={{ $json.output }}",
-              "type": "string"
-            },
-            {
-              "id": "64c49aac-747a-469d-b5a4-82a4fd3a8549",
-              "name": "output",
-              "value": "={{ $json.output }}",
-              "type": "string"
-            },
-            {
-              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
-              "name": "quem_mandou",
-              "value": "={{ $('Dados1').item.json.quem_mandou }}",
-              "type": "string"
-            },
-            {
-              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
-              "name": "id_mensagem",
-              "value": "={{ $('Dados1').item.json.id_mensagem }}",
-              "type": "string"
-            },
-            {
-              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
-              "name": "quem_recebeu",
-              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
-              "type": "string"
-            },
-            {
-              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
-              "name": "apelido",
-              "value": "={{ $('Dados1').item.json.apelido }}",
-              "type": "string"
-            },
-            {
-              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
-              "name": "todas_mensagens",
-              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
-              "type": "string"
-            },
-            {
-              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
-              "name": "instancia",
-              "value": "={{ $('Dados1').item.json.instancia }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1104,
-        832
-      ],
-      "id": "23960ea0-96bb-482b-a6d5-27c4f3252de3",
-      "name": "consolidar dados para subworkflow2"
     },
     {
       "parameters": {
@@ -1710,33 +1620,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "78gD43G3M5P79FVC",
-          "mode": "list",
-          "cachedResultName": "assessor_controle_gastos_dev"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1648,
-        224
-      ],
-      "id": "b416fe8d-69ed-4366-b6fa-47fbbe2a061b",
-      "name": "Execute Workflow3"
-    },
-    {
-      "parameters": {
         "model": "meta-llama/llama-4-scout-17b-16e-instruct",
         "options": {
           "temperature": 1
@@ -1745,7 +1628,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        736,
+        976,
         432
       ],
       "id": "96e65e96-9fd5-4a16-b5c5-9e9258ebeefa",
@@ -1755,7 +1638,8 @@
           "id": "REMOVED",
           "name": "Groq account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -1778,65 +1662,6 @@
           "name": "Redis account"
         }
       }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
-              "name": "output",
-              "value": "={{ $json.output }}",
-              "type": "string"
-            },
-            {
-              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
-              "name": "quem_mandou",
-              "value": "={{ $('Dados1').item.json.quem_mandou }}",
-              "type": "string"
-            },
-            {
-              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
-              "name": "id_mensagem",
-              "value": "={{ $('Dados1').item.json.id_mensagem }}",
-              "type": "string"
-            },
-            {
-              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
-              "name": "quem_recebeu",
-              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
-              "type": "string"
-            },
-            {
-              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
-              "name": "apelido",
-              "value": "={{ $('Dados1').item.json.apelido }}",
-              "type": "string"
-            },
-            {
-              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
-              "name": "todas_mensagens",
-              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
-              "type": "string"
-            },
-            {
-              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
-              "name": "instancia",
-              "value": "={{ $('Dados1').item.json.instancia }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1120,
-        224
-      ],
-      "id": "3c97e1e3-5d35-4cf5-9342-31a5320c6ed5",
-      "name": "consolidar dados para subworkflow3"
     },
     {
       "parameters": {
@@ -2220,28 +2045,216 @@
     },
     {
       "parameters": {
-        "resource": "messages-api",
-        "instanceName": "={{ $('Dados').item.json.instancia }}",
-        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
-        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
-        "options_message": {
-          "delay": 4000
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1
         }
       },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
       "position": [
-        1328,
-        224
+        736,
+        432
       ],
-      "id": "3591281a-95d0-4d63-95d1-b0aa9b3f7ccc",
-      "name": "Enviar Mensagem Conversa1",
+      "id": "a8e8c308-367d-48c5-b849-e082f4de8d0f",
+      "name": "OpenAI Chat Model2",
       "credentials": {
-        "evolutionApi": {
+        "openAiApi": {
           "id": "REMOVED",
-          "name": "Evolution account"
+          "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "78gD43G3M5P79FVC",
+          "mode": "list",
+          "cachedResultName": "assessor_controle_gastos_dev"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        224
+      ],
+      "id": "b416fe8d-69ed-4366-b6fa-47fbbe2a061b",
+      "name": "Chamar Workflow Controle Gastos"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "n2qmCYInwGxKNepM",
+          "mode": "list",
+          "cachedResultName": "assessor_prestacao_servicos_dev"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1328,
+        832
+      ],
+      "id": "321825a9-53e2-4c79-96b9-0d524153b590",
+      "name": "Chamar Workflow Prestacao Servico"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados1').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados1').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
+              "name": "apelido",
+              "value": "={{ $('Dados1').item.json.apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "todas_mensagens",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados1').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "ed0269d4-3acc-4d7f-85f4-35f91e728b08",
+              "name": "id_cliente",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.id_cliente }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        224
+      ],
+      "id": "3c97e1e3-5d35-4cf5-9342-31a5320c6ed5",
+      "name": "consolidar dados para controle gastos"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99af5e04-76fc-423a-ac64-fb3b97e5a708",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "64c49aac-747a-469d-b5a4-82a4fd3a8549",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados1').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados1').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "85223787-10e9-440d-b39c-bd824a0ccb97",
+              "name": "quem_recebeu",
+              "value": "={{ $('Dados1').item.json.quem_recebeu }}",
+              "type": "string"
+            },
+            {
+              "id": "986b9a2c-5930-40a8-93b2-c2511d7b4721",
+              "name": "apelido",
+              "value": "={{ $('Dados1').item.json.apelido }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "todas_mensagens",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados1').item.json.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1104,
+        832
+      ],
+      "id": "23960ea0-96bb-482b-a6d5-27c4f3252de3",
+      "name": "consolidar dados para prestacao servico"
     }
   ],
   "connections": {
@@ -2755,17 +2768,6 @@
         ]
       ]
     },
-    "consolidar dados para subworkflow2": {
-      "main": [
-        [
-          {
-            "node": "Execute Workflow2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Switch5": {
       "main": [
         [
@@ -2786,13 +2788,7 @@
     },
     "Groq Chat Model9": {
       "ai_languageModel": [
-        [
-          {
-            "node": "Classifica Gastos",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Redis Chat Memory10": {
@@ -2801,17 +2797,6 @@
           {
             "node": "Classifica Gastos",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "consolidar dados para subworkflow3": {
-      "main": [
-        [
-          {
-            "node": "Enviar Mensagem Conversa1",
-            "type": "main",
             "index": 0
           }
         ]
@@ -2934,7 +2919,7 @@
       "main": [
         [
           {
-            "node": "consolidar dados para subworkflow3",
+            "node": "consolidar dados para controle gastos",
             "type": "main",
             "index": 0
           }
@@ -2945,7 +2930,40 @@
       "main": [
         [
           {
-            "node": "consolidar dados para subworkflow2",
+            "node": "consolidar dados para prestacao servico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Gastos",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidar dados para controle gastos": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Controle Gastos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consolidar dados para prestacao servico": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Prestacao Servico",
             "type": "main",
             "index": 0
           }
@@ -2961,12 +2979,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2f35a90e-1408-46f8-9faf-deab92ce2ac2",
+  "versionId": "9ea7a686-0c50-43ad-a9c4-65cb53de6495",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-12T11:00:30.306Z",
-    "version": "2025-08-12T00:14:24.000Z",
+    "backedUpAt": "2025-08-13T11:00:30.698Z",
+    "version": "2025-08-13T03:31:10.000Z",
     "originalId": "EvfzKKnz5BGCOjJ2"
   }
 }
