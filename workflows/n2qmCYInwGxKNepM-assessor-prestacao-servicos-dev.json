@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:37:33.219Z",
-  "updatedAt": "2025-08-08T22:14:11.000Z",
+  "updatedAt": "2025-08-13T03:29:59.000Z",
   "id": "n2qmCYInwGxKNepM",
   "name": "assessor_prestacao_servicos_dev",
   "active": false,
@@ -90,7 +90,7 @@
         "promptType": "define",
         "text": "=Mensagem: {{ $('When Executed by Another Workflow').item.json.todas_mensagens }};\nid_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}; ",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\" etc.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('When Executed by Another Workflow').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\nData atual: {{ $now }}\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\", \"acabei\", ou outras palavras que indicam o tempo.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('When Executed by Another Workflow').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -119,7 +119,7 @@
       "typeVersion": 1.2,
       "position": [
         288,
-        96
+        256
       ],
       "id": "3377ebeb-04f8-4908-b978-fad764a191ca",
       "name": "OpenAI Chat Model1",
@@ -128,7 +128,8 @@
           "id": "REMOVED",
           "name": "OpenAi account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -137,7 +138,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        -112,
+        -96,
         -96
       ],
       "id": "4e07da8b-4641-4354-8fb0-17a6bfabb4f7",
@@ -165,6 +166,33 @@
         "evolutionApi": {
           "id": "REMOVED",
           "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        96
+      ],
+      "id": "72074365-1b92-456e-a86a-9f6dddbc6018",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
         }
       }
     }
@@ -205,13 +233,7 @@
     },
     "OpenAI Chat Model1": {
       "ai_languageModel": [
-        [
-          {
-            "node": "Operações de banco de dados",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "When Executed by Another Workflow": {
@@ -231,6 +253,17 @@
           {
             "node": "Enviar texto",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Operações de banco de dados",
+            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -258,12 +291,12 @@
       }
     ]
   },
-  "versionId": "2c817b80-fa13-4289-bf53-4d4f35ff7346",
+  "versionId": "00d7ad1e-dd1b-4fe7-928b-8e7b6c6f7e01",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-09T11:00:30.097Z",
-    "version": "2025-08-08T22:14:11.000Z",
+    "backedUpAt": "2025-08-13T11:00:30.758Z",
+    "version": "2025-08-13T03:29:59.000Z",
     "originalId": "n2qmCYInwGxKNepM"
   }
 }
