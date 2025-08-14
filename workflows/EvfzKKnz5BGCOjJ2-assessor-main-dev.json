@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:36:31.423Z",
-  "updatedAt": "2025-08-13T03:31:10.000Z",
+  "updatedAt": "2025-08-14T03:33:07.000Z",
   "id": "EvfzKKnz5BGCOjJ2",
   "name": "assessor_main_dev",
   "active": false,
@@ -1383,7 +1383,7 @@
             },
             {
               "category": "controle de gastos",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas financeiros, verificar status de metas, criar ou modificar alertas."
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas/limites financeiros, verificar status de metas/alertas/limites, criar ou modificar metas/alertas/limites."
             },
             {
               "category": "prestação de serviços",
@@ -2979,12 +2979,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "9ea7a686-0c50-43ad-a9c4-65cb53de6495",
+  "versionId": "7e5ff7fa-031b-4499-a2c4-3da7fb578265",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-13T11:00:30.698Z",
-    "version": "2025-08-13T03:31:10.000Z",
+    "backedUpAt": "2025-08-14T11:00:30.608Z",
+    "version": "2025-08-14T03:33:07.000Z",
     "originalId": "EvfzKKnz5BGCOjJ2"
   }
 }
