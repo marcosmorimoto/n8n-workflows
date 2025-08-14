@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-13T04:02:04.000Z",
+  "updatedAt": "2025-08-14T03:14:26.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1383,7 +1383,7 @@
             },
             {
               "category": "controle de gastos",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas financeiros, verificar status de metas, criar ou modificar alertas."
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas/limites financeiros, verificar status de metas/alertas/limites, criar ou modificar metas/alertas/limites."
             },
             {
               "category": "prestação de serviços",
@@ -1498,7 +1498,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -5536,
+        -5296,
         -592
       ],
       "id": "d6032cc7-f03e-4c8e-9bd5-6a1a3691716c",
@@ -1508,7 +1508,8 @@
           "id": "REMOVED",
           "name": "Groq account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2014,7 +2015,7 @@
         "promptType": "define",
         "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
         "options": {
-          "systemMessage": "=Você é um classificador de mensagens.\nObjetivo: Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada ao controle de gastos pessoais.\nRegras de classificação:\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de gastos pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nGASTO-CRIAR - Para registrar novos gastos\nGASTO-CONSULTAR - Para buscar/visualizar gastos existentes\nGASTO-ATUALIZAR - Para modificar gastos já registrados\nGASTO-DELETAR - Para excluir gastos registrados\nMETA-CONFIGURAR - Para definir ou alterar metas financeiras\nMETA-CONSULTAR - Para verificar status de metas\n\nFormato de resposta:\nApenas o rótulo correspondente (por exemplo: GASTO-CONSULTAR).\nNenhum texto adicional.\n\nExemplos:\nMensagem: \"Gastei R$ 45,30 com almoço hoje\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Comprei uma camisa por 89 reais ontem\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Quero ver meus gastos desta semana\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Mostra os gastos do mês passado\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Aquele gasto de R$ 50,00 era R$ 60,00 na verdade\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Preciso corrigir o valor daquele almoço de ontem\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Apaga aquele gasto do supermercado\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Remove o registro de R$ 25,00 de hoje\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Gera um relatório dos meus gastos\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero um resumo dos gastos do trimestre\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero definir uma meta de R$ 1500 para este mês\" → META-CONFIGURAR\n(Indica que precisa configurar uma meta financeira)\nMensagem: \"Como está minha meta do mês?\" → META-CONSULTAR\n(Indica que precisa consultar status de meta)\nMensagem: \"Configura um alerta quando eu gastar mais de R$ 100 por dia\" → ALERTA-CONFIGURAR\n(Indica que precisa configurar um alerta)"
+          "systemMessage": "=Você é um classificador de mensagens.\nObjetivo: Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada ao controle de gastos pessoais.\nRegras de classificação:\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados de gastos pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nGASTO-CRIAR - Para registrar novos gastos\nGASTO-CONSULTAR - Para buscar/visualizar gastos existentes\nGASTO-ATUALIZAR - Para modificar gastos já registrados\nGASTO-DELETAR - Para excluir gastos registrados\nMETA-CRIAR - Para criar metas/alertas/limites financeiras\nMETA-ATUALIZAR - Para atualizar metas/alertas/limites financeiras\nMETA-DELETAR - Para deletar metas/alertas/limites financeiras\nMETA-CONSULTAR - Para verificar status de metas\n\nFormato de resposta:\nApenas o rótulo correspondente (por exemplo: GASTO-CONSULTAR).\nNenhum texto adicional.\n\nExemplos:\nMensagem: \"Gastei R$ 45,30 com almoço hoje\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Comprei uma camisa por 89 reais ontem\" → GASTO-CRIAR\n(Indica que precisa criar um novo registro de gasto)\nMensagem: \"Quero ver meus gastos desta semana\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Mostra os gastos do mês passado\" → GASTO-CONSULTAR\n(Indica que precisa consultar gastos existentes)\nMensagem: \"Aquele gasto de R$ 50,00 era R$ 60,00 na verdade\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Preciso corrigir o valor daquele almoço de ontem\" → GASTO-ATUALIZAR\n(Indica que precisa atualizar um gasto existente)\nMensagem: \"Apaga aquele gasto do supermercado\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Remove o registro de R$ 25,00 de hoje\" → GASTO-DELETAR\n(Indica que precisa excluir um gasto registrado)\nMensagem: \"Gera um relatório dos meus gastos\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero um resumo dos gastos do trimestre\" → GASTO-CONSULTAR\n(Indica que precisa gerar relatório financeiro)\nMensagem: \"Quero definir uma meta de R$ 1500 para este mês\" → META-CRIAR\n(Indica que precisa criar uma meta financeira)\nMensagem: \"Como está minha meta do mês?\" → META-CONSULTAR\n(Indica que precisa consultar status de meta)\nMensagem: \"Configura um alerta quando eu gastar mais de R$ 100 por dia\" → META-CRIAR\n(Indica que precisa criar um alerta)\nMensagem: \"Altera meu alerta para desativado\" → META-ATUALIZAR\n(Indica que precisa criar um alerta)\nMensagem: \"Delete meu alerta\" → META-DELETAR\n(Indica que precisa criar um alerta)"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -2074,9 +2075,9 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "78gD43G3M5P79FVC",
+          "value": "I0Wez9Bb8zUvCNpe",
           "mode": "list",
-          "cachedResultName": "assessor_controle_gastos_dev"
+          "cachedResultName": "assessor_controle_gastos"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -2103,9 +2104,9 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "n2qmCYInwGxKNepM",
+          "value": "lUNrd96wHxS29tU5",
           "mode": "list",
-          "cachedResultName": "assessor_prestacao_servicos_dev"
+          "cachedResultName": "assessor_prestacao_servicos"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -2255,6 +2256,33 @@
       ],
       "id": "8242de0c-c1c6-4add-ace2-22f2d8dcfaed",
       "name": "consolidar dados para prestacao servico"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -5536,
+        -592
+      ],
+      "id": "967287c3-0c61-41dd-9388-42f1df55cb01",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "connections": {
@@ -2748,13 +2776,7 @@
     },
     "Groq Chat Model8": {
       "ai_languageModel": [
-        [
-          {
-            "node": "Classifica Prestacao Servico",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Redis Chat Memory9": {
@@ -2964,20 +2986,107 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Prestacao Servico",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "27a8db61-6f22-4d0b-8be8-29cdedfc5c46",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "axios/1.7.9",
+            "content-length": "10974",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "a01f085a8a9f",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Secretaria",
+            "data": {
+              "key": {
+                "remoteJid": "5511948456707@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3A30153E4B7FF71AD46F"
+              },
+              "pushName": "Marcos",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "audioMessage": {
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/531827262_1091387622548805_1742957099514648629_n.enc?ccb=11-4&oh=01_Q5Aa2QGicEUlxS_5xvku52tGtFjZCa0mTNHbJXVUObkKsrrUWw&oe=68C4680E&_nc_sid=5e03e0&mms3=true",
+                  "mimetype": "audio/ogg; codecs=opus",
+                  "fileSha256": "Ao7iwc7rIVySzP2vf4jJTwYSD+VsynELgMEDwySqNqs=",
+                  "fileLength": "6920",
+                  "seconds": 3,
+                  "ptt": true,
+                  "mediaKey": "yR44sLyyzoJMorFGgxjV1W5dQfqd1CDwHCy2NvNOt5Q=",
+                  "fileEncSha256": "OVrOCYP8dPQbOMLziOymE0BGaA+gZthQs/lWMauQVCs=",
+                  "directPath": "/v/t62.7117-24/531827262_1091387622548805_1742957099514648629_n.enc?ccb=11-4&oh=01_Q5Aa2QGicEUlxS_5xvku52tGtFjZCa0mTNHbJXVUObkKsrrUWw&oe=68C4680E&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1755124204",
+                  "streamingSidecar": "Udst/k8vYFjiHQ==",
+                  "waveform": "AwICAgICAgICAgICAgEBAQIJDxUTEhANCwgLEBUWFRQVGBscHyIjIR8cGRYTFBYYFxQSDwwKCgwPEA8ODQsJBw=="
+                },
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "Z7M7BtZycDFUqA==",
+                    "senderTimestamp": "1754848653",
+                    "recipientKeyHash": "15Og6NYyHWkhjw==",
+                    "recipientTimestamp": "1754575628"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "toKUE2Gvx0ZjZkO/S3oCnh8Ys0sDIF6K9ccEdDOP18Q="
+                },
+                "base64": "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"
+              },
+              "contextInfo": null,
+              "messageType": "audioMessage",
+              "messageTimestamp": 1755124209,
+              "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
+              "source": "ios"
+            },
+            "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
+            "date_time": "2025-08-13T19:30:10.842Z",
+            "sender": "5511919861358@s.whatsapp.net",
+            "server_url": "https://evolutionapi.mx4solucoes.com.br",
+            "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "3c77fa79-106a-4669-b4c0-97b021dcd232",
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-13T11:00:30.783Z",
-    "version": "2025-08-13T04:02:04.000Z",
+    "backedUpAt": "2025-08-14T11:00:30.830Z",
+    "version": "2025-08-14T03:14:26.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
