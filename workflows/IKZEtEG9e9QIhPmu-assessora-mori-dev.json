@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-06T23:55:43.326Z",
-  "updatedAt": "2025-07-28T22:12:19.000Z",
+  "updatedAt": "2025-08-13T22:22:47.000Z",
   "id": "IKZEtEG9e9QIhPmu",
   "name": "assessora_mori_dev",
   "active": false,
@@ -2481,8 +2481,8 @@
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T22:12:23.952Z",
-    "version": "2025-07-28T22:12:19.000Z",
+    "backedUpAt": "2025-08-14T11:00:30.722Z",
+    "version": "2025-08-13T22:22:47.000Z",
     "originalId": "IKZEtEG9e9QIhPmu"
   }
 }
