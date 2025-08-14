@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-04T00:19:28.821Z",
-  "updatedAt": "2025-08-13T03:37:38.000Z",
+  "updatedAt": "2025-08-13T22:22:30.000Z",
   "id": "lUNrd96wHxS29tU5",
   "name": "assessor_prestacao_servicos",
   "active": false,
@@ -262,8 +262,8 @@
   "triggerCount": 1,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-13T11:00:30.755Z",
-    "version": "2025-08-13T03:37:38.000Z",
+    "backedUpAt": "2025-08-14T11:00:30.760Z",
+    "version": "2025-08-13T22:22:30.000Z",
     "originalId": "lUNrd96wHxS29tU5"
   }
 }
