@@ -1,0 +1,79 @@
+{
+  "createdAt": "2025-08-14T02:24:42.510Z",
+  "updatedAt": "2025-08-14T03:09:19.000Z",
+  "id": "bg4RRPd3mcKB2j7g",
+  "name": "Renovacao Automatica Limites Gastos",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "START TRANSACTION;\n\ninsert into tb_gastos_limites(id_cliente, periodo, valor_limite, dt_inicio, dt_fim, renova_automatico, dt_cadastro, status, porcentagem_alerta)\nselect id_cliente, \n       periodo, \n       valor_limite,\n       DATE_TRUNC('day', NOW()), \n       DATE_TRUNC('day',CURRENT_DATE + (dt_fim - dt_inicio)) dt_fim, \n       renova_automatico, \n       now(), \n       'A' status,\n       porcentagem_alerta,\n  from tb_gastos_limites A\n where a.status = 'A'\n   and a.renova_automatico = 'S'\n   and DATE_TRUNC('day', dt_fim) < DATE_TRUNC('day', NOW());\n\nupdate tb_gastos_limites\n   set status = 'D'\n where status = 'A'\n   and DATE_TRUNC('day', dt_fim) < DATE_TRUNC('day', NOW());\n\nCOMMIT;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -144,
+        272
+      ],
+      "id": "4bebc3ce-d4d4-4dec-b132-1288556d6f6d",
+      "name": "Renovar parametro limite",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "name": "A cada 6 horas",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -400,
+        272
+      ],
+      "id": "b186a04f-20cd-4b56-83ed-46d017893e46"
+    }
+  ],
+  "connections": {
+    "A cada 6 horas": {
+      "main": [
+        [
+          {
+            "node": "Renovar parametro limite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:A cada 6 horas": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": null,
+  "pinData": {},
+  "versionId": "a944469a-77f0-48cf-acb9-119fe6ca70bb",
+  "triggerCount": 1,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-14T11:00:30.724Z",
+    "version": "2025-08-14T03:09:19.000Z",
+    "originalId": "bg4RRPd3mcKB2j7g"
+  }
+}
