@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-13T00:24:24.001Z",
-  "updatedAt": "2025-08-13T04:27:10.000Z",
+  "updatedAt": "2025-08-14T04:03:50.000Z",
   "id": "GTqy4bLmgL1aabpB",
   "name": "TOOL - Interagir com DB Gastos Pessoais Dev",
   "active": false,
@@ -34,13 +34,13 @@
         "text": "={{ $json.prompt }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado.\n\nPor exemplo, WHERE TRANSLATE(UPPER(pagou_total),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \nO nome da tabela será passado no prompt e pode ser a tabela tb_gastos_transacoes ou a tabela tb_gastos_limites.\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_gastos_transacoes (\n    id bigint DEFAULT public.func_gerar_id_gasto_transacoes() NOT NULL,\n    id_cliente bigint NOT NULL,\n    dt_gasto date,\n    descricao_gasto text,\n    valor text,\n    categoria text NOT NULL\n);\n\nCREATE TABLE public.tb_gastos_limites (\n    id_cliente bigint NOT NULL,\n    periodo text NOT NULL,\n    valor_limite double precision NOT NULL,\n    dt_inicio date NOT NULL,\n    dt_fim date NOT NULL,\n    renova_automatico character(1) NOT NULL,\n    dt_cadastro date NOT NULL,\n    dt_alteracao date,\n    status text NOT NULL\n);"
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado.\n\nPor exemplo, WHERE TRANSLATE(UPPER(pagou_total),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nO nome da tabela será passado no prompt e pode ser a tabela tb_gastos_transacoes ou a tabela tb_gastos_limites.\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_gastos_transacoes (\n    id bigint DEFAULT public.func_gerar_id_gasto_transacoes() NOT NULL,\n    id_cliente bigint NOT NULL,\n    dt_gasto date,\n    descricao_gasto text,\n    valor text,\n    categoria text NOT NULL\n);\n\nCREATE TABLE public.tb_gastos_limites (\n    id_cliente bigint NOT NULL,\n    periodo text NOT NULL,\n    valor_limite double precision NOT NULL,\n    dt_inicio date NOT NULL,\n    dt_fim date NOT NULL,\n    renova_automatico character(1) NOT NULL,\n    dt_cadastro date NOT NULL,\n    dt_alteracao date,\n    status text NOT NULL,\n    porcentagem_alerta integer default 100\n);"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -240,
+        -288,
         -64
       ],
       "id": "ee8644fa-b8c8-48e8-822b-918434995ec3",
@@ -89,8 +89,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -240,
-        96
+        -288,
+        224
       ],
       "id": "fa704832-428c-4461-959e-2b797842386f",
       "name": "Google Gemini Chat Model",
@@ -99,25 +99,25 @@
           "id": "REMOVED",
           "name": "Google Gemini(PaLM) Api account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "o4-mini",
+          "value": "gpt-4.1-nano",
           "mode": "list",
-          "cachedResultName": "o4-mini"
+          "cachedResultName": "gpt-4.1-nano"
         },
         "options": {
-          "temperature": 1,
-          "reasoningEffort": "low"
+          "temperature": 0
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -352,
+        -288,
         96
       ],
       "id": "05c098e5-8773-4860-909f-de4ede3d24cb",
@@ -127,8 +127,7 @@
           "id": "REMOVED",
           "name": "OpenAi account"
         }
-      },
-      "disabled": true
+      }
     }
   ],
   "connections": {
@@ -167,6 +166,11 @@
     },
     "Google Gemini Chat Model": {
       "ai_languageModel": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
         [
           {
             "node": "Gerar script SQL",
@@ -176,8 +180,8 @@
         ]
       ]
     },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
+    "Execute a SQL query": {
+      "main": [
         []
       ]
     }
@@ -189,21 +193,13 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "When Executed by Another Workflow": [
-      {
-        "json": {
-          "prompt": "Operação: Inserir novo registro na tabela tb_gastos_transacoes; id_cliente: 1, dt_gasto: 13/08/2025, descricao_gasto: ALUMINIO PARA INSTALACAO DE BOX DE BANHEIRO, valor: 100,00, categoria: MORADIA"
-        }
-      }
-    ]
-  },
-  "versionId": "5a3fc02f-d7d6-4098-b54d-4be4ea498581",
+  "pinData": {},
+  "versionId": "d210ee14-8c76-4dc0-8565-59620b74e042",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-13T11:00:30.717Z",
-    "version": "2025-08-13T04:27:10.000Z",
+    "backedUpAt": "2025-08-14T11:00:30.617Z",
+    "version": "2025-08-14T04:03:50.000Z",
     "originalId": "GTqy4bLmgL1aabpB"
   }
 }
