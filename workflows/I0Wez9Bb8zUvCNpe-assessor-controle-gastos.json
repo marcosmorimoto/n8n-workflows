@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-26T16:58:44.352Z",
-  "updatedAt": "2025-08-14T03:30:52.000Z",
+  "updatedAt": "2025-08-15T02:29:55.000Z",
   "id": "I0Wez9Bb8zUvCNpe",
   "name": "assessor_controle_gastos",
   "active": false,
@@ -28,8 +28,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        976,
-        -48
+        1248,
+        -128
       ],
       "id": "341ac3cc-23b2-4a3a-b395-4e8a6d1b2252",
       "name": "Consultar Limite de Gasto",
@@ -54,8 +54,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        1424,
-        -176
+        1680,
+        -400
       ],
       "id": "8268d8a2-61da-4c25-b9a3-d571bf0e205d",
       "name": "Enviar alerta",
@@ -79,7 +79,7 @@
             {
               "id": "ddd38b89-d88f-4fc2-b1d4-994912cfc2d8",
               "leftValue": "={{ $json.porcentagem_atual }}",
-              "rightValue": "={{ $json.porcentagem_atual }}",
+              "rightValue": "={{ $json.porcentagem_alerta }}",
               "operator": {
                 "type": "number",
                 "operation": "gte"
@@ -94,8 +94,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1200,
-        -80
+        1488,
+        -240
       ],
       "id": "96a66fc1-412c-4fed-85be-4df3f386fddf",
       "name": "Verificar Limite"
@@ -105,8 +105,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1376,
-        160
+        1744,
+        112
       ],
       "id": "132a7189-b3db-40bf-b28d-f2661b7877d5",
       "name": "No Operation, do nothing1"
@@ -206,7 +206,7 @@
         "promptType": "define",
         "text": "=id_cliente: {{ $('When Executed by Another Workflow').item.json.id_cliente }}\nNome do cliente: {{ $('When Executed by Another Workflow').item.json.apelido }}\nMensagem: {{ $('When Executed by Another Workflow').item.json.todas_mensagens }}",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre controle de gastos pessoais.\n\nVocê será responsável por criar, consultar, atualizar e deletar dados referente ao controle de gastos pessoais e limites de gastos nas tabelas tb_gastos_transacoes e tb_gastos_limites de um banco postgres utilizando a tool \"operacao_db_controle_gastos\".\n\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nData atual: {{ $now }}\n\n## Estrutura de Dados das tabelas de controle de gastos usadas nessa operação:\n\n{{ $json.tabela }}\n\n# Orientações e regras para cada tipo de operação que será realizada:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_cliente ao usuário; é uma informação interna de identificação.\n- Para o campo dt_gasto, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\", \"acabei\" ou outras palavras que indicam o tempo.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os gastos da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_cliente: {{ $('When Executed by Another Workflow').item.json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $('When Executed by Another Workflow').item.json.id_cliente }}, não chame a ferramenta \"operacao_db_controle_gastos\" e informe que não pode fornecer dados de outros usuários.\n- Fale de uma forma mais descontraída e humana possível.\n- Evite o uso de emojis em mensagens.\n- Para campos de valor na tabela tb_gastos_transacoes, trate como text conforme a estrutura da tabela.\n- Para campos valor_limite na tabela tb_gastos_limites, trate como double precision conforme a estrutura da tabela."
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre controle de gastos pessoais.\n\nVocê será responsável por criar, consultar, atualizar e deletar dados referente ao controle de gastos pessoais e limites de gastos nas tabelas tb_gastos_transacoes e tb_gastos_limites de um banco postgres utilizando a tool \"operacao_db_controle_gastos\".\n\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nData atual: {{ $now }}\n\n## Estrutura de Dados das tabelas de controle de gastos usadas nessa operação:\n\n{{ $json.tabela }}\n\n# Orientações e regras para cada tipo de operação que será realizada:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_cliente ao usuário; é uma informação interna de identificação.\n- Para o campo dt_gasto, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\", \"acabei\" ou outras palavras que indicam o tempo.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $('When Executed by Another Workflow').item.json.id_cliente }}.\n- Se for uma atualização ou exclusão de todos os registros do usuário, antes de realizar a operação, confirme com o usuário se ele realmente quer seguir com a operação.\n- Consulte sempre dados do id_cliente: {{ $('When Executed by Another Workflow').item.json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $('When Executed by Another Workflow').item.json.id_cliente }}, não chame a ferramenta \"operacao_db_controle_gastos\" e informe que não pode fornecer dados de outros usuários.\n- Fale de uma forma mais descontraída e humana possível.\n- Evite o uso de emojis em mensagens.\n- Para campos de valor na tabela tb_gastos_transacoes, trate como text conforme a estrutura da tabela.\n- Para campos valor_limite na tabela tb_gastos_limites, trate como double precision conforme a estrutura da tabela."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -255,6 +255,40 @@
           "name": "Evolution account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "738aa907-00a1-42e7-ace1-e32db2b26888",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.output }}",
+              "rightValue": "GASTO-CRIAR",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        -48
+      ],
+      "id": "a33fd611-e528-4f61-9c96-ddd9ce5b9db3",
+      "name": "Verifica novo gasto"
     }
   ],
   "connections": {
@@ -364,7 +398,25 @@
       "main": [
         [
           {
+            "node": "Verifica novo gasto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verifica novo gasto": {
+      "main": [
+        [
+          {
             "node": "Consultar Limite de Gasto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
             "type": "main",
             "index": 0
           }
@@ -383,24 +435,24 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "output": "GASTO-CONSULTAR",
+          "output": "GASTO-DELETAR",
           "quem_mandou": "5511948456707@s.whatsapp.net",
-          "id_mensagem": "3A090037C1A87CD2CFFE",
+          "id_mensagem": "3AA72E9EBD08498766DB",
           "quem_recebeu": "5511919861358@s.whatsapp.net",
           "apelido": "Marcos",
-          "todas_mensagens": " Eu quero que você faça um resumo somando os valores, entendeu? Por categoria.",
+          "todas_mensagens": "Sim, pode apagar",
           "instancia": "Secretaria",
           "id_cliente": "1"
         }
       }
     ]
   },
-  "versionId": "400a4d8f-0f9c-4704-b2fd-fbf4c0ee9875",
+  "versionId": "73dcd07f-a190-4d70-98f9-9705002d8ced",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.631Z",
-    "version": "2025-08-14T03:30:52.000Z",
+    "backedUpAt": "2025-08-15T11:00:30.603Z",
+    "version": "2025-08-15T02:29:55.000Z",
     "originalId": "I0Wez9Bb8zUvCNpe"
   }
 }
