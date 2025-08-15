@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:36:31.423Z",
-  "updatedAt": "2025-08-14T03:33:07.000Z",
+  "updatedAt": "2025-08-15T03:08:43.000Z",
   "id": "EvfzKKnz5BGCOjJ2",
   "name": "assessor_main_dev",
   "active": false,
@@ -1391,13 +1391,15 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "fallback": "other"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1.1,
       "position": [
         -272,
-        224
+        208
       ],
       "id": "ef7feac2-7a24-4947-9420-7f5d47a9db8c",
       "name": "Text Classifier"
@@ -1418,7 +1420,7 @@
       "typeVersion": 1.2,
       "position": [
         -272,
-        416
+        464
       ],
       "id": "5cb3c00c-1f6f-4b5e-ba21-202542ea9947",
       "name": "OpenAI Chat Model",
@@ -1629,7 +1631,7 @@
       "typeVersion": 1,
       "position": [
         976,
-        432
+        416
       ],
       "id": "96e65e96-9fd5-4a16-b5c5-9e9258ebeefa",
       "name": "Groq Chat Model9",
@@ -1652,7 +1654,7 @@
       "typeVersion": 1.5,
       "position": [
         864,
-        432
+        416
       ],
       "id": "5cd14f8f-08ec-4190-9011-8285395bb70a",
       "name": "Redis Chat Memory10",
@@ -1719,7 +1721,7 @@
       "typeVersion": 3.2,
       "position": [
         480,
-        240
+        224
       ],
       "id": "828277b5-3f0d-4767-9b86-ff6515352255",
       "name": "Switch6"
@@ -1738,7 +1740,7 @@
       "typeVersion": 1,
       "position": [
         720,
-        608
+        592
       ],
       "id": "a8c53ccf-37bb-4395-b5c7-001a4f8fd318",
       "name": "Enviar texto4",
@@ -1860,7 +1862,7 @@
       "typeVersion": 2,
       "position": [
         224,
-        240
+        224
       ],
       "id": "3d5f880c-87ae-42f1-892a-c80895c2f900",
       "name": "Verificar produto ativo GASTOS_PESSOAIS"
@@ -2021,7 +2023,7 @@
       "typeVersion": 2,
       "position": [
         736,
-        224
+        208
       ],
       "id": "30379dc3-5dd1-40d3-b182-4bbdc1c70167",
       "name": "Classifica Gastos"
@@ -2059,7 +2061,7 @@
       "typeVersion": 1.2,
       "position": [
         736,
-        432
+        416
       ],
       "id": "a8e8c308-367d-48c5-b849-e082f4de8d0f",
       "name": "OpenAI Chat Model2",
@@ -2094,7 +2096,7 @@
       "typeVersion": 1.2,
       "position": [
         1344,
-        224
+        208
       ],
       "id": "b416fe8d-69ed-4366-b6fa-47fbbe2a061b",
       "name": "Chamar Workflow Controle Gastos"
@@ -2186,7 +2188,7 @@
       "typeVersion": 3.4,
       "position": [
         1120,
-        224
+        208
       ],
       "id": "3c97e1e3-5d35-4cf5-9342-31a5320c6ed5",
       "name": "consolidar dados para controle gastos"
@@ -2732,6 +2734,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Economia de tokens do prompt",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -2979,12 +2988,12 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "7e5ff7fa-031b-4499-a2c4-3da7fb578265",
+  "versionId": "eb015ec9-998c-46d0-be91-6ae2fbee5161",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.608Z",
-    "version": "2025-08-14T03:33:07.000Z",
+    "backedUpAt": "2025-08-15T11:00:30.599Z",
+    "version": "2025-08-15T03:08:43.000Z",
     "originalId": "EvfzKKnz5BGCOjJ2"
   }
 }
