@@ -1,0 +1,77 @@
+{
+  "createdAt": "2025-08-22T00:14:47.862Z",
+  "updatedAt": "2025-08-22T00:19:16.000Z",
+  "id": "U4fi5lwkpJLQBlgH",
+  "name": "Notificacao Pagamento",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "189b1fc7-f694-4782-b20e-f5ca08b46232",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "788b0f42-e4a4-4455-ab15-cd99ae3aa5fb",
+      "name": "Webhook",
+      "webhookId": "189b1fc7-f694-4782-b20e-f5ca08b46232"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "=Secretaria",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "messageText": "=Teste Pagamento",
+        "options_message": {
+          "delay": 2000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "4fbccba4-1d16-4357-8192-e15c311f0d9a",
+      "name": "Enviar Mensagem Conversa",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "e2beaee5-19c0-47c2-a0a1-926afd92e32a",
+  "triggerCount": 1,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-22T11:00:39.185Z",
+    "version": "2025-08-22T00:19:16.000Z",
+    "originalId": "U4fi5lwkpJLQBlgH"
+  }
+}
