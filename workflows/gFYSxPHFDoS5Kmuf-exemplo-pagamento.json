@@ -1,0 +1,24 @@
+{
+  "createdAt": "2025-08-22T00:34:48.447Z",
+  "updatedAt": "2025-08-22T00:34:48.447Z",
+  "id": "gFYSxPHFDoS5Kmuf",
+  "name": "Exemplo Pagamento",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "193c3198-050f-4154-b488-d8ff706f63f4",
+  "triggerCount": 0,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-22T11:00:39.186Z",
+    "version": "2025-08-22T00:34:48.447Z",
+    "originalId": "gFYSxPHFDoS5Kmuf"
+  }
+}
