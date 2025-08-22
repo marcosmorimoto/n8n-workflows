@@ -1,52 +1,134 @@
 {
   "createdAt": "2025-07-19T18:49:12.240Z",
-  "updatedAt": "2025-07-21T13:32:04.000Z",
+  "updatedAt": "2025-08-22T10:31:59.000Z",
   "id": "nFIolMnAPqmE9QIO",
   "name": "pagamento_mercado_pago",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        0,
-        0
-      ],
-      "id": "d70eca1b-ba9c-45db-b05b-e39036a9327d",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
       "parameters": {
-        "url": "https://api.mercadopago.com/v1/payment_methods?payment_type_id=bank_transfer",
-        "sendQuery": true,
-        "queryParameters": {
+        "url": "https://api.mercadopago.com/v1/payments",
+        "sendHeaders": true,
+        "headerParameters": {
           "parameters": [
             {
-              "name": "payment_type_id",
-              "value": "bank_transfer"
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "X-Idempotency-Key",
+              "value": "={{ $json.external_reference }}"
             }
           ]
         },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"description\": \"{{ $json.description }}\",\n   \"external_reference\": \"{{ $json.external_reference }}\",\n   \"notification_url\": \"{{ $json.notification_url }}\",\n   \"payer\": {\n      \"email\": \"{{ $json.email_cliente }}\",\n            \"identification\": {\n            \"type\": \"CPF\",\n            \"number\": \"43891347871\"\n            }\n   },\n   \"payment_method_id\": \"pix\",\n   \"transaction_amount\": {{ $json.valor }}\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        220,
+        448,
         0
       ],
       "id": "55ae7684-2e35-4ead-badf-fb2625876373",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce99e188-905e-45e8-bfbc-332f4c8aaa57",
+              "name": "public_key",
+              "value": "APP_USR-0d100d49-ab1c-43a6-9d59-053c0598fc4f",
+              "type": "string"
+            },
+            {
+              "id": "74edb381-4599-4a8c-9357-a63d206d0a96",
+              "name": "access_token",
+              "value": "APP_USR-7719448227692430-082119-ee5c91ff0eaaa6421b92e22b30441da2-213239864",
+              "type": "string"
+            },
+            {
+              "id": "f6078d2f-ea45-4e20-9833-ca704885608f",
+              "name": "valor",
+              "value": "9.99",
+              "type": "string"
+            },
+            {
+              "id": "2112288c-2035-4ea4-b356-0b6281aa93df",
+              "name": "external_reference",
+              "value": "CLIENTE_1234",
+              "type": "string"
+            },
+            {
+              "id": "275bf174-88b5-44f1-9a15-7efbf0fdfdd3",
+              "name": "description",
+              "value": "Pagamento Mensal Mori",
+              "type": "string"
+            },
+            {
+              "id": "1afd599a-cdbb-4035-a10c-4b484d05294c",
+              "name": "email_cliente",
+              "value": "maxmassahiro@gmail.com",
+              "type": "string"
+            },
+            {
+              "id": "b14cc194-8c55-4071-8f0d-5c7a2c035994",
+              "name": "notification_url",
+              "value": "https://n8n.mx4solucoes.com.br/webhook/189b1fc7-f694-4782-b20e-f5ca08b46232",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "ccaebf9a-86fa-40f8-bbb4-d341ea6fe82d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f038365a-3175-4b1a-ae97-ad59d3fa0587",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "952b1899-4266-41df-be59-4b5605cbce32",
+      "name": "Webhook",
+      "webhookId": "f038365a-3175-4b1a-ae97-ad59d3fa0587"
     }
   ],
   "connections": {
-    "When clicking ‘Execute workflow’": {
+    "Edit Fields": {
       "main": [
         [
           {
             "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -59,13 +141,28 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "233e4001-0d7a-4bf0-b390-25d30efc0366",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      },
+      {
+        "json": {
+          "name": "Second item",
+          "code": 2
+        }
+      }
+    ]
+  },
+  "versionId": "413306ec-3753-446a-85ff-0c2ac4b9d54a",
   "triggerCount": 0,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-07-28T21:56:01.914Z",
-    "version": "2025-07-21T13:32:04.000Z",
+    "backedUpAt": "2025-08-22T11:00:39.221Z",
+    "version": "2025-08-22T10:31:59.000Z",
     "originalId": "nFIolMnAPqmE9QIO"
   }
 }
