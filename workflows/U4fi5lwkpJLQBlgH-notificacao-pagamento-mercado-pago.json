@@ -1,0 +1,306 @@
+{
+  "createdAt": "2025-08-22T00:14:47.862Z",
+  "updatedAt": "2025-08-24T04:12:05.000Z",
+  "id": "U4fi5lwkpJLQBlgH",
+  "name": "Notificacao Pagamento Mercado Pago",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "189b1fc7-f694-4782-b20e-f5ca08b46232",
+        "options": {
+          "noResponseBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "788b0f42-e4a4-4455-ab15-cd99ae3aa5fb",
+      "name": "Webhook",
+      "webhookId": "189b1fc7-f694-4782-b20e-f5ca08b46232"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "=Secretaria",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "messageText": "=Teste Pagamento",
+        "options_message": {
+          "delay": 2000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        592,
+        -16
+      ],
+      "id": "4fbccba4-1d16-4357-8192-e15c311f0d9a",
+      "name": "Enviar Mensagem Conversa",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadopago.com/v1/payments/{{ $('Webhook').item.json.query.id || $('Webhook').item.json.query['data.id'] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "cdefbca0-fe0f-4f1a-8d10-5a0c0231e64d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce99e188-905e-45e8-bfbc-332f4c8aaa57",
+              "name": "public_key",
+              "value": "APP_USR-0d100d49-ab1c-43a6-9d59-053c0598fc4f",
+              "type": "string"
+            },
+            {
+              "id": "74edb381-4599-4a8c-9357-a63d206d0a96",
+              "name": "access_token",
+              "value": "APP_USR-7719448227692430-082119-ee5c91ff0eaaa6421b92e22b30441da2-213239864",
+              "type": "string"
+            },
+            {
+              "id": "f6078d2f-ea45-4e20-9833-ca704885608f",
+              "name": "valor",
+              "value": "2.00",
+              "type": "string"
+            },
+            {
+              "id": "2112288c-2035-4ea4-b356-0b6281aa93df",
+              "name": "external_reference",
+              "value": "CLIENTE_MX4111",
+              "type": "string"
+            },
+            {
+              "id": "275bf174-88b5-44f1-9a15-7efbf0fdfdd3",
+              "name": "description",
+              "value": "Pagamento Mensal Mori",
+              "type": "string"
+            },
+            {
+              "id": "1afd599a-cdbb-4035-a10c-4b484d05294c",
+              "name": "email_cliente",
+              "value": "maxmassahiro@gmail.com",
+              "type": "string"
+            },
+            {
+              "id": "b14cc194-8c55-4071-8f0d-5c7a2c035994",
+              "name": "notification_url",
+              "value": "https://n8n.mx4solucoes.com.br/webhook/189b1fc7-f694-4782-b20e-f5ca08b46232",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        -16
+      ],
+      "id": "9e25bd2f-4738-4813-ae36-0132c21a2b2e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        144,
+        144
+      ],
+      "id": "e953545b-d8b3-4a85-be2e-d54f0bff7d11",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a03bc02d-395e-482a-a905-0a869534b7df",
+              "leftValue": "={{ $json.headers['user-agent'] }}",
+              "rightValue": "=MercadoPago WebHook v1.0 payment",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "f123e73d-0fb5-457b-9d89-4544e4f46813",
+      "name": "Usar Versão Retorno Mais Atual"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Usar Versão Retorno Mais Atual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Usar Versão Retorno Mais Atual": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "MercadoPago WebHook v1.0 payment",
+            "content-length": "188",
+            "accept": "application/json",
+            "accept-encoding": "gzip",
+            "content-type": "application/json",
+            "referer": "https://mercadopago.com.ar",
+            "traceparent": "00-0000000000000000b0c312354327a746-54445292ba938fc7-00",
+            "x-b3-sampled": "0",
+            "x-b3-spanid": "54445292ba938fc7",
+            "x-b3-traceid": "0000000000000000b0c312354327a746",
+            "x-forwarded-for": "18.213.114.129",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "4da12f605ef5",
+            "x-real-ip": "18.213.114.129",
+            "x-request-id": "1b644be0-53e3-4aa8-a08a-b9b5aca6a9ab",
+            "x-rest-pool-name": "pool_unknown",
+            "x-signature": "ts=1755958298,v1=906af60c055f78c235b90a727157bf84ba2ab2cf5e02fde29d094a363cf4aece",
+            "x-socket-timeout": "25000",
+            "x-trace-digest-18": "OIGPUHolahtbGVAMogywQieD6fLaSWgmIGpw89xU1FpphWvc9rdMfM4ukt0TfE0Z+QcS/NtCdz+N42N26M9oaxXWlr7Y85RPYwr6VLIXclqq53euDCpj7ani+2Nzvwhw"
+          },
+          "params": {},
+          "query": {
+            "data.id": "122890653537",
+            "type": "payment"
+          },
+          "body": {
+            "action": "payment.updated",
+            "api_version": "v1",
+            "data": {
+              "id": "122890653537"
+            },
+            "date_created": "2025-08-23T17:51:45Z",
+            "id": 124000069487,
+            "live_mode": true,
+            "type": "payment",
+            "user_id": "213239864"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/189b1fc7-f694-4782-b20e-f5ca08b46232",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "b3cfc36c-fade-4140-8329-e21afeba39d3",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-22T00:14:47.866Z",
+      "updatedAt": "2025-08-22T00:14:47.866Z",
+      "role": "workflow:owner",
+      "workflowId": "U4fi5lwkpJLQBlgH",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-24T11:00:46.807Z",
+    "version": "2025-08-24T04:12:05.000Z",
+    "originalId": "U4fi5lwkpJLQBlgH"
+  }
+}
