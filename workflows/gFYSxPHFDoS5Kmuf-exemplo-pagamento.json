@@ -1,24 +1,658 @@
 {
   "createdAt": "2025-08-22T00:34:48.447Z",
-  "updatedAt": "2025-08-22T00:34:48.447Z",
+  "updatedAt": "2025-08-26T00:04:23.000Z",
   "id": "gFYSxPHFDoS5Kmuf",
   "name": "Exemplo Pagamento",
   "active": false,
   "isArchived": false,
-  "nodes": [],
-  "connections": {},
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        208
+      ],
+      "id": "83043e8e-b526-4d03-8bb4-5cc8d09ef315",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d5ca2013-0b0e-4c78-ae7b-6749c5801f33",
+              "name": "pix_url",
+              "value": "={{ $json.point_of_interaction.transaction_data.qr_code }}",
+              "type": "string"
+            },
+            {
+              "id": "5a1ac43e-3672-47d3-aba9-e3527cd2588a",
+              "name": "pix_base64",
+              "value": "={{ $json.point_of_interaction.transaction_data.qr_code_base64 }}",
+              "type": "string"
+            },
+            {
+              "id": "3cb127f5-1e7d-4034-afcf-220696f5d59f",
+              "name": "id_transacao",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        784,
+        208
+      ],
+      "id": "3b7eec3d-73d6-4586-97c2-fee9da9a5036",
+      "name": "Separar Pix"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mercadopago.com/v1/payments",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            },
+            {
+              "name": "X-Idempotency-Key",
+              "value": "={{ $json.external_reference }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"description\": \"{{ $json.description }}\",\n   \"external_reference\": \"{{ $json.external_reference }}\",\n   \"notification_url\": \"{{ $json.notification_url }}\",\n   \"payer\": {\n      \"email\": \"{{ $json.email_cliente }}\",\n            \"identification\": {\n            \"type\": \"CPF\",\n            \"number\": \"{{ $json.cpf }}\"\n            }\n   },\n   \"payment_method_id\": \"pix\",\n   \"transaction_amount\": {{ $json.preco }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        208
+      ],
+      "id": "fda17edc-b35b-4619-94b1-ffe716fc9b48",
+      "name": "API Mercado Pago"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ed3cf60-f355-420c-bd51-a9702c2ca8af",
+              "name": "public_Key",
+              "value": "COLOQUE-PUBLIC-KEY",
+              "type": "string"
+            },
+            {
+              "id": "0d690fec-4b00-4e32-9139-a08613f1feea",
+              "name": "access_token",
+              "value": "COLOQUE-ACCESS-TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "7096c8a6-86dc-40ed-8a4f-c923b6d328b8",
+              "name": "preco",
+              "value": "9.99",
+              "type": "string"
+            },
+            {
+              "id": "f54fdb6d-6a82-4880-a7de-488b7b3c9d2a",
+              "name": "external_reference",
+              "value": "=CLIENTE{{ Math.floor(Math.random() * 10000) + 1 }}",
+              "type": "string"
+            },
+            {
+              "id": "e8f040ed-27d4-475e-936a-342ec94fa21b",
+              "name": "description",
+              "value": "Curso de Ingles",
+              "type": "string"
+            },
+            {
+              "id": "4802cd53-b8da-45f7-8936-e391e1a99c41",
+              "name": "email_cliente",
+              "value": "EMAIL_DO_CLIENTE",
+              "type": "string"
+            },
+            {
+              "id": "997c1ae6-d834-4cf0-9175-412188f7ba75",
+              "name": "notification_url",
+              "value": "SEU_WEBHOOK",
+              "type": "string"
+            },
+            {
+              "id": "66c0761c-9aec-4133-9f7d-f84aea6055bc",
+              "name": "cpf",
+              "value": "CPF_DO_CLIENTE",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        48,
+        208
+      ],
+      "id": "fafa3d1e-464b-4b51-b2be-5f68f237f8a4",
+      "name": "Credenciais"
+    },
+    {
+      "parameters": {
+        "content": "![Pix](https://i.imgur.com/DL4glmc.png)",
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        784,
+        0
+      ],
+      "id": "41fab481-9d19-45ac-9169-99d8baaa6aa4",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Pix\nRecebe o QRCode e o Pix Copia e Cola!",
+        "width": 300,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        944,
+        0
+      ],
+      "id": "e59cad13-d7bc-455a-82a2-1c5750e573ba",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "![Mercado Pago](https://i.imgur.com/NfMJMMp.png)",
+        "width": 150,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "64b0eee9-9bfa-45ff-8775-5905115018ce",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## API do Mercado Pago\nCredenciais e Informações!",
+        "width": 300,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        0
+      ],
+      "id": "a3bc283f-37f9-4edb-885a-455ca36cc0d8",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "pix_base64",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        208
+      ],
+      "id": "2d709f5b-51e5-4229-a3b7-e6e2f8ed980a",
+      "name": "QRCode para Arquivo"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('API Mercado Pago').item.json.payer.id }}.png",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1OuQRoaJJMyyyBT9rpr-fAuz-1_I3vuvj",
+          "mode": "list",
+          "cachedResultName": "QR Code Pix",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1OuQRoaJJMyyyBT9rpr-fAuz-1_I3vuvj"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1168,
+        208
+      ],
+      "id": "cbcc1237-819d-4c00-a73f-9c4b7e6ba11a",
+      "name": "Google Drive"
+    },
+    {
+      "parameters": {
+        "sendTo": "testeswillian518@gmail.com",
+        "subject": "Empresa X - Sua Fatura via Pix Chegou!",
+        "message": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Pagamento via PIX</title>\n</head>\n<body style=\"margin: 0; padding: 20px; font-family: Arial, sans-serif; background-color: #f5f5f5;\">\n    \n    <!-- Container principal -->\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px;\">\n        <!-- Cabeçalho -->\n        <tr>\n            <td style=\"padding: 30px 20px; text-align: center; background-color: #008b57; border-radius: 10px 10px 0 0;\">\n                <h1 style=\"color: #ffffff; margin: 0;\">Pagamento via PIX</h1>\n            </td>\n        </tr>\n\n        <!-- Valor do Pagamento -->\n        <tr>\n            <td style=\"padding: 30px 20px 10px 20px;\">\n                <table width=\"100%\" style=\"background-color: #fff3cd; border: 2px solid #ffeeba; border-radius: 5px; padding: 15px;\">\n                    <tr>\n                        <td style=\"text-align: center;\">\n                            <p style=\"margin: 0; font-size: 18px; color: #856404; font-weight: bold;\">\n                                Valor do Pagamento:<br>\n                                <span style=\"font-size: 24px; color: #008b57;\">R$ {{ String($('API Mercado Pago').item.json.transaction_amount).replace('.', ',') }}</span>\n                            </p>\n                        </td>\n                    </tr>\n                </table>\n            </td>\n        </tr>\n\n        <!-- Conteúdo -->\n        <tr>\n            <td style=\"padding: 30px 20px;\">\n                <!-- QR Code -->\n                <h2 style=\"color: #333333;\">QR Code para pagamento:</h2>\n                <img src=\"{{ $input.first().json.thumbnailLink.replace(/=s220$/, '') }}\" \n                     alt=\"QR Code PIX\" \n                     style=\"max-width: 300px; height: auto; display: block; margin: 20px auto; border: 1px solid #dddddd; padding: 10px; border-radius: 5px;\">\n\n                <!-- Chave PIX Copiável -->\n                <h2 style=\"color: #333333; margin-top: 30px;\">Pix Copia e Cola:</h2>\n                <div style=\"background-color: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #dddddd; word-break: break-all;\">\n                    <p style=\"margin: 0; font-family: monospace; color: #008b57;\">{{ $('Separar Pix').item.json.pix_url }}</p>\n                </div>\n\n                <!-- Instruções -->\n                <div style=\"margin-top: 30px; color: #666666; font-size: 14px;\">\n                    <p><strong>Como pagar:</strong></p>\n                    <ol>\n                        <li>Abra o app do seu banco</li>\n                        <li>Selecione a opção PIX</li>\n                        <li>Escolha \"Ler QR Code\" ou \"Copiar e colar\"</li>\n                        <li>Confira o valor (<strong>R$ {{ String($('API Mercado Pago').item.json.transaction_amount).replace('.', ',') }}</strong>) antes de confirmar</li>\n                        <li>Siga as instruções para concluir o pagamento</li>\n                    </ol>\n                </div>\n            </td>\n        </tr>\n\n        <!-- Rodapé -->\n        <tr>\n            <td style=\"padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 10px 10px; font-size: 12px; color: #666666;\">\n                <p style=\"margin: 0;\">Dúvidas? Entre em contato: contato@empresa.com<br>\n                Este é um e-mail automático, por favor não responda</p>\n            </td>\n        </tr>\n    </table>\n\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        208
+      ],
+      "id": "d83326e0-7f83-420c-a4c7-adeb67294a1c",
+      "name": "Gmail1",
+      "webhookId": "0573cbc4-48e6-40cc-97be-3e881773703e"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "963315d4-d08c-4fce-b9b1-4b94b597c343",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        1232
+      ],
+      "id": "04b84db8-b1c7-4eb2-94ef-d20d1650ba0f",
+      "name": "Webhook",
+      "webhookId": "963315d4-d08c-4fce-b9b1-4b94b597c343"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mercadopago.com/v1/payments/{{ $('Webhook').item.json.query.id || $('Webhook').item.json.query['data.id'] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        1232
+      ],
+      "id": "c8695c17-fb43-4a1e-873b-6588f6f1a012",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sendTo": "EMAIL_DO_CLIENTE",
+        "subject": "Empresa X - Pagamento Aprovado!",
+        "message": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Pagamento Aprovado</title>\n</head>\n<body style=\"margin: 0; padding: 20px; font-family: Arial, sans-serif; background-color: #f5f5f5;\">\n    \n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px;\">\n        <tr>\n            <td style=\"padding: 30px 20px; text-align: center; background-color: #008b57; border-radius: 10px 10px 0 0;\">\n                <h1 style=\"color: #ffffff; margin: 0;\">✅ Pagamento Aprovado</h1>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 30px 20px 10px 20px;\">\n                <table width=\"100%\" style=\"background-color: #e6ffe6; border: 2px solid #008b57; border-radius: 5px; padding: 15px;\">\n                    <tr>\n                        <td style=\"text-align: center;\">\n                            <p style=\"margin: 0; font-size: 18px; color: #004d29; font-weight: bold;\">\n                                Status do Pagamento:<br>\n                                <span style=\"font-size: 24px; color: #008b57;\">CONFIRMADO</span>\n                            </p>\n                        </td>\n                    </tr>\n                </table>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 30px 20px;\">\n                <h2 style=\"color: #333333;\">Detalhes da Transação:</h2>\n                <div style=\"margin: 20px 0; color: #666666;\">\n                    <p><strong>Valor:</strong> R$ {{ String($('HTTP Request').item.json.transaction_amount).replace('.', ',') }}</p>\n                    <p><strong>Data:</strong> {{ $json.charges_details[0].date_created.toDateTime().format('dd/MM/yyyy') }}</p>\n                    <p><strong>ID da Transação:</strong> {{ $('HTTP Request').item.json.charges_details[0].id }}</p>\n                </div>\n\n                <div style=\"margin-top: 30px; color: #666666; font-size: 14px;\">\n                    <p>Obrigado por sua compra! Seu pagamento foi processado com sucesso.</p>\n                    <p>Qualquer dúvida sobre sua compra, entre em contato conosco.</p>\n                </div>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 10px 10px; font-size: 12px; color: #666666;\">\n                <p style=\"margin: 0;\">Dúvidas? Entre em contato: contato@empresa.com<br>\n                Este é um e-mail automático, por favor não responda</p>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        1024
+      ],
+      "id": "d9da2f41-185e-4794-816d-74281e090e0a",
+      "name": "APROVADO",
+      "webhookId": "4eaaa999-3bfc-4978-b8bd-26a025aa2a1d"
+    },
+    {
+      "parameters": {
+        "sendTo": "EMAIL_DO_CLIENTE",
+        "subject": "Empresa X - Pagamento Recusado!",
+        "message": "=<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Pagamento Não Aprovado</title>\n</head>\n<body style=\"margin: 0; padding: 20px; font-family: Arial, sans-serif; background-color: #f5f5f5;\">\n    \n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px;\">\n        <tr>\n            <td style=\"padding: 30px 20px; text-align: center; background-color: #dc3545; border-radius: 10px 10px 0 0;\">\n                <h1 style=\"color: #ffffff; margin: 0;\">Pagamento Não Aprovado</h1>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 30px 20px 10px 20px;\">\n                <table width=\"100%\" style=\"background-color: #f8d7da; border: 2px solid #dc3545; border-radius: 5px; padding: 15px;\">\n                    <tr>\n                        <td style=\"text-align: center;\">\n                            <p style=\"margin: 0; font-size: 18px; color: #721c24; font-weight: bold;\">\n                                Status do Pagamento:<br>\n                                <span style=\"font-size: 24px; color: #dc3545;\">REPROVADO</span>\n                            </p>\n                        </td>\n                    </tr>\n                </table>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 30px 20px;\">\n                <h2 style=\"color: #333333;\">Detalhes da Transação:</h2>\n                <div style=\"margin: 20px 0; color: #666666;\">\n                    <p><strong>Valor:</strong> R$ {{ String($('HTTP Request').item.json.transaction_amount).replace('.', ',') }}\n</p>\n                    <p><strong>Data:</strong> {{ $json.charges_details[0].date_created.toDateTime().format('dd/MM/yyyy') }}</p>\n                </div>\n\n                <div style=\"margin-top: 30px; color: #666666; font-size: 14px;\">\n                    <p>Ocorreu um problema com seu pagamento. Por favor:</p>\n                    <ol>\n                        <li>Verifique os dados do seu cartão</li>\n                        <li>Confira o limite disponível</li>\n                        <li>Tente novamente ou utilize outro método</li>\n                    </ol>\n                    <p style=\"margin-top: 20px;\">\n                        <a href=\"{{ $json.point_of_interaction.transaction_data.ticket_url }}\" style=\"background-color: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;\">Tentar Novamente</a>\n                    </p>\n                </div>\n            </td>\n        </tr>\n\n        <tr>\n            <td style=\"padding: 20px; text-align: center; background-color: #f8f9fa; border-radius: 0 0 10px 10px; font-size: 12px; color: #666666;\">\n                <p style=\"margin: 0;\">Dúvidas? Entre em contato: contato@empresa.com<br>\n                Este é um e-mail automático, por favor não responda</p>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        912,
+        1488
+      ],
+      "id": "a7c10b14-55a9-4c4c-8d88-0bb65635b4b8",
+      "name": "REJEITADO",
+      "webhookId": "8e8be859-e835-463d-92f9-d851689b1f87"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "approved",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Aprovado"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "00200122-5752-47c2-b571-8e270aab83f3",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "pending",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Pendente"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bd96ecde-4b9a-4d59-99e7-b38992c8c46d",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "rejected",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rejeitado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        592,
+        1232
+      ],
+      "id": "03f9de58-6857-4d8a-86a9-f3b432d8648c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "content": "# WEBHOOK",
+        "height": 760,
+        "width": 1420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        928
+      ],
+      "id": "659273df-e325-4188-b946-cb1b63ecc3db",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ed3cf60-f355-420c-bd51-a9702c2ca8af",
+              "name": "public_Key",
+              "value": "COLOQUE-PUBLIC-KEY",
+              "type": "string"
+            },
+            {
+              "id": "0d690fec-4b00-4e32-9139-a08613f1feea",
+              "name": "access_token",
+              "value": "COLOQUE-ACESS-TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "7096c8a6-86dc-40ed-8a4f-c923b6d328b8",
+              "name": "preco",
+              "value": "1.00",
+              "type": "string"
+            },
+            {
+              "id": "f54fdb6d-6a82-4880-a7de-488b7b3c9d2a",
+              "name": "external_reference",
+              "value": "=CLIENTE{{ Math.floor(Math.random() * 10000) + 1 }}",
+              "type": "string"
+            },
+            {
+              "id": "e8f040ed-27d4-475e-936a-342ec94fa21b",
+              "name": "description",
+              "value": "Curso de Ingles",
+              "type": "string"
+            },
+            {
+              "id": "4802cd53-b8da-45f7-8936-e391e1a99c41",
+              "name": "email_cliente",
+              "value": "EMAIL_DO_CLIENTE",
+              "type": "string"
+            },
+            {
+              "id": "997c1ae6-d834-4cf0-9175-412188f7ba75",
+              "name": "notification_url",
+              "value": "SEU_WEBHOOK",
+              "type": "string"
+            },
+            {
+              "id": "66c0761c-9aec-4133-9f7d-f84aea6055bc",
+              "name": "cpf",
+              "value": "CPF_DO_CLIENTE",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        1232
+      ],
+      "id": "6ba3ebd2-74fe-4aca-b3b1-3a47cb662960",
+      "name": "Credenciais1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Credenciais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Separar Pix": {
+      "main": [
+        [
+          {
+            "node": "QRCode para Arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Mercado Pago": {
+      "main": [
+        [
+          {
+            "node": "Separar Pix",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Credenciais": {
+      "main": [
+        [
+          {
+            "node": "API Mercado Pago",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "QRCode para Arquivo": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Credenciais1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "APROVADO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "REJEITADO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Credenciais1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "193c3198-050f-4154-b488-d8ff706f63f4",
+  "versionId": "4dddd464-381a-4b58-8236-e3f634f1e255",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-22T00:34:48.449Z",
+      "updatedAt": "2025-08-22T00:34:48.449Z",
+      "role": "workflow:owner",
+      "workflowId": "gFYSxPHFDoS5Kmuf",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-22T11:00:39.186Z",
-    "version": "2025-08-22T00:34:48.447Z",
+    "backedUpAt": "2025-08-26T11:00:46.199Z",
+    "version": "2025-08-26T00:04:23.000Z",
     "originalId": "gFYSxPHFDoS5Kmuf"
   }
 }
