@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-14T02:24:42.510Z",
-  "updatedAt": "2025-08-14T03:09:19.000Z",
+  "updatedAt": "2025-08-26T02:56:37.000Z",
   "id": "bg4RRPd3mcKB2j7g",
   "name": "Renovacao Automatica Limites Gastos",
   "active": true,
@@ -9,7 +9,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "START TRANSACTION;\n\ninsert into tb_gastos_limites(id_cliente, periodo, valor_limite, dt_inicio, dt_fim, renova_automatico, dt_cadastro, status, porcentagem_alerta)\nselect id_cliente, \n       periodo, \n       valor_limite,\n       DATE_TRUNC('day', NOW()), \n       DATE_TRUNC('day',CURRENT_DATE + (dt_fim - dt_inicio)) dt_fim, \n       renova_automatico, \n       now(), \n       'A' status,\n       porcentagem_alerta,\n  from tb_gastos_limites A\n where a.status = 'A'\n   and a.renova_automatico = 'S'\n   and DATE_TRUNC('day', dt_fim) < DATE_TRUNC('day', NOW());\n\nupdate tb_gastos_limites\n   set status = 'D'\n where status = 'A'\n   and DATE_TRUNC('day', dt_fim) < DATE_TRUNC('day', NOW());\n\nCOMMIT;",
+        "query": "select renovar_limites()",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -68,12 +68,21 @@
   },
   "meta": null,
   "pinData": {},
-  "versionId": "a944469a-77f0-48cf-acb9-119fe6ca70bb",
+  "versionId": "0ad44e2c-8ddc-4033-9088-dfc19d9ba63b",
   "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-14T02:24:42.516Z",
+      "updatedAt": "2025-08-14T02:24:42.516Z",
+      "role": "workflow:owner",
+      "workflowId": "bg4RRPd3mcKB2j7g",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.724Z",
-    "version": "2025-08-14T03:09:19.000Z",
+    "backedUpAt": "2025-08-26T11:00:46.195Z",
+    "version": "2025-08-26T02:56:37.000Z",
     "originalId": "bg4RRPd3mcKB2j7g"
   }
 }
