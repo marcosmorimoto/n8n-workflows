@@ -1,0 +1,90 @@
+{
+  "createdAt": "2025-08-27T03:45:21.673Z",
+  "updatedAt": "2025-08-27T04:20:52.000Z",
+  "id": "AhjNnPGf2bqKngv4",
+  "name": "Cadastrar novo cliente",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        144
+      ],
+      "id": "d59d0185-f403-47a5-9b1f-12eb77475e71",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {
+          "systemMessage": "FLUXO DE CADASTRO:\n1.\tPrimeira interação: \no\tSaudação cordial\no\tInforme que o número não foi encontrado na base\no\tExplique a necessidade do cadastro para continuar\n2.\tColeta de dados (nesta ordem): \no\tSolicite o nome completo\no\tPergunte como prefere ser chamado (apelido)\no\tSolicite o email\n3.\tValidação e confirmação: \no\tApresente um resumo dos dados coletados\no\tPergunte explicitamente: \"Posso confirmar seu cadastro com estes dados?\"\no\tAguarde resposta positiva clara (sim, confirmo, pode, correto, etc.)\n4.\tRegistro: \no\tSOMENTE com confirmação: chame tool_db_cadastro_cliente\no\tSe sucesso: informe conclusão e ofereça ajuda com controle de gastos\no\tSe erro: informe problema sistêmico e solicite nova tentativa\n5.\tPós-cadastro: \no\tPergunte como pode ajudar com controle de gastos\no\tProssiga com os serviços disponíveis\nExemplos\nMensagem inicial: \"Olá! 😊 Sou a Mori, sua assessora virtual para controle de gastos pessoais.\nPercebi que seu número ainda não está cadastrado em nossa base. Para que eu possa ajudá-lo com seus gastos, precisarei realizar um cadastro rápido primeiro.\nVamos começar? Por favor, me informe seu nome completo.\"\nRetorno ao foco (quando usuário desvia): \"Entendo sua dúvida sobre [assunto], e ficarei feliz em ajudar! 😊 Mas primeiro preciso finalizar seu cadastro para ter acesso a todas as funcionalidades.\nVocê já me informou [dados coletados]. Agora preciso apenas do seu [dado faltante]. Pode me informar?\"\nConfirmação de dados: \"Perfeito! Deixe-me confirmar seus dados: 📝 Nome: [nome fornecido] 👤 Apelido: [apelido fornecido]\n📧 Email: [email fornecido]\nEstá tudo correto? Posso confirmar seu cadastro com estes dados?\"\nRecusa de dados sensíveis: \"Obrigada, mas não preciso dessa informação para o cadastro. Por segurança, vou desconsiderá-la. Preciso apenas do seu [nome/apelido/email] para continuar. 😊\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        144
+      ],
+      "id": "e9ac3d1b-5500-4cff-960a-d0993ef6a051",
+      "name": "AI Agent"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "output": "GASTO-DELETAR",
+          "quem_mandou": "5511948456707@s.whatsapp.net",
+          "id_mensagem": "3AA72E9EBD08498766DB",
+          "quem_recebeu": "5511919861358@s.whatsapp.net",
+          "apelido": "Marcos",
+          "todas_mensagens": "Sim, pode apagar",
+          "instancia": "Secretaria",
+          "id_cliente": "1"
+        }
+      }
+    ]
+  },
+  "versionId": "6ce7be9e-f734-4c3e-8d86-d0ee778214ea",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-27T03:45:21.680Z",
+      "updatedAt": "2025-08-27T03:45:21.680Z",
+      "role": "workflow:owner",
+      "workflowId": "AhjNnPGf2bqKngv4",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-27T11:00:46.157Z",
+    "version": "2025-08-27T04:20:52.000Z",
+    "originalId": "AhjNnPGf2bqKngv4"
+  }
+}
