@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-26T02:35:20.000Z",
+  "updatedAt": "2025-08-27T03:37:59.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -401,7 +401,7 @@
       "typeVersion": 2.6,
       "position": [
         -10384,
-        -1024
+        -1040
       ],
       "id": "30e6ad06-41cb-42e4-a58d-17a67b9c0476",
       "name": "Validar Pre Clientes",
@@ -577,7 +577,7 @@
       "typeVersion": 3.4,
       "position": [
         -10384,
-        -752
+        -784
       ],
       "id": "984f9519-5339-44d3-a00b-5e2b47b24bd8",
       "name": "Edit Fields"
@@ -825,7 +825,7 @@
       "typeVersion": 2,
       "position": [
         -10176,
-        -1024
+        -1040
       ],
       "id": "651b35c4-cc5e-4341-aac0-2e6fe4c8d3c1",
       "name": "Validar retorno nulo da consulta anterior"
@@ -905,7 +905,7 @@
       "typeVersion": 2.2,
       "position": [
         -10160,
-        -752
+        -784
       ],
       "id": "cbed6d4d-570d-45c6-aa49-17e746affced",
       "name": "If"
@@ -1227,7 +1227,7 @@
     },
     {
       "parameters": {
-        "amount": 7
+        "amount": 0
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -1618,7 +1618,7 @@
       "typeVersion": 1.5,
       "position": [
         -4976,
-        -1200
+        -1216
       ],
       "id": "67693df1-c260-4117-a613-bc29befa4252",
       "name": "Redis Chat Memory10",
@@ -1825,7 +1825,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5584,
+        -5568,
         -1392
       ],
       "id": "5157b198-b549-4dd4-93e6-7237ba2c8aad",
@@ -1914,7 +1914,7 @@
         "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
         "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
         "options_message": {
-          "delay": 2000
+          "delay": 1000
         }
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
@@ -2026,7 +2026,7 @@
       "typeVersion": 1.2,
       "position": [
         -5072,
-        -1200
+        -1216
       ],
       "id": "f46ba883-2344-47f7-8b03-6e8cd9739f9f",
       "name": "OpenAI Chat Model2",
@@ -2270,7 +2270,8 @@
           "id": "REMOVED",
           "name": "Redis account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2304,7 +2305,7 @@
         "promptType": "define",
         "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
         "options": {
-          "systemMessage": "=Você é responsável **APENAS** por enviar uma mensagem rápida ao usuário informando que a solicitação dele está sendo processada por outro sistema. Sua função é evitar que o usuário pense que o fluxo travou ou parou de responder.\n\n## Diretrizes\n- **Função única**: Informar que o processamento está em andamento\n- **Tom**: Natural e tranquilizador\n- **Tamanho**: 1 frase curta e direta\n- **NÃO execute a operação**: Apenas informe que está sendo processada\n- **Seja contextual**: A mensagem deve fazer sentido com o tipo de operação solicitada\n\n## Tipo de Operação e Exemplo\n\n{{ $json.prompt }}\n\n## Instruções Importantes\n1. **Apenas informe o status** - você não executa a operação real\n2. **Seja rápido** - responda imediatamente para manter o fluxo fluido\n3. **Use linguagem de processamento** - palavras como \"processando\", \"aguarde\", \"verificando\"\n4. **Varie as respostas** para não soar robótico\n5. **Mantenha o contexto** - a mensagem deve relacionar com o tipo de operação\n6. **Seja breve** - uma frase é suficiente\n\n## Exemplo de Fluxo\n**Usuário**: \"Gastei 15 reais com almoço\"\n**Seu papel**: \"Ok, registrando seu gasto, só um momento...\"\n**Sistema**: [Outro agente processa a operação real]\n**Resultado**: [Usuário recebe confirmação do processamento]"
+          "systemMessage": "=Você é responsável **APENAS** por enviar uma mensagem rápida ao usuário informando que a solicitação dele está sendo processada por outro sistema. Sua função é evitar que o usuário pense que o fluxo travou ou parou de responder.\n\n## Diretrizes\n- **Função única**: Informar que o processamento está em andamento\n- **Tom**: Simpático, natural, humanizado e tranquilizador\n- **Tamanho**: 1 frase curta, direta e simpática\n- **NÃO execute a operação**: Apenas informe que está sendo processada\n- **Seja contextual**: A mensagem deve fazer sentido com o tipo de operação solicitada\n\n## Tipo de Operação e Exemplo\n\n{{ $json.prompt }}\n\n## Instruções Importantes\n1. **Apenas informe o status** - você não executa a operação real\n2. **Seja rápido** - responda imediatamente para manter o fluxo fluido\n3. **Seja simpático nas respostas** para não soar robótico\n4. **Mantenha o contexto** - a mensagem deve relacionar com o tipo de operação\n5. **Seja breve** - uma frase é suficiente\n\n## Exemplo de Fluxo\n**Usuário**: \"Gastei 15 reais com almoço\"\n**Seu papel**: \"Ok, vou registrar seu gasto, só um minuto...\"\n**Sistema**: [Outro agente processa a operação real]\n**Resultado**: [Usuário recebe confirmação do processamento]"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -2318,7 +2319,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n\n  let prompt_out = ``;\n  \n  if ($input.first().json.output === \"GASTO-CRIAR\") {\n    prompt_out = `### **GASTO-CRIAR** (Registrar novos gastos)\n**Exemplo de contexto**: Usuário diz \"Gastei 10 reais com um salgado\"\n**Mensagens de status**:\n- \"Ok, vou registrar sua solicitação no banco, só um instante.\"\n- \"Entendi! Processando seu gasto...\"\n- \"Certo, aguarde um momento enquanto registro isso.\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-CONSULTAR\"){\n    prompt_out = `### **GASTO-CONSULTAR** (Buscar/visualizar gastos)\n**Exemplo de contexto**: Usuário pergunta \"Quanto gastei este mês?\"\n**Mensagens de status**:\n- \"Consultando seus dados, só um segundo...\"\n- \"Buscando essas informações para você!\"\n- \"Aguarde, verificando seu histórico...\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-ATUALIZAR\"){\n    prompt_out = `### **GASTO-ATUALIZAR** (Modificar gastos existentes)\n**Exemplo de contexto**: Usuário diz \"Quero corrigir aquele gasto de ontem\"\n**Mensagens de status**:\n- \"Processando a alteração, aguarde...\"\n- \"Ok, atualizando o registro para você.\"\n- \"Entendi, fazendo a correção...\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-DELETAR\"){\n    prompt_out = `### **GASTO-DELETAR** (Excluir gastos)\n**Exemplo de contexto**: Usuário pede \"Remove esse gasto duplicado\"\n**Mensagens de status**:\n- \"Removendo o registro, só um momento...\"\n- \"Ok, processando a exclusão.\"\n- \"Entendido, deletando...\"`;\n  } \n\n  if ($input.first().json.output === \"META-CRIAR\"){\n    prompt_out = `### **META-CRIAR** (Criar metas/alertas/limites)\n**Exemplo de contexto**: Usuário diz \"Quero criar um limite de R$ 500 para alimentação\"\n**Mensagens de status**:\n- \"Configurando sua meta, aguarde...\"\n- \"Ok, criando o limite para você.\"\n- \"Processando a nova configuração...\"`;\n  } \n\n  if ($input.first().json.output === \"META-CONSULTAR\"){\n    prompt_out = `### **META-CONSULTAR** (Verificar status de metas)\n**Exemplo de contexto**: Usuário pergunta \"Como está minha meta do mês?\"\n**Mensagens de status**:\n- \"Verificando o status, só um momento...\"\n- \"Consultando seus dados...\"\n- \"Buscando informações sobre sua meta...\"`;\n  } \n\n  if ($input.first().json.output === \"META-ATUALIZAR\"){\n    prompt_out = `### **META-ATUALIZAR** (Atualizar metas existentes)\n**Exemplo de contexto**: Usuário pede \"Alterar minha meta de economia para R$ 1000\"\n**Mensagens de status**:\n- \"Atualizando sua meta, só um segundo...\"\n- \"Ok, modificando os parâmetros...\"\n- \"Processando a alteração...\"`;\n  } \n\n  if ($input.first().json.output === \"META-DELETAR\"){\n    prompt_out = `### **META-DELETAR** (Excluir metas)\n**Exemplo de contexto**: Usuário diz \"Cancela aquele alerta de gastos\"\n**Mensagens de status**:\n- \"Removendo o alerta, aguarde...\"\n- \"Ok, cancelando para você.\"\n- \"Processando a remoção...\"`;\n  } \n  \n  return {\n      json: {\n        prompt: prompt_out\n      }\n    };\n}"
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n\n  let prompt_out = ``;\n  \n  if ($input.first().json.output === \"GASTO-CRIAR\") {\n    prompt_out = `### **GASTO-CRIAR** (Registrar novos gastos)\n**Exemplo de contexto**: Usuário diz \"Gastei 10 reais com um salgado\"\n**Mensagens de status**:\n- \"Ok, vou registrar sua solicitação no banco, só um instante.\"\n- \"Entendi! Processando seu gasto...\"\n- \"Certo, aguarde um momento enquanto registro isso.\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-CONSULTAR\"){\n    prompt_out = `### **GASTO-CONSULTAR** (Buscar/visualizar gastos)\n**Exemplo de contexto**: Usuário pergunta \"Quanto gastei este mês?\"\n**Mensagens de status**:\n- \"Ok, vou consultar seus gastos, só um segundo...\"\n- \"Claro, vou buscar essas informações para você!\"\n- \"Claro! Aguarde só um minutinho, estou verificando seu histórico...\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-ATUALIZAR\"){\n    prompt_out = `### **GASTO-ATUALIZAR** (Modificar gastos existentes)\n**Exemplo de contexto**: Usuário diz \"Quero corrigir aquele gasto de ontem\"\n**Mensagens de status**:\n- \"Pode deixar, vou realizar a alteração, aguarde só um minuto...\"\n- \"Ok, vou atualizar o registro para você.\"\n- \"Entendi, vou fazer a correção...\"`;\n  } \n  \n  if ($input.first().json.output === \"GASTO-DELETAR\"){\n    prompt_out = `### **GASTO-DELETAR** (Excluir gastos)\n**Exemplo de contexto**: Usuário pede \"Remove esse gasto duplicado\"\n**Mensagens de status**:\n- \"Vou remover o registro, só um momento...\"\n- \"Ok, vou processar a exclusão.\"\n- \"Entendido, vou deletar...\"`;\n  } \n\n  if ($input.first().json.output === \"META-CRIAR\"){\n    prompt_out = `### **META-CRIAR** (Criar metas/alertas/limites)\n**Exemplo de contexto**: Usuário diz \"Quero criar um limite de R$ 500 para alimentação\"\n**Mensagens de status**:\n- \"Opa, pode deixar! Vou configurar sua meta, um minutinho...\"\n- \"Ok, vou criar o limite para você.\"\n- \"Vou processar a nova configuração...\"`;\n  } \n\n  if ($input.first().json.output === \"META-CONSULTAR\"){\n    prompt_out = `### **META-CONSULTAR** (Verificar status de metas)\n**Exemplo de contexto**: Usuário pergunta \"Como está minha meta do mês?\"\n**Mensagens de status**:\n- \"Vou verificar o status, só um momento...\"\n- \"Claro, vou consultar seus dados...\"\n- \"Ok, vou buscar informações sobre sua meta...\"`;\n  } \n\n  if ($input.first().json.output === \"META-ATUALIZAR\"){\n    prompt_out = `### **META-ATUALIZAR** (Atualizar metas existentes)\n**Exemplo de contexto**: Usuário pede \"Alterar minha meta de economia para R$ 1000\"\n**Mensagens de status**:\n- \"Opa, pode deixar! Vou atualizar sua meta, só um segundo...\"\n- \"Ok, vou modificar os parâmetros...\"\n- \"Vou processar a alteração...\"`;\n  } \n\n  if ($input.first().json.output === \"META-DELETAR\"){\n    prompt_out = `### **META-DELETAR** (Excluir metas)\n**Exemplo de contexto**: Usuário diz \"Cancela aquele alerta de gastos\"\n**Mensagens de status**:\n- \"Claro, vou remover o alerta, um minutinho...\"\n- \"Ok, vou cancelar para você.\"\n- \"Vou realizar a remoção...\"`;\n  } \n  \n  return {\n      json: {\n        prompt: prompt_out\n      }\n    };\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -2336,7 +2337,7 @@
         "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
         "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
         "options_message": {
-          "delay": 3000
+          "delay": 1500
         }
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
@@ -2389,7 +2390,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5792,
+        -5808,
         -1392
       ],
       "id": "9d68d105-bb18-4f59-923b-3394d87b1011",
@@ -3174,13 +3175,7 @@
     },
     "Redis Chat Memory": {
       "ai_memory": [
-        [
-          {
-            "node": "Informar solicitacao em andamento",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "OpenAI Chat Model4": {
@@ -3286,7 +3281,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0de4712d-4565-47da-90f6-fba49d232d3b",
+  "versionId": "cbb00a43-cc92-405c-a9a4-15af913c5c9d",
   "triggerCount": 1,
   "shared": [
     {
@@ -3299,8 +3294,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-26T11:00:46.237Z",
-    "version": "2025-08-26T02:35:20.000Z",
+    "backedUpAt": "2025-08-27T11:00:46.389Z",
+    "version": "2025-08-27T03:37:59.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
