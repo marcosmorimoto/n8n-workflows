@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-13T00:24:24.001Z",
-  "updatedAt": "2025-08-14T04:03:50.000Z",
+  "updatedAt": "2025-08-27T03:42:52.000Z",
   "id": "GTqy4bLmgL1aabpB",
   "name": "TOOL - Interagir com DB Gastos Pessoais Dev",
   "active": false,
@@ -60,13 +60,15 @@
       ],
       "id": "a85a18cf-6461-4d50-bf50-e35848e778ac",
       "name": "Execute a SQL query",
+      "notesInFlow": false,
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "REMOVED",
           "name": "postgresql_db"
         }
       },
-      "onError": "continueErrorOutput"
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -128,6 +130,19 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        -64
+      ],
+      "id": "84b2744e-6efd-4d55-b6ec-3b75776eec33",
+      "name": "Tratar erro e retorno vazio"
     }
   ],
   "connections": {
@@ -182,7 +197,13 @@
     },
     "Execute a SQL query": {
       "main": [
-        []
+        [
+          {
+            "node": "Tratar erro e retorno vazio",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -193,13 +214,31 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "d210ee14-8c76-4dc0-8565-59620b74e042",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "prompt": "Operação: Consultar registro na tabela tb_gastos_transacoes; Filtro: id_cliente: 1, dt_gasto: 27/08/2025",
+          "tabela": null
+        }
+      }
+    ]
+  },
+  "versionId": "f0d88e1a-87ca-45b2-8fcc-48edf0464628",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-13T00:24:24.006Z",
+      "updatedAt": "2025-08-13T00:24:24.006Z",
+      "role": "workflow:owner",
+      "workflowId": "GTqy4bLmgL1aabpB",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.617Z",
-    "version": "2025-08-14T04:03:50.000Z",
+    "backedUpAt": "2025-08-27T11:00:46.278Z",
+    "version": "2025-08-27T03:42:52.000Z",
     "originalId": "GTqy4bLmgL1aabpB"
   }
 }
