@@ -1,0 +1,216 @@
+{
+  "createdAt": "2025-08-28T01:39:44.108Z",
+  "updatedAt": "2025-08-28T04:39:32.000Z",
+  "id": "XRJUKJSJV7vLM1bN",
+  "name": "TOOL - Interagir com DB Cadastrar Usuario",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "prompt"
+            },
+            {
+              "name": "tabela"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7deb97e1-e8d0-454a-a83c-26371a7221bf",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "BEGIN;\n\nWITH novo_cliente AS (\n    {{ $json.sql_query }} RETURNING id\n)\nINSERT INTO tb_contratos (id_cliente, id_produto, dt_inicio, dt_fim, dia_vencimento)\nSELECT nc.id, 2, CURRENT_DATE, NULL, EXTRACT(DAY FROM CURRENT_DATE)\nFROM novo_cliente nc;\n\nCOMMIT;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        720,
+        0
+      ],
+      "id": "53e7806d-c4c2-418d-9b8a-8a63494f9c4a",
+      "name": "Execute a SQL query",
+      "notesInFlow": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        0
+      ],
+      "id": "0a6dbae6-e211-4eeb-8286-818a0cefacd3",
+      "name": "Tratar erro e retorno vazio"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-nano"
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        160
+      ],
+      "id": "b3d2ae07-746a-4098-8570-54a44d9f1b9a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json.output;\n\nlet clean = input\n  .replace(/^```sql\\s*|\\s*```$/gi, '') // Remove blocos ```sql\n  .replace(/```/g, '')                  // Remove quaisquer ``` residuais\n  .replace(/^\\\"|\\\"$/g, '')              // Remove aspas iniciais/finais\n  .replace(/\\n/g, ' ')                  // Substitui quebras de linha por espaços\n  .replace(/\\s+/g, ' ')                 // Remove espaços excessivos\n  .trim(); \n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        0
+      ],
+      "id": "2991f055-f9d8-493e-a4d3-54765837a695",
+      "name": "Remover Markdown SQL"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado.\n\nPor exemplo, WHERE TRANSLATE(UPPER(pagou_total),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura da tabela.\n\nCREATE TABLE public.tb_clientes (\n    id_whatsapp text\n    nome_cliente text,\n    status text, (Sempre será \"A\")\n    nome_apelido text,\n    email text\n);\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        192,
+        0
+      ],
+      "id": "a4ebcf1a-0bbd-460b-af9b-b4a6d08a6741",
+      "name": "Gerar script SQL"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Gerar script SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Tratar erro e retorno vazio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remover Markdown SQL": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Gerar script SQL",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gerar script SQL": {
+      "main": [
+        [
+          {
+            "node": "Remover Markdown SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "prompt": "Cadastrar usuário: id_whatsapp: 5511954515120@s.whatsapp.net nome: Rafael Binow apelido: Rafa email: rafaelbinow@gmail.com",
+          "tabela": null
+        }
+      }
+    ]
+  },
+  "versionId": "42a9f1e3-ae12-4289-aec1-0e223d1862e0",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-28T01:39:44.117Z",
+      "updatedAt": "2025-08-28T01:39:44.117Z",
+      "role": "workflow:owner",
+      "workflowId": "XRJUKJSJV7vLM1bN",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-08-28T11:00:46.432Z",
+    "version": "2025-08-28T04:39:32.000Z",
+    "originalId": "XRJUKJSJV7vLM1bN"
+  }
+}
