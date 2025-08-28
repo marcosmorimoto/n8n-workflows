@@ -1,8 +1,8 @@
 {
   "createdAt": "2025-08-27T03:45:21.673Z",
-  "updatedAt": "2025-08-27T04:20:52.000Z",
+  "updatedAt": "2025-08-28T04:41:47.000Z",
   "id": "AhjNnPGf2bqKngv4",
-  "name": "Cadastrar novo cliente",
+  "name": "cadastrar_novo_cliente",
   "active": false,
   "isArchived": false,
   "nodes": [
@@ -22,8 +22,9 @@
     {
       "parameters": {
         "promptType": "define",
+        "text": "=id_whatsapp: {{ $json.quem_mandou }}\nMensagem: {{ $json.mensagem }}",
         "options": {
-          "systemMessage": "FLUXO DE CADASTRO:\n1.\tPrimeira interação: \no\tSaudação cordial\no\tInforme que o número não foi encontrado na base\no\tExplique a necessidade do cadastro para continuar\n2.\tColeta de dados (nesta ordem): \no\tSolicite o nome completo\no\tPergunte como prefere ser chamado (apelido)\no\tSolicite o email\n3.\tValidação e confirmação: \no\tApresente um resumo dos dados coletados\no\tPergunte explicitamente: \"Posso confirmar seu cadastro com estes dados?\"\no\tAguarde resposta positiva clara (sim, confirmo, pode, correto, etc.)\n4.\tRegistro: \no\tSOMENTE com confirmação: chame tool_db_cadastro_cliente\no\tSe sucesso: informe conclusão e ofereça ajuda com controle de gastos\no\tSe erro: informe problema sistêmico e solicite nova tentativa\n5.\tPós-cadastro: \no\tPergunte como pode ajudar com controle de gastos\no\tProssiga com os serviços disponíveis\nExemplos\nMensagem inicial: \"Olá! 😊 Sou a Mori, sua assessora virtual para controle de gastos pessoais.\nPercebi que seu número ainda não está cadastrado em nossa base. Para que eu possa ajudá-lo com seus gastos, precisarei realizar um cadastro rápido primeiro.\nVamos começar? Por favor, me informe seu nome completo.\"\nRetorno ao foco (quando usuário desvia): \"Entendo sua dúvida sobre [assunto], e ficarei feliz em ajudar! 😊 Mas primeiro preciso finalizar seu cadastro para ter acesso a todas as funcionalidades.\nVocê já me informou [dados coletados]. Agora preciso apenas do seu [dado faltante]. Pode me informar?\"\nConfirmação de dados: \"Perfeito! Deixe-me confirmar seus dados: 📝 Nome: [nome fornecido] 👤 Apelido: [apelido fornecido]\n📧 Email: [email fornecido]\nEstá tudo correto? Posso confirmar seu cadastro com estes dados?\"\nRecusa de dados sensíveis: \"Obrigada, mas não preciso dessa informação para o cadastro. Por segurança, vou desconsiderá-la. Preciso apenas do seu [nome/apelido/email] para continuar. 😊\"\n"
+          "systemMessage": "=FLUXO DE CADASTRO:\n\n1. Primeira interação: \n - Saudação cordial\n - Informe que o número não foi encontrado na base\n - Explique a necessidade do cadastro para continuar\n - Caso informe o nome completo e ainda não informou como quer ser chamado, use apenas o primeiro nome para responder ou perguntar algo para o usuário\n\n2. Coleta de dados (nesta ordem): \n - Solicite o nome completo\n - Pergunte como prefere ser chamado (apelido)\n - Solicite o email\n\n3.Validação e confirmação: \n - Apresente um resumo dos dados coletados\n - Pergunte explicitamente: \"Posso confirmar seu cadastro com estes dados?\"\n - Aguarde resposta positiva clara (sim, confirmo, pode, correto, etc.)\n\n4. Registro: \n - SOMENTE com confirmação: chame tool_db_cadastro_cliente passando os dados conforme abaixo:\n\n\"Cadastrar usuário: id_whatsapp: XXX nome: XXX apelido: XXX email: XXX\"\n\n - O id_whatsapp é uma informação que será coletada automáticamente pelo sistema e estará na mensagem enviada pelo usuário, não peça essa informação ao usuário e não informe que essa informação é coletada pelo sistema.\n - Se sucesso: informe conclusão e ofereça ajuda com controle de gastos\n - Se erro: informe problema sistêmico e solicite nova tentativa\n\n5. Pós-cadastro: \n - Pergunte como pode ajudar com controle de gastos\n - Prossiga com os serviços disponíveis\n\nExemplos:\n\nMensagem inicial: \n\n\"Olá! 😊 Sou a Mori, sua assessora virtual para controle de gastos pessoais.\nPercebi que seu número ainda não está cadastrado em nossa base. \nPara que eu possa ajudá-lo com seus gastos, precisarei realizar um cadastro rápido primeiro.\nPor favor, me informe seu nome completo.\"\n\nRetorno ao foco (quando usuário desvia): \n\n\"Entendo sua dúvida sobre [assunto]. 😊 \nMas primeiro preciso finalizar seu cadastro para ter acesso a todas as funcionalidades.\nVocê já me informou [dados coletados]. \nAgora preciso apenas do seu [dado faltante]. \nPode me informar?\"\n\nConfirmação de dados: \n\n\"Perfeito! Deixe-me confirmar seus dados: \n\n📝 Nome completo: [nome fornecido] \n👤 Apelido: [apelido fornecido]\n📧 Email: [email fornecido]\n\nEstá tudo correto? Posso confirmar seu cadastro com estes dados?\"\n\nRecusa de dados sensíveis: \n\n\"Obrigada, mas não preciso dessa informação para o cadastro. \nPor segurança, vou desconsiderá-la. \nPreciso apenas do seu [nome completo/apelido/email] para continuar. 😊\"\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -34,6 +35,125 @@
       ],
       "id": "e9ac3d1b-5500-4cff-960a-d0993ef6a051",
       "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "o4-mini",
+          "mode": "list",
+          "cachedResultName": "o4-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        336
+      ],
+      "id": "2d9001b6-b899-410c-9d9d-8d69857bbd3a",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $json.quem_mandou }}",
+        "sessionTTL": 3600
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        640,
+        336
+      ],
+      "id": "9545663e-ea6d-4744-aa85-d9abe71f4867",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que precisar cadastrar um novo usuário no banco de dados.",
+        "workflowId": {
+          "__rl": true,
+          "value": "XRJUKJSJV7vLM1bN",
+          "mode": "list",
+          "cachedResultName": "TOOL - Interagir com DB Cadastrar Usuario"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "prompt",
+              "displayName": "prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "tabela",
+              "displayName": "tabela",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        336
+      ],
+      "id": "b3449383-c7d1-493c-9bd2-034bdb68c9eb",
+      "name": "tool_db_cadastro_cliente"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('When Executed by Another Workflow').item.json.instancia }}",
+        "remoteJid": "={{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        880,
+        144
+      ],
+      "id": "ec9a91f0-30ec-40a9-8857-a935a156bf7d",
+      "name": "Enviar Mensagem Novo Usuario",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -47,30 +167,73 @@
           }
         ]
       ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tool_db_cadastro_cliente": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Novo Usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
     "When Executed by Another Workflow": [
       {
         "json": {
-          "output": "GASTO-DELETAR",
           "quem_mandou": "5511948456707@s.whatsapp.net",
-          "id_mensagem": "3AA72E9EBD08498766DB",
-          "quem_recebeu": "5511919861358@s.whatsapp.net",
-          "apelido": "Marcos",
-          "todas_mensagens": "Sim, pode apagar",
+          "id_mensagem": "3AAA20931F7CA6B62B51",
+          "mensagem": "Sim",
           "instancia": "Secretaria",
-          "id_cliente": "1"
+          "nome_pessoa": "Marcos"
         }
       }
     ]
   },
-  "versionId": "6ce7be9e-f734-4c3e-8d86-d0ee778214ea",
+  "versionId": "3045d6de-b338-4815-b93b-ccf47569d0c3",
   "triggerCount": 0,
   "shared": [
     {
@@ -83,8 +246,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-27T11:00:46.157Z",
-    "version": "2025-08-27T04:20:52.000Z",
+    "backedUpAt": "2025-08-28T11:00:46.247Z",
+    "version": "2025-08-28T04:41:47.000Z",
     "originalId": "AhjNnPGf2bqKngv4"
   }
 }
