@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-26T16:58:44.352Z",
-  "updatedAt": "2025-08-15T02:29:55.000Z",
+  "updatedAt": "2025-08-28T03:26:49.000Z",
   "id": "I0Wez9Bb8zUvCNpe",
   "name": "assessor_controle_gastos",
   "active": false,
@@ -120,7 +120,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        496,
+        464,
         160
       ],
       "id": "38e3d606-1c17-4e01-869a-49748afd72a5",
@@ -238,7 +238,7 @@
         "remoteJid": "={{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
         "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
         "options_message": {
-          "delay": 1000
+          "delay": 2000
         }
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
@@ -447,12 +447,21 @@
       }
     ]
   },
-  "versionId": "73dcd07f-a190-4d70-98f9-9705002d8ced",
+  "versionId": "0a19cafe-625b-4801-8d40-0122259b45da",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-07-26T16:58:44.399Z",
+      "updatedAt": "2025-07-26T16:58:44.399Z",
+      "role": "workflow:owner",
+      "workflowId": "I0Wez9Bb8zUvCNpe",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-15T11:00:30.603Z",
-    "version": "2025-08-15T02:29:55.000Z",
+    "backedUpAt": "2025-08-28T11:00:46.377Z",
+    "version": "2025-08-28T03:26:49.000Z",
     "originalId": "I0Wez9Bb8zUvCNpe"
   }
 }
