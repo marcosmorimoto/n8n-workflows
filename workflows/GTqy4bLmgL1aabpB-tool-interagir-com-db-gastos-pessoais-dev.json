@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-13T00:24:24.001Z",
-  "updatedAt": "2025-08-27T03:42:52.000Z",
+  "updatedAt": "2025-08-28T03:06:22.000Z",
   "id": "GTqy4bLmgL1aabpB",
   "name": "TOOL - Interagir com DB Gastos Pessoais Dev",
   "active": false,
@@ -72,12 +72,12 @@
     },
     {
       "parameters": {
-        "jsCode": "const input = $input.first().json.output;\n\n// 1. Remove os blocos ```sql e ```\nlet clean = input\n   .replace(/^```sql\\s*|\\s*```$/gi, '')\n   .replace(/```/g, '')\n   .replace(/\\n/g, ' ')\n   .replace(/\\s+/g, ' ')\n   .trim();\n\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
+        "jsCode": "const input = $input.first().json.output;\n\nlet clean = input\n  .replace(/^```sql\\s*|\\s*```$/gi, '') // Remove blocos ```sql\n  .replace(/```/g, '')                  // Remove quaisquer ``` residuais\n  .replace(/^\\\"|\\\"$/g, '')              // Remove aspas iniciais/finais\n  .replace(/\\n/g, ' ')                  // Substitui quebras de linha por espaços\n  .replace(/\\s+/g, ' ')                 // Remove espaços excessivos\n  .trim();                              // Remove espaços extras no início/fim\n\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        128,
+        96,
         -64
       ],
       "id": "2f32419c-48cb-4c31-a3d4-66b5022fe10d",
@@ -218,13 +218,13 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "prompt": "Operação: Consultar registro na tabela tb_gastos_transacoes; Filtro: id_cliente: 1, dt_gasto: 27/08/2025",
+          "prompt": "Operação: Consultar registro na tabela tb_gastos_transacoes; Filtro: id_cliente: 1, dt_gasto: 21/08/2025 até 27/08/2025",
           "tabela": null
         }
       }
     ]
   },
-  "versionId": "f0d88e1a-87ca-45b2-8fcc-48edf0464628",
+  "versionId": "89de0005-144d-4767-91fe-24192ba02d70",
   "triggerCount": 0,
   "shared": [
     {
@@ -237,8 +237,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-27T11:00:46.278Z",
-    "version": "2025-08-27T03:42:52.000Z",
+    "backedUpAt": "2025-08-28T11:00:46.373Z",
+    "version": "2025-08-28T03:06:22.000Z",
     "originalId": "GTqy4bLmgL1aabpB"
   }
 }
