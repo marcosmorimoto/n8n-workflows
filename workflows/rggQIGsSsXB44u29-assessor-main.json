@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-27T03:37:59.000Z",
+  "updatedAt": "2025-08-28T03:40:57.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -228,7 +228,7 @@
       "typeVersion": 1,
       "position": [
         -9696,
-        -432
+        -144
       ],
       "id": "cd90a6b2-30c5-4a37-9ba7-db41266f24a0",
       "name": "Evolution API2",
@@ -253,7 +253,7 @@
       "typeVersion": 1,
       "position": [
         -9472,
-        -432
+        -144
       ],
       "id": "997ad197-14b1-42e8-af7b-f94215982378",
       "name": "Evolution API3",
@@ -401,7 +401,7 @@
       "typeVersion": 2.6,
       "position": [
         -10384,
-        -1040
+        -752
       ],
       "id": "30e6ad06-41cb-42e4-a58d-17a67b9c0476",
       "name": "Validar Pre Clientes",
@@ -424,7 +424,7 @@
       "typeVersion": 1,
       "position": [
         -9920,
-        -512
+        -224
       ],
       "id": "ad0f7a70-4f8e-455d-b7e7-a8cb1d3a4923",
       "name": "Sticky Note"
@@ -509,7 +509,7 @@
       "typeVersion": 3.2,
       "position": [
         -10160,
-        -176
+        112
       ],
       "id": "334e0fd1-ab30-4f30-b2c7-5c2eb5089c25",
       "name": "Switch3"
@@ -524,7 +524,7 @@
       "typeVersion": 2.6,
       "position": [
         -9904,
-        -432
+        -144
       ],
       "id": "03850d8a-1adf-401f-9fac-b3666236f108",
       "name": "Postgres",
@@ -577,7 +577,7 @@
       "typeVersion": 3.4,
       "position": [
         -10384,
-        -784
+        -496
       ],
       "id": "984f9519-5339-44d3-a00b-5e2b47b24bd8",
       "name": "Edit Fields"
@@ -596,7 +596,7 @@
       "typeVersion": 1,
       "position": [
         -9904,
-        -160
+        128
       ],
       "id": "d85f79b8-b039-4b1a-8943-57904a429771",
       "name": "Evolution API4",
@@ -618,7 +618,7 @@
       "typeVersion": 1,
       "position": [
         -9920,
-        -224
+        64
       ],
       "id": "9b390605-b0e2-4c2f-87ea-562cea3ad2a5",
       "name": "Sticky Note1"
@@ -637,7 +637,7 @@
       "typeVersion": 1,
       "position": [
         -9680,
-        -160
+        128
       ],
       "id": "d4c20a6b-2dd7-4f7b-b0de-9a842fa2f144",
       "name": "Evolution API5",
@@ -662,7 +662,7 @@
       "typeVersion": 1,
       "position": [
         -9904,
-        176
+        464
       ],
       "id": "4b9ce181-9692-42f8-8c88-59543bc24da9",
       "name": "Evolution API6",
@@ -684,7 +684,7 @@
       "typeVersion": 1,
       "position": [
         -9920,
-        96
+        384
       ],
       "id": "a9197107-3d7b-41e4-976a-da6a1960352b",
       "name": "Sticky Note2"
@@ -825,7 +825,7 @@
       "typeVersion": 2,
       "position": [
         -10176,
-        -1040
+        -752
       ],
       "id": "651b35c4-cc5e-4341-aac0-2e6fe4c8d3c1",
       "name": "Validar retorno nulo da consulta anterior"
@@ -839,7 +839,7 @@
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         -9920,
-        -1216
+        -928
       ],
       "typeVersion": 1,
       "id": "b90232b2-89e2-475c-9de9-09b936b8a4b2",
@@ -856,7 +856,7 @@
       "typeVersion": 1,
       "position": [
         -9424,
-        -784
+        -496
       ],
       "id": "c59fa3a4-6977-490d-9e9e-edeaaaba5c5e",
       "name": "Bloquear contato",
@@ -905,7 +905,7 @@
       "typeVersion": 2.2,
       "position": [
         -10160,
-        -784
+        -496
       ],
       "id": "cbed6d4d-570d-45c6-aa49-17e746affced",
       "name": "If"
@@ -920,7 +920,7 @@
       "typeVersion": 2.6,
       "position": [
         -9472,
-        -160
+        128
       ],
       "id": "2d824c7b-d748-460f-88f6-0e0c70585ef0",
       "name": "Atualizar quantidade de msg enviada",
@@ -941,7 +941,7 @@
       "typeVersion": 2.6,
       "position": [
         -9696,
-        176
+        464
       ],
       "id": "cc0eeef3-0218-4591-9166-812b1c2fcff9",
       "name": "Atualizar quantidade de msg enviada1",
@@ -966,7 +966,7 @@
       "typeVersion": 1,
       "position": [
         -9424,
-        -1104
+        -816
       ],
       "id": "b0fb046c-d823-4e6f-892b-7076eabb663e",
       "name": "Evolution API7",
@@ -1034,7 +1034,7 @@
       "typeVersion": 3.2,
       "position": [
         -9696,
-        -1024
+        -736
       ],
       "id": "af35ffc4-67c1-44fb-8eb8-b0d0987874c1",
       "name": "Switch"
@@ -1067,7 +1067,7 @@
       "typeVersion": 2.2,
       "position": [
         -9904,
-        -880
+        -592
       ],
       "id": "5adb9c25-de7c-462a-a001-795ba30af234",
       "name": "If1"
@@ -1086,7 +1086,7 @@
       "typeVersion": 1,
       "position": [
         -9424,
-        -944
+        -656
       ],
       "id": "6f3c0ba6-de66-4a7c-88b0-45cd3b6a87b8",
       "name": "Evolution API8",
@@ -1111,7 +1111,7 @@
       "typeVersion": 1,
       "position": [
         -9696,
-        -784
+        -496
       ],
       "id": "d97ea47f-8498-4881-bb1d-4357f722e4bc",
       "name": "Evolution API9",
@@ -1132,7 +1132,7 @@
       "typeVersion": 2.6,
       "position": [
         -9200,
-        -1120
+        -832
       ],
       "id": "078b1bda-05ca-465b-9fa5-0d5bcb8c4e25",
       "name": "Atualizar quantidade de msg enviada2",
@@ -1153,7 +1153,7 @@
       "typeVersion": 2.6,
       "position": [
         -9200,
-        -912
+        -624
       ],
       "id": "772b7343-b519-4d75-9e10-894a4dc0a18f",
       "name": "Atualizar quantidade de msg enviada3",
@@ -1176,7 +1176,7 @@
       "typeVersion": 1,
       "position": [
         -9200,
-        -752
+        -464
       ],
       "id": "24e00ad5-aadb-45b7-acdf-cc6fe115ca43",
       "name": "Desbloquear contato",
@@ -2337,7 +2337,7 @@
         "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
         "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
         "options_message": {
-          "delay": 1500
+          "delay": 500
         }
       },
       "type": "n8n-nodes-evolution-api.evolutionApi",
@@ -2468,6 +2468,80 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "99297ec3-7f49-4e3e-abf1-463e3d902000",
+              "name": "quem_mandou",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "4ecb24d1-632a-48c6-9601-8d550ef4292c",
+              "name": "id_mensagem",
+              "value": "={{ $('Dados').item.json.id_mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "ab535744-48e7-4e5c-bf37-8795ee68337a",
+              "name": "mensagem",
+              "value": "={{ $('Dados').item.json.mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "ffe57e37-c5d2-46a9-8d4c-ff7593bfe85a",
+              "name": "instancia",
+              "value": "={{ $('Dados').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "841b456d-1384-4520-be2e-f65c4f675a2c",
+              "name": "nome_pessoa",
+              "value": "={{ $('Dados').item.json.nome_pessoa }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -10128,
+        -1216
+      ],
+      "id": "d17e589b-ce87-4900-904e-ce1e97c9e903",
+      "name": "consolidar dados para cadastrar novo usuario"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "AhjNnPGf2bqKngv4",
+          "mode": "list",
+          "cachedResultName": "cadastrar_novo_cliente"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -9904,
+        -1216
+      ],
+      "id": "12d4ce7c-b46c-4ee4-8fab-ff1bc8333bf3",
+      "name": "Chamar Workflow Cadastrar Novo Usuario"
     }
   ],
   "connections": {
@@ -2683,7 +2757,7 @@
         ],
         [
           {
-            "node": "Validar Pre Clientes",
+            "node": "consolidar dados para cadastrar novo usuario",
             "type": "main",
             "index": 0
           }
@@ -3270,6 +3344,17 @@
           }
         ]
       ]
+    },
+    "consolidar dados para cadastrar novo usuario": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Cadastrar Novo Usuario",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3280,8 +3365,67 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "cbb00a43-cc92-405c-a9a4-15af913c5c9d",
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "axios/1.7.9",
+            "content-length": "946",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.18.0.1",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "4da12f605ef5",
+            "x-real-ip": "172.18.0.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "Secretaria",
+            "data": {
+              "key": {
+                "remoteJid": "5511948456707@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3AAA20931F7CA6B62B51"
+              },
+              "pushName": "Marcos",
+              "status": "DELIVERY_ACK",
+              "message": {
+                "conversation": "Lista pra mim as compras do dia 24/08/2025",
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "Z7M7BtZycDFUqA==",
+                    "senderTimestamp": "1756144832",
+                    "recipientKeyHash": "15Og6NYyHWkhjw==",
+                    "recipientTimestamp": "1754575628"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "yMlLVKAO6MOioPIMVBYTNs/iIKLbSbvkpWvllfkh8rE="
+                }
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1756350562,
+              "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
+              "source": "ios"
+            },
+            "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
+            "date_time": "2025-08-28T00:09:23.024Z",
+            "sender": "5511919861358@s.whatsapp.net",
+            "server_url": "https://evolutionapi.mx4solucoes.com.br",
+            "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "versionId": "4781cc91-de90-4b54-8ca0-ce101fd01b1b",
   "triggerCount": 1,
   "shared": [
     {
@@ -3294,8 +3438,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-27T11:00:46.389Z",
-    "version": "2025-08-27T03:37:59.000Z",
+    "backedUpAt": "2025-08-28T11:00:46.482Z",
+    "version": "2025-08-28T03:40:57.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
