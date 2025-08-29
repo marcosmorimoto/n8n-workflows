@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-06-18T03:23:00.243Z",
-  "updatedAt": "2025-08-13T22:20:37.000Z",
+  "updatedAt": "2025-08-29T04:18:18.000Z",
   "id": "ZcCClCQNB0RUwo25",
   "name": "TOOL - Interagir com DB",
   "active": false,
@@ -78,17 +78,18 @@
       ],
       "id": "81158b0a-76a9-4ea6-b5fe-2575aefeed60",
       "name": "Execute a SQL query",
+      "alwaysOutputData": true,
       "credentials": {
         "postgres": {
           "id": "REMOVED",
           "name": "postgresql_db"
         }
       },
-      "onError": "continueErrorOutput"
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "jsCode": "const input = $input.first().json.output;\n\n// 1. Remove os blocos ```sql e ```\nlet clean = input\n   .replace(/^```sql\\s*|\\s*```$/gi, '')\n   .replace(/```/g, '')\n   .replace(/\\n/g, ' ')\n   .replace(/\\s+/g, ' ')\n   .trim();\n\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
+        "jsCode": "const input = $input.first().json.output;\n\nlet clean = input\n  .replace(/^```sql\\s*|\\s*```$/gi, '') // Remove blocos ```sql\n  .replace(/```/g, '')                  // Remove quaisquer ``` residuais\n  .replace(/^\\\"|\\\"$/g, '')              // Remove aspas iniciais/finais\n  .replace(/\\n/g, ' ')                  // Substitui quebras de linha por espaços\n  .replace(/\\s+/g, ' ')                 // Remove espaços excessivos\n  .trim();                              // Remove espaços extras no início/fim\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -125,6 +126,19 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        0
+      ],
+      "id": "51e92bb0-c8b8-4fea-b6c6-0aa13bfb3291",
+      "name": "Tratar erro e retorno vazio"
     }
   ],
   "connections": {
@@ -176,6 +190,17 @@
           }
         ]
       ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Tratar erro e retorno vazio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -189,17 +214,26 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "prompt": "Operação: Consultar registro; Filtro: id_prestador: 5511948456707@s.whatsapp.net, pagou_total: NÃO"
+          "prompt": "Operação: Consultar registro; Filtro: id_prestador: 5511948456707@s.whatsapp.net, valor_servico: >1"
         }
       }
     ]
   },
-  "versionId": "277ea437-6146-4c72-a98d-cfbbfe780b88",
+  "versionId": "d59f80d3-1ae0-4753-9ab9-10dc461003aa",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-06-18T03:23:00.249Z",
+      "updatedAt": "2025-06-18T03:23:00.249Z",
+      "role": "workflow:owner",
+      "workflowId": "ZcCClCQNB0RUwo25",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.724Z",
-    "version": "2025-08-13T22:20:37.000Z",
+    "backedUpAt": "2025-08-29T11:00:46.867Z",
+    "version": "2025-08-29T04:18:18.000Z",
     "originalId": "ZcCClCQNB0RUwo25"
   }
 }
