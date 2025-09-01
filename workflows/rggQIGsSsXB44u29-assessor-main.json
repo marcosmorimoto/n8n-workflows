@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-29T04:04:00.000Z",
+  "updatedAt": "2025-08-31T22:57:01.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -11200,
+        -11408,
         -1392
       ],
       "id": "9c2bc24f-0536-455c-867b-49183ed840c0",
@@ -29,61 +29,61 @@
             {
               "id": "2252bfcc-9fee-41c5-a91a-07c780b9b371",
               "name": "quem_mandou",
-              "value": "={{ $json.body.data.key.remoteJid }}",
+              "value": "={{ $json.remoteJid }}",
               "type": "string"
             },
             {
               "id": "33246954-7d18-4e4f-9fad-6ea502bdc1d9",
               "name": "instancia",
-              "value": "={{ $json.body.instance }}",
+              "value": "={{ $('Webhook').item.json.body.instance }}",
               "type": "string"
             },
             {
               "id": "f6bd84a0-19ab-4468-b277-f18d3593df84",
               "name": "mensagem",
-              "value": "={{ $json.body.data.message.conversation }}",
+              "value": "={{ $('Webhook').item.json.body.data.message.conversation }}",
               "type": "string"
             },
             {
               "id": "dfa2fa9b-529c-4789-af36-5f119c05a921",
               "name": "id_mensagem",
-              "value": "={{ $json.body.data.key.id }}",
+              "value": "={{ $('Webhook').item.json.body.data.key.id }}",
               "type": "string"
             },
             {
               "id": "39ddec5c-3f95-4728-b371-d5e7761e7b0c",
               "name": "nome_pessoa",
-              "value": "={{ $json.body.data.pushName }}",
+              "value": "={{ $('Webhook').item.json.body.data.pushName }}",
               "type": "string"
             },
             {
               "id": "1bb9e850-9bc1-462a-b865-ced89c4c341e",
               "name": "fromMe",
-              "value": "={{ $json.body.data.key.fromMe }}",
+              "value": "={{ $('Webhook').item.json.body.data.key.fromMe }}",
               "type": "string"
             },
             {
               "id": "19873c8e-744a-4094-b871-7921c81d8154",
               "name": "quem_recebeu",
-              "value": "={{ $json.body.sender }}",
+              "value": "={{ $('Webhook').item.json.body.sender }}",
               "type": "string"
             },
             {
               "id": "6922940a-6d82-47f7-b17f-ca313b33ef5d",
               "name": "tipoMensagem",
-              "value": "={{ $json.body.data.messageType }}",
+              "value": "={{ $('Webhook').item.json.body.data.messageType }}",
               "type": "string"
             },
             {
               "id": "92ef47c9-5b0f-436a-b83b-dbc16767d1fa",
               "name": "nome_quem_mandou",
-              "value": "={{ $json.body.data.pushName }}",
+              "value": "={{ $('Webhook').item.json.body.data.pushName }}",
               "type": "string"
             },
             {
               "id": "a45c2353-169c-40b7-b3bb-80a2855f2059",
               "name": "base64",
-              "value": "={{ $json.body.data.message.base64 }}",
+              "value": "={{ $('Webhook').item.json.body.data.message.base64 }}",
               "type": "string"
             }
           ]
@@ -1404,11 +1404,11 @@
         "categories": {
           "categories": [
             {
-              "category": "cumprimentos duvidas e despedidas",
-              "description": "Se o usuário esteja realizando um cumprimento, saudação, dúvidas sobre as atividades do agente, ou se estiver se despedindo, agradecendo ou encerrando a conversa"
+              "category": "cumprimentos, duvidas e despedidas",
+              "description": "Se o usuário estiver realizando um cumprimento, saudação, dúvidas sobre as atividades do agente, ou se estiver se despedindo, agradecendo ou encerrando a conversa"
             },
             {
-              "category": "controle de gastos",
+              "category": "controle de gastos ou assessor financeiro",
               "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas/limites financeiros, verificar status de metas/alertas/limites, criar ou modificar metas/alertas/limites."
             },
             {
@@ -2662,6 +2662,19 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const v_remoteJid = $input.first().json.body.data.key.remoteJid;\n\nif (v_remoteJid.includes('@lid')) {\n    return { remoteJid: $input.first().json.body.data.key.senderPn };\n} else {\n    return { remoteJid: $input.first().json.body.data.key.remoteJid};\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -11184,
+        -1392
+      ],
+      "id": "03b8ea34-1729-4a46-aa04-500df193e83c",
+      "name": "Validar remoteJid"
     }
   ],
   "connections": {
@@ -2669,7 +2682,7 @@
       "main": [
         [
           {
-            "node": "Dados",
+            "node": "Validar remoteJid",
             "type": "main",
             "index": 0
           }
@@ -3518,6 +3531,17 @@
           }
         ]
       ]
+    },
+    "Validar remoteJid": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3534,8 +3558,9 @@
         "json": {
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
-            "user-agent": "axios/1.7.9",
-            "content-length": "911",
+            "user-agent": "axios/1.10.0",
+            "content-length": "988",
+            "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
             "x-forwarded-for": "172.18.0.1",
@@ -3552,32 +3577,33 @@
             "instance": "Secretaria",
             "data": {
               "key": {
-                "remoteJid": "5511948456707@s.whatsapp.net",
+                "remoteJid": "5511955562525@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3A1DB57F5CAD3A7C61D8"
+                "id": "3A9CBF948334F4544407",
+                "senderLid": "53992084238419@lid"
               },
-              "pushName": "Marcos",
+              "pushName": "Raquel",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Oi mori",
+                "conversation": "E ai preparada para ser minha assessora financeira?",
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "Z7M7BtZycDFUqA==",
-                    "senderTimestamp": "1756144832",
+                    "senderKeyHash": "Dy7V/hOmEGehbg==",
+                    "senderTimestamp": "1756429273",
                     "recipientKeyHash": "15Og6NYyHWkhjw==",
                     "recipientTimestamp": "1754575628"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "mVRDGFBqsB37bQczdYgqOWXw1lB1pt+3M19TZ+PR/J4="
+                  "messageSecret": "+zCRJhyzd33ENfR9f+ZCJ47ITOElhBsvyO4VLXJPv5o="
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1756439344,
+              "messageTimestamp": 1756673577,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-08-29T00:49:04.297Z",
+            "date_time": "2025-08-31T17:52:57.634Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -3588,7 +3614,7 @@
       }
     ]
   },
-  "versionId": "b0d40be8-7dc5-430c-9008-1fcbc68d5967",
+  "versionId": "e9b65dad-f034-46c6-9c32-b8e74da76efa",
   "triggerCount": 1,
   "shared": [
     {
@@ -3601,8 +3627,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-29T11:00:46.968Z",
-    "version": "2025-08-29T04:04:00.000Z",
+    "backedUpAt": "2025-09-01T11:00:46.525Z",
+    "version": "2025-08-31T22:57:01.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
