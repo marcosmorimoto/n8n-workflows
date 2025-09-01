@@ -1,0 +1,52 @@
+{
+  "createdAt": "2025-08-31T23:54:04.533Z",
+  "updatedAt": "2025-09-01T00:27:14.000Z",
+  "id": "egGfEYHUDYdXMKAC",
+  "name": "lembretes",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "db410362-a925-4696-8111-45e3d6415f8b",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        144,
+        16
+      ],
+      "id": "38433816-9118-4dcf-9acf-bee1714c169f",
+      "name": "Webhook",
+      "webhookId": "db410362-a925-4696-8111-45e3d6415f8b"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "75cd7e5b-950c-4a89-aa1d-13d695549c0d",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-31T23:54:04.541Z",
+      "updatedAt": "2025-08-31T23:54:04.541Z",
+      "role": "workflow:owner",
+      "workflowId": "egGfEYHUDYdXMKAC",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-01T11:00:46.374Z",
+    "version": "2025-09-01T00:27:14.000Z",
+    "originalId": "egGfEYHUDYdXMKAC"
+  }
+}
