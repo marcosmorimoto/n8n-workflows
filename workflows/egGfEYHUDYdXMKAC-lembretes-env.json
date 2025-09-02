@@ -1,0 +1,125 @@
+{
+  "createdAt": "2025-08-31T23:54:04.533Z",
+  "updatedAt": "2025-09-02T05:15:41.000Z",
+  "id": "egGfEYHUDYdXMKAC",
+  "name": "lembretes_env",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "exchange",
+        "exchange": "reminder-delayed-exchange",
+        "exchangeType": "direct",
+        "routingKey": "execute-reminder",
+        "options": {
+          "headers": {
+            "header": [
+              {
+                "key": "x-delay",
+                "value": "60000"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        16
+      ],
+      "id": "dbd11855-fbc1-49e7-9e4c-795ce82f0b20",
+      "name": "RabbitMQ",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        16
+      ],
+      "id": "a0cb447d-0d51-4097-bebc-3982f000efec",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aff50f75-36c4-420e-82e5-ac7e9e397ca3",
+              "name": "Teste",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        16
+      ],
+      "id": "a3efbb31-a0c0-4a3a-8b8a-b1cc40e8a902",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "RabbitMQ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "7b00d033-fe43-4e8f-8461-d0e803963eef",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-31T23:54:04.541Z",
+      "updatedAt": "2025-08-31T23:54:04.541Z",
+      "role": "workflow:owner",
+      "workflowId": "egGfEYHUDYdXMKAC",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-02T11:00:47.682Z",
+    "version": "2025-09-02T05:15:41.000Z",
+    "originalId": "egGfEYHUDYdXMKAC"
+  }
+}
