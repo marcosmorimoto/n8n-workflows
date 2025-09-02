@@ -1,0 +1,93 @@
+{
+  "createdAt": "2025-09-02T05:10:25.469Z",
+  "updatedAt": "2025-09-02T05:15:51.000Z",
+  "id": "gjUC8CrUVSPVmvvH",
+  "name": "lembretes_out",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "reminder-execution-queue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "5e76d33b-5a16-4a32-857c-bc102e5edebf",
+      "name": "RabbitMQ Trigger",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "=Secretaria",
+        "remoteJid": "=5511948456707@s.whatsapp.net",
+        "messageText": "={{ $json.content }} horário {{ $now }}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "361e4929-3c29-415b-be95-27cd5e3db1ec",
+      "name": "Enviar Mensagem Conversa",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "RabbitMQ Trigger": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5dc82b87-7528-48d0-b9a7-10a42b4ef7f1",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-09-02T05:10:25.474Z",
+      "updatedAt": "2025-09-02T05:10:25.474Z",
+      "role": "workflow:owner",
+      "workflowId": "gjUC8CrUVSPVmvvH",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-02T11:00:47.744Z",
+    "version": "2025-09-02T05:15:51.000Z",
+    "originalId": "gjUC8CrUVSPVmvvH"
+  }
+}
