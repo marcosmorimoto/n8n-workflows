@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-02T05:10:25.469Z",
-  "updatedAt": "2025-09-02T05:15:51.000Z",
+  "updatedAt": "2025-09-03T15:04:24.000Z",
   "id": "gjUC8CrUVSPVmvvH",
   "name": "lembretes_out",
   "active": true,
@@ -63,6 +63,11 @@
           }
         ]
       ]
+    },
+    "Enviar Mensagem Conversa": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -73,7 +78,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "5dc82b87-7528-48d0-b9a7-10a42b4ef7f1",
+  "versionId": "c9d5664c-7e06-4c5c-9ed2-36bced0387ee",
   "triggerCount": 1,
   "shared": [
     {
@@ -86,8 +91,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-02T11:00:47.744Z",
-    "version": "2025-09-02T05:15:51.000Z",
+    "backedUpAt": "2025-09-04T11:00:46.214Z",
+    "version": "2025-09-03T15:04:24.000Z",
     "originalId": "gjUC8CrUVSPVmvvH"
   }
 }
