@@ -1,0 +1,284 @@
+{
+  "createdAt": "2025-08-31T23:54:04.533Z",
+  "updatedAt": "2025-09-04T03:22:41.000Z",
+  "id": "egGfEYHUDYdXMKAC",
+  "name": "criar_lembrete",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "exchange",
+        "exchange": "reminder-delayed-exchange",
+        "exchangeType": "direct",
+        "routingKey": "execute-reminder",
+        "options": {
+          "headers": {
+            "header": [
+              {
+                "key": "x-delay",
+                "value": "60000"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1.1,
+      "position": [
+        352,
+        16
+      ],
+      "id": "dbd11855-fbc1-49e7-9e4c-795ce82f0b20",
+      "name": "RabbitMQ",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        16
+      ],
+      "id": "a0cb447d-0d51-4097-bebc-3982f000efec",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aff50f75-36c4-420e-82e5-ac7e9e397ca3",
+              "name": "Teste",
+              "value": "={{ $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        16
+      ],
+      "id": "a3efbb31-a0c0-4a3a-8b8a-b1cc40e8a902",
+      "name": "Edit Fields",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        272
+      ],
+      "id": "3ced8980-c0f6-4656-b6c0-fc29aa40b2f9",
+      "name": "When chat message received",
+      "webhookId": "f985bbff-9e28-4d18-a4aa-4abdbc85b88a"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        448
+      ],
+      "id": "6203d224-58aa-4652-a959-159123278500",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ $now }} \nNumero dia da semana atual: {{ $now.format('EEEE') }}",
+        "options": {
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data e hora atual os valores abaixo:\nData atual: {{ $now }} \nDia da semana atual: {{ $now.format('E') }} - {{ $now.format('EEEE') }}.\n\nNumeração dos dias da semana para referência:\n0: Domingo (Sunday)\n1: Segunda (Monday)\n2: Terça (Tuesday)\n3: Quarta (Wednesday)\n4: Quinta (Thursday)\n5: Sexta (Friday)\n6: Sabado (Saturday)\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n0: Domingo -> 1: Segunda\n1: Segunda -> 2: Terça\n2: Terça -> 3: Quarta\n3: Quarta -> 4: Quinta\n4: Quinta -> 5: Sexta\n5: Sexta -> 6: Sabado\n6: Sabado -> 0: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ $now }}.\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários.**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        272
+      ],
+      "id": "83587050-e7a9-49f3-90d0-841fc12d4f71",
+      "name": "calcula_proxima_exec"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31727900-c397-445a-9caa-f6c5491c4455",
+              "name": "mensagem",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd91449-4b39-4767-a1f0-870029b9ca6f",
+              "name": "id_lembrete",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+              "name": "id_cliente",
+              "value": "1",
+              "type": "string"
+            },
+            {
+              "id": "dbf6500b-3741-4bbb-bdc3-e9f3c364200a",
+              "name": "operacao",
+              "value": "CRIAR_LEMBRETE",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        272
+      ],
+      "id": "f7cb1f65-efb7-4ad3-8b54-b18d143e2ccc",
+      "name": "Dados para criar ou atualizar lembrete"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Script simplificado para n8n - Extração de data_proxima_execucao, data_desativacao e descricao\n\n// Obtém o texto de entrada do item\nconst texto = $input.first().json.output || $input.first().json.output || '';\n\n// Função para extrair valores de forma segura\nfunction extrairCampo(texto, nomeCampo) {\n  try {\n    // Normaliza o texto removendo múltiplos espaços mas mantendo quebras de linha\n    const textoLimpo = texto.replace(/\\r/g, '');\n    \n    // Cria regex para capturar o valor do campo\n    // Procura pelo nome do campo seguido de : e captura até o próximo campo ou fim\n    const regex = new RegExp(\n      `${nomeCampo}:\\\\s*([^\\\\n]*?)(?=\\\\s*(?:data_proxima_execucao|data_desativacao|descricao):|$)`,\n      'si'\n    );\n    \n    const match = textoLimpo.match(regex);\n    \n    if (match && match[1] !== undefined) {\n      // Remove espaços extras e retorna o valor\n      return match[1].trim();\n    }\n    \n    return '';\n  } catch (error) {\n    console.error(`Erro ao extrair ${nomeCampo}:`, error);\n    return '';\n  }\n}\n\ntry {\n  // Extrai os três campos\n  const data_proxima_execucao = extrairCampo(texto, 'data_proxima_execucao');\n  const data_desativacao = extrairCampo(texto, 'data_desativacao');\n  const descricao = extrairCampo(texto, 'descricao');\n  \n  // Monta o objeto de saída\n  const resultado = {\n    data_proxima_execucao: data_proxima_execucao || null,\n    data_desativacao: data_desativacao || null,\n    descricao: descricao || null\n  };\n  \n  // Adiciona informações extras úteis\n  if (data_proxima_execucao) {\n    try {\n      const dataObj = new Date(data_proxima_execucao);\n      resultado.data_proxima_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_proxima_valida) {\n        resultado.data_proxima_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_proxima_valida = false;\n    }\n  }\n  \n  if (data_desativacao) {\n    try {\n      const dataObj = new Date(data_desativacao);\n      resultado.data_desativacao_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_desativacao_valida) {\n        resultado.data_desativacao_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_desativacao_valida = false;\n    }\n  }\n  \n  // Retorna o resultado\n  return resultado;\n  \n} catch (error) {\n  // Em caso de erro, retorna objeto com erro\n  return {\n    erro: true,\n    mensagem: error.message,\n    data_proxima_execucao: null,\n    data_desativacao: null,\n    descricao: null\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        272
+      ],
+      "id": "84daa3be-fb14-4f06-8fb6-2790a3af647c",
+      "name": "Code"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "RabbitMQ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Dados para criar ou atualizar lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "calcula_proxima_exec",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para criar ou atualizar lembrete": {
+      "main": [
+        [
+          {
+            "node": "calcula_proxima_exec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "calcula_proxima_exec": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ebd01427-e111-47b3-92e9-e1eec3c98917",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-31T23:54:04.541Z",
+      "updatedAt": "2025-08-31T23:54:04.541Z",
+      "role": "workflow:owner",
+      "workflowId": "egGfEYHUDYdXMKAC",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-04T11:00:46.209Z",
+    "version": "2025-09-04T03:22:41.000Z",
+    "originalId": "egGfEYHUDYdXMKAC"
+  }
+}
