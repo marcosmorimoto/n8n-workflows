@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-08-31T22:57:01.000Z",
+  "updatedAt": "2025-09-05T01:52:59.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1414,6 +1414,10 @@
             {
               "category": "prestação de serviços",
               "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gerenciamento de prestação de serviços ou atividades remuneradas, como registrar novas prestações de serviço, buscar/visualizar serviços prestados cadastrados, modificar prestações de serviço já registrados, excluir prestações de serviços registrados."
+            },
+            {
+              "category": "lembrete, alarme, aviso ou alerta",
+              "description": "Se o usuário estiver querendo realizar alguma operação relacionada lembretes, avisos, alarmes ou alertas, como é criar, alterar, consultar ou remover lembretes, avisos, alarmes ou alertas. "
             }
           ]
         },
@@ -1434,9 +1438,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "o4-mini",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "o4-mini"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {
           "temperature": 1
@@ -2675,6 +2679,155 @@
       ],
       "id": "03b8ea34-1729-4a46-aa04-500df193e83c",
       "name": "Validar remoteJid"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -5648,
+        64
+      ],
+      "id": "dbb2cdab-b8b7-4d01-9347-2f5a7fbc7822",
+      "name": "Redis Chat Memory11",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -5744,
+        64
+      ],
+      "id": "4f7f3e02-e454-4eb4-9d89-e95353d0e60c",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+        "options": {
+          "systemMessage": "=Classifique a intenção do usuário em:\n- \"CRIAR_LEMBRETE\" (para criar novo lembrete/alarme/aviso)\n- \"ALTERAR_LEMBRETE\" (para modificar lembrete existente)\n- \"CONSULTAR_LEMBRETE\" (para listar/ver lembretes)\n- \"REMOVER_LEMBRETE\" (para excluir/cancelar lembrete)\n\nConsidere sinônimos: lembrete, alarme, aviso, alerta, notificação, recado.\n\nExemplos:\n\"Me avise às 15h\" → CRIAR_LEMBRETE\n\"Mostrar meus alarmes\" → ALTERAR_LEMBRETE  \n\"Excluir aquele lembrete\" → REMOVER_LEMBRETE\n\"Mudar o horário do aviso\" → REMOVER_LEMBRETE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -5744,
+        -128
+      ],
+      "id": "b0459ffb-7867-43b3-8fe1-028ab90235f1",
+      "name": "Classifica Lembretes",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "egGfEYHUDYdXMKAC",
+          "mode": "list",
+          "cachedResultName": "criar_atualizar_lembrete"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -5200,
+        -128
+      ],
+      "id": "c275ff18-dab9-4895-8029-263486528d8f",
+      "name": "Chamar Workflow Prestacao Servico1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31727900-c397-445a-9caa-f6c5491c4455",
+              "name": "mensagem",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+              "name": "id_cliente",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.id_cliente }}",
+              "type": "string"
+            },
+            {
+              "id": "d3a47839-3f16-4758-807a-fd8dbcf95e2a",
+              "name": "operacao",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "a2f4e62a-9772-49b7-84ca-d18ddbe81dc3",
+              "name": "data_atual_msg",
+              "value": "={{ $now.setZone('UTC-3').set({ hour: $now.hour }).toString().replace('-03:00','Z') }}",
+              "type": "string"
+            },
+            {
+              "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+              "name": "id_whatsapp",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "dabe296a-66ae-485e-b561-d776cb351cb8",
+              "name": "nome_instancia",
+              "value": "={{ $('Dados').item.json.instancia }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5408,
+        -128
+      ],
+      "id": "937d7328-f224-45d2-adcf-6d6b9354bb61",
+      "name": "Dados para workflow lembrete"
     }
   ],
   "connections": {
@@ -3122,6 +3275,13 @@
         ],
         [
           {
+            "node": "Classifica Lembretes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Economia de tokens do prompt",
             "type": "main",
             "index": 0
@@ -3542,6 +3702,50 @@
           }
         ]
       ]
+    },
+    "Redis Chat Memory11": {
+      "ai_memory": [
+        [
+          {
+            "node": "Classifica Lembretes",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classifica Lembretes",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classifica Lembretes": {
+      "main": [
+        [
+          {
+            "node": "Dados para workflow lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para workflow lembrete": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Prestacao Servico1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3559,7 +3763,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.10.0",
-            "content-length": "988",
+            "content-length": "10576",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
@@ -3577,33 +3781,48 @@
             "instance": "Secretaria",
             "data": {
               "key": {
-                "remoteJid": "5511955562525@s.whatsapp.net",
+                "remoteJid": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3A9CBF948334F4544407",
-                "senderLid": "53992084238419@lid"
+                "id": "3AB234F7EB5717BD9065",
+                "senderLid": "193965068443828@lid"
               },
-              "pushName": "Raquel",
+              "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "E ai preparada para ser minha assessora financeira?",
+                "audioMessage": {
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/543043324_2257905404727747_1401113571228165463_n.enc?ccb=11-4&oh=01_Q5Aa2QEBTWG_b1sQCElLmJcGck0DEnm7IKiqbsSY9y1-iOlIzg&oe=68E19611&_nc_sid=5e03e0&mms3=true",
+                  "mimetype": "audio/ogg; codecs=opus",
+                  "fileSha256": "9A5/1iqX9qg0TrVWEHeTYC886ewzLr8E1Uh8lKwzA10=",
+                  "fileLength": "6596",
+                  "seconds": 2,
+                  "ptt": true,
+                  "mediaKey": "c3kx5Wo1u2L2qd9DIay5wCL5/GSv6s1zFuGP7ZnIRSk=",
+                  "fileEncSha256": "5482tbJjuioW79Q8kpmzPKqDWg+i5yflHaJXKRL+oi0=",
+                  "directPath": "/v/t62.7117-24/543043324_2257905404727747_1401113571228165463_n.enc?ccb=11-4&oh=01_Q5Aa2QEBTWG_b1sQCElLmJcGck0DEnm7IKiqbsSY9y1-iOlIzg&oe=68E19611&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1757036331",
+                  "streamingSidecar": "p46IqvvQ0WNEdA==",
+                  "waveform": "AAABAQEBAQENGSUuMjY7NzQwLi0sKysrKyknJSMkJigqKywuLi8wLiomIiIjIyUnKi0uMTIyLionIRsVEQ8MCg=="
+                },
                 "messageContextInfo": {
                   "deviceListMetadata": {
-                    "senderKeyHash": "Dy7V/hOmEGehbg==",
-                    "senderTimestamp": "1756429273",
+                    "senderKeyHash": "Z7M7BtZycDFUqA==",
+                    "senderTimestamp": "1756144832",
                     "recipientKeyHash": "15Og6NYyHWkhjw==",
-                    "recipientTimestamp": "1754575628"
+                    "recipientTimestamp": "1756492998"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "+zCRJhyzd33ENfR9f+ZCJ47ITOElhBsvyO4VLXJPv5o="
-                }
+                  "messageSecret": "naNMyI3ITzQEDMso4Vjb1O02BeSR+Qfa8JmOTSmXyYQ="
+                },
+                "base64": "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"
               },
-              "messageType": "conversation",
-              "messageTimestamp": 1756673577,
+              "contextInfo": null,
+              "messageType": "audioMessage",
+              "messageTimestamp": 1757036334,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-08-31T17:52:57.634Z",
+            "date_time": "2025-09-04T22:38:55.871Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -3614,7 +3833,7 @@
       }
     ]
   },
-  "versionId": "e9b65dad-f034-46c6-9c32-b8e74da76efa",
+  "versionId": "62e52ebd-d856-4238-b6e8-b7e6c816edc6",
   "triggerCount": 1,
   "shared": [
     {
@@ -3627,8 +3846,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-01T11:00:46.525Z",
-    "version": "2025-08-31T22:57:01.000Z",
+    "backedUpAt": "2025-09-05T11:00:48.265Z",
+    "version": "2025-09-05T01:52:59.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
