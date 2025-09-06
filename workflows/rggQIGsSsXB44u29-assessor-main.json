@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-05T01:52:59.000Z",
+  "updatedAt": "2025-09-06T04:20:23.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1429,7 +1429,7 @@
       "typeVersion": 1.1,
       "position": [
         -6256,
-        -1408
+        -1424
       ],
       "id": "6af5bb18-d340-4a17-83b3-0231d3b874bc",
       "name": "Text Classifier"
@@ -2734,7 +2734,7 @@
         "promptType": "define",
         "text": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
         "options": {
-          "systemMessage": "=Classifique a intenção do usuário em:\n- \"CRIAR_LEMBRETE\" (para criar novo lembrete/alarme/aviso)\n- \"ALTERAR_LEMBRETE\" (para modificar lembrete existente)\n- \"CONSULTAR_LEMBRETE\" (para listar/ver lembretes)\n- \"REMOVER_LEMBRETE\" (para excluir/cancelar lembrete)\n\nConsidere sinônimos: lembrete, alarme, aviso, alerta, notificação, recado.\n\nExemplos:\n\"Me avise às 15h\" → CRIAR_LEMBRETE\n\"Mostrar meus alarmes\" → ALTERAR_LEMBRETE  \n\"Excluir aquele lembrete\" → REMOVER_LEMBRETE\n\"Mudar o horário do aviso\" → REMOVER_LEMBRETE"
+          "systemMessage": "=Classifique a intenção do usuário em:\n- \"CRIAR_LEMBRETE\" (para criar novo lembrete/alarme/aviso)\n- \"ALTERAR_LEMBRETE\" (para modificar lembrete existente)\n- \"CONSULTAR_LEMBRETE\" (para listar/ver lembretes)\n- \"CANCELAR_LEMBRETE\" (para excluir/cancelar lembrete)\n\nConsidere sinônimos: lembrete, alarme, aviso, alerta, notificação, recado.\n\nExemplos:\n\"Me avise às 15h\" → CRIAR_LEMBRETE\n\"Mostrar meus alarmes\" → CONSULTAR_LEMBRETE  \n\"Excluir aquele lembrete\" → CANCELAR_LEMBRETE\n\"Mudar o horário do aviso\" → ALTERAR_LEMBRETE"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -2814,6 +2814,12 @@
               "id": "dabe296a-66ae-485e-b561-d776cb351cb8",
               "name": "nome_instancia",
               "value": "={{ $('Dados').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "2d14b66f-fba4-42c7-b411-afcd9c76a839",
+              "name": "apelido",
+              "value": "={{ $('Dados Contrato').item.json.apelido }}",
               "type": "string"
             }
           ]
@@ -3833,7 +3839,7 @@
       }
     ]
   },
-  "versionId": "62e52ebd-d856-4238-b6e8-b7e6c816edc6",
+  "versionId": "304fb9d5-5b17-4881-a547-d020a4a4b5eb",
   "triggerCount": 1,
   "shared": [
     {
@@ -3846,8 +3852,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-05T11:00:48.265Z",
-    "version": "2025-09-05T01:52:59.000Z",
+    "backedUpAt": "2025-09-06T11:00:47.947Z",
+    "version": "2025-09-06T04:20:23.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
