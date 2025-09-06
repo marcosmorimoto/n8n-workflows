@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-02T05:10:25.469Z",
-  "updatedAt": "2025-09-05T01:22:08.000Z",
+  "updatedAt": "2025-09-05T22:21:05.000Z",
   "id": "gjUC8CrUVSPVmvvH",
   "name": "lembretes_out",
   "active": true,
@@ -14,7 +14,7 @@
       "type": "n8n-nodes-base.rabbitmqTrigger",
       "typeVersion": 1,
       "position": [
-        16,
+        -16,
         0
       ],
       "id": "5e76d33b-5a16-4a32-857c-bc102e5edebf",
@@ -23,31 +23,6 @@
         "rabbitmq": {
           "id": "REMOVED",
           "name": "RabbitMQ account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "messages-api",
-        "instanceName": "={{ $json.content.nome_instancia }}",
-        "remoteJid": "={{ $json.content.id_whatsapp }}",
-        "messageText": "=*LEMBRETE* 📝\n\n{{ $json.content.dsc_lembrete ?? 'Sua solicitação: '+ $json.content.prompt_lembrete}}\n\nData de criação do lembrete: {{ DateTime.fromISO($json.content.dt_cadastro, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm') }}",
-        "options_message": {
-          "delay": 4000
-        }
-      },
-      "type": "n8n-nodes-evolution-api.evolutionApi",
-      "typeVersion": 1,
-      "position": [
-        432,
-        0
-      ],
-      "id": "361e4929-3c29-415b-be95-27cd5e3db1ec",
-      "name": "Enviar Mensagem Conversa",
-      "credentials": {
-        "evolutionApi": {
-          "id": "REMOVED",
-          "name": "Evolution account"
         }
       }
     },
@@ -68,11 +43,104 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        224,
+        176,
         0
       ],
       "id": "3d7177c0-0670-43e7-ba3e-1a2d1d1cc170",
       "name": "tratar_json_fila"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        848,
+        144
+      ],
+      "id": "a9385a2d-e361-4de5-bb0e-c47c191a3ec0",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('tratar_json_fila').item.json.content.nome_instancia }}",
+        "remoteJid": "={{ $('tratar_json_fila').item.json.content.id_whatsapp }}",
+        "messageText": "=*LEMBRETE* 📝\n\n{{ $('tratar_json_fila').item.json.content.dsc_lembrete ?? 'Sua solicitação: '+ $('tratar_json_fila').item.json.content.prompt_lembrete}}\n\nData de criação do lembrete: {{ DateTime.fromISO($('tratar_json_fila').item.json.content.dt_cadastro, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm') }}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        848,
+        -80
+      ],
+      "id": "361e4929-3c29-415b-be95-27cd5e3db1ec",
+      "name": "enviar_lembrete_usuario",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "df0c8bc7-5f1b-4543-b0de-78277b955e9a",
+              "leftValue": "={{ $json.valida_lembrete }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "85096eb8-84fc-43ea-89ff-832b5490f840",
+      "name": "valida_envio_lembrete"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select count(*) valida_lembrete\n  from public.tb_lembretes\n where id_cliente = {{ $json.content.id_cliente }}\n   and id = {{ $json.content.id }}\n   and abortar_execucao_lembrete is null;",
+        "options": {
+          "largeNumbersOutput": "numbers"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        384,
+        0
+      ],
+      "id": "ab13e863-76ac-439f-98f0-76b157f04cbd",
+      "name": "valida_abortar_exec_lembrete",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
     }
   ],
   "connections": {
@@ -87,16 +155,45 @@
         ]
       ]
     },
-    "Enviar Mensagem Conversa": {
-      "main": [
-        []
-      ]
-    },
     "tratar_json_fila": {
       "main": [
         [
           {
-            "node": "Enviar Mensagem Conversa",
+            "node": "valida_abortar_exec_lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_lembrete_usuario": {
+      "main": [
+        []
+      ]
+    },
+    "valida_envio_lembrete": {
+      "main": [
+        [
+          {
+            "node": "enviar_lembrete_usuario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "valida_abortar_exec_lembrete": {
+      "main": [
+        [
+          {
+            "node": "valida_envio_lembrete",
             "type": "main",
             "index": 0
           }
@@ -133,7 +230,7 @@
       }
     ]
   },
-  "versionId": "9f2062d1-6e0f-4eb0-ab50-6ceb4c22dee7",
+  "versionId": "b4f5f1ab-8574-4a1d-98c7-9c80741836ed",
   "triggerCount": 1,
   "shared": [
     {
@@ -146,8 +243,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-05T11:00:47.778Z",
-    "version": "2025-09-05T01:22:08.000Z",
+    "backedUpAt": "2025-09-06T11:00:47.511Z",
+    "version": "2025-09-05T22:21:05.000Z",
     "originalId": "gjUC8CrUVSPVmvvH"
   }
 }
