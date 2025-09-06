@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-05T01:54:33.000Z",
+  "updatedAt": "2025-09-06T01:36:02.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -21,8 +21,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        400,
-        448
+        544,
+        208
       ],
       "id": "6203d224-58aa-4652-a959-159123278500",
       "name": "OpenAI Chat Model",
@@ -44,8 +44,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        400,
-        272
+        544,
+        32
       ],
       "id": "83587050-e7a9-49f3-90d0-841fc12d4f71",
       "name": "calcula_proxima_exec"
@@ -97,7 +97,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        192,
+        176,
         272
       ],
       "id": "f7cb1f65-efb7-4ad3-8b54-b18d143e2ccc",
@@ -110,8 +110,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        720,
-        272
+        864,
+        32
       ],
       "id": "84daa3be-fb14-4f06-8fb6-2790a3af647c",
       "name": "Code"
@@ -143,6 +143,31 @@
               },
               "renameOutput": true,
               "outputKey": "criar_lembrete"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8c345145-171e-46d9-87b0-a12d38059955",
+                    "leftValue": "={{ $('Dados para criar ou atualizar lembrete').item.json.operacao }}",
+                    "rightValue": "ALTERAR_LEMBRETE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "alterar_lembrete"
             }
           ]
         },
@@ -151,8 +176,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        928,
-        272
+        1072,
+        32
       ],
       "id": "d65455ca-a948-4a03-8cf7-72d539ddc63b",
       "name": "tipo_operacao_lembrete"
@@ -278,8 +303,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1152,
-        272
+        1328,
+        -272
       ],
       "id": "d789abac-9a85-4c90-8e9d-00c4d78ff874",
       "name": "Insert rows in a table",
@@ -317,8 +342,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1360,
-        272
+        1536,
+        -272
       ],
       "id": "f70b3070-7f9d-41b0-b370-447c976f5fa0",
       "name": "proxima_exec_menor_2_dias"
@@ -335,10 +360,6 @@
               {
                 "key": "x-delay",
                 "value": "={{ DateTime.fromISO($json.dt_proxima_exec, { zone: 'utc' }).toMillis() - DateTime.fromISO($('Dados para criar ou atualizar lembrete').item.json.data_atual_msg).toMillis() }}"
-              },
-              {
-                "key": "=",
-                "value": "="
               }
             ]
           }
@@ -347,11 +368,12 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1.1,
       "position": [
-        1808,
-        176
+        2000,
+        -368
       ],
       "id": "dbd11855-fbc1-49e7-9e4c-795ce82f0b20",
       "name": "enviar_para_fila",
+      "alwaysOutputData": false,
       "credentials": {
         "rabbitmq": {
           "id": "REMOVED",
@@ -364,8 +386,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1616,
-        384
+        1792,
+        -160
       ],
       "id": "c01fd7a4-4461-4b5c-aed1-aa60d939ad63",
       "name": "No Operation, do nothing"
@@ -447,8 +469,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1616,
-        176
+        1792,
+        -368
       ],
       "id": "acd22f3d-b584-452a-90f6-532415a6390d",
       "name": "selecionar_dados_para_fila"
@@ -471,7 +493,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('selecionar_dados_para_fila').item.json.nome_instancia }}",
         "remoteJid": "={{ $('selecionar_dados_para_fila').item.json.id_whatsapp }}",
-        "messageText": "=Lembrete criado com sucesso!",
+        "messageText": "=Lembrete criado com sucesso! 📝 \n\nVou enviar uma mensagem para te lembrar {{ \n  (() => {\n    const data = DateTime.fromISO($('proxima_exec_menor_2_dias').item.json.dt_proxima_exec, { zone: 'utc' });\n    const hoje = DateTime.now().setZone('utc').startOf('day');\n    const amanha = hoje.plus({ days: 1 });\n    const dataInicioDia = data.startOf('day');\n    \n    return dataInicioDia.equals(hoje) ? `hoje às ${data.toFormat('HH:mm')}` :\n           dataInicioDia.equals(amanha) ? `amanhã às ${data.toFormat('HH:mm')}` :\n           `no dia ${data.toFormat('dd/MM/yyyy')} às ${data.toFormat('HH:mm')}`;\n  })()\n}}",
         "options_message": {
           "delay": 500
         }
@@ -479,8 +501,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        2032,
-        176
+        2208,
+        -368
       ],
       "id": "e6e77bb0-561e-422e-94f3-922e5bfb7086",
       "name": "Enviar Mensagem Conversa2",
@@ -488,6 +510,28 @@
         "evolutionApi": {
           "id": "REMOVED",
           "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=assessor_{{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+        "messageData": "=Dados do lembrete:\n\"id\": \"{{ $('selecionar_dados_para_fila').item.json.id }}\",\n\"id_cliente\": \"{{ $('selecionar_dados_para_fila').item.json.id_cliente }}\",\n\"dt_cadastro\": \"{{ $('selecionar_dados_para_fila').item.json.dt_cadastro }}\",\n\"dt_desativacao\": \"{{ $('selecionar_dados_para_fila').item.json.dt_desativacao }}\",\n\"dt_proxima_exec\": \"{{ $('selecionar_dados_para_fila').item.json.dt_proxima_exec }}\",\n\"dsc_lembrete\": \"{{ $('selecionar_dados_para_fila').item.json.dsc_lembrete }}\",\n\"prompt_lembrete\": \"{{ $('selecionar_dados_para_fila').item.json.prompt_lembrete }}\"",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2416,
+        -368
+      ],
+      "id": "27371b4b-c025-49a3-ab1a-491d4d1a2289",
+      "name": "Armazena Contexto",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
         }
       }
     }
@@ -545,7 +589,8 @@
             "type": "main",
             "index": 0
           }
-        ]
+        ],
+        []
       ]
     },
     "Insert rows in a table": {
@@ -609,6 +654,17 @@
           }
         ]
       ]
+    },
+    "Enviar Mensagem Conversa2": {
+      "main": [
+        [
+          {
+            "node": "Armazena Contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -622,17 +678,17 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "mensagem": " Me lembra amanhã às 10 horas de tomar o remédio.",
+          "mensagem": " Me lembra amanhã, 9 da manhã, que eu tenho que trabalhar na Mori.",
           "id_cliente": "1",
           "operacao": "CRIAR_LEMBRETE",
-          "data_atual_msg": "2025-09-04T22:49:34.313Z",
+          "data_atual_msg": "2025-09-05T11:44:44.489Z",
           "id_whatsapp": "5511948456707@s.whatsapp.net",
           "nome_instancia": "Secretaria"
         }
       }
     ]
   },
-  "versionId": "fb53b493-13f2-46f5-abd7-00c567d91420",
+  "versionId": "81019ec7-9c39-41a9-869a-54612ffc181d",
   "triggerCount": 1,
   "shared": [
     {
@@ -645,8 +701,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-05T11:00:47.715Z",
-    "version": "2025-09-05T01:54:33.000Z",
+    "backedUpAt": "2025-09-06T11:00:47.455Z",
+    "version": "2025-09-06T01:36:02.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
