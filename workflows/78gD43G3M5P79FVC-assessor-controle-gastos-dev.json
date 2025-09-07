@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-04T01:37:08.960Z",
-  "updatedAt": "2025-08-14T12:13:56.000Z",
+  "updatedAt": "2025-09-06T22:53:43.000Z",
   "id": "78gD43G3M5P79FVC",
   "name": "assessor_controle_gastos_dev",
   "active": false,
@@ -15,7 +15,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        576,
+        544,
         208
       ],
       "id": "d5774955-07b2-4837-bab2-2d20489fc98d",
@@ -380,12 +380,21 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "8b7bb291-46b7-44fb-92c3-cff33f189daa",
+  "versionId": "5b7a822e-f683-479a-9268-fd1119bd3897",
   "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-04T01:37:08.964Z",
+      "updatedAt": "2025-08-04T01:37:08.964Z",
+      "role": "workflow:owner",
+      "workflowId": "78gD43G3M5P79FVC",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-15T11:00:30.500Z",
-    "version": "2025-08-14T12:13:56.000Z",
+    "backedUpAt": "2025-09-07T11:00:47.143Z",
+    "version": "2025-09-06T22:53:43.000Z",
     "originalId": "78gD43G3M5P79FVC"
   }
 }
