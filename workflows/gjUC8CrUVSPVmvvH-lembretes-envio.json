@@ -1,0 +1,250 @@
+{
+  "createdAt": "2025-09-02T05:10:25.469Z",
+  "updatedAt": "2025-09-07T02:19:12.000Z",
+  "id": "gjUC8CrUVSPVmvvH",
+  "name": "lembretes_envio",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "reminder-execution-queue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "5e76d33b-5a16-4a32-857c-bc102e5edebf",
+      "name": "RabbitMQ Trigger",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8c93367d-6190-4c81-b684-887ac376a496",
+              "name": "content",
+              "value": "={{ $json.content }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        0
+      ],
+      "id": "3d7177c0-0670-43e7-ba3e-1a2d1d1cc170",
+      "name": "tratar_json_fila"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        848,
+        144
+      ],
+      "id": "a9385a2d-e361-4de5-bb0e-c47c191a3ec0",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('tratar_json_fila').item.json.content.nome_instancia }}",
+        "remoteJid": "={{ $('tratar_json_fila').item.json.content.id_whatsapp }}",
+        "messageText": "=*LEMBRETE* 📝\n\n{{ $('tratar_json_fila').item.json.content.dsc_lembrete ?? 'Sua solicitação: '+ $('tratar_json_fila').item.json.content.prompt_lembrete}}\n\nData de criação do lembrete: {{ DateTime.fromISO($('tratar_json_fila').item.json.content.dt_cadastro, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm') }}",
+        "options_message": {
+          "delay": 4000
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        848,
+        -80
+      ],
+      "id": "361e4929-3c29-415b-be95-27cd5e3db1ec",
+      "name": "enviar_lembrete_usuario",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "df0c8bc7-5f1b-4543-b0de-78277b955e9a",
+              "leftValue": "={{ $json.valida_lembrete }}",
+              "rightValue": 1,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "85096eb8-84fc-43ea-89ff-832b5490f840",
+      "name": "valida_envio_lembrete"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select count(*) valida_lembrete\n  from public.tb_lembretes\n where id_cliente = {{ $json.content.id_cliente }}\n   and id = {{ $json.content.id }}\n   and abortar_execucao_lembrete is null;",
+        "options": {
+          "largeNumbersOutput": "numbers"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        384,
+        0
+      ],
+      "id": "ab13e863-76ac-439f-98f0-76b157f04cbd",
+      "name": "valida_abortar_exec_lembrete",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "RabbitMQ Trigger": {
+      "main": [
+        [
+          {
+            "node": "tratar_json_fila",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tratar_json_fila": {
+      "main": [
+        [
+          {
+            "node": "valida_abortar_exec_lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_lembrete_usuario": {
+      "main": [
+        []
+      ]
+    },
+    "valida_envio_lembrete": {
+      "main": [
+        [
+          {
+            "node": "enviar_lembrete_usuario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "valida_abortar_exec_lembrete": {
+      "main": [
+        [
+          {
+            "node": "valida_envio_lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "RabbitMQ Trigger": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-rLCPoEtb760s4bFSh81RjQ",
+            "deliveryTag": 3,
+            "redelivered": false,
+            "exchange": "reminder-delayed-exchange",
+            "routingKey": "execute-reminder"
+          },
+          "properties": {
+            "headers": {
+              "x-delay": 59955,
+              "": ""
+            }
+          },
+          "content": "{\"id\":\"202521\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-05T22:18:03.369Z\",\"dt_desativacao\":\"2025-09-04T22:19:02.000Z\",\"dt_proxima_exec\":\"2025-09-04T22:19:02.000Z\",\"dsc_lembrete\":null,\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":null,\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"me lembre daqui 1 minuto\"}"
+        }
+      }
+    ]
+  },
+  "versionId": "052deb02-ad7a-4ae5-818a-38b04a142d2e",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-09-02T05:10:25.474Z",
+      "updatedAt": "2025-09-02T05:10:25.474Z",
+      "role": "workflow:owner",
+      "workflowId": "gjUC8CrUVSPVmvvH",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-07T11:00:48.467Z",
+    "version": "2025-09-07T02:19:12.000Z",
+    "originalId": "gjUC8CrUVSPVmvvH"
+  }
+}
