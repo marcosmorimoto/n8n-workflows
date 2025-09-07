@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-06T04:20:23.000Z",
+  "updatedAt": "2025-09-07T01:57:02.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -117,7 +117,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8608,
+        -8704,
         -1392
       ],
       "id": "73897007-87be-4b12-be69-5b412bdf14e8",
@@ -134,7 +134,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -9056,
+        -9152,
         -1584
       ],
       "id": "aa7d5598-c082-4927-a305-d89faa7ccc6d",
@@ -185,7 +185,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -8832,
+        -8928,
         -1584
       ],
       "id": "2fd3cd7f-256e-4644-bca2-2539908aa255",
@@ -208,7 +208,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8608,
+        -8704,
         -1584
       ],
       "id": "65e8636d-dbeb-469c-9629-8beced0e9e79",
@@ -361,7 +361,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8384,
+        -8480,
         -1392
       ],
       "id": "235a9911-b7bd-4dfa-ae84-72e599a8173f",
@@ -1222,7 +1222,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -8208,
+        -8336,
         -1584
       ],
       "typeVersion": 1,
@@ -1239,7 +1239,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -8144,
+        -8272,
         -1392
       ],
       "id": "99437958-2ade-429a-a6dc-ed9cf0a93506",
@@ -1258,7 +1258,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -7936,
+        -8064,
         -1392
       ],
       "id": "e55fa06b-46c3-4d90-bfd5-7b9032b48318",
@@ -1275,7 +1275,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7744,
+        -7872,
         -1392
       ],
       "id": "89d2417e-a4a9-449d-88d6-28f9c093ba13",
@@ -1315,7 +1315,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -7536,
+        -7664,
         -1392
       ],
       "id": "cfd8177c-bc1d-4ccb-9839-9ed3cdb015a1",
@@ -1326,7 +1326,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -7104,
+        -7232,
         -1248
       ],
       "id": "e563eca2-7741-41bb-a7d0-d1a6a6feee30",
@@ -1340,7 +1340,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7104,
+        -7232,
         -1488
       ],
       "id": "cfbff45b-566b-448c-a1a0-8aad1d580acb",
@@ -1369,7 +1369,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -9264,
+        -9360,
         -1584
       ],
       "id": "aacd2ee8-a77e-4043-8a2c-be211107f0ea",
@@ -1392,7 +1392,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -7312,
+        -7440,
         -1488
       ],
       "id": "6a1dc01b-1191-42ec-a153-602a144e8d2d",
@@ -1837,7 +1837,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let prompt = ``;\n  \n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"PRESTACAO_SERVICO\")) {\n    prompt += `Você está habilitada para ajudar com gerenciamento de serviços prestados.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento dos serviços prestados - cadastrar, consultar, atualizar ou excluir serviços.\"\n\nExemplos de interação para prestação de serviços:\n[Usuário]\nPreciso cadastrar um serviço.\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja cadastrar, por favor.\n\n[Usuário]\nQuero atualizar um serviço.\n[Mori]\nPerfeito! Me informe qual serviço você deseja atualizar e quais alterações precisa fazer.\n\nDados de serviço que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- local (Vila Mariana, Casa Da Maria, Restaurante Dona Deola);\n- nome_cliente;\n- servico (Instalação de Box, instalação portão, etc);\n- telefone_cliente;\n- valor_servico;\n- data_servico;\n- valor_pago;\n\n`;\n  } \n  ($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")\n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")){\n    prompt += `Você está habilitada para ajudar com controle de gastos pessoais.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o controle dos seus gastos pessoais - registrar, consultar, atualizar ou excluir gastos, além de gerar relatórios e configurar metas.\"\n\nExemplos de interação para gastos pessoais:\n[Usuário]\nQuero registrar um gasto.\n[Mori]\nPerfeito! Me informe o valor gasto, com o que você gastou e em que data, por favor.\n\n[Usuário]\nPreciso ver meus gastos.\n[Mori]\nClaro! Me diga o período que você gostaria de consultar ou se quer ver algo específico.\n\nDados de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- dt_gasto date;\n- descricao_gasto;\n- valor;\n\nDados de metas/alertas/limite de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- periodo (Valores possíveis: DIARIO, SEMANAL, MENSAL);\n- valor_limite;\n- dt_inicio date (Data início da vigência);\n- dt_fim date (Data fim da vigência);\n- renova_automatico (Valores possíveis: S, N);\n- porcentagem_alerta integer default 100;\n\n`;\n  } \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    prompt: prompt\n  }\n};\n  \n}"
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let prompt = ``;\n  \n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"PRESTACAO_SERVICO\")) {\n    prompt += `Você está habilitada para ajudar com gerenciamento de serviços prestados.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento dos serviços prestados - cadastrar, consultar, atualizar ou excluir serviços.\"\n\nExemplos de interação para prestação de serviços:\n[Usuário]\nPreciso cadastrar um serviço.\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja cadastrar, por favor.\n\n[Usuário]\nQuero atualizar um serviço.\n[Mori]\nPerfeito! Me informe qual serviço você deseja atualizar e quais alterações precisa fazer.\n\nDados de serviço que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- local (Vila Mariana, Casa Da Maria, Restaurante Dona Deola);\n- nome_cliente;\n- servico (Instalação de Box, instalação portão, etc);\n- telefone_cliente;\n- valor_servico;\n- data_servico;\n- valor_pago;\n\n`;\n  }\n\n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")){\n    prompt += `Você está habilitada para ajudar com controle de gastos pessoais.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o controle dos seus gastos pessoais - registrar, consultar, atualizar ou excluir gastos, além de gerar relatórios e configurar metas.\"\n\nExemplos de interação para gastos pessoais:\n[Usuário]\nQuero registrar um gasto.\n[Mori]\nPerfeito! Me informe o valor gasto, com o que você gastou e em que data, por favor.\n\n[Usuário]\nPreciso ver meus gastos.\n[Mori]\nClaro! Me diga o período que você gostaria de consultar ou se quer ver algo específico.\n\nDados de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- dt_gasto date;\n- descricao_gasto;\n- valor;\n\nDados de metas/alertas/limite de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- periodo (Valores possíveis: DIARIO, SEMANAL, MENSAL);\n- valor_limite;\n- dt_inicio date (Data início da vigência);\n- dt_fim date (Data fim da vigência);\n- renova_automatico (Valores possíveis: S, N);\n- porcentagem_alerta integer default 100;\n\n`;\n  } \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    prompt: prompt\n  }\n};\n  \n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -2445,7 +2445,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -7296,
+        -7424,
         -1248
       ],
       "id": "21c5a396-a213-4841-9a45-36107d2617d7",
@@ -2467,7 +2467,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6560,
+        -6720,
         -1376
       ],
       "id": "945361bc-422e-4a8b-89df-c6c20d42444c",
@@ -2489,7 +2489,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6896,
+        -7040,
         -1376
       ],
       "id": "99f00351-69d3-4d96-9bae-0c941cffb530",
@@ -2655,7 +2655,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6736,
+        -6880,
         -1376
       ],
       "id": "94cc5b58-dbd4-4da2-a1a2-ed6126eb47ae",
@@ -2734,7 +2734,7 @@
         "promptType": "define",
         "text": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
         "options": {
-          "systemMessage": "=Classifique a intenção do usuário em:\n- \"CRIAR_LEMBRETE\" (para criar novo lembrete/alarme/aviso)\n- \"ALTERAR_LEMBRETE\" (para modificar lembrete existente)\n- \"CONSULTAR_LEMBRETE\" (para listar/ver lembretes)\n- \"CANCELAR_LEMBRETE\" (para excluir/cancelar lembrete)\n\nConsidere sinônimos: lembrete, alarme, aviso, alerta, notificação, recado.\n\nExemplos:\n\"Me avise às 15h\" → CRIAR_LEMBRETE\n\"Mostrar meus alarmes\" → CONSULTAR_LEMBRETE  \n\"Excluir aquele lembrete\" → CANCELAR_LEMBRETE\n\"Mudar o horário do aviso\" → ALTERAR_LEMBRETE"
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagem do usuário e apenas classificar a intenção da mensagem.\n\nClassifique a intenção do usuário em:\n- \"CRIAR_LEMBRETE\" (para criar novo lembrete/alarme/aviso)\n- \"ALTERAR_LEMBRETE\" (para modificar ou alterar lembrete existente)\n- \"CONSULTAR_LEMBRETE\" (para listar/ver lembretes)\n- \"CANCELAR_LEMBRETE\" (para excluir/cancelar lembrete)\n\nConsidere sinônimos: lembrete, alarme, aviso, alerta, notificação, recado.\n\nExemplos:\n\"Me avise às 15h\" Output: CRIAR_LEMBRETE\n\"Mostrar meus alarmes\" Output: CONSULTAR_LEMBRETE  \n\"Excluir aquele lembrete\" Output: CANCELAR_LEMBRETE\n\"Mudar o horário do aviso\" Output: ALTERAR_LEMBRETE\n\nIMPORTANTE\n- A saida deve OBRIGATORIAMENTE ser apenas CRIAR_LEMBRETE, CONSULTAR_LEMBRETE, CANCELAR_LEMBRETE ou ALTERAR_LEMBRETE.\n- Lembre-se, seu papel é APENAS e EXCLUSIVAMENTE classificar a mensagem em uma dessas operações, ou seja, você não deve perguntar ou questionar nada para o usuário."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -2834,6 +2834,29 @@
       ],
       "id": "937d7328-f224-45d2-adcf-6d6b9354bb61",
       "name": "Dados para workflow lembrete"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=assessor_contexto_{{ $('Dados').item.json.quem_mandou }}",
+        "keyType": "list",
+        "expire": true,
+        "ttl": 3600
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -6560,
+        -1376
+      ],
+      "id": "d78e0362-e6da-4a30-9429-7368fbac9ada",
+      "name": "Set_TTL",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "connections": {
@@ -3631,7 +3654,7 @@
       "main": [
         [
           {
-            "node": "Marcar mensagens como lidas",
+            "node": "Set_TTL",
             "type": "main",
             "index": 0
           }
@@ -3752,6 +3775,17 @@
           }
         ]
       ]
+    },
+    "Set_TTL": {
+      "main": [
+        [
+          {
+            "node": "Marcar mensagens como lidas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3769,7 +3803,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.10.0",
-            "content-length": "10576",
+            "content-length": "10668",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
@@ -3789,25 +3823,25 @@
               "key": {
                 "remoteJid": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3AB234F7EB5717BD9065",
+                "id": "3A4BC42D5E0C40B5D214",
                 "senderLid": "193965068443828@lid"
               },
               "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
                 "audioMessage": {
-                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/543043324_2257905404727747_1401113571228165463_n.enc?ccb=11-4&oh=01_Q5Aa2QEBTWG_b1sQCElLmJcGck0DEnm7IKiqbsSY9y1-iOlIzg&oe=68E19611&_nc_sid=5e03e0&mms3=true",
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/544493318_1104190575024630_7252391358696719453_n.enc?ccb=11-4&oh=01_Q5Aa2QHIBILlRiCwPGABS2_bJPc8fi2SOXoS9V0eDGRV1Fbdkg&oe=68E43D2B&_nc_sid=5e03e0&mms3=true",
                   "mimetype": "audio/ogg; codecs=opus",
-                  "fileSha256": "9A5/1iqX9qg0TrVWEHeTYC886ewzLr8E1Uh8lKwzA10=",
-                  "fileLength": "6596",
+                  "fileSha256": "on+8NxotNmhsQjGtb3uhKtZ28iaPIyEPN7JG2Bf4dN4=",
+                  "fileLength": "6665",
                   "seconds": 2,
                   "ptt": true,
-                  "mediaKey": "c3kx5Wo1u2L2qd9DIay5wCL5/GSv6s1zFuGP7ZnIRSk=",
-                  "fileEncSha256": "5482tbJjuioW79Q8kpmzPKqDWg+i5yflHaJXKRL+oi0=",
-                  "directPath": "/v/t62.7117-24/543043324_2257905404727747_1401113571228165463_n.enc?ccb=11-4&oh=01_Q5Aa2QEBTWG_b1sQCElLmJcGck0DEnm7IKiqbsSY9y1-iOlIzg&oe=68E19611&_nc_sid=5e03e0",
-                  "mediaKeyTimestamp": "1757036331",
-                  "streamingSidecar": "p46IqvvQ0WNEdA==",
-                  "waveform": "AAABAQEBAQENGSUuMjY7NzQwLi0sKysrKyknJSMkJigqKywuLi8wLiomIiIjIyUnKi0uMTIyLionIRsVEQ8MCg=="
+                  "mediaKey": "dncuE5NBUYJI9DeuVaM7MmTMuyXca1LELYKK4j6zPAk=",
+                  "fileEncSha256": "Kl7WvObI0JC8et2n3j5hXAy57DiMQe6mBjPJtZ6VsT8=",
+                  "directPath": "/v/t62.7117-24/544493318_1104190575024630_7252391358696719453_n.enc?ccb=11-4&oh=01_Q5Aa2QHIBILlRiCwPGABS2_bJPc8fi2SOXoS9V0eDGRV1Fbdkg&oe=68E43D2B&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1757209942",
+                  "streamingSidecar": "HRTIRaat8jn3Yg==",
+                  "waveform": "AAAAAAAAAAEBAQEBAQEBAQEAAAACGC9GSUdFQDgyLDI4PkJGSk1NTUtBOC4xNDg3My8sLS8wKyUfGhcTEA4MCg=="
                 },
                 "messageContextInfo": {
                   "deviceListMetadata": {
@@ -3817,18 +3851,18 @@
                     "recipientTimestamp": "1756492998"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "naNMyI3ITzQEDMso4Vjb1O02BeSR+Qfa8JmOTSmXyYQ="
+                  "messageSecret": "twVSrAASe4luvTotCHkKG3LOZhsRbP2Aa760iHTPivo="
                 },
-                "base64": "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"
+                "base64": "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"
               },
               "contextInfo": null,
               "messageType": "audioMessage",
-              "messageTimestamp": 1757036334,
+              "messageTimestamp": 1757209947,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-09-04T22:38:55.871Z",
+            "date_time": "2025-09-06T22:52:28.173Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -3839,7 +3873,7 @@
       }
     ]
   },
-  "versionId": "304fb9d5-5b17-4881-a547-d020a4a4b5eb",
+  "versionId": "57850924-64d0-45cc-826d-cfc327d7601f",
   "triggerCount": 1,
   "shared": [
     {
@@ -3852,8 +3886,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-06T11:00:47.947Z",
-    "version": "2025-09-06T04:20:23.000Z",
+    "backedUpAt": "2025-09-07T11:00:49.036Z",
+    "version": "2025-09-07T01:57:02.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
