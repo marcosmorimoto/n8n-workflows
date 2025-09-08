@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-07T03:03:35.000Z",
+  "updatedAt": "2025-09-07T23:18:54.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -36,9 +36,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ $now }} \nNumero dia da semana atual: {{ $now.format('EEEE') }}",
+        "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
         "options": {
-          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ $now }}  (Considere hora, minuto, segundo)\nDia da semana atual: {{ $now.format('E') }} - {{ $now.format('EEEE') }}.\n\nNumeração dos dias da semana para referência:\n0: Domingo (Sunday)\n1: Segunda (Monday)\n2: Terça (Tuesday)\n3: Quarta (Wednesday)\n4: Quinta (Thursday)\n5: Sexta (Friday)\n6: Sabado (Saturday)\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n0: Domingo -> 1: Segunda\n1: Segunda -> 2: Terça\n2: Terça -> 3: Quarta\n3: Quarta -> 4: Quinta\n4: Quinta -> 5: Sexta\n5: Sexta -> 6: Sabado\n6: Sabado -> 0: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quand tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ $now }}.\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários.**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais.\n\n#CONSIDERAÇÕES FINAIS\nSempre reflita, \"Se a data atual é {{ $now }} e o dia da semana atual é {{ $now.format('E') }} - {{ $now.format('EEEE') }}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\""
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}.\n\nNumeração dos dias da semana para referência:\n0: Domingo (Sunday)\n1: Segunda (Monday)\n2: Terça (Tuesday)\n3: Quarta (Wednesday)\n4: Quinta (Thursday)\n5: Sexta (Friday)\n6: Sabado (Saturday)\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n0: Domingo -> 1: Segunda\n1: Segunda -> 2: Terça\n2: Terça -> 3: Quarta\n3: Quarta -> 4: Quinta\n4: Quinta -> 5: Sexta\n5: Sexta -> 6: Sabado\n6: Sabado -> 0: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", ou \"próxima terça\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quando tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H).\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários!**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n    SEMPRE REFLITA e pergunte para si mesmo, \"Se a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) e o dia da semana atual é {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\"\n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -98,7 +98,7 @@
       "typeVersion": 3.4,
       "position": [
         80,
-        32
+        48
       ],
       "id": "f7cb1f65-efb7-4ad3-8b54-b18d143e2ccc",
       "name": "Dados para criar ou atualizar lembrete"
@@ -168,6 +168,31 @@
               },
               "renameOutput": true,
               "outputKey": "alterar_lembrete"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "975d3e5a-af8d-47c9-9f5c-14c2d4135ea7",
+                    "leftValue": "={{ $json.operacao }}",
+                    "rightValue": "GERAR_PROXIMA_EXEC",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gerar_proxima_exec"
             }
           ]
         },
@@ -200,7 +225,7 @@
           "value": {
             "id_cliente": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_cliente }}",
             "dt_desativacao": "={{ $json.data_desativacao }}",
-            "dt_proxima_exec": "={{ $json.data_proxima_execucao }}",
+            "dt_proxima_exec": "={{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\").toString().replace('-03:00','Z') }}",
             "dsc_lembrete": "={{ $json.descricao }}",
             "prompt_lembrete": "={{ $('Dados para criar ou atualizar lembrete').item.json.mensagem }}",
             "qtd_exec": 1,
@@ -472,7 +497,7 @@
       "typeVersion": 1.1,
       "position": [
         -128,
-        32
+        48
       ],
       "id": "6514696d-2a03-4c5a-992c-7e8bb2f1a672",
       "name": "When Executed by Another Workflow"
@@ -490,7 +515,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        2416,
+        2592,
         -368
       ],
       "id": "e6e77bb0-561e-422e-94f3-922e5bfb7086",
@@ -512,7 +537,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        2608,
+        2784,
         -368
       ],
       "id": "27371b4b-c025-49a3-ab1a-491d4d1a2289",
@@ -721,7 +746,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
         "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
-        "messageText": "=Lembrete criado com sucesso! 📝 \n\n{{ $json.dsc_lembrete ?? 'Sua solicitação: '+ $json.prompt_lembrete}}\n\nVou enviar uma mensagem para te lembrar {{ \n  (() => {\n    const data = DateTime.fromISO($('proxima_exec_menor_2_dias').item.json.dt_proxima_exec, { zone: 'utc' });\n    const hoje = DateTime.now().setZone('utc').startOf('day');\n    const amanha = hoje.plus({ days: 1 });\n    const dataInicioDia = data.startOf('day');\n    \n    return dataInicioDia.equals(hoje) ? `hoje às ${data.toFormat('HH:mm')}` :\n           dataInicioDia.equals(amanha) ? `amanhã às ${data.toFormat('HH:mm')}` :\n           `no dia ${data.toFormat('dd/MM/yyyy')} às ${data.toFormat('HH:mm')}`;\n  })()\n}}\n",
+        "messageText": "=Lembrete criado com sucesso! 📝 \n\n{{ $json.dsc_lembrete ?? 'Sua solicitação: '+ $json.prompt_lembrete}}\n\nVou enviar uma mensagem para te lembrar {{ \n  (() => {\n    const data = DateTime.fromISO($('proxima_exec_menor_2_dias').item.json.dt_proxima_exec, { zone: 'utc' });\n    const hoje = DateTime.now().setZone('utc').startOf('day');\n    const amanha = hoje.plus({ days: 1 });\n    const dataInicioDia = data.startOf('day');\n    \n    return dataInicioDia.equals(hoje) ? `hoje às ${data.toFormat('HH:mm')}` :\n           dataInicioDia.equals(amanha) ? `amanhã às ${data.toFormat('HH:mm')}` :\n           `no dia ${data.toFormat('dd/MM/yyyy')} às ${data.toFormat('HH:mm')}`;\n  })()\n}}",
         "options_message": {
           "delay": 500
         }
@@ -729,8 +754,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        2016,
-        -176
+        2000,
+        -160
       ],
       "id": "85d67437-ca10-4624-9922-7ee3b5c0b4d1",
       "name": "Enviar Mensagem Conversa",
@@ -740,6 +765,71 @@
           "name": "Evolution account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_lembretes\n   set dt_envio_fila =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('selecionar_dados_para_fila').item.json.id }}\n   and id_cliente = {{ $('selecionar_dados_para_fila').item.json.id_cliente }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2400,
+        -368
+      ],
+      "id": "cbc78548-80d6-4858-96e7-0e47635aca26",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {
+          "temperature": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        544
+      ],
+      "id": "8316615f-2a87-4c1b-b702-2357efaade55",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
+        "options": {
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}.\n\nNumeração dos dias da semana para referência:\n0: Domingo (Sunday)\n1: Segunda (Monday)\n2: Terça (Tuesday)\n3: Quarta (Wednesday)\n4: Quinta (Thursday)\n5: Sexta (Friday)\n6: Sabado (Saturday)\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n0: Domingo -> 1: Segunda\n1: Segunda -> 2: Terça\n2: Terça -> 3: Quarta\n3: Quarta -> 4: Quinta\n4: Quinta -> 5: Sexta\n5: Sexta -> 6: Sabado\n6: Sabado -> 0: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", ou \"próxima terça\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quando tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H).\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários!**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n    SEMPRE REFLITA e pergunte para si mesmo, \"Se a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) e o dia da semana atual é {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\"\n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        368
+      ],
+      "id": "f08ff2b5-4236-4870-977e-fcf3a75eff8b",
+      "name": "calcula_proxima_exec1"
     }
   ],
   "connections": {
@@ -802,6 +892,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "calcula_proxima_exec1",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -860,7 +957,7 @@
       "main": [
         [
           {
-            "node": "Enviar Mensagem Conversa2",
+            "node": "Execute a SQL query",
             "type": "main",
             "index": 0
           }
@@ -944,6 +1041,28 @@
           }
         ]
       ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "calcula_proxima_exec1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -957,18 +1076,18 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "mensagem": " Mori, me lembre todo dia 19 que eu preciso pagar o plano de saúde.",
-          "id_cliente": "3",
+          "mensagem": "Me lembre de 10 em 10 minutos de chamar o garçom",
+          "id_cliente": "1",
           "operacao": "CRIAR_LEMBRETE",
-          "data_atual_msg": "2025-09-06T23:08:10.702Z",
-          "id_whatsapp": "5511955562525@s.whatsapp.net",
+          "data_atual_msg": "2025-09-07T20:17:50.347Z",
+          "id_whatsapp": "5511948456707@s.whatsapp.net",
           "nome_instancia": "Secretaria",
-          "apelido": "Kel"
+          "apelido": "Marcos"
         }
       }
     ]
   },
-  "versionId": "c96e2a9e-233d-467b-973d-6df9cd78938b",
+  "versionId": "fb7f1e1b-0b56-465f-88cd-fe75fb9f7544",
   "triggerCount": 1,
   "shared": [
     {
@@ -981,8 +1100,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-07T11:00:48.327Z",
-    "version": "2025-09-07T03:03:35.000Z",
+    "backedUpAt": "2025-09-08T11:00:48.252Z",
+    "version": "2025-09-07T23:18:54.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
