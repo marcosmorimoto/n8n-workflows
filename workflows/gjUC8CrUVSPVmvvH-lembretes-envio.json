@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-02T05:10:25.469Z",
-  "updatedAt": "2025-09-07T02:19:12.000Z",
+  "updatedAt": "2025-09-07T23:17:11.000Z",
   "id": "gjUC8CrUVSPVmvvH",
   "name": "lembretes_envio",
   "active": true,
@@ -141,6 +141,49 @@
           "name": "postgresql_db"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "07a1d653-a142-4709-8986-f40aafd88791",
+              "leftValue": "={{ $('tratar_json_fila').item.json.content.dt_desativacao }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "afe74ca4-a3dc-4012-a67f-e75321912a7c",
+              "leftValue": "={{ $('tratar_json_fila').item.json.content.dt_desativacao }}",
+              "rightValue": "={{ $now }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        -80
+      ],
+      "id": "75ccd34e-138d-4a8f-b8b3-c0f10b858c5a",
+      "name": "gera_proxima_exec"
     }
   ],
   "connections": {
@@ -168,7 +211,13 @@
     },
     "enviar_lembrete_usuario": {
       "main": [
-        []
+        [
+          {
+            "node": "gera_proxima_exec",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "valida_envio_lembrete": {
@@ -213,24 +262,23 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-rLCPoEtb760s4bFSh81RjQ",
-            "deliveryTag": 3,
+            "consumerTag": "amq.ctag-HS_SzsXaVufp97eaZM6_Cw",
+            "deliveryTag": 4,
             "redelivered": false,
             "exchange": "reminder-delayed-exchange",
             "routingKey": "execute-reminder"
           },
           "properties": {
             "headers": {
-              "x-delay": 59955,
-              "": ""
+              "x-delay": 10837381
             }
           },
-          "content": "{\"id\":\"202521\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-05T22:18:03.369Z\",\"dt_desativacao\":\"2025-09-04T22:19:02.000Z\",\"dt_proxima_exec\":\"2025-09-04T22:19:02.000Z\",\"dsc_lembrete\":null,\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":null,\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"me lembre daqui 1 minuto\"}"
+          "content": "{\"id\":\"202553\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-07T16:40:24.326Z\",\"dt_desativacao\":null,\"dt_proxima_exec\":\"2025-09-07T19:41:00.000Z\",\"dsc_lembrete\":\"OLHAR O CELULAR\",\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":\"5511948456707@s.whatsapp.net\",\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"Me lembre de 1 em 1 minuto de olhar o celular\"}"
         }
       }
     ]
   },
-  "versionId": "052deb02-ad7a-4ae5-818a-38b04a142d2e",
+  "versionId": "979c1334-5416-460f-a33f-4ffba0d6afd3",
   "triggerCount": 1,
   "shared": [
     {
@@ -243,8 +291,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-07T11:00:48.467Z",
-    "version": "2025-09-07T02:19:12.000Z",
+    "backedUpAt": "2025-09-08T11:00:48.324Z",
+    "version": "2025-09-07T23:17:11.000Z",
     "originalId": "gjUC8CrUVSPVmvvH"
   }
 }
