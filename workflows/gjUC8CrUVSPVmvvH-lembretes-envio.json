@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-02T05:10:25.469Z",
-  "updatedAt": "2025-09-07T23:17:11.000Z",
+  "updatedAt": "2025-09-09T03:32:00.000Z",
   "id": "gjUC8CrUVSPVmvvH",
   "name": "lembretes_envio",
   "active": true,
@@ -65,7 +65,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('tratar_json_fila').item.json.content.nome_instancia }}",
         "remoteJid": "={{ $('tratar_json_fila').item.json.content.id_whatsapp }}",
-        "messageText": "=*LEMBRETE* 📝\n\n{{ $('tratar_json_fila').item.json.content.dsc_lembrete ?? 'Sua solicitação: '+ $('tratar_json_fila').item.json.content.prompt_lembrete}}\n\nData de criação do lembrete: {{ DateTime.fromISO($('tratar_json_fila').item.json.content.dt_cadastro, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm') }}",
+        "messageText": "=*LEMBRETE* 📝\n\n{{ $('tratar_json_fila').item.json.content.dsc_lembrete ?? 'Sua solicitação: '+ $('tratar_json_fila').item.json.content.prompt_lembrete}}",
         "options_message": {
           "delay": 4000
         }
@@ -179,11 +179,147 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1056,
+        1248,
         -80
       ],
       "id": "75ccd34e-138d-4a8f-b8b3-c0f10b858c5a",
       "name": "gera_proxima_exec"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31727900-c397-445a-9caa-f6c5491c4455",
+              "name": "mensagem",
+              "value": "={{ $('consulta_dados_lembrete').item.json.prompt_lembrete }}",
+              "type": "string"
+            },
+            {
+              "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+              "name": "id_cliente",
+              "value": "={{ $('tratar_json_fila').item.json.content.id_cliente }}",
+              "type": "string"
+            },
+            {
+              "id": "d3a47839-3f16-4758-807a-fd8dbcf95e2a",
+              "name": "operacao",
+              "value": "=GERAR_PROXIMA_EXEC",
+              "type": "string"
+            },
+            {
+              "id": "71afc96e-73ff-4b59-b34d-8e529c30d634",
+              "name": "nome_instancia",
+              "value": "={{ $('tratar_json_fila').item.json.content.nome_instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "a2f4e62a-9772-49b7-84ca-d18ddbe81dc3",
+              "name": "data_atual_msg",
+              "value": "={{ $now.setZone('UTC-3').set({ hour: $now.hour }).toString().replace('-03:00','Z') }}",
+              "type": "string"
+            },
+            {
+              "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+              "name": "id_whatsapp",
+              "value": "={{ $('tratar_json_fila').item.json.content.id_whatsapp }}",
+              "type": "string"
+            },
+            {
+              "id": "1bc34db9-7ed0-4180-9fbc-a74594e98775",
+              "name": "id_lembrete",
+              "value": "={{ $('tratar_json_fila').item.json.content.id }}",
+              "type": "string"
+            },
+            {
+              "id": "9d781837-96c1-48c5-a0b1-bf6f0c35373a",
+              "name": "dt_proxima_exec_old",
+              "value": "={{ $json.dt_proxima_exec }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1664,
+        -176
+      ],
+      "id": "9ec551bf-d237-47b3-9d87-59d98989c1a8",
+      "name": "Dados para criar ou atualizar lembrete"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_lembretes\n   set dt_ultima_exec = to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('tratar_json_fila').item.json.content.id }}\n   and id_cliente = {{ $('tratar_json_fila').item.json.content.id_cliente }}\nreturning dt_proxima_exec, prompt_lembrete",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1472,
+        -176
+      ],
+      "id": "9d646398-2fda-45ec-9237-006ccfa2ca00",
+      "name": "consulta_dados_lembrete",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "egGfEYHUDYdXMKAC",
+          "mode": "list",
+          "cachedResultName": "criar_atualizar_lembrete"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1856,
+        -176
+      ],
+      "id": "75d21bb6-f169-4d84-b4cc-5c6d2c183cab",
+      "name": "Chamar Workflow Lembrete"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update tb_lembretes\n   set dt_ultima_exec = to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('tratar_json_fila').item.json.content.id }}\n   and id_cliente = {{ $('tratar_json_fila').item.json.content.id_cliente }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1056,
+        -80
+      ],
+      "id": "a0d959ca-2a2f-4849-ba60-ca89b00949e6",
+      "name": "atualizar_dt_ult_exec",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
     }
   ],
   "connections": {
@@ -213,7 +349,7 @@
       "main": [
         [
           {
-            "node": "gera_proxima_exec",
+            "node": "atualizar_dt_ult_exec",
             "type": "main",
             "index": 0
           }
@@ -248,6 +384,50 @@
           }
         ]
       ]
+    },
+    "gera_proxima_exec": {
+      "main": [
+        [
+          {
+            "node": "consulta_dados_lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados para criar ou atualizar lembrete": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consulta_dados_lembrete": {
+      "main": [
+        [
+          {
+            "node": "Dados para criar ou atualizar lembrete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualizar_dt_ult_exec": {
+      "main": [
+        [
+          {
+            "node": "gera_proxima_exec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -262,23 +442,23 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-HS_SzsXaVufp97eaZM6_Cw",
-            "deliveryTag": 4,
+            "consumerTag": "amq.ctag-5x0p0QljIo8OZ6mCA6AnXA",
+            "deliveryTag": 21,
             "redelivered": false,
             "exchange": "reminder-delayed-exchange",
             "routingKey": "execute-reminder"
           },
           "properties": {
             "headers": {
-              "x-delay": 10837381
+              "x-delay": 59058
             }
           },
-          "content": "{\"id\":\"202553\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-07T16:40:24.326Z\",\"dt_desativacao\":null,\"dt_proxima_exec\":\"2025-09-07T19:41:00.000Z\",\"dsc_lembrete\":\"OLHAR O CELULAR\",\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":\"5511948456707@s.whatsapp.net\",\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"Me lembre de 1 em 1 minuto de olhar o celular\"}"
+          "content": "{\"id\":\"202563\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-09T00:24:50.045Z\",\"dt_desativacao\":\"2025-09-09T00:25:48.000Z\",\"dt_proxima_exec\":\"2025-09-09T00:25:48.000Z\",\"dsc_lembrete\":null,\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":\"5511948456707@s.whatsapp.net\",\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"Me lembra daqui 1 minuto pra ir dormir\"}"
         }
       }
     ]
   },
-  "versionId": "979c1334-5416-460f-a33f-4ffba0d6afd3",
+  "versionId": "ed3a7446-157c-4e24-9db5-64a5c5ca89e9",
   "triggerCount": 1,
   "shared": [
     {
@@ -291,8 +471,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-08T11:00:48.324Z",
-    "version": "2025-09-07T23:17:11.000Z",
+    "backedUpAt": "2025-09-09T11:00:46.469Z",
+    "version": "2025-09-09T03:32:00.000Z",
     "originalId": "gjUC8CrUVSPVmvvH"
   }
 }
