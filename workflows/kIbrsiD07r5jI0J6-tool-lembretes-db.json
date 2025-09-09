@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-07T00:36:18.950Z",
-  "updatedAt": "2025-09-07T00:40:14.000Z",
+  "updatedAt": "2025-09-09T04:31:21.000Z",
   "id": "kIbrsiD07r5jI0J6",
   "name": "TOOL - Lembretes DB",
   "active": false,
@@ -31,7 +31,7 @@
         "text": "={{ $json.prompt }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura da tabela.\n\nCREATE TABLE public.tb_lembretes (\n    id bigint not null default func_gerar_id_lembrete(), \n    id_cliente bigint NOT NULL,\n    dt_cadastro timestamp not null default current_timestamp,\n    dt_desativacao timestamp,\n    dt_proxima_exec timestamp not null,\n    dsc_lembrete text,\n    prompt_lembrete text,\n    qtd_exec bigint,\n    dt_alteracao timestamp,\n    abortar_execucao_lembrete timestamp,\n    dt_ultima_exec timestamp\n);"
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura da tabela.\n\nCREATE TABLE public.tb_lembretes (\n    id bigint not null default func_gerar_id_lembrete(), \n    id_cliente bigint NOT NULL,\n    dt_cadastro timestamp not null default current_timestamp,\n    dt_desativacao timestamp,\n    dt_proxima_exec timestamp not null,\n    dsc_lembrete text,\n    prompt_lembrete text,\n    qtd_exec bigint,\n    dt_alteracao timestamp,\n    abortar_execucao_lembrete timestamp,\n    dt_ultima_exec timestamp\n);"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -187,13 +187,12 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "prompt": "Operação: Consultar registro na tabela tb_gastos_transacoes; Filtro: id_cliente: 1, dt_gasto: 21/08/2025 até 27/08/2025",
-          "tabela": null
+          "prompt": "Operação: Consultar Filtros: id_cliente: 1, dt_cadastro: 2025-09-09"
         }
       }
     ]
   },
-  "versionId": "cf224b6e-8356-4f1e-ace1-b0f257f8c31b",
+  "versionId": "b7515dd6-f098-4273-a9e4-789ad541aa43",
   "triggerCount": 0,
   "shared": [
     {
@@ -206,8 +205,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-07T11:00:48.571Z",
-    "version": "2025-09-07T00:40:14.000Z",
+    "backedUpAt": "2025-09-09T11:00:46.474Z",
+    "version": "2025-09-09T04:31:21.000Z",
     "originalId": "kIbrsiD07r5jI0J6"
   }
 }
