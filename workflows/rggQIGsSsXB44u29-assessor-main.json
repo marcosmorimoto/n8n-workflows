@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-07T22:32:03.000Z",
+  "updatedAt": "2025-09-09T01:12:47.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -2761,35 +2761,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "egGfEYHUDYdXMKAC",
-          "mode": "list",
-          "cachedResultName": "criar_atualizar_lembrete"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {},
-          "matchingColumns": [],
-          "schema": [],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        -4992,
-        -128
-      ],
-      "id": "c275ff18-dab9-4895-8029-263486528d8f",
-      "name": "Chamar Workflow Prestacao Servico1"
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -2916,7 +2887,7 @@
       "typeVersion": 1.1,
       "position": [
         -8944,
-        -1776
+        -1952
       ],
       "id": "ce9ec286-e7c3-47d8-9a90-bba39da0848b",
       "name": "Convert to File1"
@@ -2943,10 +2914,65 @@
       "typeVersion": 4.2,
       "position": [
         -9184,
-        -1776
+        -1936
       ],
       "id": "9172efbc-891b-405b-8404-fed80b6e8466",
-      "name": "buscar_base64"
+      "name": "buscar_base64",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "egGfEYHUDYdXMKAC",
+          "mode": "list",
+          "cachedResultName": "criar_atualizar_lembrete"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -4992,
+        -128
+      ],
+      "id": "c275ff18-dab9-4895-8029-263486528d8f",
+      "name": "Chamar Workflow Lembrete"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=Hmmm.... não consegui processar seu audio 🥺\nJá direcionei o erro para o time técnico dar uma olhadinha no que pode ter ocorrido.\nEnquanto isso você pode me enviar a mensagem em forma de texto.\n",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -8944,
+        -1760
+      ],
+      "id": "7277b84d-1565-4ad4-ba6c-8589503a387f",
+      "name": "Enviar Mensagem Erro Audio",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -3859,7 +3885,7 @@
       "main": [
         [
           {
-            "node": "Chamar Workflow Prestacao Servico1",
+            "node": "Chamar Workflow Lembrete",
             "type": "main",
             "index": 0
           }
@@ -3914,6 +3940,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Enviar Mensagem Erro Audio",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
@@ -3933,7 +3966,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.10.0",
-            "content-length": "1877",
+            "content-length": "1766",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
@@ -3953,28 +3986,25 @@
               "key": {
                 "remoteJid": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3AB2FE699F2040E4548F",
+                "id": "3A59F7FF4D21B092CABB",
                 "senderLid": "193965068443828@lid"
               },
               "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
                 "audioMessage": {
-                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/544133865_24426416407020401_2406938272602306284_n.enc?ccb=11-4&oh=01_Q5Aa2QFXbITAnU6efECds4R5UtgPgKy0Xzb7ZHfQK2feTNF7JQ&oe=68E460E3&_nc_sid=5e03e0&mms3=true",
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/28890677_4197419977068326_3638736635077533898_n.enc?ccb=11-4&oh=01_Q5Aa2gHWAsWwNwmxI0eB_wXWBCRsm3aoF8ANfMmtDlT6vkISWQ&oe=68E6FCB6&_nc_sid=5e03e0&mms3=true",
                   "mimetype": "audio/ogg; codecs=opus",
-                  "fileSha256": "X+1ibf6wylnNCjQZQ1LSTqCCHDF5VwtZCzSSXwZubd8=",
-                  "fileLength": "18153",
-                  "seconds": 8,
+                  "fileSha256": "aOCGrQD5m1Lw+zMvkE8JuhkaI4UOtUv++lUzPcRAhKA=",
+                  "fileLength": "6566",
+                  "seconds": 2,
                   "ptt": true,
-                  "mediaKey": "1NrnxliFC0MS7BFVexBVqaE1bJGyw9X6lka990jxoUc=",
-                  "fileEncSha256": "Z4Usko4VqEiTKP+S05Jk77yeybYYL4vA/iFeVYY1bOM=",
-                  "directPath": "/v/t62.7117-24/544133865_24426416407020401_2406938272602306284_n.enc?ccb=11-4&oh=01_Q5Aa2QFXbITAnU6efECds4R5UtgPgKy0Xzb7ZHfQK2feTNF7JQ&oe=68E460E3&_nc_sid=5e03e0&_nc_hot=1757267296",
-                  "mediaKeyTimestamp": "1757210837",
-                  "contextInfo": {
-                    "pairedMediaType": "NOT_PAIRED_MEDIA"
-                  },
-                  "streamingSidecar": "SzhZTBIhq9yILQ==",
-                  "waveform": "AAABAQEhRT04ODwyNSoqPEAyQkpDLxwSCgQCAQEhRENBSDYbDAUCBSdLTjQiEgkEAgIDJF5NS1hEMElbQiEQBw=="
+                  "mediaKey": "onO7Bj8r/mvZDaScj6gKLHdVIkpQQTtQ+F5PsjiI2DE=",
+                  "fileEncSha256": "QOmDIojNEU6jA0EXP45MrO8FPJ/jkUz+1xJOeZYd/ig=",
+                  "directPath": "/v/t62.7117-24/28890677_4197419977068326_3638736635077533898_n.enc?ccb=11-4&oh=01_Q5Aa2gHWAsWwNwmxI0eB_wXWBCRsm3aoF8ANfMmtDlT6vkISWQ&oe=68E6FCB6&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1757379204",
+                  "streamingSidecar": "cTijGr1IeFu93A==",
+                  "waveform": "AAYMExcXFxcWFhUVJz1SYlZLQD9KVWFfWVJMR0E8O0NKUk9HPjZBTlpjYF1aV1NPS0M5MSkyOUJDPDQtKSYkIg=="
                 },
                 "messageContextInfo": {
                   "deviceListMetadata": {
@@ -3984,19 +4014,17 @@
                     "recipientTimestamp": "1756492998"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "OEL9OReHuFaPr/iGwxneCP1b0ajG2yDB7C2T6thpWM0="
+                  "messageSecret": "SuZUsMcyvSyqhOTQPEC/iTrNOj7WyJLIwWIU54sfanQ="
                 }
               },
-              "contextInfo": {
-                "pairedMediaType": "NOT_PAIRED_MEDIA"
-              },
+              "contextInfo": null,
               "messageType": "audioMessage",
-              "messageTimestamp": 1757267297,
+              "messageTimestamp": 1757379208,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-09-07T14:48:18.417Z",
+            "date_time": "2025-09-08T21:53:28.853Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -4007,7 +4035,7 @@
       }
     ]
   },
-  "versionId": "5344e038-2077-4a19-b8e7-23e690abd1fe",
+  "versionId": "166ee35e-7710-45c9-aba5-36e02220c861",
   "triggerCount": 1,
   "shared": [
     {
@@ -4020,8 +4048,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-08T11:00:48.932Z",
-    "version": "2025-09-07T22:32:03.000Z",
+    "backedUpAt": "2025-09-09T11:00:46.586Z",
+    "version": "2025-09-09T01:12:47.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
