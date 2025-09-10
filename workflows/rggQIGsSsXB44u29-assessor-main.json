@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-09T01:12:47.000Z",
+  "updatedAt": "2025-09-10T10:53:30.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        -11472,
+        -11536,
         -1392
       ],
       "id": "9c2bc24f-0536-455c-867b-49183ed840c0",
@@ -105,7 +105,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -11056,
+        -11120,
         -1392
       ],
       "id": "19031eed-0a9f-42b3-a551-c3a2f91baa6c",
@@ -146,7 +146,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -8944,
+        -8864,
         -1600
       ],
       "id": "aa7d5598-c082-4927-a305-d89faa7ccc6d",
@@ -197,7 +197,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -8720,
+        -8512,
         -1600
       ],
       "id": "2fd3cd7f-256e-4644-bca2-2539908aa255",
@@ -220,7 +220,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8496,
+        -8288,
         -1600
       ],
       "id": "65e8636d-dbeb-469c-9629-8beced0e9e79",
@@ -349,7 +349,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -9936,
+        -10000,
         -1408
       ],
       "id": "32ac5ed7-0d3d-4841-8d6d-3277ec46ca59",
@@ -373,7 +373,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8272,
+        -8064,
         -1392
       ],
       "id": "235a9911-b7bd-4dfa-ae84-72e599a8173f",
@@ -390,7 +390,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -10848,
+        -10912,
         -1392
       ],
       "id": "9c9ea232-1be0-4ae7-9a71-a1043043ab8a",
@@ -771,7 +771,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -10464,
+        -10528,
         -1392
       ],
       "id": "a0635e9e-238f-4b21-a65c-40b78e2d14f5",
@@ -835,7 +835,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -9648,
+        -9776,
         -1408
       ],
       "id": "3076f197-8e9b-4806-88b6-b9d00600953c",
@@ -1234,8 +1234,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -8336,
-        -1584
+        -7904,
+        -1520
       ],
       "typeVersion": 1,
       "id": "93c9005f-c707-40b0-b034-30af4ba4b8b4",
@@ -1251,7 +1251,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -8064,
+        -7856,
         -1392
       ],
       "id": "99437958-2ade-429a-a6dc-ed9cf0a93506",
@@ -1265,12 +1265,12 @@
     },
     {
       "parameters": {
-        "amount": 0
+        "amount": 0.01
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -7856,
+        -7648,
         -1392
       ],
       "id": "e55fa06b-46c3-4d90-bfd5-7b9032b48318",
@@ -1287,7 +1287,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7664,
+        -7456,
         -1392
       ],
       "id": "89d2417e-a4a9-449d-88d6-28f9c093ba13",
@@ -1327,7 +1327,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -7456,
+        -7248,
         -1392
       ],
       "id": "cfd8177c-bc1d-4ccb-9839-9ed3cdb015a1",
@@ -1338,7 +1338,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -7024,
+        -6816,
         -1248
       ],
       "id": "e563eca2-7741-41bb-a7d0-d1a6a6feee30",
@@ -1352,7 +1352,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7024,
+        -6816,
         -1488
       ],
       "id": "cfbff45b-566b-448c-a1a0-8aad1d580acb",
@@ -1381,7 +1381,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -9184,
+        -9264,
         -1600
       ],
       "id": "aacd2ee8-a77e-4043-8a2c-be211107f0ea",
@@ -1404,7 +1404,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -7232,
+        -7024,
         -1488
       ],
       "id": "6a1dc01b-1191-42ec-a153-602a144e8d2d",
@@ -1412,7 +1412,7 @@
     },
     {
       "parameters": {
-        "inputText": "=Contexto da conversa:\n{{ ($('Recupera Contexto').item?.json?.messages ?? []).map(msg => JSON.stringify(msg)).join('\\n') || '' }}\n\nUltima mensagem da conversa com agente:\n{{ $('Recupera Ultima Mensagem Agente').item.json.ultima_mensagem_agente.length > 0 ? $('Recupera Ultima Mensagem Agente').item.json.ultima_mensagem_agente .first().parseJson().data.content : \"\" }}\n\nMensagem Atual:\n{{ $('Mensagem Final').item.json.Mensagem }}",
+        "inputText": "=ATENÇÃO! Escolha apenas uma \"category\". JAMAIS use mais de uma \"category\" de uma vez!\nPreste bem atenção no contexto da conversa e principalmente nas ultimas mensagens para definir a categoria!\n\nContexto da conversa:\n{{ ($('Recupera Contexto').item?.json?.messages ?? []).map(msg => JSON.stringify(msg)).join('\\n') || '' }}\n\nUltima mensagem da conversa com agente:\n{{ $('Recupera Ultima Mensagem Agente').item.json.ultima_mensagem_agente.length > 0 ? $('Recupera Ultima Mensagem Agente').item.json.ultima_mensagem_agente .first().parseJson().data.content : \"\" }}\n\nMensagem Atual:\n{{ $('Mensagem Final').item.json.Mensagem }}",
         "categories": {
           "categories": [
             {
@@ -1424,12 +1424,8 @@
               "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gastos pessoais, como registrar novos gastos, buscar/visualizar gastos existentes, modificar gastos já registrados, excluir gastos registrados, definir ou alterar metas/alertas/limites financeiros, verificar status de metas/alertas/limites, criar ou modificar metas/alertas/limites."
             },
             {
-              "category": "prestação de serviços",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada a gerenciamento de prestação de serviços ou atividades remuneradas, como registrar novas prestações de serviço, buscar/visualizar serviços prestados cadastrados, modificar prestações de serviço já registrados, excluir prestações de serviços registrados."
-            },
-            {
               "category": "lembrete, alarme, aviso ou alerta",
-              "description": "Se o usuário estiver querendo realizar alguma operação relacionada lembretes, avisos, alarmes ou alertas, como é criar, alterar, consultar ou remover lembretes, avisos, alarmes ou alertas. "
+              "description": "Se a intenção da mensagem do usuário for para realizar QUALQUER operação relacionada lembretes, como é criar, alterar, consultar ou remover lembretes."
             }
           ]
         },
@@ -1440,7 +1436,7 @@
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1.1,
       "position": [
-        -6048,
+        -5840,
         -1424
       ],
       "id": "6af5bb18-d340-4a17-83b3-0231d3b874bc",
@@ -1461,7 +1457,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -6048,
+        -5840,
         -1168
       ],
       "id": "9cf8e719-94d7-464d-9972-ddeddf77272c",
@@ -1483,7 +1479,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4944,
+        -4736,
         -1776
       ],
       "id": "df8caa8d-90d2-41c1-bbfd-e5f1d2d10e20",
@@ -1538,7 +1534,8 @@
           "id": "REMOVED",
           "name": "Redis account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -1599,7 +1596,8 @@
         -784
       ],
       "id": "b32f9fbb-5142-4b9a-a8fc-1ed7573fc0c9",
-      "name": "Switch5"
+      "name": "Switch5",
+      "disabled": true
     },
     {
       "parameters": {
@@ -1624,7 +1622,8 @@
           "id": "REMOVED",
           "name": "Evolution account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -1659,7 +1658,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4768,
+        -4560,
         -1216
       ],
       "id": "67693df1-c260-4117-a613-bc29befa4252",
@@ -1726,7 +1725,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5120,
+        -4912,
         -1392
       ],
       "id": "ac8b59de-eee4-4a5a-af90-65083d502ccf",
@@ -1745,7 +1744,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4880,
+        -4672,
         -1024
       ],
       "id": "efa4e206-8c34-45bd-b67c-37232bb21413",
@@ -1770,7 +1769,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5040,
+        -4832,
         -1776
       ],
       "id": "279f64a8-4368-497a-ad6b-d4cd67882017",
@@ -1793,7 +1792,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -10192,
+        -10256,
         -1408
       ],
       "id": "38a0b110-ac97-43df-ba74-f36d6b00bcb9",
@@ -1840,7 +1839,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -10656,
+        -10720,
         -1392
       ],
       "id": "5501dbbb-aa6d-4df3-a6be-ac9134eb7453",
@@ -1849,12 +1848,12 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let prompt = ``;\n  \n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"PRESTACAO_SERVICO\")) {\n    prompt += `Você está habilitada para ajudar com gerenciamento de serviços prestados.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento dos serviços prestados - cadastrar, consultar, atualizar ou excluir serviços.\"\n\nExemplos de interação para prestação de serviços:\n[Usuário]\nPreciso cadastrar um serviço.\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja cadastrar, por favor.\n\n[Usuário]\nQuero atualizar um serviço.\n[Mori]\nPerfeito! Me informe qual serviço você deseja atualizar e quais alterações precisa fazer.\n\nDados de serviço que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- local (Vila Mariana, Casa Da Maria, Restaurante Dona Deola);\n- nome_cliente;\n- servico (Instalação de Box, instalação portão, etc);\n- telefone_cliente;\n- valor_servico;\n- data_servico;\n- valor_pago;\n\n`;\n  }\n\n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")){\n    prompt += `Você está habilitada para ajudar com controle de gastos pessoais.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o controle dos seus gastos pessoais - registrar, consultar, atualizar ou excluir gastos, além de gerar relatórios e configurar metas.\"\n\nExemplos de interação para gastos pessoais:\n[Usuário]\nQuero registrar um gasto.\n[Mori]\nPerfeito! Me informe o valor gasto, com o que você gastou e em que data, por favor.\n\n[Usuário]\nPreciso ver meus gastos.\n[Mori]\nClaro! Me diga o período que você gostaria de consultar ou se quer ver algo específico.\n\nDados de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- dt_gasto date;\n- descricao_gasto;\n- valor;\n\nDados de metas/alertas/limite de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- periodo (Valores possíveis: DIARIO, SEMANAL, MENSAL);\n- valor_limite;\n- dt_inicio date (Data início da vigência);\n- dt_fim date (Data fim da vigência);\n- renova_automatico (Valores possíveis: S, N);\n- porcentagem_alerta integer default 100;\n\n`;\n  } \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    prompt: prompt\n  }\n};\n  \n}"
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  let prompt = ``;\n\n  \n/**  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"PRESTACAO_SERVICO\")) {\n    prompt += `Você está habilitada para ajudar com gerenciamento de serviços prestados.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento dos serviços prestados - cadastrar, consultar, atualizar ou excluir serviços.\"\n\nExemplos de interação para prestação de serviços:\n[Usuário]\nPreciso cadastrar um serviço.\n[Mori]\nClaro! Me passe os detalhes do serviço que você deseja cadastrar, por favor.\n\n[Usuário]\nQuero atualizar um serviço.\n[Mori]\nPerfeito! Me informe qual serviço você deseja atualizar e quais alterações precisa fazer.\n\nDados de serviço que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- local (Vila Mariana, Casa Da Maria, Restaurante Dona Deola);\n- nome_cliente;\n- servico (Instalação de Box, instalação portão, etc);\n- telefone_cliente;\n- valor_servico;\n- data_servico;\n- valor_pago;\n\n`;\n  } **/\n\n  if (($('Dados Contrato').first().json.produtos_contratados || \"\").toString().includes(\"GASTOS_PESSOAIS\")){\n    prompt += `Você está habilitada para ajudar com controle de gastos pessoais.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o controle dos seus gastos pessoais - registrar, consultar, atualizar ou excluir gastos, além de gerar relatórios e configurar metas.\"\n\nExemplos de interação para gastos pessoais:\n[Usuário]\nQuero registrar um gasto.\n[Mori]\nPerfeito! Me informe o valor gasto, com o que você gastou e em que data, por favor.\n\n[Usuário]\nPreciso ver meus gastos.\n[Mori]\nClaro! Me diga o período que você gostaria de consultar ou se quer ver algo específico.\n\nDados de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- dt_gasto date;\n- descricao_gasto;\n- valor;\n\nDados de metas/alertas/limite de gastos que você gerencia (Interprete as informações e apresente ao usuário de forma amigável):\n\n- periodo (Valores possíveis: DIARIO, SEMANAL, MENSAL);\n- valor_limite;\n- dt_inicio date (Data início da vigência);\n- dt_fim date (Data fim da vigência);\n- renova_automatico (Valores possíveis: S, N);\n- porcentagem_alerta integer default 100;\n\n`;\n  } \n// Tipo de operação não reconhecido\nreturn {\n  json: {\n    prompt: prompt\n  }\n};\n  \n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5536,
+        -5328,
         -1936
       ],
       "id": "1d72a2dd-c13e-4f1e-80fb-36da75b37bbf",
@@ -1867,7 +1866,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5360,
+        -5152,
         -1392
       ],
       "id": "5157b198-b549-4dd4-93e6-7237ba2c8aad",
@@ -1884,7 +1883,8 @@
         -784
       ],
       "id": "1cebc2a6-e58a-4586-a305-5dc75731e130",
-      "name": "Verificar produto ativo PRESTACAO_SERVICO"
+      "name": "Verificar produto ativo PRESTACAO_SERVICO",
+      "disabled": true
     },
     {
       "parameters": {
@@ -1943,7 +1943,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5296,
+        -5088,
         -1936
       ],
       "id": "84a1dbae-4082-45cd-9b0d-74a86936bf25",
@@ -1962,7 +1962,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4656,
+        -4448,
         -1952
       ],
       "id": "fb58e661-153f-471c-bf73-daa9681a4bd0",
@@ -1987,7 +1987,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5040,
+        -4832,
         -1616
       ],
       "id": "34688c03-330a-4928-91c0-f1e035cb5853",
@@ -2004,13 +2004,13 @@
         "promptType": "define",
         "text": "={{ $('Mensagem Final').item.json.Mensagem }}",
         "options": {
-          "systemMessage": "=Seu nome é Mori (feminino) e você é uma assistente pessoal especializada.\n\nInstruções de Comunicação Natural:\n- Use o nome do cliente ({{ $('Verificar Cliente Ativo').item.json.nome_apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n- Só explique suas atividades se o cliente perguntar diretamente.\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n- Se perguntarem sobre suas atividades, responda com base nos serviços habilitados para o usuário.\n- Seja empática, sucinta e mantenha o tom da conversa leve e formal, o mais natural possível.\n\n{{ $json.prompt }}\n\nPontos de Atenção:\n- Tome cuidado para não estender muito a conversa em assuntos que não sejam referentes às suas atividades habilitadas.\n- Tente sair do assunto de forma inteligente, redirecionando para as funcionalidades disponíveis.\n- Seja bam cautelosa na utilização de emojis e envie o minimo possivel. Não faça o envio de emojis de forma exagerada.\n- Sempre base suas respostas sobre atividades nos serviços habilitados para aquele usuário específico.\n\nExemplos de redirecionamento:\n[Usuário]\nQual a previsão do tempo?\n[Mori]\nNão tenho acesso a informações sobre o tempo. Como posso te ajudar com suas atividades hoje?\n\n[Usuário]\nTudo bem com você?\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n"
+          "systemMessage": "=Seu nome é Mori (feminino) e você é uma assistente pessoal especializada.\n\nInstruções de Comunicação Natural:\n- Use o nome do cliente ({{ $('Verificar Cliente Ativo').item.json.nome_apelido }}) apenas na primeira saudação de cada conversa, ou para chamar atenção em casos específicos, como quando o cliente demora a responder.\n- Nas mensagens seguintes, varie as expressões de cumprimento e início das respostas, evitando repetir exatamente a mesma estrutura.\n- Só explique suas atividades se o cliente perguntar diretamente.\n- Se só for saudada, retribua de forma cordial, sem repetir o nome se já usou.\n- Se perguntarem \"tudo bem?\", diga que está bem e pergunte como o cliente está, sem repetir o nome se já cumprimentou.\n- Se perguntarem sobre suas atividades, responda com base nos serviços habilitados para o usuário.\n- Seja empática, sucinta e mantenha o tom da conversa leve e formal, o mais natural possível.\n\n{{ $json.prompt }}\n\nVocê está habilitada também para ajudar com gerenciamento de lembretes.\n\nQuando perguntarem sobre suas atividades, inclua na resposta:\n\"Posso te ajudar com o gerenciamento lembretes - criar, consultar, atualizar ou excluir um lembrete.\"\n\nPontos de Atenção:\n- Tome cuidado para não estender muito a conversa em assuntos que não sejam referentes às suas atividades habilitadas.\n- Tente sair do assunto de forma inteligente, redirecionando para as funcionalidades disponíveis.\n- Seja bam cautelosa na utilização de emojis e envie o minimo possivel. Não faça o envio de emojis de forma exagerada.\n- Sempre base suas respostas sobre atividades nos serviços habilitados para aquele usuário específico.\n\nExemplos de redirecionamento:\n[Usuário]\nQual a previsão do tempo?\n[Mori]\nNão tenho acesso a informações sobre o tempo. Como posso te ajudar com suas atividades hoje?\n\n[Usuário]\nTudo bem com você?\n[Mori]\nEstou bem, obrigada por perguntar! E você, está tudo certo também?\n\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -5040,
+        -4832,
         -1952
       ],
       "id": "32cdf2b3-6e9c-436a-b5ae-0fdab3aeb6a6",
@@ -2028,7 +2028,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -4864,
+        -4656,
         -1408
       ],
       "id": "73bebd49-3ad2-41b8-afaf-0a9758b273cd",
@@ -2050,15 +2050,16 @@
         -800
       ],
       "id": "47544629-fe04-4536-ba25-50d9ed3007fe",
-      "name": "Classifica Prestacao Servico"
+      "name": "Classifica Prestacao Servico",
+      "disabled": true
     },
     {
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "o4-mini",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "o4-mini"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {
           "temperature": 1
@@ -2067,7 +2068,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4864,
+        -4656,
         -1216
       ],
       "id": "f46ba883-2344-47f7-8b03-6e8cd9739f9f",
@@ -2102,7 +2103,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4288,
+        -4080,
         -1056
       ],
       "id": "ddfca0fc-8946-4930-9d53-fa75e3fb0b44",
@@ -2135,7 +2136,8 @@
         -800
       ],
       "id": "9c843724-6236-46ec-8e3b-a2ef90c3858e",
-      "name": "Chamar Workflow Prestacao Servico"
+      "name": "Chamar Workflow Prestacao Servico",
+      "disabled": true
     },
     {
       "parameters": {
@@ -2196,7 +2198,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -4480,
+        -4272,
         -1056
       ],
       "id": "fc5d1a31-f633-411e-ab17-86c8bcf85475",
@@ -2265,15 +2267,16 @@
         -800
       ],
       "id": "8242de0c-c1c6-4add-ace2-22f2d8dcfaed",
-      "name": "consolidar dados para prestacao servico"
+      "name": "consolidar dados para prestacao servico",
+      "disabled": true
     },
     {
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "o4-mini",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "o4-mini"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {
           "temperature": 1
@@ -2292,7 +2295,8 @@
           "id": "REMOVED",
           "name": "OpenAi account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2321,9 +2325,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5-nano",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "gpt-5-nano"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {
           "temperature": 1
@@ -2332,7 +2336,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4240,
+        -4032,
         -1216
       ],
       "id": "932b540b-7283-40b8-9841-ec0a41dc66b7",
@@ -2355,7 +2359,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.1,
       "position": [
-        -4240,
+        -4032,
         -1408
       ],
       "id": "0efcae8a-4311-4015-8b96-8fea5915532b",
@@ -2368,7 +2372,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -4480,
+        -4272,
         -1408
       ],
       "id": "8c491008-cfa4-4adf-83e0-7b87aae96674",
@@ -2387,7 +2391,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -3872,
+        -3664,
         -1408
       ],
       "id": "b8b952b5-2e2d-4f17-800b-82d46b8c1dc2",
@@ -2410,7 +2414,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -6192,
+        -5984,
         -1376
       ],
       "id": "a899616b-a6cf-4b34-a94f-192d2f77241d",
@@ -2434,7 +2438,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5600,
+        -5392,
         -1392
       ],
       "id": "9d68d105-bb18-4f59-923b-3394d87b1011",
@@ -2457,7 +2461,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -7216,
+        -7008,
         -1248
       ],
       "id": "21c5a396-a213-4841-9a45-36107d2617d7",
@@ -2479,7 +2483,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6512,
+        -6304,
         -1376
       ],
       "id": "945361bc-422e-4a8b-89df-c6c20d42444c",
@@ -2501,7 +2505,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6832,
+        -6624,
         -1376
       ],
       "id": "99f00351-69d3-4d96-9bae-0c941cffb530",
@@ -2554,7 +2558,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -10192,
+        -10256,
         -1216
       ],
       "id": "d17e589b-ce87-4900-904e-ce1e97c9e903",
@@ -2581,7 +2585,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -9968,
+        -10032,
         -1216
       ],
       "id": "12d4ce7c-b46c-4ee4-8fab-ff1bc8333bf3",
@@ -2602,15 +2606,16 @@
         -560
       ],
       "id": "d4a9293c-d4b9-4c92-ab27-0b4e7e1949ca",
-      "name": "Informar solicitacao em andamento1"
+      "name": "Informar solicitacao em andamento1",
+      "disabled": true
     },
     {
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-5-nano",
+          "value": "gpt-4o-mini",
           "mode": "list",
-          "cachedResultName": "gpt-5-nano"
+          "cachedResultName": "gpt-4o-mini"
         },
         "options": {
           "temperature": 1
@@ -2629,7 +2634,8 @@
           "id": "REMOVED",
           "name": "OpenAi account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2654,7 +2660,8 @@
           "id": "REMOVED",
           "name": "Evolution account"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -2667,7 +2674,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6672,
+        -6464,
         -1376
       ],
       "id": "94cc5b58-dbd4-4da2-a1a2-ed6126eb47ae",
@@ -2686,7 +2693,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -11248,
+        -11312,
         -1392
       ],
       "id": "03b8ea34-1729-4a46-aa04-500df193e83c",
@@ -2702,7 +2709,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -5440,
+        -5232,
         64
       ],
       "id": "dbb2cdab-b8b7-4d01-9347-2f5a7fbc7822",
@@ -2729,7 +2736,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5536,
+        -5328,
         64
       ],
       "id": "4f7f3e02-e454-4eb4-9d89-e95353d0e60c",
@@ -2752,7 +2759,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -5536,
+        -5328,
         -128
       ],
       "id": "b0459ffb-7867-43b3-8fe1-028ab90235f1",
@@ -2812,7 +2819,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -5200,
+        -4992,
         -128
       ],
       "id": "937d7328-f224-45d2-adcf-6d6b9354bb61",
@@ -2829,7 +2836,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6352,
+        -6144,
         -1376
       ],
       "id": "d78e0362-e6da-4a30-9429-7368fbac9ada",
@@ -2869,7 +2876,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -9440,
+        -9600,
         -1616
       ],
       "id": "f67e39ca-fadd-41e4-a77f-fd2894dcfe35",
@@ -2886,8 +2893,8 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -8944,
-        -1952
+        -9072,
+        -1888
       ],
       "id": "ce9ec286-e7c3-47d8-9a90-bba39da0848b",
       "name": "Convert to File1"
@@ -2902,6 +2909,10 @@
             {
               "name": "apikey",
               "value": "={{ $('Webhook').item.json.body.apikey }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
             }
           ]
         },
@@ -2913,8 +2924,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -9184,
-        -1936
+        -9264,
+        -1792
       ],
       "id": "9172efbc-891b-405b-8404-fed80b6e8466",
       "name": "buscar_base64",
@@ -2943,7 +2954,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4992,
+        -4784,
         -128
       ],
       "id": "c275ff18-dab9-4895-8029-263486528d8f",
@@ -2962,8 +2973,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -8944,
-        -1760
+        -9072,
+        -1728
       ],
       "id": "7277b84d-1565-4ad4-ba6c-8589503a387f",
       "name": "Enviar Mensagem Erro Audio",
@@ -2973,6 +2984,46 @@
           "name": "Evolution account"
         }
       }
+    },
+    {
+      "parameters": {
+        "resource": "chat-api",
+        "operation": "get-media-base64",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "messageId": "={{ $('Dados').item.json.id_mensagem }}"
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -9264,
+        -2032
+      ],
+      "id": "5ed8fa4b-8d0c-43f6-990f-b5629541f355",
+      "name": "Obter m dia em base64",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data.base64",
+        "options": {
+          "mimeType": "=audio/mpeg"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -9072,
+        -2048
+      ],
+      "id": "917052c6-be9a-4aa2-9c79-4485475fdf51",
+      "name": "Convert to File2"
     }
   ],
   "connections": {
@@ -3413,13 +3464,6 @@
         ],
         [
           {
-            "node": "Verificar produto ativo PRESTACAO_SERVICO",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "Classifica Lembretes",
             "type": "main",
             "index": 0
@@ -3431,7 +3475,8 @@
             "type": "main",
             "index": 0
           }
-        ]
+        ],
+        []
       ]
     },
     "OpenAI Chat Model": {
@@ -3907,7 +3952,7 @@
       "main": [
         [
           {
-            "node": "buscar_base64",
+            "node": "Obter m dia em base64",
             "type": "main",
             "index": 0
           }
@@ -3944,6 +3989,35 @@
         [
           {
             "node": "Enviar Mensagem Erro Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Obter m dia em base64": {
+      "main": [
+        [
+          {
+            "node": "Convert to File2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "buscar_base64",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -3986,25 +4060,25 @@
               "key": {
                 "remoteJid": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3A59F7FF4D21B092CABB",
+                "id": "3A08D140BDDE5947AC3E",
                 "senderLid": "193965068443828@lid"
               },
               "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
                 "audioMessage": {
-                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/28890677_4197419977068326_3638736635077533898_n.enc?ccb=11-4&oh=01_Q5Aa2gHWAsWwNwmxI0eB_wXWBCRsm3aoF8ANfMmtDlT6vkISWQ&oe=68E6FCB6&_nc_sid=5e03e0&mms3=true",
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/27343947_1124230746314240_2814283949179916356_n.enc?ccb=11-4&oh=01_Q5Aa2gElZNXA1P7Dy1mDBM48H4Vy5hU2YjFpoXPPtizRR02buw&oe=68E86D10&_nc_sid=5e03e0&mms3=true",
                   "mimetype": "audio/ogg; codecs=opus",
-                  "fileSha256": "aOCGrQD5m1Lw+zMvkE8JuhkaI4UOtUv++lUzPcRAhKA=",
-                  "fileLength": "6566",
+                  "fileSha256": "Xm4ci4/BisS+njpjgVP1HFy/ycq6oRMkiMuZybhPJZQ=",
+                  "fileLength": "4425",
                   "seconds": 2,
                   "ptt": true,
-                  "mediaKey": "onO7Bj8r/mvZDaScj6gKLHdVIkpQQTtQ+F5PsjiI2DE=",
-                  "fileEncSha256": "QOmDIojNEU6jA0EXP45MrO8FPJ/jkUz+1xJOeZYd/ig=",
-                  "directPath": "/v/t62.7117-24/28890677_4197419977068326_3638736635077533898_n.enc?ccb=11-4&oh=01_Q5Aa2gHWAsWwNwmxI0eB_wXWBCRsm3aoF8ANfMmtDlT6vkISWQ&oe=68E6FCB6&_nc_sid=5e03e0",
-                  "mediaKeyTimestamp": "1757379204",
-                  "streamingSidecar": "cTijGr1IeFu93A==",
-                  "waveform": "AAYMExcXFxcWFhUVJz1SYlZLQD9KVWFfWVJMR0E8O0NKUk9HPjZBTlpjYF1aV1NPS0M5MSkyOUJDPDQtKSYkIg=="
+                  "mediaKey": "Gebp5wQA6VPtyowWcqIFHgNYUlthtgSF1gUxW+PsNxA=",
+                  "fileEncSha256": "YJwEQOcv5SwyTdk+rBwEHYUqc2zdx4MGTvvcoG42j0Y=",
+                  "directPath": "/v/t62.7117-24/27343947_1124230746314240_2814283949179916356_n.enc?ccb=11-4&oh=01_Q5Aa2gElZNXA1P7Dy1mDBM48H4Vy5hU2YjFpoXPPtizRR02buw&oe=68E86D10&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1757476625",
+                  "streamingSidecar": "JwAVGeWv40WV1w==",
+                  "waveform": "AAAAAAABAQEBAQAAAAAAAAAAAAAFDhcgKCciHhkVEhANCwkVIS04QT89Ozg3NjY1NDIvLSonJCAcGRUTEQ8NDA=="
                 },
                 "messageContextInfo": {
                   "deviceListMetadata": {
@@ -4014,17 +4088,17 @@
                     "recipientTimestamp": "1756492998"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "SuZUsMcyvSyqhOTQPEC/iTrNOj7WyJLIwWIU54sfanQ="
+                  "messageSecret": "KeI0rCZu0XLwBeMFO0wmc5uL52nv9+ZHJsbGBIgw5L4="
                 }
               },
               "contextInfo": null,
               "messageType": "audioMessage",
-              "messageTimestamp": 1757379208,
+              "messageTimestamp": 1757476628,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-09-08T21:53:28.853Z",
+            "date_time": "2025-09-10T00:57:08.912Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -4035,7 +4109,7 @@
       }
     ]
   },
-  "versionId": "166ee35e-7710-45c9-aba5-36e02220c861",
+  "versionId": "4de4f107-6228-4688-833d-e1a192421d2e",
   "triggerCount": 1,
   "shared": [
     {
@@ -4048,8 +4122,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-09T11:00:46.586Z",
-    "version": "2025-09-09T01:12:47.000Z",
+    "backedUpAt": "2025-09-10T11:00:01.331Z",
+    "version": "2025-09-10T10:53:30.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
