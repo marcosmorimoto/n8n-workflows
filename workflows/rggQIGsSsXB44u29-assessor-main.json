@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-10T10:53:30.000Z",
+  "updatedAt": "2025-09-11T21:39:16.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1501,8 +1501,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -5056,
-        -592
+        -4848,
+        -128
       ],
       "id": "d6032cc7-f03e-4c8e-9bd5-6a1a3691716c",
       "name": "Groq Chat Model8",
@@ -1524,8 +1524,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4960,
-        -592
+        -4752,
+        -128
       ],
       "id": "f7930ce1-bdee-40b3-8c09-9c0113daa9a6",
       "name": "Redis Chat Memory9",
@@ -1592,8 +1592,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5296,
-        -784
+        -5088,
+        -320
       ],
       "id": "b32f9fbb-5142-4b9a-a8fc-1ed7573fc0c9",
       "name": "Switch5",
@@ -1612,8 +1612,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5040,
-        -400
+        -4832,
+        64
       ],
       "id": "6e7a5ed1-77ea-41fa-bfc6-9ca41c677a07",
       "name": "Enviar texto3",
@@ -1879,8 +1879,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5536,
-        -784
+        -5328,
+        -320
       ],
       "id": "1cebc2a6-e58a-4586-a305-5dc75731e130",
       "name": "Verificar produto ativo PRESTACAO_SERVICO",
@@ -2046,8 +2046,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -5056,
-        -800
+        -4848,
+        -336
       ],
       "id": "47544629-fe04-4536-ba25-50d9ed3007fe",
       "name": "Classifica Prestacao Servico",
@@ -2132,8 +2132,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4448,
-        -800
+        -4240,
+        -336
       ],
       "id": "9c843724-6236-46ec-8e3b-a2ef90c3858e",
       "name": "Chamar Workflow Prestacao Servico",
@@ -2263,8 +2263,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -4672,
-        -800
+        -4464,
+        -336
       ],
       "id": "8242de0c-c1c6-4add-ace2-22f2d8dcfaed",
       "name": "consolidar dados para prestacao servico",
@@ -2285,8 +2285,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5056,
-        -592
+        -4848,
+        -128
       ],
       "id": "967287c3-0c61-41dd-9388-42f1df55cb01",
       "name": "OpenAI Chat Model3",
@@ -2602,8 +2602,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.1,
       "position": [
-        -4672,
-        -560
+        -4464,
+        -96
       ],
       "id": "d4a9293c-d4b9-4c92-ab27-0b4e7e1949ca",
       "name": "Informar solicitacao em andamento1",
@@ -2624,8 +2624,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4672,
-        -368
+        -4464,
+        96
       ],
       "id": "37b1d2ed-2edc-4843-a433-22336f63e34f",
       "name": "OpenAI Chat Model5",
@@ -2650,8 +2650,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4368,
-        -560
+        -4160,
+        -96
       ],
       "id": "379af9a6-e696-4150-a730-f64cbe5a7ab3",
       "name": "Enviar Mensagem Conversa2",
@@ -2709,8 +2709,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -5232,
-        64
+        -5280,
+        -576
       ],
       "id": "dbb2cdab-b8b7-4d01-9347-2f5a7fbc7822",
       "name": "Redis Chat Memory11",
@@ -2736,8 +2736,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5328,
-        64
+        -5376,
+        -576
       ],
       "id": "4f7f3e02-e454-4eb4-9d89-e95353d0e60c",
       "name": "OpenAI Chat Model6",
@@ -2759,8 +2759,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -5328,
-        -128
+        -5376,
+        -768
       ],
       "id": "b0459ffb-7867-43b3-8fe1-028ab90235f1",
       "name": "Classifica Lembretes",
@@ -2819,8 +2819,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -4992,
-        -128
+        -5040,
+        -768
       ],
       "id": "937d7328-f224-45d2-adcf-6d6b9354bb61",
       "name": "Dados para workflow lembrete"
@@ -2954,8 +2954,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4784,
-        -128
+        -4832,
+        -768
       ],
       "id": "c275ff18-dab9-4895-8029-263486528d8f",
       "name": "Chamar Workflow Lembrete"
@@ -4040,7 +4040,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.10.0",
-            "content-length": "1766",
+            "content-length": "1769",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "content-type": "application/json",
@@ -4060,25 +4060,25 @@
               "key": {
                 "remoteJid": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3A08D140BDDE5947AC3E",
+                "id": "3A8962E916F24F0472E6",
                 "senderLid": "193965068443828@lid"
               },
               "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
                 "audioMessage": {
-                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/27343947_1124230746314240_2814283949179916356_n.enc?ccb=11-4&oh=01_Q5Aa2gElZNXA1P7Dy1mDBM48H4Vy5hU2YjFpoXPPtizRR02buw&oe=68E86D10&_nc_sid=5e03e0&mms3=true",
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/546071556_1312788963844129_7826661141282999173_n.enc?ccb=11-4&oh=01_Q5Aa2gH7U37PVOV0Xxxk-zOfclAqNJcZEQBrDDPh8NFl4hkZoQ&oe=68E98FA2&_nc_sid=5e03e0&mms3=true",
                   "mimetype": "audio/ogg; codecs=opus",
-                  "fileSha256": "Xm4ci4/BisS+njpjgVP1HFy/ycq6oRMkiMuZybhPJZQ=",
-                  "fileLength": "4425",
-                  "seconds": 2,
+                  "fileSha256": "kMoVPgy2rUPqAlfBG3q7wxrzQa59/pM2TT5AkoLVE1Y=",
+                  "fileLength": "11529",
+                  "seconds": 5,
                   "ptt": true,
-                  "mediaKey": "Gebp5wQA6VPtyowWcqIFHgNYUlthtgSF1gUxW+PsNxA=",
-                  "fileEncSha256": "YJwEQOcv5SwyTdk+rBwEHYUqc2zdx4MGTvvcoG42j0Y=",
-                  "directPath": "/v/t62.7117-24/27343947_1124230746314240_2814283949179916356_n.enc?ccb=11-4&oh=01_Q5Aa2gElZNXA1P7Dy1mDBM48H4Vy5hU2YjFpoXPPtizRR02buw&oe=68E86D10&_nc_sid=5e03e0",
-                  "mediaKeyTimestamp": "1757476625",
-                  "streamingSidecar": "JwAVGeWv40WV1w==",
-                  "waveform": "AAAAAAABAQEBAQAAAAAAAAAAAAAFDhcgKCciHhkVEhANCwkVIS04QT89Ozg3NjY1NDIvLSonJCAcGRUTEQ8NDA=="
+                  "mediaKey": "7eZQ/l+OYH8JM+4jG9aplcdSTYyv67LbGolbeCBKPog=",
+                  "fileEncSha256": "L4r6x8/22x5Pp+pOxnDl9dbE5rlYuDZedyZNTIB2JCg=",
+                  "directPath": "/v/t62.7117-24/546071556_1312788963844129_7826661141282999173_n.enc?ccb=11-4&oh=01_Q5Aa2gH7U37PVOV0Xxxk-zOfclAqNJcZEQBrDDPh8NFl4hkZoQ&oe=68E98FA2&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1757554294",
+                  "streamingSidecar": "VeVeYps1Ib+kEQ==",
+                  "waveform": "AwQHJkNTYGJhWVhgZGRkZGJhVEY1JBoRDQoJCAgaSlxNPjAzPk5gZGRkZGRkZGRkZGRbRTEhFxENCgkICAgJCw=="
                 },
                 "messageContextInfo": {
                   "deviceListMetadata": {
@@ -4088,17 +4088,17 @@
                     "recipientTimestamp": "1756492998"
                   },
                   "deviceListMetadataVersion": 2,
-                  "messageSecret": "KeI0rCZu0XLwBeMFO0wmc5uL52nv9+ZHJsbGBIgw5L4="
+                  "messageSecret": "QdedyE3t/conA8OJG/iv9HBucOwL2tC7lDSKwKzxFMA="
                 }
               },
               "contextInfo": null,
               "messageType": "audioMessage",
-              "messageTimestamp": 1757476628,
+              "messageTimestamp": 1757554299,
               "instanceId": "c3098573-0aa1-4d68-8b9f-3e5696151ad4",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/b70f51f4-392d-43ef-a4c9-073b4e7a1635",
-            "date_time": "2025-09-10T00:57:08.912Z",
+            "date_time": "2025-09-10T22:31:40.462Z",
             "sender": "5511919861358@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "FBEF3AA5CC84-4BBD-8A3F-0D4AB63E5DFC"
@@ -4109,7 +4109,7 @@
       }
     ]
   },
-  "versionId": "4de4f107-6228-4688-833d-e1a192421d2e",
+  "versionId": "2471315d-29f4-4acf-bc0a-001acb7c28a3",
   "triggerCount": 1,
   "shared": [
     {
@@ -4122,8 +4122,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-10T11:00:01.331Z",
-    "version": "2025-09-10T10:53:30.000Z",
+    "backedUpAt": "2025-09-12T11:00:22.664Z",
+    "version": "2025-09-11T21:39:16.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
