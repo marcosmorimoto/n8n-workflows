@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-12T14:32:36.000Z",
+  "updatedAt": "2025-09-13T18:59:22.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1501,8 +1501,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        -4848,
-        -128
+        -4880,
+        320
       ],
       "id": "d6032cc7-f03e-4c8e-9bd5-6a1a3691716c",
       "name": "Groq Chat Model8",
@@ -1524,8 +1524,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4752,
-        -128
+        -4784,
+        320
       ],
       "id": "f7930ce1-bdee-40b3-8c09-9c0113daa9a6",
       "name": "Redis Chat Memory9",
@@ -1592,8 +1592,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5088,
-        -320
+        -5120,
+        128
       ],
       "id": "b32f9fbb-5142-4b9a-a8fc-1ed7573fc0c9",
       "name": "Switch5",
@@ -1612,8 +1612,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4832,
-        64
+        -4864,
+        512
       ],
       "id": "6e7a5ed1-77ea-41fa-bfc6-9ca41c677a07",
       "name": "Enviar texto3",
@@ -1621,29 +1621,6 @@
         "evolutionApi": {
           "id": "REMOVED",
           "name": "Evolution account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "options": {
-          "temperature": 1
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        -4864,
-        -1200
-      ],
-      "id": "f9d2bcf1-1937-4af2-8292-0a41c890e73a",
-      "name": "Groq Chat Model9",
-      "credentials": {
-        "groqApi": {
-          "id": "REMOVED",
-          "name": "Groq account"
         }
       },
       "disabled": true
@@ -1879,8 +1856,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5328,
-        -320
+        -5360,
+        128
       ],
       "id": "1cebc2a6-e58a-4586-a305-5dc75731e130",
       "name": "Verificar produto ativo PRESTACAO_SERVICO",
@@ -2046,8 +2023,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -4848,
-        -336
+        -4880,
+        112
       ],
       "id": "47544629-fe04-4536-ba25-50d9ed3007fe",
       "name": "Classifica Prestacao Servico",
@@ -2132,8 +2109,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4240,
-        -336
+        -4272,
+        112
       ],
       "id": "9c843724-6236-46ec-8e3b-a2ef90c3858e",
       "name": "Chamar Workflow Prestacao Servico",
@@ -2263,8 +2240,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -4464,
-        -336
+        -4496,
+        112
       ],
       "id": "8242de0c-c1c6-4add-ace2-22f2d8dcfaed",
       "name": "consolidar dados para prestacao servico",
@@ -2285,8 +2262,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4848,
-        -128
+        -4880,
+        320
       ],
       "id": "967287c3-0c61-41dd-9388-42f1df55cb01",
       "name": "OpenAI Chat Model3",
@@ -2294,29 +2271,6 @@
         "openAiApi": {
           "id": "REMOVED",
           "name": "OpenAi account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=assessor_{{ $('Dados').item.json.quem_mandou }}",
-        "sessionTTL": 3600,
-        "contextWindowLength": 0
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
-      "typeVersion": 1.5,
-      "position": [
-        -4352,
-        -1216
-      ],
-      "id": "12db773e-0da2-4034-b81b-778d2e647509",
-      "name": "Redis Chat Memory",
-      "credentials": {
-        "redis": {
-          "id": "REMOVED",
-          "name": "Redis account"
         }
       },
       "disabled": true
@@ -2602,8 +2556,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.1,
       "position": [
-        -4464,
-        -96
+        -4496,
+        352
       ],
       "id": "d4a9293c-d4b9-4c92-ab27-0b4e7e1949ca",
       "name": "Informar solicitacao em andamento1",
@@ -2624,8 +2578,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4464,
-        96
+        -4496,
+        544
       ],
       "id": "37b1d2ed-2edc-4843-a433-22336f63e34f",
       "name": "OpenAI Chat Model5",
@@ -2650,8 +2604,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4160,
-        -96
+        -4192,
+        352
       ],
       "id": "379af9a6-e696-4150-a730-f64cbe5a7ab3",
       "name": "Enviar Mensagem Conversa2",
@@ -2965,7 +2919,7 @@
         "resource": "messages-api",
         "instanceName": "={{ $('Dados').item.json.instancia }}",
         "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
-        "messageText": "=Hmmm.... não consegui processar seu audio 🥺\nJá direcionei o erro para o time técnico dar uma olhadinha no que pode ter ocorrido.\nEnquanto isso você pode me enviar a mensagem em forma de texto.\n",
+        "messageText": "=Hmmm.... consegue me enviar em formato de texto a mensagem? \nTive um problema técnico para processar o audio 🥺\nJá direcionei o erro para o time técnico dar uma olhadinha no que pode ter ocorrido",
         "options_message": {
           "delay": 500
         }
@@ -3735,11 +3689,6 @@
         ]
       ]
     },
-    "Redis Chat Memory": {
-      "ai_memory": [
-        []
-      ]
-    },
     "OpenAI Chat Model4": {
       "ai_languageModel": [
         [
@@ -4109,7 +4058,7 @@
       }
     ]
   },
-  "versionId": "ac4d5b6c-63cb-4398-a33d-c0e779b524f1",
+  "versionId": "a45a38a4-2e17-4937-b98f-a90bbeb78219",
   "triggerCount": 1,
   "shared": [
     {
@@ -4122,8 +4071,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-13T11:00:22.831Z",
-    "version": "2025-09-12T14:32:36.000Z",
+    "backedUpAt": "2025-09-14T11:00:21.320Z",
+    "version": "2025-09-13T18:59:22.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
