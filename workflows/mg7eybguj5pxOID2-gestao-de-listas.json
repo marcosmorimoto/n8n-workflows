@@ -1,0 +1,199 @@
+{
+  "createdAt": "2025-09-13T18:42:03.506Z",
+  "updatedAt": "2025-09-14T02:50:26.000Z",
+  "id": "mg7eybguj5pxOID2",
+  "name": "gestao_de_listas",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "94ed4ef4-5847-4b2d-8286-44900502d802",
+      "name": "When chat message received",
+      "webhookId": "a5bf94ef-d34b-4278-abfc-c2e3d7cc9017"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        144
+      ],
+      "id": "24399b29-3e4b-4472-95e5-fb2c2f6929f7",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=Você é um classificador de mensagens.\n\n**Objetivo:** Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada às anotações pessoais.\n\n## Regras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados relacionados a anotações/listas/notas pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nANOTACAO-CRIAR - Para criar uma nova anotação/lista  \nANOTACAO-ADICIONAR - Para adicionar itens a uma anotação/lista existente  \nANOTACAO-CONSULTAR - Para buscar/visualizar anotações ou itens  \nANOTACAO-ATUALIZAR - Para modificar anotações ou itens existentes  \nANOTACAO-MARCAR - Para marcar itens como concluídos/feitos  \nANOTACAO-DESMARCAR - Para desmarcar itens concluídos  \nANOTACAO-DELETAR - Para excluir anotações ou itens específicos  \n\n## Formato de resposta:\nApenas o rótulo correspondente (por exemplo: ANOTACAO-CONSULTAR).  \nNenhum texto adicional.\n\n## Exemplos:\n\n**Criação de nova anotação:**\n- Mensagem: \"Cria uma anotação de compras\" → ANOTACAO-CRIAR\n- Mensagem: \"Nova lista de mercado\" → ANOTACAO-CRIAR\n- Mensagem: \"Quero fazer uma anotação de tarefas\" → ANOTACAO-CRIAR\n- Mensagem: \"Inicia uma lista de convidados\" → ANOTACAO-CRIAR\n\n**Adição de itens:**\n- Mensagem: \"Adiciona tomate na lista\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Anota 2kg de arroz\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Coloca 3 sacos de cimento\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Inclui detergente nas compras\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Adiciona ligar para João às 14h\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Põe leite e café na lista\" → ANOTACAO-ADICIONAR\n\n**Consulta de anotações:**\n- Mensagem: \"Mostra minhas anotações\" → ANOTACAO-CONSULTAR\n- Mensagem: \"O que tem na lista de compras?\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Quais são minhas tarefas?\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Ver anotações de hoje\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Lista tudo que preciso comprar\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Quantos itens tem na lista?\" → ANOTACAO-CONSULTAR\n\n**Atualização de itens:**\n- Mensagem: \"Muda tomate para 3kg de tomate\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Corrige aquele item de arroz para 5kg\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Altera o nome da lista para Compras do mês\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Troca detergente por sabão em pó\" → ANOTACAO-ATUALIZAR\n\n**Marcar como concluído:**\n- Mensagem: \"Marca tomate como comprado\" → ANOTACAO-MARCAR\n- Mensagem: \"Já comprei o arroz\" → ANOTACAO-MARCAR\n- Mensagem: \"Feito a tarefa de ligar para João\" → ANOTACAO-MARCAR\n- Mensagem: \"Conclui o item do detergente\" → ANOTACAO-MARCAR\n- Mensagem: \"Risca leite da lista\" → ANOTACAO-MARCAR\n- Mensagem: \"Pode marcar cimento como feito\" → ANOTACAO-MARCAR\n\n**Desmarcar itens:**\n- Mensagem: \"Desmarca o tomate\" → ANOTACAO-DESMARCAR\n- Mensagem: \"Aquele arroz não foi comprado ainda\" → ANOTACAO-DESMARCAR\n- Mensagem: \"Volta o item do café como pendente\" → ANOTACAO-DESMARCAR\n\n**Exclusão:**\n- Mensagem: \"Apaga a lista de compras\" → ANOTACAO-DELETAR\n- Mensagem: \"Remove tomate da lista\" → ANOTACAO-DELETAR\n- Mensagem: \"Exclui aquela anotação antiga\" → ANOTACAO-DELETAR\n- Mensagem: \"Deleta o item do cimento\" → ANOTACAO-DELETAR\n- Mensagem: \"Tira café das anotações\" → ANOTACAO-DELETAR\n\n## Palavras-chave importantes:\n\n**Para CRIAR:** criar, nova, iniciar, começar, fazer  \n**Para ADICIONAR:** adicionar, anotar, incluir, colocar, pôr, inserir, acrescentar  \n**Para CONSULTAR:** mostrar, ver, listar, exibir, quais, quantos, o que tem  \n**Para ATUALIZAR:** mudar, alterar, corrigir, trocar, modificar, editar  \n**Para MARCAR:** marcar, comprado, feito, concluído, pronto, riscar, finalizado  \n**Para DESMARCAR:** desmarcar, voltar, desfazer, não foi, pendente  \n**Para DELETAR:** apagar, remover, excluir, deletar, tirar, limpar"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -32
+      ],
+      "id": "80eaf618-0378-4b66-a1f4-cdacf2f2ebb1",
+      "name": "classifica_anotacao_lista"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        176
+      ],
+      "id": "58eb4e5a-a063-4b8b-887f-e38ec05e6f96",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=id_cliente: 1\nMensagem: {{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "=Você será responsável por gerenciar a criação, consulta, alteração ou desativação de dados relacionados a anotações/listas/notas pessoais.\n\nQualquer operação, como consulta, criação, atualização ou desativação, você deverá montar a instrução como saida para outro agente realizar as operações de banco de dados.\nA instrução de saida deve ser de forma literal.\nSempre que for usar um texto, nas consultas, atualizações, criações e deleções, sempre deixe as letras em maiúsculo.\n\nselect * => consulta *\nfrom => tabela\nupdate => atualizar\nset => coluna\nwhere => filtro\ninsert => inserir\n\nExemplo:\n\n- consulta coluna_exemplo tabela tb_exemplo filtro coluna_exemplo = XXX;\n\n- atualizar tabela tb_exemplo culuna coluna_exemplo = XXX filtro coluna_exemplo = XXXX\n\n- inserir tb_exemplo coluna_exemplo = XXX coluna_exemplo2 = XXX\n\nEstrutura das tabelas de anotações/listas.\n\nTabela header\nNome da tabela: tb_listas\nid - BIGINT\nid_cliente - BIGINT\nnome_lista - TEXT\ndt_criacao - DATE\ndt_alteracao - DATE\ndt_desativacao - DATE\n\n\nTabela detalhe\nNome da tabela: tb_listas_item\nid_lista - BIGINT FK tb_listas.id\nnome_item - TEXT\nitem_marcado - BOOLEAN\ndt_ctiacao - DATE\ndt_alteracao - DATE"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6e18c789-c7a6-45d4-87b3-ac85416b8c3a",
+      "name": "classifica_anotacao_lista1"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "teste",
+        "sessionTTL": 3600,
+        "contextWindowLength": 0
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        304,
+        176
+      ],
+      "id": "edd22644-9e6b-4413-ad81-bf5a42a468d6",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "classifica_anotacao_lista1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "classifica_anotacao_lista",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "classifica_anotacao_lista1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "classifica_anotacao_lista1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e9c1de80-c0c4-4e69-8b7b-d1de7a8be884",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-13T18:42:03.511Z",
+      "updatedAt": "2025-09-13T18:42:03.511Z",
+      "role": "workflow:owner",
+      "workflowId": "mg7eybguj5pxOID2",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-09-14T11:00:21.306Z",
+    "version": "2025-09-14T02:50:26.000Z",
+    "originalId": "mg7eybguj5pxOID2"
+  }
+}
