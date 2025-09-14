@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-13T04:22:00.000Z",
+  "updatedAt": "2025-09-13T18:40:49.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -1930,7 +1930,7 @@
       }
     ]
   },
-  "versionId": "3bbdfaad-9a39-4320-a828-febb8cf80a71",
+  "versionId": "3239e655-fedb-4a95-992f-c7c46e75d9d4",
   "triggerCount": 1,
   "shared": [
     {
@@ -1943,8 +1943,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-13T11:00:22.581Z",
-    "version": "2025-09-13T04:22:00.000Z",
+    "backedUpAt": "2025-09-14T11:00:21.285Z",
+    "version": "2025-09-13T18:40:49.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
