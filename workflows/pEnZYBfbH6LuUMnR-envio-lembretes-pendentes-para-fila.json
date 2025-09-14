@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-09T03:35:59.213Z",
-  "updatedAt": "2025-09-09T04:13:07.000Z",
+  "updatedAt": "2025-09-13T18:41:03.000Z",
   "id": "pEnZYBfbH6LuUMnR",
   "name": "envio_lembretes_pendentes_para_fila",
   "active": true,
@@ -383,8 +383,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-09T11:00:46.482Z",
-    "version": "2025-09-09T04:13:07.000Z",
+    "backedUpAt": "2025-09-14T11:00:21.309Z",
+    "version": "2025-09-13T18:41:03.000Z",
     "originalId": "pEnZYBfbH6LuUMnR"
   }
 }
