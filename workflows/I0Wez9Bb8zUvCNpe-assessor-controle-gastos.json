@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-26T16:58:44.352Z",
-  "updatedAt": "2025-09-10T03:27:49.000Z",
+  "updatedAt": "2025-09-13T18:40:31.000Z",
   "id": "I0Wez9Bb8zUvCNpe",
   "name": "assessor_controle_gastos",
   "active": false,
@@ -460,8 +460,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-10T11:00:01.157Z",
-    "version": "2025-09-10T03:27:49.000Z",
+    "backedUpAt": "2025-09-14T11:00:21.261Z",
+    "version": "2025-09-13T18:40:31.000Z",
     "originalId": "I0Wez9Bb8zUvCNpe"
   }
 }
