@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-13T18:40:49.000Z",
+  "updatedAt": "2025-09-15T02:46:46.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -907,9 +907,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Mensagem: {{ $json.mensagem }}\nData Referencia: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\n\nDia da semana referencia: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
+        "text": "=Mensagem: {{ $json.mensagem }}\nData da ultima execução: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\n\nDia da semana referencia: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
         "options": {
-          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData referência: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos:\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS DE PREENCHIMENTO:\n\n### REGRA FUNDAMENTAL - QUANDO DEIXAR CAMPOS VAZIOS:\n**APENAS** deixe campos vazios quando:\n1. **data_proxima_execucao**: SOMENTE se não houver NENHUMA informação temporal na mensagem (sem dia, hora, intervalo ou período)\n2. **data_desativacao**: Quando não for especificado término ou duração\n3. **descricao**: SOMENTE se não houver NENHUMA ação ou objeto mencionado\n\n### SEMPRE PREENCHA data_proxima_execucao quando houver:\n- Intervalos: \"de X em X minuto/hora/dia\"\n- Dias específicos: \"amanhã\", \"segunda\", \"dia 15\"\n- Horários: \"às 9h\", \"de manhã\", \"meio-dia\"\n- Períodos: \"toda manhã\", \"diariamente\", \"semanalmente\"\n\n## REGRAS ESPECÍFICAS:\n\n### 1. PADRÕES DE INTERVALO (DE X EM X TEMPO):\nQuando encontrar padrões como \"de X em X [minuto/hora/dia/semana/mês]\":\n- **SEMPRE calcule a próxima execução somando o intervalo à data referência**\n- Exemplos:\n  - \"de 1 em 1 minuto\" → adicione 1 minuto à data referência\n  - \"de 2 em 2 horas\" → adicione 2 horas à data referência\n  - \"de 3 em 3 dias\" → adicione 3 dias à data referência\n  - \"a cada 30 minutos\" → adicione 30 minutos à data referência\n  - \"a cada hora\" → adicione 1 hora à data referência\n\n### 2. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 3. Padrões \"De X a Y\" (dias da semana):\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 4. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA referência {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}\n- Para intervalos: some o intervalo especificado à data referência\n- Para dias específicos: calcule conforme regras abaixo\n\n### 5. CÁLCULO DO PRÓXIMO DIA VÁLIDO (para dias da semana):\n1. Liste TODOS os dias válidos do padrão\n2. Verifique se HOJE está na lista de dias válidos:\n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE\n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido\n3. Se HOJE não estiver na lista → próxima execução é o PRIMEIRO dia válido após HOJE\n\n### 6. Lembretes Únicos/Pontuais:\nPara lembretes únicos, a \"data_desativacao\" DEVE SER IGUAL à \"data_proxima_execucao\"\nExemplos de lembretes únicos:\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\" (único, não recorrente)\n\n### 7. Lembretes Recorrentes:\nSão identificados por:\n- Padrões de intervalo: \"de X em X tempo\", \"a cada X tempo\"\n- Padrões semanais: \"toda segunda\", \"às terças e quintas\"\n- Padrões diários: \"todos os dias\", \"diariamente\"\n\nPara estes, deixe \"data_desativacao\" vazio, A MENOS que seja especificado um período (\"por 2 semanas\", \"até dia 30\", etc.)\n\n## EXEMPLOS PRÁTICOS:\n\nData referência: 08/09/2025 20:59:00\n\n**Exemplo 1: \"Me lembre de 1 em 1 minuto de olhar o celular\"**\n- Padrão: intervalo recorrente (de 1 em 1 minuto)\n- Cálculo: 20:59:00 + 1 minuto = 21:00:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 21:00:00\n  data_desativacao: \n  descricao: OLHAR O CELULAR\n\n**Exemplo 2: \"Me lembre a cada 2 horas de beber água\"**\n- Padrão: intervalo recorrente (a cada 2 horas)\n- Cálculo: 20:59:00 + 2 horas = 22:59:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 22:59:00\n  data_desativacao: \n  descricao: BEBER ÁGUA\n\n**Exemplo 3: \"Me lembre de tomar remédio\"**\n- Padrão: SEM informação temporal\n- Resposta:\n  data_proxima_execucao: \n  data_desativacao: \n  descricao: TOMAR REMÉDIO"
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora da próxima execução que o lembrete deverá ser executado.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData e hora da ultima execução: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nData e hora atual (HOJE): {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} \nDia da semana atual: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos:\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS DE PREENCHIMENTO:\n\n### REGRA FUNDAMENTAL - QUANDO DEIXAR CAMPOS VAZIOS:\n**APENAS** deixe campos vazios quando:\n1. **data_proxima_execucao**: SOMENTE se não houver NENHUMA informação temporal na mensagem (sem dia, hora, intervalo ou período)\n2. **data_desativacao**: Quando não for especificado término ou duração\n3. **descricao**: SOMENTE se não houver NENHUMA ação ou objeto mencionado\n\n### SEMPRE PREENCHA data_proxima_execucao quando houver:\n- Intervalos: \"de X em X minuto/hora/dia\"\n- Dias específicos: \"amanhã\", \"segunda\", \"dia 15\"\n- Horários: \"às 9h\", \"de manhã\", \"meio-dia\"\n- Períodos: \"toda manhã\", \"diariamente\", \"semanalmente\"\n\n## REGRAS ESPECÍFICAS:\n\n### 1. PADRÕES DE INTERVALO (DE X EM X TEMPO):\nQuando encontrar padrões como \"de X em X [minuto/hora/dia/semana/mês]\":\n- **SEMPRE calcule a próxima execução usando como referencia a instrução do usuário e a data e hora da ultima execução e a data e hora atual**\n- Exemplos:\n  - \"de 1 em 1 minuto\" → adicione 1 minuto à data da ultima execução.\n  - \"de 2 em 2 horas\" → adicione 2 horas à data da ultima execução.\n  - \"de 3 em 3 dias\" → adicione 3 dias à data da ultima execução.\n  - \"a cada 30 minutos\" → adicione 30 minutos à data da ultima execução.\n  - \"a cada hora\" → adicione 1 hora à data da ultima execução.\n\n### 2. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 3. Padrões \"De X a Y\" (dias da semana):\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 4. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}.\n- Para intervalos: some o intervalo especificado à data da ultima execução.\n- Para dias específicos: calcule conforme regras abaixo\n\n### 5. CÁLCULO DO PRÓXIMO DIA VÁLIDO (para dias da semana):\n1. Liste TODOS os dias válidos do padrão\n2. Verifique se HOJE está na lista de dias válidos:\n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.\n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido\n3. Se HOJE não estiver na lista → próxima execução é o PRIMEIRO dia válido após HOJE\n\n### 6. Lembretes Únicos/Pontuais:\nPara lembretes únicos, a \"data_desativacao\" DEVE SER IGUAL à \"data_proxima_execucao\"\nExemplos de lembretes únicos:\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\" (único, não recorrente)\n\n### 7. Lembretes Recorrentes:\nSão identificados por:\n- Padrões de intervalo: \"de X em X tempo\", \"a cada X tempo\"\n- Padrões semanais: \"toda segunda\", \"às terças e quintas\"\n- Padrões diários: \"todos os dias\", \"diariamente\"\n\nPara estes, deixe \"data_desativacao\" vazio, A MENOS que seja especificado um período (\"por 2 semanas\", \"até dia 30\", etc.)\n\n## EXEMPLOS PRÁTICOS:\n\nData da ultima execução: 08/09/2025 20:59:00\n\n**Exemplo 1: \"Me lembre de 1 em 1 minuto de olhar o celular\"**\n- Padrão: intervalo recorrente (de 1 em 1 minuto)\n- Cálculo: 20:59:00 + 1 minuto = 21:00:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 21:00:00\n  data_desativacao: \n  descricao: OLHAR O CELULAR\n\n**Exemplo 2: \"Me lembre a cada 2 horas de beber água\"**\n- Padrão: intervalo recorrente (a cada 2 horas)\n- Cálculo: 20:59:00 + 2 horas = 22:59:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 22:59:00\n  data_desativacao: \n  descricao: BEBER ÁGUA\n\n**Exemplo 3: \"Me lembre de tomar remédio\"**\n- Padrão: SEM informação temporal\n- Resposta:\n  data_proxima_execucao: \n  data_desativacao: \n  descricao: TOMAR REMÉDIO\n\n## PARA ANALISAR\n\n- Sempre que for calcular a data da próxima execução, reflita... \"Se a data da ultima execução foi em {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} e a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}, com base na mensagem do usuário, devo enviar a mensagem hoje? Qual será a próxima data de execução? Devo desativar a mensagem?\""
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1014,8 +1014,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1296,
-        368
+        1520,
+        352
       ],
       "id": "72b10053-39c8-426b-a180-e528168ce272",
       "name": "atualiza_dt_proxima_exec",
@@ -1046,8 +1046,8 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1.1,
       "position": [
-        1696,
-        368
+        1920,
+        352
       ],
       "id": "33cf8f19-56d4-40af-946d-2aa87aadd63a",
       "name": "enviar_para_fila1",
@@ -1137,8 +1137,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1504,
-        368
+        1728,
+        352
       ],
       "id": "7c4f9d83-c201-42ae-954d-e8c64284aeb4",
       "name": "selecionar_dados_para_fila1"
@@ -1156,8 +1156,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        2128,
-        448
+        2352,
+        432
       ],
       "id": "380686d0-dd89-4555-ae03-c915bf7460b1",
       "name": "Mensagem Problema Envio Fila1",
@@ -1177,8 +1177,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1936,
-        272
+        2160,
+        256
       ],
       "id": "62df3e0e-c89c-4f35-b332-2c8384ec97e3",
       "name": "atualizar_data_proxima_exec",
@@ -1198,8 +1198,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1936,
-        448
+        2160,
+        432
       ],
       "id": "7c50a873-e07d-4c5c-9e23-15d1d23a6a19",
       "name": "atualizar_lembrete_com_erro",
@@ -1475,6 +1475,59 @@
       ],
       "id": "14ddb34e-f01d-4f4a-981a-189e52062aaf",
       "name": "consultar"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        496
+      ],
+      "id": "2a689ea8-ebd6-48a8-a06c-bf52efaf728d",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "dce070a0-cd32-4ac7-a6d6-28db7149007d",
+              "leftValue": "={{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\") }}",
+              "rightValue": "={{$now.plus(5, 'days')}}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "beforeOrEquals"
+              }
+            },
+            {
+              "id": "0e4bfaf8-bab6-4a16-a6e7-faf424770006",
+              "leftValue": "={{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\") }}",
+              "rightValue": "={{$now}}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        368
+      ],
+      "id": "0413c0de-c6bf-43c2-b8d1-6df1aae38086",
+      "name": "valida_proxima_exec"
     }
   ],
   "connections": {
@@ -1756,7 +1809,7 @@
       "main": [
         [
           {
-            "node": "atualiza_dt_proxima_exec",
+            "node": "valida_proxima_exec",
             "type": "main",
             "index": 0
           }
@@ -1906,6 +1959,24 @@
           }
         ]
       ]
+    },
+    "valida_proxima_exec": {
+      "main": [
+        [
+          {
+            "node": "atualiza_dt_proxima_exec",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1921,16 +1992,17 @@
         "json": {
           "mensagem": " Me lembra no domingo à noite, que na segunda-feira de manhã eu tenho que ir na marmoraria.",
           "id_cliente": "1",
-          "operacao": "CRIAR_LEMBRETE",
-          "data_atual_msg": "2025-09-12T21:44:35.975Z",
-          "id_whatsapp": "5511948456707@s.whatsapp.net",
+          "operacao": "GERAR_PROXIMA_EXEC",
           "nome_instancia": "Secretaria",
-          "apelido": "Marcos"
+          "data_atual_msg": "2025-09-14T20:00:21.119Z",
+          "id_whatsapp": "5511948456707@s.whatsapp.net",
+          "id_lembrete": "202575",
+          "dt_proxima_exec_old": "2025-09-14T20:00:00.000Z"
         }
       }
     ]
   },
-  "versionId": "3239e655-fedb-4a95-992f-c7c46e75d9d4",
+  "versionId": "6be51254-2337-41f7-9cbf-ee9e3193abb2",
   "triggerCount": 1,
   "shared": [
     {
@@ -1943,8 +2015,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-14T11:00:21.285Z",
-    "version": "2025-09-13T18:40:49.000Z",
+    "backedUpAt": "2025-09-15T11:00:21.880Z",
+    "version": "2025-09-15T02:46:46.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
