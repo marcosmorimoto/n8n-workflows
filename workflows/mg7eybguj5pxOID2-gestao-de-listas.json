@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-13T18:42:03.506Z",
-  "updatedAt": "2025-09-14T02:50:26.000Z",
+  "updatedAt": "2025-09-16T01:58:00.000Z",
   "id": "mg7eybguj5pxOID2",
   "name": "gestao_de_listas",
   "active": false,
@@ -33,8 +33,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        880,
-        144
+        944,
+        112
       ],
       "id": "24399b29-3e4b-4472-95e5-fb2c2f6929f7",
       "name": "OpenAI Chat Model",
@@ -54,8 +54,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        880,
-        -32
+        944,
+        -64
       ],
       "id": "80eaf618-0378-4b66-a1f4-cdacf2f2ebb1",
       "name": "classifica_anotacao_lista"
@@ -179,7 +179,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e9c1de80-c0c4-4e69-8b7b-d1de7a8be884",
+  "versionId": "50e76efd-846d-477c-be28-b2075f969d0a",
   "triggerCount": 0,
   "shared": [
     {
@@ -192,8 +192,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-14T11:00:21.306Z",
-    "version": "2025-09-14T02:50:26.000Z",
+    "backedUpAt": "2025-09-16T11:00:23.058Z",
+    "version": "2025-09-16T01:58:00.000Z",
     "originalId": "mg7eybguj5pxOID2"
   }
 }
