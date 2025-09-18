@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-13T18:59:22.000Z",
+  "updatedAt": "2025-09-18T02:49:28.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -1425,7 +1425,11 @@
             },
             {
               "category": "lembrete, alarme, aviso ou alerta",
-              "description": "Se a intenção da mensagem do usuário for para realizar QUALQUER operação relacionada lembretes, como é criar, alterar, consultar ou remover lembretes."
+              "description": "Se a intenção da mensagem do usuário for para realizar QUALQUER operação relacionada lembretes, como criar, alterar, consultar ou remover lembretes."
+            },
+            {
+              "category": "listas, anotações, tarefas ou notas",
+              "description": "Se a intenção da mensagem do usuário for para realizar QUALQUER operação relacionada listas, anotações, tarefas ou notas, como é criar, alterar, consultar ou remover listas, anotações, tarefas ou notas."
             }
           ]
         },
@@ -2978,6 +2982,82 @@
       ],
       "id": "917052c6-be9a-4aa2-9c79-4485475fdf51",
       "name": "Convert to File2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31727900-c397-445a-9caa-f6c5491c4455",
+              "name": "mensagem",
+              "value": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}",
+              "type": "string"
+            },
+            {
+              "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+              "name": "id_cliente",
+              "value": "={{ $('Verificar Cliente Ativo').item.json.id_cliente }}",
+              "type": "string"
+            },
+            {
+              "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+              "name": "id_whatsapp",
+              "value": "={{ $('Dados').item.json.quem_mandou }}",
+              "type": "string"
+            },
+            {
+              "id": "dabe296a-66ae-485e-b561-d776cb351cb8",
+              "name": "nome_instancia",
+              "value": "={{ $('Dados').item.json.instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "2d14b66f-fba4-42c7-b411-afcd9c76a839",
+              "name": "apelido",
+              "value": "={{ $('Dados Contrato').item.json.apelido }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5376,
+        -1104
+      ],
+      "id": "b1607b65-0d1d-4615-ac02-d9c1323e912b",
+      "name": "Dados para workflow listas"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "mg7eybguj5pxOID2",
+          "mode": "list",
+          "cachedResultName": "gestao_de_listas"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -5152,
+        -1104
+      ],
+      "id": "1d773168-fe48-4aa7-93b3-7680f61f4465",
+      "name": "Chamar Workflow Listas"
     }
   ],
   "connections": {
@@ -3425,12 +3505,18 @@
         ],
         [
           {
-            "node": "Economia de tokens do prompt",
+            "node": "Dados para workflow listas",
             "type": "main",
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "Economia de tokens do prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "OpenAI Chat Model": {
@@ -3972,6 +4058,17 @@
           }
         ]
       ]
+    },
+    "Dados para workflow listas": {
+      "main": [
+        [
+          {
+            "node": "Chamar Workflow Listas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4058,7 +4155,7 @@
       }
     ]
   },
-  "versionId": "a45a38a4-2e17-4937-b98f-a90bbeb78219",
+  "versionId": "363bbd15-9bda-46b6-83f2-7c50acddb356",
   "triggerCount": 1,
   "shared": [
     {
@@ -4071,8 +4168,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-14T11:00:21.320Z",
-    "version": "2025-09-13T18:59:22.000Z",
+    "backedUpAt": "2025-09-18T11:00:22.716Z",
+    "version": "2025-09-18T02:49:28.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
