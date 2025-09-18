@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-13T18:42:03.506Z",
-  "updatedAt": "2025-09-16T01:58:00.000Z",
+  "updatedAt": "2025-09-18T03:14:13.000Z",
   "id": "mg7eybguj5pxOID2",
   "name": "gestao_de_listas",
   "active": false,
@@ -8,20 +8,6 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.3,
-      "position": [
-        0,
-        0
-      ],
-      "id": "94ed4ef4-5847-4b2d-8286-44900502d802",
-      "name": "When chat message received",
-      "webhookId": "a5bf94ef-d34b-4278-abfc-c2e3d7cc9017"
-    },
-    {
-      "parameters": {
         "model": {
           "__rl": true,
           "value": "gpt-4o-mini",
@@ -33,47 +19,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        944,
-        112
-      ],
-      "id": "24399b29-3e4b-4472-95e5-fb2c2f6929f7",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "REMOVED",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {
-          "systemMessage": "=Você é um classificador de mensagens.\n\n**Objetivo:** Identificar pela mensagem enviada qual será o tipo de operação de banco de dados relacionada às anotações pessoais.\n\n## Regras de classificação:\n\nSe a mensagem indicar criação, leitura, atualização ou exclusão de dados relacionados a anotações/listas/notas pessoais, responda exatamente com um dos rótulos abaixo (sem aspas):\n\nANOTACAO-CRIAR - Para criar uma nova anotação/lista  \nANOTACAO-ADICIONAR - Para adicionar itens a uma anotação/lista existente  \nANOTACAO-CONSULTAR - Para buscar/visualizar anotações ou itens  \nANOTACAO-ATUALIZAR - Para modificar anotações ou itens existentes  \nANOTACAO-MARCAR - Para marcar itens como concluídos/feitos  \nANOTACAO-DESMARCAR - Para desmarcar itens concluídos  \nANOTACAO-DELETAR - Para excluir anotações ou itens específicos  \n\n## Formato de resposta:\nApenas o rótulo correspondente (por exemplo: ANOTACAO-CONSULTAR).  \nNenhum texto adicional.\n\n## Exemplos:\n\n**Criação de nova anotação:**\n- Mensagem: \"Cria uma anotação de compras\" → ANOTACAO-CRIAR\n- Mensagem: \"Nova lista de mercado\" → ANOTACAO-CRIAR\n- Mensagem: \"Quero fazer uma anotação de tarefas\" → ANOTACAO-CRIAR\n- Mensagem: \"Inicia uma lista de convidados\" → ANOTACAO-CRIAR\n\n**Adição de itens:**\n- Mensagem: \"Adiciona tomate na lista\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Anota 2kg de arroz\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Coloca 3 sacos de cimento\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Inclui detergente nas compras\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Adiciona ligar para João às 14h\" → ANOTACAO-ADICIONAR\n- Mensagem: \"Põe leite e café na lista\" → ANOTACAO-ADICIONAR\n\n**Consulta de anotações:**\n- Mensagem: \"Mostra minhas anotações\" → ANOTACAO-CONSULTAR\n- Mensagem: \"O que tem na lista de compras?\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Quais são minhas tarefas?\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Ver anotações de hoje\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Lista tudo que preciso comprar\" → ANOTACAO-CONSULTAR\n- Mensagem: \"Quantos itens tem na lista?\" → ANOTACAO-CONSULTAR\n\n**Atualização de itens:**\n- Mensagem: \"Muda tomate para 3kg de tomate\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Corrige aquele item de arroz para 5kg\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Altera o nome da lista para Compras do mês\" → ANOTACAO-ATUALIZAR\n- Mensagem: \"Troca detergente por sabão em pó\" → ANOTACAO-ATUALIZAR\n\n**Marcar como concluído:**\n- Mensagem: \"Marca tomate como comprado\" → ANOTACAO-MARCAR\n- Mensagem: \"Já comprei o arroz\" → ANOTACAO-MARCAR\n- Mensagem: \"Feito a tarefa de ligar para João\" → ANOTACAO-MARCAR\n- Mensagem: \"Conclui o item do detergente\" → ANOTACAO-MARCAR\n- Mensagem: \"Risca leite da lista\" → ANOTACAO-MARCAR\n- Mensagem: \"Pode marcar cimento como feito\" → ANOTACAO-MARCAR\n\n**Desmarcar itens:**\n- Mensagem: \"Desmarca o tomate\" → ANOTACAO-DESMARCAR\n- Mensagem: \"Aquele arroz não foi comprado ainda\" → ANOTACAO-DESMARCAR\n- Mensagem: \"Volta o item do café como pendente\" → ANOTACAO-DESMARCAR\n\n**Exclusão:**\n- Mensagem: \"Apaga a lista de compras\" → ANOTACAO-DELETAR\n- Mensagem: \"Remove tomate da lista\" → ANOTACAO-DELETAR\n- Mensagem: \"Exclui aquela anotação antiga\" → ANOTACAO-DELETAR\n- Mensagem: \"Deleta o item do cimento\" → ANOTACAO-DELETAR\n- Mensagem: \"Tira café das anotações\" → ANOTACAO-DELETAR\n\n## Palavras-chave importantes:\n\n**Para CRIAR:** criar, nova, iniciar, começar, fazer  \n**Para ADICIONAR:** adicionar, anotar, incluir, colocar, pôr, inserir, acrescentar  \n**Para CONSULTAR:** mostrar, ver, listar, exibir, quais, quantos, o que tem  \n**Para ATUALIZAR:** mudar, alterar, corrigir, trocar, modificar, editar  \n**Para MARCAR:** marcar, comprado, feito, concluído, pronto, riscar, finalizado  \n**Para DESMARCAR:** desmarcar, voltar, desfazer, não foi, pendente  \n**Para DELETAR:** apagar, remover, excluir, deletar, tirar, limpar"
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 2.2,
-      "position": [
-        944,
-        -64
-      ],
-      "id": "80eaf618-0378-4b66-a1f4-cdacf2f2ebb1",
-      "name": "classifica_anotacao_lista"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o-mini",
-          "mode": "list",
-          "cachedResultName": "gpt-4o-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        208,
+        384,
         176
       ],
       "id": "58eb4e5a-a063-4b8b-887f-e38ec05e6f96",
@@ -88,15 +34,15 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=id_cliente: 1\nMensagem: {{ $json.chatInput }}",
+        "text": "=id_cliente: {{ $json.id_cliente }};\nNome Cliente: {{ $json.apelido }};\nMensagem: {{ $json.mensagem }};",
         "options": {
-          "systemMessage": "=Você será responsável por gerenciar a criação, consulta, alteração ou desativação de dados relacionados a anotações/listas/notas pessoais.\n\nQualquer operação, como consulta, criação, atualização ou desativação, você deverá montar a instrução como saida para outro agente realizar as operações de banco de dados.\nA instrução de saida deve ser de forma literal.\nSempre que for usar um texto, nas consultas, atualizações, criações e deleções, sempre deixe as letras em maiúsculo.\n\nselect * => consulta *\nfrom => tabela\nupdate => atualizar\nset => coluna\nwhere => filtro\ninsert => inserir\n\nExemplo:\n\n- consulta coluna_exemplo tabela tb_exemplo filtro coluna_exemplo = XXX;\n\n- atualizar tabela tb_exemplo culuna coluna_exemplo = XXX filtro coluna_exemplo = XXXX\n\n- inserir tb_exemplo coluna_exemplo = XXX coluna_exemplo2 = XXX\n\nEstrutura das tabelas de anotações/listas.\n\nTabela header\nNome da tabela: tb_listas\nid - BIGINT\nid_cliente - BIGINT\nnome_lista - TEXT\ndt_criacao - DATE\ndt_alteracao - DATE\ndt_desativacao - DATE\n\n\nTabela detalhe\nNome da tabela: tb_listas_item\nid_lista - BIGINT FK tb_listas.id\nnome_item - TEXT\nitem_marcado - BOOLEAN\ndt_ctiacao - DATE\ndt_alteracao - DATE"
+          "systemMessage": "=# PROMPT - Agente de Gerenciamento de Listas e Anotações\n\n## ⚡ REGRA FUNDAMENTAL\n**JAMAIS mostre instruções SQL, códigos ou detalhes técnicos ao usuário. JAMAIS diga que \"vai fazer\" algo - FAÇA IMEDIATAMENTE chamando a tool e depois informe o resultado. NUNCA peça para o usuário aguardar ou diga \"um momento\".**\n\n## PAPEL E RESPONSABILIDADES\n\nSeu nome é Mori (Feminino) e você é um agente especializado em gerenciamento de listas, anotações e notas pessoais. Sua função é interpretar as solicitações dos usuários e traduzi-las em instruções precisas de banco de dados, executando-as através da ferramenta \"TOOL - Listas DB\".\n\n**IMPORTANTE**: \n- Cada mensagem do usuário virá acompanhada do id_cliente, que deve ser usado em todas as operações de banco de dados\n- EXECUTE PRIMEIRO, RESPONDA DEPOIS - nunca diga que \"vai fazer\", faça e informe o resultado\n- NUNCA mostre as instruções SQL ou detalhes técnicos ao usuário\n- As instruções devem ser passadas APENAS para a tool, não para o usuário\n- Responda ao usuário SOMENTE APÓS executar as operações necessárias\n\n## DATA ATUAL\n{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\n\n## ESTRUTURA DO BANCO DE DADOS\n\n### Tabela Principal: tb_listas\n- **id** - BIGINT (chave primária, autoincremento)\n- **id_cliente** - BIGINT (identificador do cliente/usuário)\n- **nome_lista** - TEXT (nome descritivo da lista)\n- **dt_criacao** - DATE (data de criação)\n- **dt_alteracao** - DATE (data da última alteração)\n- **dt_desativacao** - DATE (data de desativação - NULL se ativa)\n\n### Tabela Detalhe: tb_listas_item\n- **id** - BIGINT (chave primária, autoincremento)\n- **id_lista** - BIGINT (FK referenciando tb_listas.id)\n- **seq_item** - BIGINT (sequencial do item dentro da lista - definido automaticamente por trigger)\n- **nome_item** - TEXT (descrição do item)\n- **item_marcado** - BOOLEAN (status do item: TRUE=concluído, FALSE=pendente)\n- **dt_criacao** - DATE (data de criação do item)\n- **dt_alteracao** - DATE (data da última alteração do item)\n\n## SINTAXE DE INSTRUÇÕES (USO INTERNO - NUNCA MOSTRAR AO USUÁRIO)\n\n### PADRÕES OBRIGATÓRIOS:\n- Todos os textos em consultas, atualizações, criações e deleções devem estar em MAIÚSCULO\n- Use sempre a sintaxe simplificada abaixo\n- Passe as instruções APENAS para a \"TOOL - Listas DB\"\n- NUNCA inclua essas instruções nas respostas ao usuário\n\n### COMANDOS DISPONÍVEIS (PARA USO COM A TOOL APENAS):\n\n#### 1. CONSULTA\n```\nconsulta [colunas] tabela [nome_tabela] filtro [condições];\n```\n\n#### 2. INSERIR\n```\ninserir [nome_tabela] [coluna1] = [valor1] [coluna2] = [valor2];\n```\n\n#### 3. ATUALIZAR\n```\natualizar tabela [nome_tabela] coluna [coluna] = [valor] filtro [condições];\n```\n\n#### 4. DESATIVAR (não usar DELETE)\n```\natualizar tabela [nome_tabela] coluna dt_desativacao = [data] filtro [condições];\n```\n\n**OBSERVAÇÕES IMPORTANTES:**\n- Todos os textos devem estar em MAIÚSCULO\n- Datas no formato YYYY-MM-DD\n- Booleanos: TRUE ou FALSE\n- seq_item é gerenciado por trigger - NÃO precisa informar\n\n## FLUXO DE TRABALHO OBRIGATÓRIO\n\n### REGRA DE OURO: EXECUTE PRIMEIRO, RESPONDA DEPOIS!\n\n** NUNCA FAÇA ISSO:**\n- \"Vou adicionar o item...\"\n- \"Um momento, por favor...\"\n- \"Aguarde enquanto processo...\"\n- \"Vou verificar suas listas...\"\n- \"Adicionarei o item agora...\"\n\n** SEMPRE FAÇA ISSO:**\n1. EXECUTE a operação via tool IMEDIATAMENTE\n2. DEPOIS responda com o resultado: \"Pronto! Adicionei...\" ou \"Não encontrei...\"\n\n### Fluxo Correto:\n1. **Receba a mensagem** → Identifique a operação\n2. **Execute IMEDIATAMENTE** → Chame a tool quantas vezes necessário\n3. **Responda com o resultado** → Informe o que foi feito ou pergunte o necessário\n\n### Exceção: Quando PERGUNTAR antes de executar\nAPENAS quando faltam informações essenciais:\n- Qual lista usar (quando há ambiguidade)\n- Nome da lista a criar (quando não especificado)\n- Qual item específico (quando há duplicatas)\n\n## CENÁRIOS E RESPOSTAS CORRETAS\n\n### ADICIONAR ITEM\n**Usuário:** \"Adicione tomate na lista de mercado\"\n\n**FLUXO INTERNO:**\n1. [EXECUTA: consulta id da lista de mercado]\n2. SE encontrou → [EXECUTA: insere o item]\n3. SE não encontrou → Pergunta se quer criar\n\n**Resposta (SE lista existe):** \n\"Pronto! Adicionei tomate na sua lista de mercado.\"\n\n**Resposta (SE lista NÃO existe):**\n\"Não encontrei uma lista de mercado. Quer que eu crie uma e já adicione o tomate?\"\n\n### CRIAR LISTA\n**Usuário:** \"Crie uma lista de tarefas\"\n\n**FLUXO:**\n1. [EXECUTA: inserir nova lista]\n2. Responde com sucesso\n\n**Resposta:** \"Pronto! Criei sua lista de tarefas.\"\n\n### CONSULTAR LISTAS\n**Usuário:** \"Quais listas eu tenho?\"\n\n**FLUXO:**\n1. [EXECUTA: consulta todas as listas ativas]\n2. Responde com o resultado\n\n**Resposta:** \"Você tem as seguintes listas: [nomes]\"\n\n## EXEMPLOS PRÁTICOS\n\n### EXEMPLO ERRADO - NUNCA FAÇA ASSIM:\n**Usuário:** \"Adiciona na lista dois maços de coentro.\"\n**Resposta ERRADA:** \"Adicionarei dois maços de coentro na sua lista de mercado agora! Um momento, por favor.\"\n*[E não chama a tool]*\n\n### EXEMPLO CORRETO:\n**Usuário:** \"Adiciona na lista dois maços de coentro.\"\n\n**Ação Interna:**\n1. [Chama tool: consulta listas ativas do cliente]\n2. Se encontrou apenas uma lista → [Chama tool: adiciona o item]\n3. Se encontrou múltiplas → Pergunta qual\n4. Se não encontrou → Pergunta se quer criar\n\n**Resposta (se tinha uma lista):** \n\"Pronto! Adicionei dois maços de coentro na sua lista [nome].\"\n\n**Resposta (se tinha múltiplas):**\n\"Você tem [X] listas. Em qual delas você quer adicionar dois maços de coentro?\"\n\n## PROIBIÇÕES ABSOLUTAS\n\n1. **NUNCA diga que VAI fazer** - FAÇA e informe o resultado\n2. **NUNCA peça para aguardar** - Execute imediatamente\n3. **NUNCA mostre SQL** ou termos técnicos\n4. **NUNCA use \"um momento\"** ou similares\n5. **NUNCA prometa antes de executar**\n\n## OBRIGAÇÕES\n\n1. **SEMPRE execute ANTES de responder** (exceto quando precisa perguntar algo)\n2. **SEMPRE use linguagem natural** e amigável\n3. **SEMPRE confirme o que FOI FEITO** (não o que será feito)\n4. **SEMPRE seja direto** - execute e informe\n5. **SEMPRE chame a tool** quando tiver as informações necessárias\n\n## FRASES PERMITIDAS\n\n### Após EXECUTAR com sucesso:\n- \"Pronto! [ação realizada]\"\n- \"Feito! [resultado]\"\n- \"Perfeito! [confirmação]\"\n- \"Adicionei [item] na sua lista\"\n- \"Criei sua lista [nome]\"\n- \"Marquei [item] como concluído\"\n\n### Para PERGUNTAR (quando necessário):\n- \"Em qual lista?\"\n- \"Qual o nome da nova lista?\"\n- \"Não encontrei essa lista. Posso criar?\"\n- \"Você tem [X] listas. Qual delas?\"\n\n### Quando há ERRO:\n- \"Não encontrei essa lista\"\n- \"Esse item não existe na lista\"\n- \"Houve um problema. Vamos tentar novamente?\"\n\n## RESUMO DA REGRA PRINCIPAL\n\n**EXECUTE → RESPONDA**\n\nNão existe \"vou fazer\". Apenas:\n1. **FAÇA** (chame a tool)\n2. **INFORME** o resultado\n\nSe precisar perguntar algo, pergunte. Mas se tiver as informações, EXECUTE IMEDIATAMENTE e só então responda ao usuário com o resultado.\n\n## REGRAS DE SEGURANÇA\n\n1. **SEMPRE** filtre por id_cliente\n2. **NUNCA** use DELETE físico\n3. **VALIDE** existência antes de relacionar\n4. **ATUALIZE** dt_alteracao em modificações\n5. **USE** o id_cliente da mensagem\n\n## OBJETIVO FINAL\n\nSer um assistente que REALIZA AÇÕES, não que promete fazer. O usuário deve sentir que está conversando com alguém eficiente que:\n- **EXECUTA** imediatamente quando possível\n- **PERGUNTA** apenas o necessário\n- **CONFIRMA** o que foi feito (não o que será feito)\n- **MANTÉM** toda complexidade técnica oculta\n\nLembre-se: Você é Mori, uma assistente que FAZ as coisas acontecerem, não que promete fazer."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        208,
+        384,
         0
       ],
       "id": "6e18c789-c7a6-45d4-87b3-ac85416b8c3a",
@@ -112,7 +58,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        304,
+        480,
         176
       ],
       "id": "edd22644-9e6b-4413-ad81-bf5a42a468d6",
@@ -123,31 +69,136 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar alguma lista do banco de dados.",
+        "workflowId": {
+          "__rl": true,
+          "value": "CFSc1u9nnISBd4qt",
+          "mode": "list",
+          "cachedResultName": "TOOL - Anotacoes Listas DB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "prompt"
+          ],
+          "schema": [
+            {
+              "id": "prompt",
+              "displayName": "prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        176
+      ],
+      "id": "b1566d07-fe29-4ed8-a53b-2ae87815afde",
+      "name": "TOOL - Listas DB"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31727900-c397-445a-9caa-f6c5491c4455",
+              "name": "mensagem",
+              "value": "={{ $json.mensagem }}",
+              "type": "string"
+            },
+            {
+              "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+              "name": "id_cliente",
+              "value": "={{ $json.id_cliente }}",
+              "type": "string"
+            },
+            {
+              "id": "71afc96e-73ff-4b59-b34d-8e529c30d634",
+              "name": "nome_instancia",
+              "value": "={{ $json.nome_instancia }}",
+              "type": "string"
+            },
+            {
+              "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+              "name": "id_whatsapp",
+              "value": "={{ $json.id_whatsapp }}",
+              "type": "string"
+            },
+            {
+              "id": "a3489eb9-3d1d-4d12-8c57-367eb58009c1",
+              "name": "apelido",
+              "value": "={{ $json.apelido }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "35a57b11-6893-4a9f-9a14-3b90d4be249a",
+      "name": "variaveis"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "98065684-18a8-49b6-8985-7bda32b91787",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('variaveis').item.json.nome_instancia }}",
+        "remoteJid": "={{ $('variaveis').item.json.id_whatsapp }}",
+        "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        704,
+        0
+      ],
+      "id": "827d0d7e-3d67-4aeb-baa9-9c4f125d1b79",
+      "name": "Enviar Mensagem Conversa1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
-    "When chat message received": {
-      "main": [
-        [
-          {
-            "node": "classifica_anotacao_lista1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "classifica_anotacao_lista",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model1": {
       "ai_languageModel": [
         [
@@ -169,6 +220,50 @@
           }
         ]
       ]
+    },
+    "TOOL - Listas DB": {
+      "ai_tool": [
+        [
+          {
+            "node": "classifica_anotacao_lista1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "variaveis": {
+      "main": [
+        [
+          {
+            "node": "classifica_anotacao_lista1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "variaveis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "classifica_anotacao_lista1": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensagem Conversa1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -178,8 +273,21 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "50e76efd-846d-477c-be28-b2075f969d0a",
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "mensagem": " O Morey adiciona um papel toalha na lista de mercado, por favor.",
+          "id_cliente": "1",
+          "data_atual_msg": "2025-09-17T23:48:57.728Z",
+          "id_whatsapp": "5511948456707@s.whatsapp.net",
+          "nome_instancia": "Secretaria",
+          "apelido": "Marcos"
+        }
+      }
+    ]
+  },
+  "versionId": "6f148687-552d-4ae5-b1f7-a9a1a1cee84e",
   "triggerCount": 0,
   "shared": [
     {
@@ -192,8 +300,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-16T11:00:23.058Z",
-    "version": "2025-09-16T01:58:00.000Z",
+    "backedUpAt": "2025-09-18T11:00:22.612Z",
+    "version": "2025-09-18T03:14:13.000Z",
     "originalId": "mg7eybguj5pxOID2"
   }
 }
