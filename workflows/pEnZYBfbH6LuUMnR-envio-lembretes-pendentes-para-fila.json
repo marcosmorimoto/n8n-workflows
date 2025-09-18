@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-09T03:35:59.213Z",
-  "updatedAt": "2025-09-13T18:41:03.000Z",
+  "updatedAt": "2025-09-18T01:09:50.000Z",
   "id": "pEnZYBfbH6LuUMnR",
   "name": "envio_lembretes_pendentes_para_fila",
   "active": true,
@@ -370,7 +370,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1b2a662d-f55f-45ba-b224-3595aba4999f",
+  "versionId": "d6cb4a1d-8e35-42ae-bc0c-1bd02b018339",
   "triggerCount": 1,
   "shared": [
     {
@@ -383,8 +383,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-14T11:00:21.309Z",
-    "version": "2025-09-13T18:41:03.000Z",
+    "backedUpAt": "2025-09-18T11:00:22.703Z",
+    "version": "2025-09-18T01:09:50.000Z",
     "originalId": "pEnZYBfbH6LuUMnR"
   }
 }
