@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-13T00:24:24.001Z",
-  "updatedAt": "2025-08-28T03:06:22.000Z",
+  "updatedAt": "2025-09-18T22:50:38.000Z",
   "id": "GTqy4bLmgL1aabpB",
   "name": "TOOL - Interagir com DB Gastos Pessoais Dev",
   "active": false,
@@ -133,7 +133,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n//Verifica se houve erro na operação\nconst firstInput = $input.first();\nif (firstInput && firstInput.json && firstInput.json.error && firstInput.json.error.description) {\n  return [{\n    json: {\n      success: false,\n      hasData: false,\n      rowCount: 0,\n      message: \"Erro na operação de banco de dados\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -224,7 +224,7 @@
       }
     ]
   },
-  "versionId": "89de0005-144d-4767-91fe-24192ba02d70",
+  "versionId": "60992a09-757a-429a-a993-23f58ecc4ec6",
   "triggerCount": 0,
   "shared": [
     {
@@ -237,8 +237,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-28T11:00:46.373Z",
-    "version": "2025-08-28T03:06:22.000Z",
+    "backedUpAt": "2025-09-19T11:00:24.169Z",
+    "version": "2025-09-18T22:50:38.000Z",
     "originalId": "GTqy4bLmgL1aabpB"
   }
 }
