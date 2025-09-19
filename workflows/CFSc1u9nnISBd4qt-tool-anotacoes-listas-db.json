@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-14T00:56:46.865Z",
-  "updatedAt": "2025-09-18T02:47:52.000Z",
+  "updatedAt": "2025-09-19T03:32:40.000Z",
   "id": "CFSc1u9nnISBd4qt",
   "name": "TOOL - Anotacoes Listas DB",
   "active": false,
@@ -31,7 +31,7 @@
         "text": "={{ $json.prompt }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_listas (\n    id bigint not null default func_gerar_id_listas(), \n    id_cliente bigint NOT NULL,\n    nome_lista TEXT,\n    dt_criacao DATE,\n    dt_alteracao DATE,\n    dt_desativacao DATE\n) TABLESPACE pg_default;\n\n\nCREATE TABLE public.tb_listas_item (\n    id_lista BIGINT,\n    seq_item bigint,\n    nome_item TEXT,\n    item_marcado BOOLEAN,\n    dt_criacao DATE,\n    dt_alteracao date\n) TABLESPACE pg_default;"
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_listas (\n    id bigint not null default func_gerar_id_listas(), \n    id_cliente bigint NOT NULL,\n    nome_lista TEXT,\n    dt_criacao DATE,\n    dt_alteracao DATE,\n    dt_desativacao DATE\n) TABLESPACE pg_default;\n\n\nCREATE TABLE public.tb_listas_item (\n    id_lista BIGINT (FK public.tb_listas.id),\n    seq_item bigint,\n    nome_item TEXT,\n    item_marcado BOOLEAN,\n    dt_criacao DATE,\n    dt_alteracao date\n) TABLESPACE pg_default;"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -52,7 +52,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        640,
+        592,
         -16
       ],
       "id": "275e65f6-c03f-4a70-9c8e-5b9b3f5d0ff5",
@@ -74,7 +74,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        416,
+        368,
         -16
       ],
       "id": "05ba9d2e-3fbd-4d7b-8465-016b452fd2ac",
@@ -89,7 +89,7 @@
           "cachedResultName": "gpt-4.1-nano"
         },
         "options": {
-          "temperature": 0
+          "temperature": 1
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
@@ -109,12 +109,12 @@
     },
     {
       "parameters": {
-        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+        "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n//Verifica se houve erro na operação\nconst firstInput = $input.first();\nif (firstInput && firstInput.json && firstInput.json.error && firstInput.json.error.description) {\n  return [{\n    json: {\n      success: false,\n      hasData: false,\n      rowCount: 0,\n      message: \"Erro na operação de banco de dados \" + $input.first().json.message,\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        832,
+        784,
         -16
       ],
       "id": "0e9696d5-ccad-4c7b-95c7-d186de3fef3b",
@@ -187,12 +187,12 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "prompt": "inserir tb_listas_item id_lista = 20251 nome_item = TOMATE item_marcado = FALSE dt_criacao = 2025-09-17;"
+          "prompt": "consulta id e nome do item tomate filtro [id_lista = 20251 AND id_cliente = 1];"
         }
       }
     ]
   },
-  "versionId": "efee027f-2f0e-4dff-8f6f-d42a8bf84691",
+  "versionId": "46cc579e-885f-453d-a766-2da0137ba494",
   "triggerCount": 0,
   "shared": [
     {
@@ -205,8 +205,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-18T11:00:22.376Z",
-    "version": "2025-09-18T02:47:52.000Z",
+    "backedUpAt": "2025-09-19T11:00:23.834Z",
+    "version": "2025-09-19T03:32:40.000Z",
     "originalId": "CFSc1u9nnISBd4qt"
   }
 }
