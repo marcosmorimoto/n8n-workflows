@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-15T13:48:34.000Z",
+  "updatedAt": "2025-09-22T01:57:08.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -81,7 +81,7 @@
             {
               "id": "a2f4e62a-9772-49b7-84ca-d18ddbe81dc3",
               "name": "data_atual_msg",
-              "value": "={{ $now.setZone('UTC').set({ hour: $now.hour }).toString() }}",
+              "value": "={{ $now.toString().replace('-03:00','Z') }}",
               "type": "string"
             },
             {
@@ -498,7 +498,7 @@
             "header": [
               {
                 "key": "x-delay",
-                "value": "={{ DateTime.fromISO($json.dt_proxima_exec, { zone: 'utc' }).toMillis() - DateTime.fromISO($('Dados para criar ou atualizar lembrete').item.json.data_atual_msg).toMillis() }}"
+                "value": "={{ $json.dt_proxima_exec.toDateTime().toMillis() - $('Dados para criar ou atualizar lembrete').item.json.data_atual_msg.toDateTime().toMillis() }}"
               }
             ]
           }
@@ -1037,7 +1037,7 @@
             "header": [
               {
                 "key": "x-delay",
-                "value": "={{ DateTime.fromISO($json.dt_proxima_exec, { zone: 'utc' }).toMillis() - DateTime.fromISO($('Dados para criar ou atualizar lembrete').item.json.data_atual_msg).toMillis() }}"
+                "value": "={{ $json.dt_proxima_exec.toDateTime().toMillis() - $('Dados para criar ou atualizar lembrete').item.json.data_atual_msg.toDateTime().toMillis() }}"
               }
             ]
           }
@@ -1990,10 +1990,10 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "mensagem": " Me lembre de dois em dois minutos de olhar a televisão até a meia-noite e seis de hoje.",
+          "mensagem": " Ô, more, me lembra amanhã, umas oito da manhã, que eu preciso ir receber o pessoal da marmoraria lá na Casa Nova.",
           "id_cliente": "1",
           "operacao": "CRIAR_LEMBRETE",
-          "data_atual_msg": "2025-09-15T00:03:53.905Z",
+          "data_atual_msg": "2025-09-21T22:31:55.627Z",
           "id_whatsapp": "5511948456707@s.whatsapp.net",
           "nome_instancia": "Secretaria",
           "apelido": "Marcos"
@@ -2001,7 +2001,7 @@
       }
     ]
   },
-  "versionId": "7b403023-81ff-4b86-991a-c06caf832fa9",
+  "versionId": "793dfff2-6a4b-43b4-93e4-ed957bbc50e9",
   "triggerCount": 1,
   "shared": [
     {
@@ -2014,8 +2014,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-16T11:00:22.894Z",
-    "version": "2025-09-15T13:48:34.000Z",
+    "backedUpAt": "2025-09-22T11:00:21.446Z",
+    "version": "2025-09-22T01:57:08.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
