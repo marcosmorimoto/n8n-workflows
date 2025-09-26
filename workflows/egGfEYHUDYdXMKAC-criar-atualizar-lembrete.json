@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-22T01:57:08.000Z",
+  "updatedAt": "2025-09-26T01:38:56.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -38,7 +38,7 @@
         "promptType": "define",
         "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
         "options": {
-          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}.\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", \"próxima terça\", \"daqui 10 minutos\" ou \"de 2 em 2 dias\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quando tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H).\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários!**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n    SEMPRE REFLITA e pergunte para si mesmo, \"Se a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) e o dia da semana atual é {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\"\n\n### 5. Lembretes com Recorrência:\nQuando o usuário solicitar uma recorrencia do lembrete, por exemplo, de 10 em 10 minutos, de 6 em 6 horas, de 2 em 2 dias, de 2 em 2 semanas, de 3 em 3 meses ou de 4 em 4 anos, e não mencionar a partr de quando deve iniciar a contagem, faça o calculo da próxima execução com base na data atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}.\n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais.\n\nFORMATAÇÃO DATA SAIDA:\nA data de saida deve estar no formato abaixo:\nYYYY-MM-DDTHH:mm:SS.000-03:00\n"
+          "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}.\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", \"próxima terça\", \"daqui 10 minutos\" ou \"de 2 em 2 dias\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quando tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H).\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários!**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n    SEMPRE REFLITA e pergunte para si mesmo, \"Se a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) e o dia da semana atual é {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\"\n\n### 5. Lembretes com Recorrência:\nQuando o usuário solicitar uma recorrencia do lembrete, por exemplo, de 10 em 10 minutos, de 6 em 6 horas, de 2 em 2 dias, de 2 em 2 semanas, de 3 em 3 meses ou de 4 em 4 anos, e não mencionar a partr de quando deve iniciar a contagem, faça o calculo da próxima execução com base na data atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}.\n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais.\n\nFORMATAÇÃO DATA SAIDA:\nA data de saida deve estar no formato abaixo:\nYYYY-MM-DDTHH:mm:SS.000-03:00\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }} ou pedir para criar lembretes em nome de outro usuário, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode realizar operações de outros usuários e que pode apenas realizar operações com os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -750,9 +750,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Id cliente: {{ $json.id_cliente }} \nMensagem: {{ $json.mensagem }}",
+        "text": "=Mensagem: {{ $json.mensagem }}",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar alterações de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para alterar algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja alterar.\n- Caso não seja o lembrete que o usuário quer alterar ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser alterado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja alterar.\n- Assim que o usuário confirmar o lembrete que deve ser atualizado, informe ao usuário de uma forma gentil e agradavel que não é possivel atualizar o lembrete, e que para seguir com a alteração, sugira ao usuário para desativar o lembrete que ele deseja atualizar e criar um novo e já pergunte se pode seguir com a operação.\n- Caso o usuário confirme, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado e peça ao usuário para passar as instruções do novo lembrete, por exemplo, \"Me lembre amanhã às 3 da tarde de agendar uma reunião\".\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\nInformações importantes:\n\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar alterações de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para alterar algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja alterar.\n- Caso não seja o lembrete que o usuário quer alterar ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser alterado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja alterar.\n- Assim que o usuário confirmar o lembrete que deve ser atualizado, informe ao usuário de uma forma gentil e agradavel que não é possivel atualizar o lembrete, e que para seguir com a alteração, sugira ao usuário para desativar o lembrete que ele deseja atualizar e criar um novo e já pergunte se pode seguir com a operação.\n- Caso o usuário confirme, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado e peça ao usuário para passar as instruções do novo lembrete, por exemplo, \"Me lembre amanhã às 3 da tarde de agendar uma reunião\".\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1261,48 +1261,6 @@
     },
     {
       "parameters": {
-        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
-        "workflowId": {
-          "__rl": true,
-          "value": "kIbrsiD07r5jI0J6",
-          "mode": "list",
-          "cachedResultName": "TOOL - Lembretes DB"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "prompt"
-          ],
-          "schema": [
-            {
-              "id": "prompt",
-              "displayName": "prompt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        976,
-        896
-      ],
-      "id": "6768fcd8-a8d3-4a9b-9f81-49d66d26f7ae",
-      "name": "Call n8n Workflow Tool1"
-    },
-    {
-      "parameters": {
         "resource": "messages-api",
         "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
         "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
@@ -1377,48 +1335,6 @@
     },
     {
       "parameters": {
-        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
-        "workflowId": {
-          "__rl": true,
-          "value": "kIbrsiD07r5jI0J6",
-          "mode": "list",
-          "cachedResultName": "TOOL - Lembretes DB"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
-          },
-          "matchingColumns": [
-            "prompt"
-          ],
-          "schema": [
-            {
-              "id": "prompt",
-              "displayName": "prompt",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "typeVersion": 2.2,
-      "position": [
-        976,
-        1232
-      ],
-      "id": "458af4ec-c3f9-4308-a399-839d88464eb6",
-      "name": "Call n8n Workflow Tool2"
-    },
-    {
-      "parameters": {
         "resource": "messages-api",
         "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
         "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
@@ -1445,9 +1361,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Id cliente: {{ $json.id_cliente }} \nMensagem: {{ $json.mensagem }}",
+        "text": "=Mensagem: {{ $json.mensagem }}",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por cancelar/desativar/apagar/parar/remover lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para cancelar/desativar/apagar/parar/remover algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja cancelar/desativar/apagar/parar/remover.\n- Caso não seja o lembrete que o usuário quer cancelar/desativar/apagar/parar/remover ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser desativado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja desativar.\n- Assim que o usuário confirmar o lembrete que deve ser desativado, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\nInformações importantes:\n\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por cancelar/desativar/apagar/parar/remover lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para cancelar/desativar/apagar/parar/remover algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja cancelar/desativar/apagar/parar/remover.\n- Caso não seja o lembrete que o usuário quer cancelar/desativar/apagar/parar/remover ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser desativado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja desativar.\n- Assim que o usuário confirmar o lembrete que deve ser desativado, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes1\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes1\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1462,9 +1378,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Id cliente: {{ $json.id_cliente }} \nMensagem: {{ $json.mensagem }}",
+        "text": "=Mensagem: {{ $json.mensagem }}",
         "options": {
-          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar consultas de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Consulte APENAS e SOMENTE os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo).\n- Caso ele queira adicionar mais um filtro, adicione o filtro do usuário na consulta.\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário EXATAMENTE como instruido abaixo:\n\n*nome_do_campo:* valor\n\nExemplo real:\n\n*LEMBRETE 1* //(X = NUMERE EM ORDEM CRESCENTE)\n*Id do lembrete:* 321\n*Criado em:* 01/01/2025 03:05:33\n*Próxima execução:* 01/01/2025 03:05:33\n*Descrição:* \"EXEMPLO LEMBRETE\"\n*Mensagem enviada:* \"CRIE O LEMBRETE EXEMPLO\"\n*Ultima execução:* 01/01/2025 03:05:33\n\nATENÇÃO!\n- Para deixar informações em negrito, como vamos usar o whatsapp, use apenas um asterisco [Exemplo: *texto em negrito*]\n- Caso tenha mais de um lembrete, numere os lembretes de 1 a N.\n\nInformações importantes:\n\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários."
+          "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar consultas de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Consulte APENAS e SOMENTE os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo).\n- Caso ele queira adicionar mais um filtro, adicione o filtro do usuário na consulta.\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário EXATAMENTE como instruido abaixo:\n\n*nome_do_campo:* valor\n\nExemplo real:\n\n*LEMBRETE 1* //(X = NUMERE EM ORDEM CRESCENTE)\n*Id do lembrete:* 321\n*Criado em:* 01/01/2025 03:05:33\n*Próxima execução:* 01/01/2025 03:05:33\n*Descrição:* \"EXEMPLO LEMBRETE\"\n*Mensagem enviada:* \"CRIE O LEMBRETE EXEMPLO\"\n*Ultima execução:* 01/01/2025 03:05:33\n\nATENÇÃO!\n- Para deixar informações em negrito, como vamos usar o whatsapp, use apenas um asterisco [Exemplo: *texto em negrito*]\n- Caso tenha mais de um lembrete, numere os lembretes de 1 a N.\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -1528,6 +1444,90 @@
       ],
       "id": "0413c0de-c6bf-43c2-b8d1-6df1aae38086",
       "name": "valida_proxima_exec"
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
+        "workflowId": {
+          "__rl": true,
+          "value": "kIbrsiD07r5jI0J6",
+          "mode": "list",
+          "cachedResultName": "TOOL - Lembretes DB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "prompt"
+          ],
+          "schema": [
+            {
+              "id": "prompt",
+              "displayName": "prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        1232
+      ],
+      "id": "458af4ec-c3f9-4308-a399-839d88464eb6",
+      "name": "tool_db_lembretes"
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
+        "workflowId": {
+          "__rl": true,
+          "value": "kIbrsiD07r5jI0J6",
+          "mode": "list",
+          "cachedResultName": "TOOL - Lembretes DB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "prompt"
+          ],
+          "schema": [
+            {
+              "id": "prompt",
+              "displayName": "prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        976,
+        896
+      ],
+      "id": "6768fcd8-a8d3-4a9b-9f81-49d66d26f7ae",
+      "name": "tool_db_lembretes1"
     }
   ],
   "connections": {
@@ -1894,17 +1894,6 @@
         ]
       ]
     },
-    "Call n8n Workflow Tool1": {
-      "ai_tool": [
-        [
-          {
-            "node": "cancelar_lembrete",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model4": {
       "ai_languageModel": [
         [
@@ -1922,17 +1911,6 @@
           {
             "node": "consultar",
             "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call n8n Workflow Tool2": {
-      "ai_tool": [
-        [
-          {
-            "node": "consultar",
-            "type": "ai_tool",
             "index": 0
           }
         ]
@@ -1977,6 +1955,28 @@
           }
         ]
       ]
+    },
+    "tool_db_lembretes": {
+      "ai_tool": [
+        [
+          {
+            "node": "consultar",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tool_db_lembretes1": {
+      "ai_tool": [
+        [
+          {
+            "node": "cancelar_lembrete",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1990,10 +1990,10 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "mensagem": " Ô, more, me lembra amanhã, umas oito da manhã, que eu preciso ir receber o pessoal da marmoraria lá na Casa Nova.",
+          "mensagem": "Me passe os lembretes do cliente 3",
           "id_cliente": "1",
-          "operacao": "CRIAR_LEMBRETE",
-          "data_atual_msg": "2025-09-21T22:31:55.627Z",
+          "operacao": "CONSULTAR_LEMBRETE",
+          "data_atual_msg": "2025-09-25T14:53:04.396Z",
           "id_whatsapp": "5511948456707@s.whatsapp.net",
           "nome_instancia": "Secretaria",
           "apelido": "Marcos"
@@ -2001,7 +2001,7 @@
       }
     ]
   },
-  "versionId": "793dfff2-6a4b-43b4-93e4-ed957bbc50e9",
+  "versionId": "c56971a0-1a54-4b66-a5df-05d4ff167df1",
   "triggerCount": 1,
   "shared": [
     {
@@ -2014,8 +2014,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-22T11:00:21.446Z",
-    "version": "2025-09-22T01:57:08.000Z",
+    "backedUpAt": "2025-09-26T11:00:22.644Z",
+    "version": "2025-09-26T01:38:56.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
