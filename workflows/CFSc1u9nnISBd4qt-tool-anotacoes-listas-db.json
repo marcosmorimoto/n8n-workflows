@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-14T00:56:46.865Z",
-  "updatedAt": "2025-09-19T03:32:40.000Z",
+  "updatedAt": "2025-09-26T02:16:17.000Z",
   "id": "CFSc1u9nnISBd4qt",
   "name": "TOOL - Anotacoes Listas DB",
   "active": false,
@@ -31,7 +31,7 @@
         "text": "={{ $json.prompt }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_listas (\n    id bigint not null default func_gerar_id_listas(), \n    id_cliente bigint NOT NULL,\n    nome_lista TEXT,\n    dt_criacao DATE,\n    dt_alteracao DATE,\n    dt_desativacao DATE\n) TABLESPACE pg_default;\n\n\nCREATE TABLE public.tb_listas_item (\n    id_lista BIGINT (FK public.tb_listas.id),\n    seq_item bigint,\n    nome_item TEXT,\n    item_marcado BOOLEAN,\n    dt_criacao DATE,\n    dt_alteracao date\n) TABLESPACE pg_default;"
+          "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\n## PONTOS DE ATENÇÃO\n- Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n- Sempre revise a instrução SQL gerada para verificar se não existe algum erro de sintaxe, caso exista algum erro de sintaxe, corrija a instrução.\n- A saida SEMPRE deve conter uma instrução SQL válida.\n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura das tabelas.\n\nCREATE TABLE public.tb_listas (\n    id bigint not null default func_gerar_id_listas(), \n    id_cliente bigint NOT NULL,\n    nome_lista TEXT,\n    dt_criacao DATE,\n    dt_alteracao DATE,\n    dt_desativacao DATE\n) TABLESPACE pg_default;\n\n\nCREATE TABLE public.tb_listas_item (\n    id_lista BIGINT (FK public.tb_listas.id),\n    seq_item bigint,\n    nome_item TEXT,\n    item_marcado BOOLEAN,\n    dt_criacao DATE,\n    dt_alteracao date\n) TABLESPACE pg_default;"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -84,9 +84,9 @@
       "parameters": {
         "model": {
           "__rl": true,
-          "value": "gpt-4.1-nano",
+          "value": "gpt-4.1-mini",
           "mode": "list",
-          "cachedResultName": "gpt-4.1-nano"
+          "cachedResultName": "gpt-4.1-mini"
         },
         "options": {
           "temperature": 1
@@ -187,12 +187,12 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "prompt": "consulta id e nome do item tomate filtro [id_lista = 20251 AND id_cliente = 1];"
+          "prompt": "consulta nome_item, item_marcado tabela tb_listas_item filtro [id_lista = (SELECT id FROM tb_listas WHERE nome_lista = 'MERCADO' AND dt_desativacao IS NULL) AND id_cliente = 1];"
         }
       }
     ]
   },
-  "versionId": "46cc579e-885f-453d-a766-2da0137ba494",
+  "versionId": "318842ee-52de-4d97-a575-deef9c412b28",
   "triggerCount": 0,
   "shared": [
     {
@@ -205,8 +205,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-19T11:00:23.834Z",
-    "version": "2025-09-19T03:32:40.000Z",
+    "backedUpAt": "2025-09-26T11:00:22.563Z",
+    "version": "2025-09-26T02:16:17.000Z",
     "originalId": "CFSc1u9nnISBd4qt"
   }
 }
