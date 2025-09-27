@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-31T22:37:57.044Z",
-  "updatedAt": "2025-09-19T03:52:13.000Z",
+  "updatedAt": "2025-09-27T03:10:36.000Z",
   "id": "rggQIGsSsXB44u29",
   "name": "assessor_main",
   "active": true,
@@ -129,7 +129,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8288,
+        -8080,
         -1392
       ],
       "id": "73897007-87be-4b12-be69-5b412bdf14e8",
@@ -146,7 +146,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -8864,
+        -8656,
         -1600
       ],
       "id": "aa7d5598-c082-4927-a305-d89faa7ccc6d",
@@ -197,7 +197,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -8512,
+        -8304,
         -1600
       ],
       "id": "2fd3cd7f-256e-4644-bca2-2539908aa255",
@@ -220,7 +220,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8288,
+        -8080,
         -1600
       ],
       "id": "65e8636d-dbeb-469c-9629-8beced0e9e79",
@@ -239,8 +239,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9696,
-        -144
+        -9648,
+        672
       ],
       "id": "cd90a6b2-30c5-4a37-9ba7-db41266f24a0",
       "name": "Evolution API2",
@@ -265,8 +265,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9472,
-        -144
+        -9424,
+        672
       ],
       "id": "997ad197-14b1-42e8-af7b-f94215982378",
       "name": "Evolution API3",
@@ -349,7 +349,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -10000,
+        -9792,
         -1408
       ],
       "id": "32ac5ed7-0d3d-4841-8d6d-3277ec46ca59",
@@ -373,7 +373,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -8064,
+        -7856,
         -1392
       ],
       "id": "235a9911-b7bd-4dfa-ae84-72e599a8173f",
@@ -414,8 +414,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -10384,
-        -752
+        -10336,
+        64
       ],
       "id": "30e6ad06-41cb-42e4-a58d-17a67b9c0476",
       "name": "Validar Pre Clientes",
@@ -438,8 +438,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -9920,
-        -224
+        -9872,
+        592
       ],
       "id": "ad0f7a70-4f8e-455d-b7e7-a8cb1d3a4923",
       "name": "Sticky Note",
@@ -524,8 +524,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -10160,
-        112
+        -10112,
+        928
       ],
       "id": "334e0fd1-ab30-4f30-b2c7-5c2eb5089c25",
       "name": "Switch3",
@@ -540,8 +540,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -9904,
-        -144
+        -9856,
+        672
       ],
       "id": "03850d8a-1adf-401f-9fac-b3666236f108",
       "name": "Postgres",
@@ -594,8 +594,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -10384,
-        -496
+        -10336,
+        320
       ],
       "id": "984f9519-5339-44d3-a00b-5e2b47b24bd8",
       "name": "Edit Fields",
@@ -614,8 +614,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9904,
-        128
+        -9856,
+        944
       ],
       "id": "d85f79b8-b039-4b1a-8943-57904a429771",
       "name": "Evolution API4",
@@ -637,8 +637,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -9920,
-        64
+        -9872,
+        880
       ],
       "id": "9b390605-b0e2-4c2f-87ea-562cea3ad2a5",
       "name": "Sticky Note1",
@@ -657,8 +657,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9680,
-        128
+        -9632,
+        944
       ],
       "id": "d4c20a6b-2dd7-4f7b-b0de-9a842fa2f144",
       "name": "Evolution API5",
@@ -683,8 +683,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9904,
-        464
+        -9856,
+        1280
       ],
       "id": "4b9ce181-9692-42f8-8c88-59543bc24da9",
       "name": "Evolution API6",
@@ -706,8 +706,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -9920,
-        384
+        -9872,
+        1200
       ],
       "id": "a9197107-3d7b-41e4-976a-da6a1960352b",
       "name": "Sticky Note2",
@@ -835,7 +835,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -9776,
+        -9568,
         -1408
       ],
       "id": "3076f197-8e9b-4806-88b6-b9d00600953c",
@@ -848,8 +848,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -10176,
-        -752
+        -10128,
+        64
       ],
       "id": "651b35c4-cc5e-4341-aac0-2e6fe4c8d3c1",
       "name": "Validar retorno nulo da consulta anterior",
@@ -863,8 +863,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -9920,
-        -928
+        -9872,
+        -112
       ],
       "typeVersion": 1,
       "id": "b90232b2-89e2-475c-9de9-09b936b8a4b2",
@@ -881,8 +881,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9424,
-        -496
+        -9376,
+        320
       ],
       "id": "c59fa3a4-6977-490d-9e9e-edeaaaba5c5e",
       "name": "Bloquear contato",
@@ -931,8 +931,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -10160,
-        -496
+        -10112,
+        320
       ],
       "id": "cbed6d4d-570d-45c6-aa49-17e746affced",
       "name": "If",
@@ -947,8 +947,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -9472,
-        128
+        -9424,
+        944
       ],
       "id": "2d824c7b-d748-460f-88f6-0e0c70585ef0",
       "name": "Atualizar quantidade de msg enviada",
@@ -969,8 +969,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -9696,
-        464
+        -9648,
+        1280
       ],
       "id": "cc0eeef3-0218-4591-9166-812b1c2fcff9",
       "name": "Atualizar quantidade de msg enviada1",
@@ -995,8 +995,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9424,
-        -816
+        -9376,
+        0
       ],
       "id": "b0fb046c-d823-4e6f-892b-7076eabb663e",
       "name": "Evolution API7",
@@ -1064,8 +1064,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -9696,
-        -736
+        -9648,
+        80
       ],
       "id": "af35ffc4-67c1-44fb-8eb8-b0d0987874c1",
       "name": "Switch",
@@ -1098,8 +1098,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -9904,
-        -592
+        -9856,
+        224
       ],
       "id": "5adb9c25-de7c-462a-a001-795ba30af234",
       "name": "If1",
@@ -1118,8 +1118,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9424,
-        -656
+        -9376,
+        160
       ],
       "id": "6f3c0ba6-de66-4a7c-88b0-45cd3b6a87b8",
       "name": "Evolution API8",
@@ -1144,8 +1144,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9696,
-        -496
+        -9648,
+        320
       ],
       "id": "d97ea47f-8498-4881-bb1d-4357f722e4bc",
       "name": "Evolution API9",
@@ -1166,8 +1166,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -9200,
-        -832
+        -9152,
+        -16
       ],
       "id": "078b1bda-05ca-465b-9fa5-0d5bcb8c4e25",
       "name": "Atualizar quantidade de msg enviada2",
@@ -1188,8 +1188,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -9200,
-        -624
+        -9152,
+        192
       ],
       "id": "772b7343-b519-4d75-9e10-894a4dc0a18f",
       "name": "Atualizar quantidade de msg enviada3",
@@ -1212,8 +1212,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9200,
-        -464
+        -9152,
+        352
       ],
       "id": "24e00ad5-aadb-45b7-acdf-cc6fe115ca43",
       "name": "Desbloquear contato",
@@ -1234,7 +1234,7 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -7904,
+        -7696,
         -1520
       ],
       "typeVersion": 1,
@@ -1251,7 +1251,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7856,
+        -7648,
         -1392
       ],
       "id": "99437958-2ade-429a-a6dc-ed9cf0a93506",
@@ -1270,7 +1270,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -7648,
+        -7440,
         -1392
       ],
       "id": "e55fa06b-46c3-4d90-bfd5-7b9032b48318",
@@ -1287,7 +1287,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -7456,
+        -7248,
         -1392
       ],
       "id": "89d2417e-a4a9-449d-88d6-28f9c093ba13",
@@ -1327,7 +1327,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -7248,
+        -7040,
         -1392
       ],
       "id": "cfd8177c-bc1d-4ccb-9839-9ed3cdb015a1",
@@ -1338,7 +1338,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -6816,
+        -6608,
         -1248
       ],
       "id": "e563eca2-7741-41bb-a7d0-d1a6a6feee30",
@@ -1352,7 +1352,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6816,
+        -6608,
         -1488
       ],
       "id": "cfbff45b-566b-448c-a1a0-8aad1d580acb",
@@ -1381,7 +1381,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -9264,
+        -9056,
         -1600
       ],
       "id": "aacd2ee8-a77e-4043-8a2c-be211107f0ea",
@@ -1404,7 +1404,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -7024,
+        -6816,
         -1488
       ],
       "id": "6a1dc01b-1191-42ec-a153-602a144e8d2d",
@@ -1440,7 +1440,7 @@
       "type": "@n8n/n8n-nodes-langchain.textClassifier",
       "typeVersion": 1.1,
       "position": [
-        -5840,
+        -5408,
         -1424
       ],
       "id": "6af5bb18-d340-4a17-83b3-0231d3b874bc",
@@ -1461,7 +1461,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5840,
+        -5408,
         -1168
       ],
       "id": "9cf8e719-94d7-464d-9972-ddeddf77272c",
@@ -1483,7 +1483,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4736,
+        -4304,
         -1776
       ],
       "id": "df8caa8d-90d2-41c1-bbfd-e5f1d2d10e20",
@@ -1639,7 +1639,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -4560,
+        -4128,
         -1216
       ],
       "id": "67693df1-c260-4117-a613-bc29befa4252",
@@ -1706,7 +1706,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -4912,
+        -4480,
         -1392
       ],
       "id": "ac8b59de-eee4-4a5a-af90-65083d502ccf",
@@ -1725,7 +1725,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4672,
+        -4240,
         -1024
       ],
       "id": "efa4e206-8c34-45bd-b67c-37232bb21413",
@@ -1750,7 +1750,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4832,
+        -4400,
         -1776
       ],
       "id": "279f64a8-4368-497a-ad6b-d4cd67882017",
@@ -1773,7 +1773,7 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        -10256,
+        -10048,
         -1408
       ],
       "id": "38a0b110-ac97-43df-ba74-f36d6b00bcb9",
@@ -1834,7 +1834,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5328,
+        -4896,
         -1936
       ],
       "id": "1d72a2dd-c13e-4f1e-80fb-36da75b37bbf",
@@ -1847,7 +1847,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -5152,
+        -4720,
         -1392
       ],
       "id": "5157b198-b549-4dd4-93e6-7237ba2c8aad",
@@ -1924,7 +1924,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        -5088,
+        -4656,
         -1936
       ],
       "id": "84a1dbae-4082-45cd-9b0d-74a86936bf25",
@@ -1943,7 +1943,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4448,
+        -4016,
         -1952
       ],
       "id": "fb58e661-153f-471c-bf73-daa9681a4bd0",
@@ -1968,7 +1968,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -4832,
+        -4400,
         -1616
       ],
       "id": "34688c03-330a-4928-91c0-f1e035cb5853",
@@ -1991,7 +1991,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -4832,
+        -4400,
         -1952
       ],
       "id": "32cdf2b3-6e9c-436a-b5ae-0fdab3aeb6a6",
@@ -2009,7 +2009,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -4656,
+        -4224,
         -1408
       ],
       "id": "73bebd49-3ad2-41b8-afaf-0a9758b273cd",
@@ -2049,7 +2049,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4656,
+        -4224,
         -1216
       ],
       "id": "f46ba883-2344-47f7-8b03-6e8cd9739f9f",
@@ -2084,7 +2084,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4080,
+        -3648,
         -1056
       ],
       "id": "ddfca0fc-8946-4930-9d53-fa75e3fb0b44",
@@ -2179,7 +2179,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -4272,
+        -3840,
         -1056
       ],
       "id": "fc5d1a31-f633-411e-ab17-86c8bcf85475",
@@ -2294,7 +2294,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -4032,
+        -3600,
         -1216
       ],
       "id": "932b540b-7283-40b8-9841-ec0a41dc66b7",
@@ -2317,7 +2317,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.1,
       "position": [
-        -4032,
+        -3600,
         -1408
       ],
       "id": "0efcae8a-4311-4015-8b96-8fea5915532b",
@@ -2330,7 +2330,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -4272,
+        -3840,
         -1408
       ],
       "id": "8c491008-cfa4-4adf-83e0-7b87aae96674",
@@ -2349,7 +2349,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -3664,
+        -3232,
         -1408
       ],
       "id": "b8b952b5-2e2d-4f17-800b-82d46b8c1dc2",
@@ -2372,7 +2372,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5984,
+        -5776,
         -1376
       ],
       "id": "a899616b-a6cf-4b34-a94f-192d2f77241d",
@@ -2396,7 +2396,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -5392,
+        -4960,
         -1392
       ],
       "id": "9d68d105-bb18-4f59-923b-3394d87b1011",
@@ -2419,7 +2419,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -7008,
+        -6800,
         -1248
       ],
       "id": "21c5a396-a213-4841-9a45-36107d2617d7",
@@ -2441,7 +2441,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6304,
+        -6096,
         -1376
       ],
       "id": "945361bc-422e-4a8b-89df-c6c20d42444c",
@@ -2463,7 +2463,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6624,
+        -6416,
         -1376
       ],
       "id": "99f00351-69d3-4d96-9bae-0c941cffb530",
@@ -2516,7 +2516,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -10256,
+        -10048,
         -1216
       ],
       "id": "d17e589b-ce87-4900-904e-ce1e97c9e903",
@@ -2543,7 +2543,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -10032,
+        -9824,
         -1216
       ],
       "id": "12d4ce7c-b46c-4ee4-8fab-ff1bc8333bf3",
@@ -2632,7 +2632,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6464,
+        -6256,
         -1376
       ],
       "id": "94cc5b58-dbd4-4da2-a1a2-ed6126eb47ae",
@@ -2667,7 +2667,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -5280,
+        -4848,
         -576
       ],
       "id": "dbb2cdab-b8b7-4d01-9347-2f5a7fbc7822",
@@ -2694,7 +2694,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -5376,
+        -4944,
         -576
       ],
       "id": "4f7f3e02-e454-4eb4-9d89-e95353d0e60c",
@@ -2717,7 +2717,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        -5376,
+        -4944,
         -768
       ],
       "id": "b0459ffb-7867-43b3-8fe1-028ab90235f1",
@@ -2777,7 +2777,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -5040,
+        -4608,
         -768
       ],
       "id": "937d7328-f224-45d2-adcf-6d6b9354bb61",
@@ -2794,7 +2794,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        -6144,
+        -5936,
         -1376
       ],
       "id": "d78e0362-e6da-4a30-9429-7368fbac9ada",
@@ -2834,7 +2834,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -9600,
+        -9392,
         -1616
       ],
       "id": "f67e39ca-fadd-41e4-a77f-fd2894dcfe35",
@@ -2851,7 +2851,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -9072,
+        -8864,
         -1888
       ],
       "id": "ce9ec286-e7c3-47d8-9a90-bba39da0848b",
@@ -2882,7 +2882,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -9264,
+        -9056,
         -1792
       ],
       "id": "9172efbc-891b-405b-8404-fed80b6e8466",
@@ -2912,7 +2912,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -4832,
+        -4400,
         -768
       ],
       "id": "c275ff18-dab9-4895-8029-263486528d8f",
@@ -2931,7 +2931,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9072,
+        -8864,
         -1728
       ],
       "id": "7277b84d-1565-4ad4-ba6c-8589503a387f",
@@ -2953,7 +2953,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        -9264,
+        -9056,
         -2032
       ],
       "id": "5ed8fa4b-8d0c-43f6-990f-b5629541f355",
@@ -2977,7 +2977,7 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        -9072,
+        -8864,
         -2048
       ],
       "id": "917052c6-be9a-4aa2-9c79-4485475fdf51",
@@ -3024,7 +3024,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -5376,
+        -4944,
         -1104
       ],
       "id": "b1607b65-0d1d-4615-ac02-d9c1323e912b",
@@ -3053,11 +3053,70 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -5152,
+        -4720,
         -1104
       ],
       "id": "1d773168-fe48-4aa7-93b3-7680f61f4465",
       "name": "Chamar Workflow Listas"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c8fe0471-5f89-4d16-b03e-f2f851b54938",
+              "leftValue": "={{ $('Dados').item.json.tipoMensagem }}",
+              "rightValue": "conversation",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -10320,
+        -1200
+      ],
+      "id": "cbb3f053-3e6b-481d-9ba6-cf272fd30c98",
+      "name": "verifica tipo mensagem"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Dados').item.json.instancia }}",
+        "remoteJid": "={{ $('Dados').item.json.quem_mandou }}",
+        "messageText": "=No primeiro momento, envie apenas mensagens de texto para que possamos criar o seu cadastro no sistema. \nApós o cadastro finalizado, você poderá enviar mensagens de áudio. (Importante: imagens não são processadas).",
+        "options_message": {
+          "delay": 500
+        }
+      },
+      "type": "n8n-nodes-evolution-api.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        -10048,
+        -1024
+      ],
+      "id": "9350818a-fb79-440c-851a-2e58a2514957",
+      "name": "Enviar Mensagem Aviso",
+      "credentials": {
+        "evolutionApi": {
+          "id": "REMOVED",
+          "name": "Evolution account"
+        }
+      }
     }
   ],
   "connections": {
@@ -3273,7 +3332,7 @@
         ],
         [
           {
-            "node": "consolidar dados para cadastrar novo usuario",
+            "node": "verifica tipo mensagem",
             "type": "main",
             "index": 0
           }
@@ -4069,6 +4128,24 @@
           }
         ]
       ]
+    },
+    "verifica tipo mensagem": {
+      "main": [
+        [
+          {
+            "node": "consolidar dados para cadastrar novo usuario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Mensagem Aviso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4155,7 +4232,7 @@
       }
     ]
   },
-  "versionId": "c71be13a-2783-4e8c-b173-8a40a295fda8",
+  "versionId": "8162baee-a7f4-4aff-ab96-507437ef84ab",
   "triggerCount": 1,
   "shared": [
     {
@@ -4168,8 +4245,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-19T11:00:25.280Z",
-    "version": "2025-09-19T03:52:13.000Z",
+    "backedUpAt": "2025-09-27T11:00:23.204Z",
+    "version": "2025-09-27T03:10:36.000Z",
     "originalId": "rggQIGsSsXB44u29"
   }
 }
