@@ -1,0 +1,104 @@
+{
+  "createdAt": "2025-10-14T22:20:10.081Z",
+  "updatedAt": "2025-10-14T23:37:10.000Z",
+  "id": "aQVRyZ87eV7ce3co",
+  "name": "testando_geracao_instancia_api",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ee3b8b25-19eb-459a-aeac-1d1fbe7c7552",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "459289dd-4fee-45c1-89c5-8f62dbb83dde",
+      "name": "Webhook",
+      "webhookId": "ee3b8b25-19eb-459a-aeac-1d1fbe7c7552"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"instanceName\": \"testando-api2\",\n  \"qrcode\": true,\n  \"number\": \"5511948456707\",\n  \"integration\": \"WHATSAPP-BAILEYS\",\n  \"rejectCall\": true,\n  \"groupsIgnore\": true,\n  \"alwaysOnline\": true,\n  \"readMessages\": true,\n  \"readStatus\": true,\n  \"syncFullHistory\": true,\n  \"webhook\": {\n    \"url\": \"https://n8n.mx4solucoes.com.br/webhook-test/ee3b8b25-19eb-459a-aeac-1d1fbe7c7552\",\n    \"byEvents\": true,\n    \"base64\": true,\n    \"headers\": {\n      \"Content-Type\": \"application/json\"\n    },\n    \"events\": [\n      \"APPLICATION_STARTUP\"\n    ]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        -224
+      ],
+      "id": "bb521752-017b-42df-b0dc-8f15379def0c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -224
+      ],
+      "id": "cfc4391d-3b4c-4368-a2c6-7eb540ab9c59",
+      "name": "When clicking ‘Execute workflow’"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "20402109-fec3-46a8-b478-9c7e32f4c543",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-14T22:20:10.088Z",
+      "updatedAt": "2025-10-14T22:20:10.088Z",
+      "role": "workflow:owner",
+      "workflowId": "aQVRyZ87eV7ce3co",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-10-15T11:00:22.562Z",
+    "version": "2025-10-14T23:37:10.000Z",
+    "originalId": "aQVRyZ87eV7ce3co"
+  }
+}
