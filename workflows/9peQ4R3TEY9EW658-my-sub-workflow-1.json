@@ -1,10 +1,10 @@
 {
   "createdAt": "2025-09-05T01:38:25.621Z",
-  "updatedAt": "2025-09-05T01:38:25.621Z",
+  "updatedAt": "2025-10-14T22:00:09.000Z",
   "id": "9peQ4R3TEY9EW658",
   "name": "My Sub-Workflow 1",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
@@ -47,7 +47,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "1011a4dc-fe65-49be-a0df-673601e5b707",
+  "versionId": "792ba435-2beb-47c3-ad39-37f004262b7d",
   "triggerCount": 0,
   "shared": [
     {
@@ -60,8 +60,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-05T11:00:47.024Z",
-    "version": "2025-09-05T01:38:25.621Z",
+    "backedUpAt": "2025-10-15T11:00:22.331Z",
+    "version": "2025-10-14T22:00:09.000Z",
     "originalId": "9peQ4R3TEY9EW658"
   }
 }
