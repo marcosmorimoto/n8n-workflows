@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-14T22:20:10.081Z",
-  "updatedAt": "2025-10-14T23:37:10.000Z",
+  "updatedAt": "2025-10-15T18:39:55.000Z",
   "id": "aQVRyZ87eV7ce3co",
   "name": "testando_geracao_instancia_api",
   "active": false,
@@ -8,14 +8,15 @@
   "nodes": [
     {
       "parameters": {
+        "httpMethod": "POST",
         "path": "ee3b8b25-19eb-459a-aeac-1d1fbe7c7552",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
-        0
+        16,
+        -224
       ],
       "id": "459289dd-4fee-45c1-89c5-8f62dbb83dde",
       "name": "Webhook",
@@ -36,7 +37,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"instanceName\": \"testando-api2\",\n  \"qrcode\": true,\n  \"number\": \"5511948456707\",\n  \"integration\": \"WHATSAPP-BAILEYS\",\n  \"rejectCall\": true,\n  \"groupsIgnore\": true,\n  \"alwaysOnline\": true,\n  \"readMessages\": true,\n  \"readStatus\": true,\n  \"syncFullHistory\": true,\n  \"webhook\": {\n    \"url\": \"https://n8n.mx4solucoes.com.br/webhook-test/ee3b8b25-19eb-459a-aeac-1d1fbe7c7552\",\n    \"byEvents\": true,\n    \"base64\": true,\n    \"headers\": {\n      \"Content-Type\": \"application/json\"\n    },\n    \"events\": [\n      \"APPLICATION_STARTUP\"\n    ]\n  }\n}",
+        "jsonBody": "{\n  \"instanceName\": \"testando-api4\",\n  \"qrcode\": true,\n  \"number\": \"5511948456707\",\n  \"integration\": \"WHATSAPP-BAILEYS\",\n  \"rejectCall\": true,\n  \"groupsIgnore\": true,\n  \"alwaysOnline\": false,\n  \"readMessages\": false,\n  \"readStatus\": false,\n  \"syncFullHistory\": false,\n  \"webhook\": {\n    \"url\": \"https://n8n.mx4solucoes.com.br/webhook-test/ee3b8b25-19eb-459a-aeac-1d1fbe7c7552\",\n    \"byEvents\": false,\n    \"base64\": true,\n    \"headers\": {\n      \"authorization\": \"Bearer E757ACEB001F-46D4-940D-D33E73C48CCC\",\n      \"Content-Type\": \"application/json\"\n    },\n    \"events\": [\n      \"MESSAGES_UPSERT\"\n    ]\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -49,24 +50,78 @@
       "name": "HTTP Request"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
+      "parameters": {
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/connect/Lojinha_do_Marquinhos+11948456767",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
       "position": [
-        0,
+        400,
         -224
       ],
-      "id": "cfc4391d-3b4c-4368-a2c6-7eb540ab9c59",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "84d9445b-e48b-481d-b4b4-da85de9d9acb",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/connectionState/Secretaria",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        -224
+      ],
+      "id": "c44f1878-7c6d-4f84-b16a-1dcee8178750",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/logout/11948456767",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        816,
+        -224
+      ],
+      "id": "24af0bd3-0819-437d-bacf-d0f1fe3f8380",
+      "name": "HTTP Request3"
     }
   ],
   "connections": {
     "Webhook": {
-      "main": [
-        []
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
@@ -76,6 +131,33 @@
           }
         ]
       ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
@@ -84,8 +166,8 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "20402109-fec3-46a8-b478-9c7e32f4c543",
-  "triggerCount": 0,
+  "versionId": "ceab0708-51be-4a25-833c-a8b2a5ace141",
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-10-14T22:20:10.088Z",
@@ -97,8 +179,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-10-15T11:00:22.562Z",
-    "version": "2025-10-14T23:37:10.000Z",
+    "backedUpAt": "2025-10-16T11:00:22.711Z",
+    "version": "2025-10-15T18:39:55.000Z",
     "originalId": "aQVRyZ87eV7ce3co"
   }
 }
