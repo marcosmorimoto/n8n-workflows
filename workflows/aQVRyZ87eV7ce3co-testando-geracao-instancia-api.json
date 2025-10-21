@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-14T22:20:10.081Z",
-  "updatedAt": "2025-10-15T18:39:55.000Z",
+  "updatedAt": "2025-10-21T00:11:02.000Z",
   "id": "aQVRyZ87eV7ce3co",
   "name": "testando_geracao_instancia_api",
   "active": false,
@@ -43,7 +43,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        192,
+        208,
         -224
       ],
       "id": "bb521752-017b-42df-b0dc-8f15379def0c",
@@ -113,7 +113,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        816,
+        800,
         -224
       ],
       "id": "24af0bd3-0819-437d-bacf-d0f1fe3f8380",
@@ -156,7 +156,13 @@
     },
     "HTTP Request2": {
       "main": [
-        []
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -166,7 +172,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "ceab0708-51be-4a25-833c-a8b2a5ace141",
+  "versionId": "28135384-3c7d-4ffe-991e-f20cf7f07946",
   "triggerCount": 1,
   "shared": [
     {
@@ -179,8 +185,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-10-16T11:00:22.711Z",
-    "version": "2025-10-15T18:39:55.000Z",
+    "backedUpAt": "2025-10-21T11:00:22.526Z",
+    "version": "2025-10-21T00:11:02.000Z",
     "originalId": "aQVRyZ87eV7ce3co"
   }
 }
