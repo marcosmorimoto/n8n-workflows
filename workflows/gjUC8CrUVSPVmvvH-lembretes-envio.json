@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-09-02T05:10:25.469Z",
-  "updatedAt": "2025-09-13T18:41:05.000Z",
+  "updatedAt": "2025-10-30T23:26:58.000Z",
   "id": "gjUC8CrUVSPVmvvH",
   "name": "lembretes_envio",
   "active": true,
@@ -8,7 +8,7 @@
   "nodes": [
     {
       "parameters": {
-        "queue": "reminder-execution-queue",
+        "queue": "execute-reminder-queue",
         "options": {}
       },
       "type": "n8n-nodes-base.rabbitmqTrigger",
@@ -437,28 +437,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "RabbitMQ Trigger": [
-      {
-        "json": {
-          "fields": {
-            "consumerTag": "amq.ctag-5x0p0QljIo8OZ6mCA6AnXA",
-            "deliveryTag": 21,
-            "redelivered": false,
-            "exchange": "reminder-delayed-exchange",
-            "routingKey": "execute-reminder"
-          },
-          "properties": {
-            "headers": {
-              "x-delay": 59058
-            }
-          },
-          "content": "{\"id\":\"202563\",\"id_cliente\":\"1\",\"dt_cadastro\":\"2025-09-09T00:24:50.045Z\",\"dt_desativacao\":\"2025-09-09T00:25:48.000Z\",\"dt_proxima_exec\":\"2025-09-09T00:25:48.000Z\",\"dsc_lembrete\":null,\"qtd_exec\":\"1\",\"dt_alteracao\":null,\"id_whatsapp\":\"5511948456707@s.whatsapp.net\",\"nome_instancia\":\"Secretaria\",\"prompt_lembrete\":\"Me lembra daqui 1 minuto pra ir dormir\"}"
-        }
-      }
-    ]
-  },
-  "versionId": "ed3a7446-157c-4e24-9db5-64a5c5ca89e9",
+  "pinData": {},
+  "versionId": "280c0c18-0443-4a3e-8dd2-93d9ac5179d0",
   "triggerCount": 1,
   "shared": [
     {
@@ -471,8 +451,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-14T11:00:21.290Z",
-    "version": "2025-09-13T18:41:05.000Z",
+    "backedUpAt": "2025-10-31T11:00:22.496Z",
+    "version": "2025-10-30T23:26:58.000Z",
     "originalId": "gjUC8CrUVSPVmvvH"
   }
 }
