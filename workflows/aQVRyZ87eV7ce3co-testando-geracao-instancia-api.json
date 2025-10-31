@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-10-14T22:20:10.081Z",
-  "updatedAt": "2025-10-21T00:11:02.000Z",
+  "updatedAt": "2025-10-31T00:56:05.000Z",
   "id": "aQVRyZ87eV7ce3co",
   "name": "testando_geracao_instancia_api",
   "active": false,
@@ -51,7 +51,7 @@
     },
     {
       "parameters": {
-        "url": "https://evolutionapi.mx4solucoes.com.br/instance/connect/Lojinha_do_Marquinhos+11948456767",
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/connect/testando-api4",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -113,23 +113,97 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        800,
+        1120,
         -224
       ],
       "id": "24af0bd3-0819-437d-bacf-d0f1fe3f8380",
       "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/fetchInstances",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "instanceName",
+              "value": "11933334444"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -160
+      ],
+      "id": "40a85ece-2c10-4717-812f-fd69edb9ae65",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/logout/11933334444",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        752,
+        64
+      ],
+      "id": "35c24784-b4f4-472f-8231-92f3008a6c08",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "https://evolutionapi.mx4solucoes.com.br/instance/delete/11933334444",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "s7CvsTozXoEq3ifq4Lrhc5UiefeierJL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        64
+      ],
+      "id": "d51f2ed4-f46a-48b8-b693-c0937fff3170",
+      "name": "HTTP Request6"
     }
   ],
   "connections": {
     "Webhook": {
       "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "HTTP Request": {
@@ -156,9 +230,19 @@
     },
     "HTTP Request2": {
       "main": [
+        []
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
         [
           {
-            "node": "HTTP Request3",
+            "node": "HTTP Request6",
             "type": "main",
             "index": 0
           }
@@ -172,7 +256,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "28135384-3c7d-4ffe-991e-f20cf7f07946",
+  "versionId": "4ce900b6-6024-49e5-8297-861a8542ce52",
   "triggerCount": 1,
   "shared": [
     {
@@ -185,8 +269,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-10-21T11:00:22.526Z",
-    "version": "2025-10-21T00:11:02.000Z",
+    "backedUpAt": "2025-10-31T11:00:22.478Z",
+    "version": "2025-10-31T00:56:05.000Z",
     "originalId": "aQVRyZ87eV7ce3co"
   }
 }
