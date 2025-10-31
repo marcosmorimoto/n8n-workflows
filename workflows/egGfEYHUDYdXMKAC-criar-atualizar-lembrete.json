@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-08-31T23:54:04.533Z",
-  "updatedAt": "2025-09-26T01:38:56.000Z",
+  "updatedAt": "2025-10-30T23:20:23.000Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
   "active": false,
@@ -1990,10 +1990,10 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "mensagem": "Me passe os lembretes do cliente 3",
+          "mensagem": "Me lembre daqui 1 minuto de olhar o celular",
           "id_cliente": "1",
-          "operacao": "CONSULTAR_LEMBRETE",
-          "data_atual_msg": "2025-09-25T14:53:04.396Z",
+          "operacao": "CRIAR_LEMBRETE",
+          "data_atual_msg": "2025-10-30T20:02:17.349Z",
           "id_whatsapp": "5511948456707@s.whatsapp.net",
           "nome_instancia": "Secretaria",
           "apelido": "Marcos"
@@ -2001,7 +2001,7 @@
       }
     ]
   },
-  "versionId": "c56971a0-1a54-4b66-a5df-05d4ff167df1",
+  "versionId": "32b7d3c6-61eb-4b9e-a695-40afaf51efa8",
   "triggerCount": 1,
   "shared": [
     {
@@ -2014,8 +2014,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-26T11:00:22.644Z",
-    "version": "2025-09-26T01:38:56.000Z",
+    "backedUpAt": "2025-10-31T11:00:22.486Z",
+    "version": "2025-10-30T23:20:23.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
 }
