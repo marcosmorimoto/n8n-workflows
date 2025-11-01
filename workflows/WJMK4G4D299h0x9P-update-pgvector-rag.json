@@ -1,0 +1,402 @@
+{
+  "createdAt": "2025-10-31T23:42:27.458Z",
+  "updatedAt": "2025-11-01T00:46:45.000Z",
+  "id": "WJMK4G4D299h0x9P",
+  "name": "update_pgvector_rag",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "tali-actions-queue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        48
+      ],
+      "id": "d368c7f7-1c28-4f8d-87ac-22a1046433f8",
+      "name": "RabbitMQ Trigger",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8305c873-ded4-47d5-b0d9-247f9e71e554",
+              "name": "tabela",
+              "value": "={{ $json.tabela }}",
+              "type": "string"
+            },
+            {
+              "id": "ab31c201-9a3b-4605-b4d4-4b05f5c901a7",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c044263f-eaf9-4ec1-acd3-a66af2403e18",
+              "name": "operacao",
+              "value": "={{ $json.operacao }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        96,
+        48
+      ],
+      "id": "596a8021-4e1a-4415-bf91-bd979147c432",
+      "name": "dados"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        48
+      ],
+      "id": "7378824d-fad2-4ede-86e6-cd72d5b9a197",
+      "name": "json_to_dados"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.tabela }}",
+                    "rightValue": "stores",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "81f03566-70f7-4cf1-85be-d524e30ca763"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stores"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f2815618-7084-4648-9630-f9e96dbc279f",
+                    "leftValue": "={{ $json.tabela }}",
+                    "rightValue": "products",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "products"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "585dca9b-35ab-45f2-bfa8-b8122a46a665",
+                    "leftValue": "={{ $json.tabela }}",
+                    "rightValue": "customers",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "customers"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "801db984-7566-4027-a6b8-5ac7f128792f",
+                    "leftValue": "={{ $json.tabela }}",
+                    "rightValue": "campaigns",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "campaigns"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        304,
+        16
+      ],
+      "id": "065ab194-3608-4921-bd5d-2032f0508cc3",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select id id_store,\n       'nome do estanbelecimento: ' || name || '.' ||\n       ' cnpj: ' || cnpj || '.' ||\n       ' cep: ' || cep || '.' ||\n       ' logradouro: ' || logradouro || '.' ||\n       ' numero: ' || numero || '.' ||\n       ' complemento: ' || complemento || '.' ||\n       ' bairro: ' || bairro || '.' ||\n       ' cidade: ' || cidade || '.' ||\n       ' uf: ' || uf || '.' ||\n       ' telefone: ' || phone || '.' ||\n       (\n        SELECT string_agg(\n               initcap(dia.nome) || ': ' || (dia.detalhes ->> 'start') || ' - ' || (dia.detalhes ->> 'end'),\n               '. '\n               )\n          FROM jsonb_each(stores.business_hours) AS dia(nome, detalhes)\n         WHERE (dia.detalhes ->> 'enabled')::boolean IS TRUE\n       ) || '.' dados_estabelecimento\n  from stores\n where id = '{{ $json.id }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        656,
+        -96
+      ],
+      "id": "22804e34-23d9-4f84-a43a-0f2a6f5ac474",
+      "name": "dados_por_id_stores",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select '{{ $json.dados_estabelecimento }}' dados_estabelecimento\nunion\nselect 'Produto: ' || replace(name, ';', '') || ' - ' || replace(description, ';', '') || ' - ' || price || '.' dados_estabelecimento\n  from products\n where store_id = '{{ $json.id_store }}'\n   and active = true",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        848,
+        -96
+      ],
+      "id": "8f5f9404-d530-47b9-b6e8-cb81b95cc9d5",
+      "name": "produtos_por_id_stores",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "dados_estabelecimento"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -96
+      ],
+      "id": "2b21d069-7d16-4d3e-93f4-d3ba931e94f3",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "dados_estabelecimento"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        -96
+      ],
+      "id": "ecb9fec8-4ad1-466e-985a-c44a8bb13117",
+      "name": "Summarize"
+    }
+  ],
+  "connections": {
+    "RabbitMQ Trigger": {
+      "main": [
+        [
+          {
+            "node": "json_to_dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json_to_dados": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "dados_por_id_stores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados_por_id_stores": {
+      "main": [
+        [
+          {
+            "node": "produtos_por_id_stores",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "produtos_por_id_stores": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "RabbitMQ Trigger": [
+      {
+        "json": {
+          "fields": {
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "tali-actions-queue",
+            "messageCount": 0
+          },
+          "properties": {
+            "headers": {},
+            "deliveryMode": 2
+          },
+          "content": "{\"tabela\":\"stores\",\"id\":\"7d85cd7d-2a68-42f2-926e-d575fac614bc\",\"operacao\":\"UPDATE\"}"
+        }
+      }
+    ]
+  },
+  "versionId": "44053029-9fa7-4775-a4b2-e9f54ebeecd4",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-31T23:42:27.465Z",
+      "updatedAt": "2025-10-31T23:42:27.465Z",
+      "role": "workflow:owner",
+      "workflowId": "WJMK4G4D299h0x9P",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-11-01T11:00:24.564Z",
+    "version": "2025-11-01T00:46:45.000Z",
+    "originalId": "WJMK4G4D299h0x9P"
+  }
+}
