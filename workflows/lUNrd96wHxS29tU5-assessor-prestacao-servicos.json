@@ -1,6 +1,6 @@
 {
+  "updatedAt": "2025-11-01T17:14:30.000Z",
   "createdAt": "2025-06-04T00:19:28.821Z",
-  "updatedAt": "2025-08-13T22:22:30.000Z",
   "id": "lUNrd96wHxS29tU5",
   "name": "assessor_prestacao_servicos",
   "active": false,
@@ -79,7 +79,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        576,
+        560,
         -32
       ],
       "id": "04f44da5-9717-4fce-9acc-65da6f4bd24e",
@@ -258,12 +258,21 @@
       }
     ]
   },
-  "versionId": "539f9368-3515-4233-9475-6e0814b0c316",
+  "versionId": "be3694f6-4a76-448d-8f19-9a7bdd0de355",
   "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-06-04T00:19:28.829Z",
+      "createdAt": "2025-06-04T00:19:28.829Z",
+      "role": "workflow:owner",
+      "workflowId": "lUNrd96wHxS29tU5",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.760Z",
-    "version": "2025-08-13T22:22:30.000Z",
+    "backedUpAt": "2025-11-02T11:00:30.148Z",
+    "version": "2025-11-01T17:14:30.000Z",
     "originalId": "lUNrd96wHxS29tU5"
   }
 }
