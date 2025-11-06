@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-05T03:37:06.000Z",
+  "updatedAt": "2025-11-06T04:08:34.000Z",
   "createdAt": "2025-11-05T03:36:52.401Z",
   "id": "JYrP9PkA9sfvinD9",
   "name": "chat_agente",
@@ -13,8 +13,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.3,
       "position": [
-        -544,
-        96
+        -720,
+        32
       ],
       "id": "73df3a65-36ee-4830-8ac8-7814f93a8e10",
       "name": "When chat message received",
@@ -31,7 +31,7 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -368,
+        -160,
         32
       ],
       "id": "dd4e6fd7-f1b0-4b25-915d-33ceebdb2e07",
@@ -49,7 +49,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -400,
+        -240,
         256
       ],
       "id": "d86dcb29-8386-42ec-b00d-c304459d8f44",
@@ -81,7 +81,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        -128,
+        80,
         256
       ],
       "id": "61ee684b-73b0-41d1-b0f7-2689329d5217",
@@ -100,8 +100,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -128,
-        400
+        80,
+        416
       ],
       "id": "e10310e9-1c04-419e-916f-f2934541d71c",
       "name": "Embeddings OpenAI1",
@@ -120,7 +120,7 @@
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        -272,
+        -64,
         256
       ],
       "id": "03f431d1-9580-4c8d-806f-e3649f4fa353",
@@ -131,6 +131,26 @@
           "name": "Redis account"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -416,
+        32
+      ],
+      "id": "b56d0f09-80c4-420f-8e31-baed24fd54d7",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
     }
   ],
   "connections": {
@@ -138,7 +158,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Execute a SQL query",
             "type": "main",
             "index": 0
           }
@@ -188,15 +208,28 @@
           }
         ]
       ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "38deae4b-c9f9-433e-b300-86609cce4ff3",
+  "versionId": "506741dc-4664-4b1a-89ea-c4ab4c32be9b",
   "triggerCount": 0,
   "shared": [
     {
@@ -209,8 +242,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-05T11:00:12.824Z",
-    "version": "2025-11-05T03:37:06.000Z",
+    "backedUpAt": "2025-11-06T11:00:57.663Z",
+    "version": "2025-11-06T04:08:34.000Z",
     "originalId": "JYrP9PkA9sfvinD9"
   }
 }
