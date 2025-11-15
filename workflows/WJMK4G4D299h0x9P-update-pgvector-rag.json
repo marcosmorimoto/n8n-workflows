@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-14T00:16:30.000Z",
+  "updatedAt": "2025-11-14T21:07:51.000Z",
   "createdAt": "2025-10-31T23:42:27.458Z",
   "id": "WJMK4G4D299h0x9P",
   "name": "update_pgvector_rag",
@@ -668,6 +668,88 @@
           "name": "Pgvector Tali"
         }
       }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $json.keys[0] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        576,
+        32
+      ],
+      "id": "5c2e5ab4-08cd-4212-913d-3037114599c5",
+      "name": "limpar_memory_store",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "keys",
+        "keyPattern": "={{ $('dados_por_id_stores1').item.json.id_store }}*",
+        "getValues": false
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        384,
+        32
+      ],
+      "id": "205c8937-b372-427d-bc88-0b4f37aef775",
+      "name": "buscar_keys_store",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $json.keys[0] }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        576,
+        -304
+      ],
+      "id": "1a93b5de-dc90-4e9f-b38d-bca01ce6ce1b",
+      "name": "limpar_memory_store1",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "keys",
+        "keyPattern": "={{ $('dados_por_id_stores').item.json.id_store }}*",
+        "getValues": false
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        384,
+        -304
+      ],
+      "id": "6812e3f5-79eb-4324-8561-590c12ca2445",
+      "name": "buscar_keys_store1",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
     }
   ],
   "connections": {
@@ -947,6 +1029,50 @@
           }
         ]
       ]
+    },
+    "Deleta embedding antigo1": {
+      "main": [
+        [
+          {
+            "node": "buscar_keys_store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscar_keys_store": {
+      "main": [
+        [
+          {
+            "node": "limpar_memory_store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buscar_keys_store1": {
+      "main": [
+        [
+          {
+            "node": "limpar_memory_store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deleta embedding antigo": {
+      "main": [
+        [
+          {
+            "node": "buscar_keys_store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -961,7 +1087,7 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-K4YsX1e2idYthNmo7tHuMg",
+            "consumerTag": "amq.ctag-I905WVWlQnGY-lUT8nrTMw",
             "deliveryTag": 2,
             "redelivered": false,
             "exchange": "",
@@ -971,12 +1097,12 @@
             "headers": {},
             "deliveryMode": 2
           },
-          "content": "{\"tabela\":\"products\",\"id\":\"9ebf4f54-28e4-4167-9230-8751e01ae0c9\",\"operacao\":\"UPDATE\"}"
+          "content": "{\"tabela\":\"products\",\"id\":\"a7284369-4bf0-44ad-92fb-c5b62d55ea91\",\"operacao\":\"UPDATE\"}"
         }
       }
     ]
   },
-  "versionId": "2c5cea72-6152-4156-ae18-0bbf95494c09",
+  "versionId": "fa0afa67-fe9d-4cb8-b2e7-69a4302b18f9",
   "triggerCount": 1,
   "shared": [
     {
@@ -989,8 +1115,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-14T11:00:55.465Z",
-    "version": "2025-11-14T00:16:30.000Z",
+    "backedUpAt": "2025-11-15T11:00:58.020Z",
+    "version": "2025-11-14T21:07:51.000Z",
     "originalId": "WJMK4G4D299h0x9P"
   }
 }
