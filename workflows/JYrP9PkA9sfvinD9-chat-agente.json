@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-14T22:45:06.000Z",
+  "updatedAt": "2025-11-15T22:51:53.000Z",
   "createdAt": "2025-11-05T03:36:52.401Z",
   "id": "JYrP9PkA9sfvinD9",
   "name": "chat_agente",
@@ -336,8 +336,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2800,
-        -528
+        2816,
+        -576
       ],
       "typeVersion": 1,
       "id": "b822fa58-9528-4c60-9d85-46c30ca5d8f9",
@@ -366,7 +366,9 @@
       }
     },
     {
-      "parameters": {},
+      "parameters": {
+        "amount": 3
+      },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
@@ -521,7 +523,7 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        4112,
+        4176,
         -368
       ],
       "id": "7667d27b-a67b-4d2b-bb02-72d498bd09a4",
@@ -1573,7 +1575,7 @@
       }
     ]
   },
-  "versionId": "14e7a839-2a6f-4467-9efc-38c8d75c2f55",
+  "versionId": "90b9ceba-5d83-4d16-8cef-670e9912e0ef",
   "triggerCount": 1,
   "shared": [
     {
@@ -1586,8 +1588,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-15T11:00:57.897Z",
-    "version": "2025-11-14T22:45:06.000Z",
+    "backedUpAt": "2025-11-16T11:00:57.660Z",
+    "version": "2025-11-15T22:51:53.000Z",
     "originalId": "JYrP9PkA9sfvinD9"
   }
 }
