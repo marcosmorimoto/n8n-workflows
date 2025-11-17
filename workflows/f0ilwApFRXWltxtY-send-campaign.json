@@ -1,0 +1,270 @@
+{
+  "updatedAt": "2025-11-17T02:15:22.000Z",
+  "createdAt": "2025-11-16T20:30:28.288Z",
+  "id": "f0ilwApFRXWltxtY",
+  "name": "send_campaign",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "queue": "send-campaign-queue",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "38df1d76-d571-40a1-861e-cddd593d4958",
+      "name": "RabbitMQ Trigger",
+      "credentials": {
+        "rabbitmq": {
+          "id": "REMOVED",
+          "name": "RabbitMQ account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.brevo.com/v3/transactionalSMS/send",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "api-key",
+              "value": "={{ $('Dados Brevo').item.json.value_text }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"sender\": \"Tali App\",\n  \"recipient\": \"55{{ $json.phone }}\",\n  \"content\": \"{{ $('Dados').item.json.titulo }}\\n{{ $('Dados').item.json.mensagem }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1344,
+        16
+      ],
+      "id": "d239b8de-2771-440a-bc81-e50466d34fd2",
+      "name": "Envio SMS API Brevo"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $json.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "41215efb-f0c2-40a2-b706-7e8d9c90282d",
+      "name": "Dados"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select phone \n  from ( SELECT \n           RIGHT(REGEXP_REPLACE(phone, '[^0-9]', '', 'g'), 11) as phone\n         FROM \n           customers\n         WHERE \n           store_id = '{{ $('Dados').item.json.store_id }}'\n         order by created_at )\nlimit {{ $('Dados').item.json.sent_count }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        848,
+        0
+      ],
+      "id": "c37d03b4-ea63-4e91-aa7a-f0a72137b815",
+      "name": "Coletando contatos dos clientes",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select value_text\n  from parameters \n where code = 3",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        656,
+        0
+      ],
+      "id": "7e363ed8-250f-4be9-b185-c5c0fbf6beeb",
+      "name": "Dados Brevo",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "571d464b-7df3-4a70-af2e-eb2118f141e9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update campaigns a\n   set status = 'Enviado'\n where id = '{{ $('Dados').item.json.id }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1344,
+        -176
+      ],
+      "id": "de7edae5-bdbe-4965-926f-f54948084eaa",
+      "name": "Atualiza Status Campanha",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "Postgres Tali"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "RabbitMQ Trigger": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Dados Brevo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coletando contatos dos clientes": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados Brevo": {
+      "main": [
+        [
+          {
+            "node": "Coletando contatos dos clientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Atualiza Status Campanha",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Envio SMS API Brevo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio SMS API Brevo": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "RabbitMQ Trigger": [
+      {
+        "json": {
+          "fields": {
+            "consumerTag": "amq.ctag-yJfozYaljSNdKy1-RofjFg",
+            "deliveryTag": 1,
+            "redelivered": false,
+            "exchange": "",
+            "routingKey": "send-campaign-queue"
+          },
+          "properties": {
+            "headers": {}
+          },
+          "content": "{\"id\":\"e1c821b7-4b06-4132-b37b-74e7e45a1b00\",\"store_id\":\"7d85cd7d-2a68-42f2-926e-d575fac614bc\",\"titulo\":\"Teste campanha Tali\",\"mensagem\":\"Campanha Tali App\",\"status\":\"agendado\",\"sent_count\":\"5\",\"scheduled_date\":null,\"send_now\":\"true\"}"
+        }
+      }
+    ]
+  },
+  "versionId": "0191dd1a-6579-4d7f-b2e2-5b9ccf88f20a",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-11-16T20:30:28.298Z",
+      "createdAt": "2025-11-16T20:30:28.298Z",
+      "role": "workflow:owner",
+      "workflowId": "f0ilwApFRXWltxtY",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2025-11-17T11:00:54.937Z",
+    "version": "2025-11-17T02:15:22.000Z",
+    "originalId": "f0ilwApFRXWltxtY"
+  }
+}
