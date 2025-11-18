@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-16T21:00:36.000Z",
+  "updatedAt": "2025-11-17T20:55:13.000Z",
   "createdAt": "2025-11-05T03:36:52.401Z",
   "id": "JYrP9PkA9sfvinD9",
   "name": "chat_agente",
@@ -17,8 +17,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        4384,
-        -368
+        5552,
+        -288
       ],
       "id": "dd4e6fd7-f1b0-4b25-915d-33ceebdb2e07",
       "name": "AI Agent"
@@ -32,14 +32,14 @@
           "cachedResultName": "gpt-4o-mini"
         },
         "options": {
-          "temperature": 0.7
+          "temperature": 0.9
         }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        4304,
-        -144
+        5552,
+        -80
       ],
       "id": "d86dcb29-8386-42ec-b00d-c304459d8f44",
       "name": "OpenAI Chat Model",
@@ -70,8 +70,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        4624,
-        -144
+        5792,
+        -64
       ],
       "id": "61ee684b-73b0-41d1-b0f7-2689329d5217",
       "name": "Postgres PGVector Store",
@@ -89,8 +89,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        4624,
-        16
+        5792,
+        96
       ],
       "id": "e10310e9-1c04-419e-916f-f2934541d71c",
       "name": "Embeddings OpenAI1",
@@ -105,14 +105,14 @@
       "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $('Dados').item.json.instancia }}_{{ $('Dados').item.json.quem_recebeu }}",
-        "sessionTTL": 1800,
+        "sessionTTL": 900,
         "contextWindowLength": 0
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        4480,
-        -144
+        5152,
+        -16
       ],
       "id": "03f431d1-9580-4c8d-806f-e3649f4fa353",
       "name": "Redis Chat Memory",
@@ -165,8 +165,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        4784,
-        -368
+        5952,
+        -288
       ],
       "id": "f39d4855-b009-46f5-9dec-2c79f4a3238a",
       "name": "Enviar Mensagem Resposta",
@@ -330,14 +330,14 @@
     {
       "parameters": {
         "content": "## Buffer de mensagens enviadas em sequencia\nCaso o usuário envie mais de uma mensagem em seguida da outra, esse trecho irá agrupar todas as mensagens para o agente responder uma única vez",
-        "height": 500,
+        "height": 580,
         "width": 1260,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
         2816,
-        -576
+        -656
       ],
       "typeVersion": 1,
       "id": "b822fa58-9528-4c60-9d85-46c30ca5d8f9",
@@ -523,8 +523,8 @@
       "type": "n8n-nodes-evolution-api.evolutionApi",
       "typeVersion": 1,
       "position": [
-        4176,
-        -368
+        5344,
+        -288
       ],
       "id": "7667d27b-a67b-4d2b-bb02-72d498bd09a4",
       "name": "Marcar mensagens como lidas",
@@ -781,6 +781,12 @@
               "name": "server_url_evolution",
               "value": "={{ $('Webhook').item.json.body.server_url }}",
               "type": "string"
+            },
+            {
+              "id": "b4debd96-4f97-4a19-90ae-3adc3b42e867",
+              "name": "body.data.key.fromMe",
+              "value": "={{ $('Webhook').item.json.body.data.key.fromMe }}",
+              "type": "boolean"
             }
           ]
         },
@@ -892,8 +898,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        4992,
-        -368
+        6160,
+        -288
       ],
       "id": "ef77592c-d34d-4dd4-9501-db56d7d56751",
       "name": "Verificar Cliente Cadastrado",
@@ -909,8 +915,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        5424,
-        -208
+        6592,
+        -128
       ],
       "id": "4168d847-6afc-481b-989a-72236180ee48",
       "name": "No Operation, do nothing2"
@@ -924,8 +930,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        5424,
-        -384
+        6592,
+        -304
       ],
       "id": "cbd55f86-1732-4d44-b71a-5f75ce9f34a9",
       "name": "Cadastrar Cliente",
@@ -963,11 +969,199 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        5200,
-        -368
+        6368,
+        -288
       ],
       "id": "9741050c-6b44-4632-9b2d-14725d53e28a",
       "name": "Não tem cadastro?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "378457b2-2d33-4470-8224-295e172c78f3",
+              "leftValue": "={{ $('Dados').item.json.body.data.key.fromMe }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4112,
+        -400
+      ],
+      "id": "f1bd355d-cde2-4719-9634-59b4d6407968",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "ai",
+              "message": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        4576,
+        -560
+      ],
+      "id": "3a281a52-978f-4123-bfc6-38e4eb5ad26f",
+      "name": "Inserir Mensagem Agente"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "IsBlocked",
+        "key": "={{ $('Dados').item.json.instancia }}_{{ $('Dados').item.json.quem_mandou }}_tmp_block",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        -304
+      ],
+      "id": "a43354a6-78f2-4026-83d5-25629e02eae0",
+      "name": "Redis3",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f9cb73c-2c27-49e2-bf6a-2bcd4d94e562",
+              "leftValue": "={{ $json.IsBlocked }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        4528,
+        -304
+      ],
+      "id": "b2c3fbec-44ee-4bfd-ad58-6c24d5871ac0",
+      "name": "Bloqueio Intervencao Humana"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "user",
+              "message": "={{ $('mensagens consolidadas').item.json.todas_mensagens }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        4944,
+        -560
+      ],
+      "id": "b9372b8a-8516-453d-832d-40f0b7df2439",
+      "name": "Inserir Mensagem Usuario"
+    },
+    {
+      "parameters": {
+        "content": "## Bloqueio temporário de intervenção humana\nCaso o lojista envie uma mensagem, o agente ficará temporariamenteinativo",
+        "height": 580,
+        "width": 1180,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4096,
+        -656
+      ],
+      "typeVersion": 1,
+      "id": "fab549d5-36a1-4437-8ae3-c8c66ed7b653",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "={{ $('Dados').item.json.instancia }}_{{ $('Dados').item.json.quem_mandou }}_tmp_block",
+        "value": "true",
+        "expire": true,
+        "ttl": 900
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        4368,
+        -560
+      ],
+      "id": "87cb58f4-7746-47c6-ad45-a0545b085d0f",
+      "name": "Criar Chave e Tempo de Bloqueio",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Transcrever Mensagens de Áudio\nProcesso responsável por transcrever mensagens de audio",
+        "height": 740,
+        "width": 1436
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1136,
+        -1168
+      ],
+      "typeVersion": 1,
+      "id": "57f53cce-0168-4f31-9086-3ff89ec660e4",
+      "name": "Sticky Note5"
     }
   ],
   "connections": {
@@ -1009,6 +1203,16 @@
         [
           {
             "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Inserir Mensagem Agente",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Inserir Mensagem Usuario",
             "type": "ai_memory",
             "index": 0
           }
@@ -1165,7 +1369,7 @@
       "main": [
         [
           {
-            "node": "Marcar mensagens como lidas",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -1382,6 +1586,64 @@
           }
         ]
       ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Criar Chave e Tempo de Bloqueio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Redis3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis3": {
+      "main": [
+        [
+          {
+            "node": "Bloqueio Intervencao Humana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bloqueio Intervencao Humana": {
+      "main": [
+        [
+          {
+            "node": "Inserir Mensagem Usuario",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Marcar mensagens como lidas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Chave e Tempo de Bloqueio": {
+      "main": [
+        [
+          {
+            "node": "Inserir Mensagem Agente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -1398,7 +1660,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.12.2",
-            "content-length": "1376",
+            "content-length": "1380",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "authorization": "Bearer E757ACEB001F-46D4-940D-D33E73C48CCC",
@@ -1420,12 +1682,12 @@
                 "remoteJid": "5511948456707@s.whatsapp.net",
                 "remoteJidAlt": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3A5E474ACBB7521CD56F"
+                "id": "3A217B5611E95448A03C"
               },
-              "pushName": "Marcos .() Teste.##&´´~",
+              "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Tem tomatinho cereja?",
+                "conversation": "Ola, vcs estao abertos hj?",
                 "messageContextInfo": {
                   "deviceListMetadata": {
                     "senderKeyIndexes": [],
@@ -1444,74 +1706,85 @@
                     },
                     "senderTimestamp": 1763138495,
                     "recipientKeyHash": {
-                      "0": 222,
-                      "1": 110,
-                      "2": 209,
-                      "3": 166,
-                      "4": 169,
-                      "5": 188,
-                      "6": 194,
-                      "7": 152,
-                      "8": 216,
-                      "9": 94
+                      "0": 146,
+                      "1": 194,
+                      "2": 95,
+                      "3": 208,
+                      "4": 213,
+                      "5": 190,
+                      "6": 210,
+                      "7": 104,
+                      "8": 213,
+                      "9": 13
                     },
                     "recipientTimestamp": 1763135953
                   },
                   "deviceListMetadataVersion": 2,
                   "messageSecret": {
-                    "0": 143,
-                    "1": 154,
-                    "2": 14,
-                    "3": 241,
-                    "4": 37,
-                    "5": 125,
-                    "6": 12,
-                    "7": 43,
-                    "8": 131,
-                    "9": 40,
-                    "10": 119,
-                    "11": 31,
-                    "12": 6,
-                    "13": 9,
-                    "14": 27,
-                    "15": 127,
-                    "16": 21,
-                    "17": 65,
-                    "18": 27,
-                    "19": 96,
-                    "20": 144,
-                    "21": 206,
-                    "22": 91,
-                    "23": 115,
-                    "24": 223,
-                    "25": 213,
-                    "26": 74,
-                    "27": 85,
-                    "28": 194,
-                    "29": 217,
-                    "30": 95,
-                    "31": 134
+                    "0": 6,
+                    "1": 27,
+                    "2": 54,
+                    "3": 86,
+                    "4": 108,
+                    "5": 65,
+                    "6": 65,
+                    "7": 38,
+                    "8": 35,
+                    "9": 79,
+                    "10": 68,
+                    "11": 150,
+                    "12": 91,
+                    "13": 80,
+                    "14": 173,
+                    "15": 29,
+                    "16": 252,
+                    "17": 190,
+                    "18": 164,
+                    "19": 173,
+                    "20": 170,
+                    "21": 143,
+                    "22": 57,
+                    "23": 196,
+                    "24": 218,
+                    "25": 8,
+                    "26": 255,
+                    "27": 10,
+                    "28": 165,
+                    "29": 195,
+                    "30": 54,
+                    "31": 210
                   }
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1763233442,
-              "instanceId": "d63c4c7e-dec2-4db0-908b-2b275dc7a57d",
+              "messageTimestamp": 1763409342,
+              "instanceId": "eb0a5bbf-84fd-4925-8038-55feb88248cb",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/436cc986-b9dc-4a11-8503-2ce75f6d6eb4",
-            "date_time": "2025-11-15T16:04:02.882Z",
+            "date_time": "2025-11-17T16:55:43.498Z",
             "sender": "5511980320036@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
-            "apikey": "32BFC2D6-E4C0-46CA-A7DF-3B6C391FC73A"
+            "apikey": "2526C84D-4D6E-4E1B-BA16-A8B1F714CEA7"
           },
           "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/436cc986-b9dc-4a11-8503-2ce75f6d6eb4",
           "executionMode": "production"
         }
       }
+    ],
+    "Marcar mensagens como lidas": [
+      {
+        "json": {
+          "success": true,
+          "data": {
+            "message": "Read messages",
+            "read": "success"
+          }
+        }
+      }
     ]
   },
-  "versionId": "80e6450d-740d-490a-9967-ae2b7a04a4ec",
+  "versionId": "7bdb4654-d689-4dc3-a272-47d2bc8e95b6",
   "triggerCount": 1,
   "shared": [
     {
@@ -1524,8 +1797,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-17T11:00:54.903Z",
-    "version": "2025-11-16T21:00:36.000Z",
+    "backedUpAt": "2025-11-18T11:00:56.945Z",
+    "version": "2025-11-17T20:55:13.000Z",
     "originalId": "JYrP9PkA9sfvinD9"
   }
 }
