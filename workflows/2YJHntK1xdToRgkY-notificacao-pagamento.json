@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-17T01:59:17.000Z",
+  "updatedAt": "2025-11-17T18:58:24.000Z",
   "createdAt": "2025-11-16T01:13:54.243Z",
   "id": "2YJHntK1xdToRgkY",
   "name": "notificacao_pagamento",
@@ -159,7 +159,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "update campaigns\n   set payment_status = 'Pago'\n where payment_id = '{{ $('Webhook').item.json.query.id || $('Webhook').item.json.query['data.id'] }}'\nRETURNING id;",
+        "query": "update campaigns\n   set payment_status = 'Pago',\n       payment_json_notification = '{{ JSON.stringify($('Verificar Status Pagamento').item.json) }}'::jsonb,\n       payment_notification_date = CURRENT_TIMESTAMP\n where payment_id = '{{ $('Webhook').item.json.query.id || $('Webhook').item.json.query['data.id'] }}'\n   and payment_notification_date is null\nRETURNING id;",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -170,6 +170,9 @@
       ],
       "id": "21824440-6911-4545-b2ed-45d0e90c4b96",
       "name": "Atualiza Status Pagamento Campanha",
+      "notesInFlow": false,
+      "executeOnce": false,
+      "alwaysOutputData": false,
       "credentials": {
         "postgres": {
           "id": "REMOVED",
@@ -186,8 +189,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        848,
-        -16
+        1168,
+        -32
       ],
       "id": "85c07ed5-c3dc-4eef-b993-e79fee7f2368",
       "name": "Coletar Dados Campanha",
@@ -257,8 +260,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1264,
-        -96
+        1616,
+        -48
       ],
       "id": "e53f603c-2cc5-42c2-96aa-d0b292f4d51f",
       "name": "Dados Para Queue"
@@ -290,8 +293,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1264,
-        80
+        1632,
+        192
       ],
       "id": "7a28dc5b-cd3a-40b3-bdc9-69711168b1f9",
       "name": "Verificar Tempo Para Envio"
@@ -324,8 +327,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1056,
-        -16
+        1376,
+        -32
       ],
       "id": "d5e7b478-95f0-440f-8a12-5202ae72c769",
       "name": "Verifica Envio Imediato"
@@ -335,8 +338,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1504,
-        -32
+        1872,
+        176
       ],
       "id": "78ae9d13-766f-4e59-b030-f9fdebd2aa74",
       "name": "No Operation, do nothing2"
@@ -400,8 +403,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1504,
-        176
+        1872,
+        384
       ],
       "id": "f54a4897-0fe6-44db-81d4-733e5b069028",
       "name": "Dados Para Queue1"
@@ -414,8 +417,8 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1.1,
       "position": [
-        1504,
-        -240
+        1872,
+        -48
       ],
       "id": "722b714e-5074-4319-a451-ad447c09c85c",
       "name": "Enviar Queue Imediato",
@@ -448,8 +451,8 @@
       "type": "n8n-nodes-base.rabbitmq",
       "typeVersion": 1.1,
       "position": [
-        1712,
-        176
+        2080,
+        384
       ],
       "id": "a1e6d742-9b26-48f4-b54f-d9de7508e9f0",
       "name": "Enviar Exchange Agendado",
@@ -461,6 +464,51 @@
         }
       },
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        192
+      ],
+      "id": "69c23641-3d9d-41ec-9f37-73698925d94d",
+      "name": "No Operation, do nothing3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a23428dc-8989-4142-b384-89aece781bef",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -16
+      ],
+      "id": "f8b32a8f-3d1b-4784-9149-0ce688367697",
+      "name": "Verifica Se Atualizou Registro"
     }
   ],
   "connections": {
@@ -537,7 +585,7 @@
       "main": [
         [
           {
-            "node": "Coletar Dados Campanha",
+            "node": "Verifica Se Atualizou Registro",
             "type": "main",
             "index": 0
           }
@@ -612,6 +660,24 @@
           }
         ]
       ]
+    },
+    "Verifica Se Atualizou Registro": {
+      "main": [
+        [
+          {
+            "node": "Coletar Dados Campanha",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -633,35 +699,35 @@
             "accept-encoding": "gzip",
             "content-type": "application/json",
             "referer": "https://mercadopago.com.ar",
-            "traceparent": "00-00000000000000002c11c1f26e8b2433-e218e7a1c2da4e80-00",
+            "traceparent": "00-00000000000000001575cefab5066238-ca80d3406f4305c7-00",
             "x-b3-sampled": "0",
-            "x-b3-spanid": "e218e7a1c2da4e80",
-            "x-b3-traceid": "00000000000000002c11c1f26e8b2433",
-            "x-forwarded-for": "18.213.114.129",
+            "x-b3-spanid": "ca80d3406f4305c7",
+            "x-b3-traceid": "00000000000000001575cefab5066238",
+            "x-forwarded-for": "54.88.218.97",
             "x-forwarded-host": "n8n.mx4solucoes.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
             "x-forwarded-server": "f1803e59fc64",
-            "x-real-ip": "18.213.114.129",
-            "x-request-id": "4c8477e2-80bf-4407-b6f2-f7f297caa21c",
+            "x-real-ip": "54.88.218.97",
+            "x-request-id": "03073cb2-c104-4cb5-bda9-d2f5a7c5dd4d",
             "x-rest-pool-name": "pool_unknown",
-            "x-signature": "ts=1763297204,v1=3cf2f647a90f556a505fb790b325f9e84728742d5dcdeeed037df537cd7dd256",
+            "x-signature": "ts=1763298813,v1=5002a018170c8a8e1b1727b115807a83f398532303d1bfe2181231f11bf25cf2",
             "x-socket-timeout": "25000",
-            "x-trace-digest-29": "qy6fGSSgcKeZmM1FOBB8ePGIa4j8fhBbbIBQICfATwKmV6BspwhwW/+TtycBeSACWQMpMHLKwXussYyrCB60KL+wXfRjS7/5zquOiEKu+fX9aPDunk0HgUjx7Hw2mOfU"
+            "x-trace-digest-06": "Vu3OtBFPhAdxcWVTrPH2cWtPWjCbkX43qHs5qv+5JeLOLy9eeb2JMPo0SDMvl/QQLG2yPDXU6hN5nXgunl1tyZBJkBnXUjE7NypMNC/Ti6frmuee1skZ7u+df+bYz1iX"
           },
           "params": {},
           "query": {
-            "data.id": "134137752610",
+            "data.id": "134189487980",
             "type": "payment"
           },
           "body": {
             "action": "payment.updated",
             "api_version": "v1",
             "data": {
-              "id": "134137752610"
+              "id": "134189487980"
             },
-            "date_created": "2025-11-17T01:13:50Z",
-            "id": 126465324666,
+            "date_created": "2025-11-17T15:26:28Z",
+            "id": 126477947086,
             "live_mode": true,
             "type": "payment",
             "user_id": "213239864"
@@ -672,7 +738,7 @@
       }
     ]
   },
-  "versionId": "3cb2d433-f9a8-402c-8779-433525ed6b1d",
+  "versionId": "963eed7d-82da-42d1-b676-573e6828434d",
   "triggerCount": 1,
   "shared": [
     {
@@ -685,8 +751,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-17T11:00:54.750Z",
-    "version": "2025-11-17T01:59:17.000Z",
+    "backedUpAt": "2025-11-18T11:00:56.111Z",
+    "version": "2025-11-17T18:58:24.000Z",
     "originalId": "2YJHntK1xdToRgkY"
   }
 }
