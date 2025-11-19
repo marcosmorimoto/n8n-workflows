@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-17T20:55:13.000Z",
+  "updatedAt": "2025-11-18T23:58:06.000Z",
   "createdAt": "2025-11-05T03:36:52.401Z",
   "id": "JYrP9PkA9sfvinD9",
   "name": "chat_agente",
@@ -924,7 +924,7 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "inserts into customers (store_id, name, phone)\nvalues('{{ $('Dados').item.json.instancia }}','{{ $('Webhook').item.json.body.data.pushName.replace(/[^a-zA-Z0-9 ]/g, '') }}','{{ $('Dados').item.json.quem_mandou.replaceAll('@s.whatsapp.net','').substring(2)}}')",
+        "query": "insert into customers (store_id, name, phone)\nvalues('{{ $('Dados').item.json.instancia }}','{{ $('Webhook').item.json.body.data.pushName.replace(/[^a-zA-Z0-9 ]/g, '') }}','{{ $('Dados').item.json.quem_mandou.replaceAll('@s.whatsapp.net','').substring(2)}}')",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -1784,7 +1784,7 @@
       }
     ]
   },
-  "versionId": "7bdb4654-d689-4dc3-a272-47d2bc8e95b6",
+  "versionId": "f0511a0f-180c-4750-93f2-dbd651a6f8bf",
   "triggerCount": 1,
   "shared": [
     {
@@ -1797,8 +1797,8 @@
   ],
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-11-18T11:00:56.945Z",
-    "version": "2025-11-17T20:55:13.000Z",
+    "backedUpAt": "2025-11-19T11:00:55.410Z",
+    "version": "2025-11-18T23:58:06.000Z",
     "originalId": "JYrP9PkA9sfvinD9"
   }
 }
