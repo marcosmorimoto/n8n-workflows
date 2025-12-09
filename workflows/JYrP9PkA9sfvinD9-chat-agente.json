@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-04T03:26:58.000Z",
+  "updatedAt": "2025-12-09T00:43:29.000Z",
   "createdAt": "2025-11-05T03:36:52.401Z",
   "id": "JYrP9PkA9sfvinD9",
   "name": "chat_agente",
@@ -141,7 +141,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const v_remoteJid = $('Webhook').first().json.body.data.key.remoteJid;\n\nif (v_remoteJid.includes('@lid')) {\n    return { remoteJid: $('Webhook').first().json.body.data.key.senderPn };\n} else {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJid};\n}"
+        "jsCode": "const v_remoteJid = $('Webhook').first().json.body.data.key.remoteJid;\n\nif (v_remoteJid.includes('@lid')) {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJidAlt };\n} else {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJid};\n}"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1661,7 +1661,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "axios/1.12.2",
-            "content-length": "1457",
+            "content-length": "1473",
             "accept": "application/json, text/plain, */*",
             "accept-encoding": "gzip, compress, deflate, br",
             "authorization": "Bearer E757ACEB001F-46D4-940D-D33E73C48CCC",
@@ -1683,14 +1683,14 @@
                 "remoteJid": "193965068443828@lid",
                 "remoteJidAlt": "5511948456707@s.whatsapp.net",
                 "fromMe": false,
-                "id": "3AA471396F7319AE6D66",
+                "id": "3AE164FEBB9D0A02F364",
                 "participant": "",
                 "addressingMode": "lid"
               },
               "pushName": "Marcos",
               "status": "DELIVERY_ACK",
               "message": {
-                "conversation": "Ei",
+                "conversation": "Tem fotos desses produtos?",
                 "messageContextInfo": {
                   "deviceListMetadata": {
                     "senderKeyIndexes": [],
@@ -1732,48 +1732,48 @@
                   },
                   "deviceListMetadataVersion": 2,
                   "messageSecret": {
-                    "0": 112,
-                    "1": 135,
-                    "2": 210,
-                    "3": 92,
-                    "4": 135,
-                    "5": 167,
-                    "6": 25,
-                    "7": 11,
-                    "8": 116,
-                    "9": 248,
-                    "10": 31,
-                    "11": 201,
-                    "12": 163,
-                    "13": 245,
-                    "14": 0,
-                    "15": 196,
-                    "16": 131,
-                    "17": 105,
-                    "18": 92,
-                    "19": 152,
-                    "20": 128,
-                    "21": 95,
-                    "22": 241,
-                    "23": 12,
-                    "24": 32,
-                    "25": 251,
-                    "26": 208,
-                    "27": 52,
-                    "28": 199,
-                    "29": 114,
-                    "30": 53,
-                    "31": 170
+                    "0": 15,
+                    "1": 189,
+                    "2": 66,
+                    "3": 8,
+                    "4": 232,
+                    "5": 15,
+                    "6": 231,
+                    "7": 115,
+                    "8": 142,
+                    "9": 79,
+                    "10": 33,
+                    "11": 149,
+                    "12": 108,
+                    "13": 0,
+                    "14": 36,
+                    "15": 61,
+                    "16": 38,
+                    "17": 218,
+                    "18": 53,
+                    "19": 37,
+                    "20": 54,
+                    "21": 210,
+                    "22": 71,
+                    "23": 225,
+                    "24": 82,
+                    "25": 30,
+                    "26": 185,
+                    "27": 177,
+                    "28": 244,
+                    "29": 99,
+                    "30": 42,
+                    "31": 127
                   }
                 }
               },
               "messageType": "conversation",
-              "messageTimestamp": 1764818428,
+              "messageTimestamp": 1765240561,
               "instanceId": "9286aeb4-71a4-49c5-be1b-538f0cda8371",
               "source": "ios"
             },
             "destination": "https://n8n.mx4solucoes.com.br/webhook/436cc986-b9dc-4a11-8503-2ce75f6d6eb4",
-            "date_time": "2025-12-04T00:20:28.579Z",
+            "date_time": "2025-12-08T21:36:01.141Z",
             "sender": "5511980320036@s.whatsapp.net",
             "server_url": "https://evolutionapi.mx4solucoes.com.br",
             "apikey": "C7CB9C04-33A3-4598-AA46-868DC99EF9A8"
@@ -1784,8 +1784,8 @@
       }
     ]
   },
-  "versionId": "07c45ca7-59e1-4291-944b-586e76a4904a",
-  "activeVersionId": "07c45ca7-59e1-4291-944b-586e76a4904a",
+  "versionId": "4bda5f83-5812-42eb-9edd-649074462248",
+  "activeVersionId": "4bda5f83-5812-42eb-9edd-649074462248",
   "triggerCount": 1,
   "shared": [
     {
@@ -1797,9 +1797,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-04T03:26:58.554Z",
-    "createdAt": "2025-12-04T03:26:58.554Z",
-    "versionId": "07c45ca7-59e1-4291-944b-586e76a4904a",
+    "updatedAt": "2025-12-09T00:43:29.476Z",
+    "createdAt": "2025-12-09T00:43:29.476Z",
+    "versionId": "4bda5f83-5812-42eb-9edd-649074462248",
     "workflowId": "JYrP9PkA9sfvinD9",
     "nodes": [
       {
@@ -1937,7 +1937,7 @@
       },
       {
         "parameters": {
-          "jsCode": "const v_remoteJid = $('Webhook').first().json.body.data.key.remoteJid;\n\nif (v_remoteJid.includes('@lid')) {\n    return { remoteJid: $('Webhook').first().json.body.data.key.senderPn };\n} else {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJid};\n}"
+          "jsCode": "const v_remoteJid = $('Webhook').first().json.body.data.key.remoteJid;\n\nif (v_remoteJid.includes('@lid')) {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJidAlt };\n} else {\n    return { remoteJid: $('Webhook').first().json.body.data.key.remoteJid};\n}"
         },
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
@@ -3449,8 +3449,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-12-04T11:00:12.265Z",
-    "version": "2025-12-04T03:26:58.000Z",
+    "backedUpAt": "2025-12-09T11:00:01.863Z",
+    "version": "2025-12-09T00:43:29.000Z",
     "originalId": "JYrP9PkA9sfvinD9"
   }
 }
