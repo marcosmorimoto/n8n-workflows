@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-09T02:51:05.141Z",
+  "updatedAt": "2025-12-11T04:41:54.723Z",
   "createdAt": "2025-10-31T23:42:27.458Z",
   "id": "WJMK4G4D299h0x9P",
   "name": "update_pgvector_rag",
@@ -279,12 +279,13 @@
       "parameters": {
         "mode": "insert",
         "tableName": "=tb_detalhe_stores",
+        "embeddingBatchSize": 50,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        -368,
+        -128,
         -384
       ],
       "id": "921bbaba-a1f3-4023-aacb-b7222fd3e8b1",
@@ -303,7 +304,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -400,
+        -160,
         -224
       ],
       "id": "5c94a53d-f82e-4f87-b524-236c9d5abc6b",
@@ -333,7 +334,7 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        -224,
+        16,
         -224
       ],
       "id": "9a378664-4826-4913-b21a-d877521028c2",
@@ -481,7 +482,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -16,
+        192,
         -384
       ],
       "id": "edd03b19-adcb-4cb5-b101-ea485a3fbe07",
@@ -492,7 +493,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        192,
+        400,
         -480
       ],
       "id": "677fc28b-7f34-41f0-9f3d-f122d061d309",
@@ -501,14 +502,14 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "DELETE FROM tb_detalhe_stores c\n where c.metadata @> '{\"id_store\": \"{{ $('dados_por_id_stores').item.json.id_store }}\"}'::jsonb\n   and c.create_date <= '{{ $('Verificar se loja ja possui cadastro').item.json.ultima_data }}'\n",
+        "query": "DELETE FROM tb_detalhe_stores c\n where c.metadata @> '{\"id_store\": \"{{ $('dados_por_id_stores').item.json.id_store }}\"}'::jsonb\n",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        192,
-        -304
+        -352,
+        -384
       ],
       "id": "d8cdf436-f646-40dc-b51a-ed741d806d17",
       "name": "Deleta embedding antigo",
@@ -528,7 +529,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        -368,
+        -128,
         -48
       ],
       "id": "eefb6239-4641-49e0-be50-7e498a87ae75",
@@ -547,7 +548,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
       "typeVersion": 1.2,
       "position": [
-        -416,
+        -176,
         112
       ],
       "id": "98d3d889-a140-40f4-a67f-65bc8cf62d19",
@@ -577,7 +578,7 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        -256,
+        -16,
         112
       ],
       "id": "7b5f3d16-537f-4fff-8429-4b834d0dd346",
@@ -631,7 +632,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -16,
+        192,
         -48
       ],
       "id": "549e0442-d58e-4652-83e4-1d6d1273a2a8",
@@ -642,7 +643,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        192,
+        400,
         -144
       ],
       "id": "d89be500-bafc-48ad-a178-b0b45bc06d69",
@@ -657,8 +658,8 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        192,
-        32
+        -352,
+        -48
       ],
       "id": "7892f36f-8542-4b66-b183-e7c56eaa74ec",
       "name": "Deleta embedding antigo1",
@@ -677,7 +678,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        576,
+        592,
         32
       ],
       "id": "5c2e5ab4-08cd-4212-913d-3037114599c5",
@@ -698,7 +699,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        384,
+        400,
         32
       ],
       "id": "205c8937-b372-427d-bc88-0b4f37aef775",
@@ -718,7 +719,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        576,
+        592,
         -304
       ],
       "id": "1a93b5de-dc90-4e9f-b38d-bca01ce6ce1b",
@@ -739,7 +740,7 @@
       "type": "n8n-nodes-base.redis",
       "typeVersion": 1,
       "position": [
-        384,
+        400,
         -304
       ],
       "id": "6812e3f5-79eb-4324-8561-590c12ca2445",
@@ -943,7 +944,7 @@
       "main": [
         [
           {
-            "node": "dados_loja_loader",
+            "node": "Deleta embedding antigo",
             "type": "main",
             "index": 0
           }
@@ -961,7 +962,7 @@
         ],
         [
           {
-            "node": "Deleta embedding antigo",
+            "node": "buscar_keys_store1",
             "type": "main",
             "index": 0
           }
@@ -1005,7 +1006,7 @@
       "main": [
         [
           {
-            "node": "dados_loja_loader1",
+            "node": "Deleta embedding antigo1",
             "type": "main",
             "index": 0
           }
@@ -1023,7 +1024,7 @@
         ],
         [
           {
-            "node": "Deleta embedding antigo1",
+            "node": "buscar_keys_store",
             "type": "main",
             "index": 0
           }
@@ -1034,7 +1035,7 @@
       "main": [
         [
           {
-            "node": "buscar_keys_store",
+            "node": "dados_loja_loader1",
             "type": "main",
             "index": 0
           }
@@ -1067,7 +1068,7 @@
       "main": [
         [
           {
-            "node": "buscar_keys_store1",
+            "node": "dados_loja_loader",
             "type": "main",
             "index": 0
           }
@@ -1087,8 +1088,8 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-sAaEE3ciTPtWwELk90WiaQ",
-            "deliveryTag": 1,
+            "consumerTag": "amq.ctag-x9TcODvbY-QqimIbQUEW8g",
+            "deliveryTag": 5,
             "redelivered": false,
             "exchange": "",
             "routingKey": "tali-actions-queue"
@@ -1105,8 +1106,8 @@
       }
     ]
   },
-  "versionId": "0b0f4816-6155-4b10-8a13-c5cfbe280093",
-  "activeVersionId": "0b0f4816-6155-4b10-8a13-c5cfbe280093",
+  "versionId": "dac7746b-6756-421e-a67b-f95c2163c865",
+  "activeVersionId": "dac7746b-6756-421e-a67b-f95c2163c865",
   "triggerCount": 1,
   "shared": [
     {
@@ -1118,9 +1119,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-09T02:51:05.143Z",
-    "createdAt": "2025-12-09T02:51:05.143Z",
-    "versionId": "0b0f4816-6155-4b10-8a13-c5cfbe280093",
+    "updatedAt": "2025-12-11T04:41:54.724Z",
+    "createdAt": "2025-12-11T04:41:54.724Z",
+    "versionId": "dac7746b-6756-421e-a67b-f95c2163c865",
     "workflowId": "WJMK4G4D299h0x9P",
     "nodes": [
       {
@@ -1396,12 +1397,13 @@
         "parameters": {
           "mode": "insert",
           "tableName": "=tb_detalhe_stores",
+          "embeddingBatchSize": 50,
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
         "typeVersion": 1.3,
         "position": [
-          -368,
+          -128,
           -384
         ],
         "id": "921bbaba-a1f3-4023-aacb-b7222fd3e8b1",
@@ -1420,7 +1422,7 @@
         "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
         "typeVersion": 1.2,
         "position": [
-          -400,
+          -160,
           -224
         ],
         "id": "5c94a53d-f82e-4f87-b524-236c9d5abc6b",
@@ -1450,7 +1452,7 @@
         "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
         "typeVersion": 1.1,
         "position": [
-          -224,
+          16,
           -224
         ],
         "id": "9a378664-4826-4913-b21a-d877521028c2",
@@ -1598,7 +1600,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.2,
         "position": [
-          -16,
+          192,
           -384
         ],
         "id": "edd03b19-adcb-4cb5-b101-ea485a3fbe07",
@@ -1609,7 +1611,7 @@
         "type": "n8n-nodes-base.noOp",
         "typeVersion": 1,
         "position": [
-          192,
+          400,
           -480
         ],
         "id": "677fc28b-7f34-41f0-9f3d-f122d061d309",
@@ -1618,14 +1620,14 @@
       {
         "parameters": {
           "operation": "executeQuery",
-          "query": "DELETE FROM tb_detalhe_stores c\n where c.metadata @> '{\"id_store\": \"{{ $('dados_por_id_stores').item.json.id_store }}\"}'::jsonb\n   and c.create_date <= '{{ $('Verificar se loja ja possui cadastro').item.json.ultima_data }}'\n",
+          "query": "DELETE FROM tb_detalhe_stores c\n where c.metadata @> '{\"id_store\": \"{{ $('dados_por_id_stores').item.json.id_store }}\"}'::jsonb\n",
           "options": {}
         },
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          192,
-          -304
+          -352,
+          -384
         ],
         "id": "d8cdf436-f646-40dc-b51a-ed741d806d17",
         "name": "Deleta embedding antigo",
@@ -1645,7 +1647,7 @@
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
         "typeVersion": 1.3,
         "position": [
-          -368,
+          -128,
           -48
         ],
         "id": "eefb6239-4641-49e0-be50-7e498a87ae75",
@@ -1664,7 +1666,7 @@
         "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
         "typeVersion": 1.2,
         "position": [
-          -416,
+          -176,
           112
         ],
         "id": "98d3d889-a140-40f4-a67f-65bc8cf62d19",
@@ -1694,7 +1696,7 @@
         "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
         "typeVersion": 1.1,
         "position": [
-          -256,
+          -16,
           112
         ],
         "id": "7b5f3d16-537f-4fff-8429-4b834d0dd346",
@@ -1748,7 +1750,7 @@
         "type": "n8n-nodes-base.if",
         "typeVersion": 2.2,
         "position": [
-          -16,
+          192,
           -48
         ],
         "id": "549e0442-d58e-4652-83e4-1d6d1273a2a8",
@@ -1759,7 +1761,7 @@
         "type": "n8n-nodes-base.noOp",
         "typeVersion": 1,
         "position": [
-          192,
+          400,
           -144
         ],
         "id": "d89be500-bafc-48ad-a178-b0b45bc06d69",
@@ -1774,8 +1776,8 @@
         "type": "n8n-nodes-base.postgres",
         "typeVersion": 2.6,
         "position": [
-          192,
-          32
+          -352,
+          -48
         ],
         "id": "7892f36f-8542-4b66-b183-e7c56eaa74ec",
         "name": "Deleta embedding antigo1",
@@ -1794,7 +1796,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          576,
+          592,
           32
         ],
         "id": "5c2e5ab4-08cd-4212-913d-3037114599c5",
@@ -1815,7 +1817,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          384,
+          400,
           32
         ],
         "id": "205c8937-b372-427d-bc88-0b4f37aef775",
@@ -1835,7 +1837,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          576,
+          592,
           -304
         ],
         "id": "1a93b5de-dc90-4e9f-b38d-bca01ce6ce1b",
@@ -1856,7 +1858,7 @@
         "type": "n8n-nodes-base.redis",
         "typeVersion": 1,
         "position": [
-          384,
+          400,
           -304
         ],
         "id": "6812e3f5-79eb-4324-8561-590c12ca2445",
@@ -2060,7 +2062,7 @@
         "main": [
           [
             {
-              "node": "dados_loja_loader",
+              "node": "Deleta embedding antigo",
               "type": "main",
               "index": 0
             }
@@ -2078,7 +2080,7 @@
           ],
           [
             {
-              "node": "Deleta embedding antigo",
+              "node": "buscar_keys_store1",
               "type": "main",
               "index": 0
             }
@@ -2122,7 +2124,7 @@
         "main": [
           [
             {
-              "node": "dados_loja_loader1",
+              "node": "Deleta embedding antigo1",
               "type": "main",
               "index": 0
             }
@@ -2140,7 +2142,7 @@
           ],
           [
             {
-              "node": "Deleta embedding antigo1",
+              "node": "buscar_keys_store",
               "type": "main",
               "index": 0
             }
@@ -2151,7 +2153,7 @@
         "main": [
           [
             {
-              "node": "buscar_keys_store",
+              "node": "dados_loja_loader1",
               "type": "main",
               "index": 0
             }
@@ -2184,7 +2186,7 @@
         "main": [
           [
             {
-              "node": "buscar_keys_store1",
+              "node": "dados_loja_loader",
               "type": "main",
               "index": 0
             }
@@ -2198,8 +2200,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-12-09T11:00:01.877Z",
-    "version": "2025-12-09T02:51:05.141Z",
+    "backedUpAt": "2025-12-11T11:00:33.236Z",
+    "version": "2025-12-11T04:41:54.723Z",
     "originalId": "WJMK4G4D299h0x9P"
   }
 }
