@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-11T04:41:54.723Z",
+  "updatedAt": "2025-12-11T23:02:26.116Z",
   "createdAt": "2025-10-31T23:42:27.458Z",
   "id": "WJMK4G4D299h0x9P",
   "name": "update_pgvector_rag",
@@ -252,7 +252,8 @@
         -384
       ],
       "id": "f92e49be-e5bd-4394-875c-405d59fb962b",
-      "name": "Aggregate"
+      "name": "Aggregate",
+      "disabled": true
     },
     {
       "parameters": {
@@ -273,13 +274,14 @@
         -384
       ],
       "id": "07b36f8a-0bfc-41a1-b88b-4d6252db2abc",
-      "name": "Summarize"
+      "name": "Summarize",
+      "disabled": true
     },
     {
       "parameters": {
         "mode": "insert",
         "tableName": "=tb_detalhe_stores",
-        "embeddingBatchSize": 50,
+        "embeddingBatchSize": 100,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
@@ -319,7 +321,7 @@
     {
       "parameters": {
         "jsonMode": "expressionData",
-        "jsonData": "={{ $('Summarize').item.json.concatenated_dados_estabelecimento }}",
+        "jsonData": "={{ $('produtos_por_id_stores').item.json.dados_estabelecimento }}",
         "options": {
           "metadata": {
             "metadataValues": [
@@ -518,7 +520,8 @@
           "id": "REMOVED",
           "name": "Pgvector Tali"
         }
-      }
+      },
+      "disabled": true
     },
     {
       "parameters": {
@@ -1088,8 +1091,8 @@
       {
         "json": {
           "fields": {
-            "consumerTag": "amq.ctag-x9TcODvbY-QqimIbQUEW8g",
-            "deliveryTag": 5,
+            "consumerTag": "amq.ctag-fNpx6VhNsZqI16tmZAHmqg",
+            "deliveryTag": 1,
             "redelivered": false,
             "exchange": "",
             "routingKey": "tali-actions-queue"
@@ -1106,8 +1109,8 @@
       }
     ]
   },
-  "versionId": "dac7746b-6756-421e-a67b-f95c2163c865",
-  "activeVersionId": "dac7746b-6756-421e-a67b-f95c2163c865",
+  "versionId": "0943c361-9124-4b6f-84df-be78f0162668",
+  "activeVersionId": "0943c361-9124-4b6f-84df-be78f0162668",
   "triggerCount": 1,
   "shared": [
     {
@@ -1119,9 +1122,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-11T04:41:54.724Z",
-    "createdAt": "2025-12-11T04:41:54.724Z",
-    "versionId": "dac7746b-6756-421e-a67b-f95c2163c865",
+    "updatedAt": "2025-12-11T23:02:26.118Z",
+    "createdAt": "2025-12-11T23:02:26.118Z",
+    "versionId": "0943c361-9124-4b6f-84df-be78f0162668",
     "workflowId": "WJMK4G4D299h0x9P",
     "nodes": [
       {
@@ -1370,7 +1373,8 @@
           -384
         ],
         "id": "f92e49be-e5bd-4394-875c-405d59fb962b",
-        "name": "Aggregate"
+        "name": "Aggregate",
+        "disabled": true
       },
       {
         "parameters": {
@@ -1391,13 +1395,14 @@
           -384
         ],
         "id": "07b36f8a-0bfc-41a1-b88b-4d6252db2abc",
-        "name": "Summarize"
+        "name": "Summarize",
+        "disabled": true
       },
       {
         "parameters": {
           "mode": "insert",
           "tableName": "=tb_detalhe_stores",
-          "embeddingBatchSize": 50,
+          "embeddingBatchSize": 100,
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
@@ -1437,7 +1442,7 @@
       {
         "parameters": {
           "jsonMode": "expressionData",
-          "jsonData": "={{ $('Summarize').item.json.concatenated_dados_estabelecimento }}",
+          "jsonData": "={{ $('produtos_por_id_stores').item.json.dados_estabelecimento }}",
           "options": {
             "metadata": {
               "metadataValues": [
@@ -1636,7 +1641,8 @@
             "id": "P4kv3ijh1mQvxPii",
             "name": "Pgvector Tali"
           }
-        }
+        },
+        "disabled": true
       },
       {
         "parameters": {
@@ -2200,8 +2206,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-12-11T11:00:33.236Z",
-    "version": "2025-12-11T04:41:54.723Z",
+    "backedUpAt": "2025-12-12T11:00:34.014Z",
+    "version": "2025-12-11T23:02:26.116Z",
     "originalId": "WJMK4G4D299h0x9P"
   }
 }
