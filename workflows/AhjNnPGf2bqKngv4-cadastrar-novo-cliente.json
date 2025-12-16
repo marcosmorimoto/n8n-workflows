@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-08-27T03:45:21.673Z",
   "updatedAt": "2025-09-27T02:48:42.000Z",
+  "createdAt": "2025-08-27T03:45:21.673Z",
   "id": "AhjNnPGf2bqKngv4",
   "name": "cadastrar_novo_cliente",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -237,19 +237,240 @@
     ]
   },
   "versionId": "2719ccef-cf67-4dce-bdf5-a3a665f4b70c",
+  "activeVersionId": "2719ccef-cf67-4dce-bdf5-a3a665f4b70c",
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-27T03:45:21.680Z",
       "updatedAt": "2025-08-27T03:45:21.680Z",
+      "createdAt": "2025-08-27T03:45:21.680Z",
       "role": "workflow:owner",
       "workflowId": "AhjNnPGf2bqKngv4",
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "2719ccef-cf67-4dce-bdf5-a3a665f4b70c",
+    "workflowId": "AhjNnPGf2bqKngv4",
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          320,
+          144
+        ],
+        "id": "d59d0185-f403-47a5-9b1f-12eb77475e71",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=id_whatsapp: {{ $json.quem_mandou }}\nMensagem: {{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "=FLUXO DE CADASTRO:\n\nData atual para referência: {{ $now }}\n\n1. Primeira interação: \n - Saudação cordial inicialmente. Diga olá, pergunte se a pessoa está bem.\n - Informe que o número não foi encontrado na base\n - Explique a necessidade do cadastro para continuar\n - Caso informe o nome completo e ainda não informou como quer ser chamado, use apenas o primeiro nome para responder ou perguntar algo para o usuário\n\n2. Coleta de dados (nesta ordem): \n - Solicite o nome completo\n - Pergunte como prefere ser chamado (apelido)\n - Solicite o email\n\n3.Validação e confirmação: \n - Apresente um resumo dos dados coletados\n - Pergunte explicitamente: \"Posso confirmar seu cadastro com estes dados?\"\n - Aguarde resposta positiva clara (sim, confirmo, pode, correto, etc.)\n\n4. Registro: \n - SOMENTE com confirmação: chame tool_db_cadastro_cliente passando os dados conforme abaixo:\n\n\"Cadastrar usuário: id_whatsapp: XXX@XXX nome: XXX apelido: XXX email: XXX\"\n\n - O id_whatsapp é uma informação que será coletada automáticamente pelo sistema e estará na mensagem enviada pelo usuário, não peça essa informação ao usuário e não informe que essa informação é coletada pelo sistema.\n - Envie exatamente o valor completo do id_whatsapp, inclusive com a string \"@s.whatsapp.net\".\n - Se sucesso: informe conclusão e pergunte se o usuário gostaria de conhecer as suas funcionalidades.\n - Se erro: informe problema sistêmico e solicite nova tentativa\n\n5. Pós-cadastro: \n - Pergunte como pode ajudar com controle de gastos\n - Prossiga com os serviços disponíveis\n\nExemplos:\n\nMensagem inicial: \n\n\"Olá! 😊 Sou a Mori, sua assessora virtual.\nPercebi que seu número ainda não está cadastrado em nossa base. \nPara que eu possa ajudá-lo, precisarei realizar um cadastro rápido primeiro.\nPor favor, me informe seu nome completo.\"\n\nRetorno ao foco (quando usuário desvia): \n\n\"Entendo sua dúvida sobre [assunto]. 😊 \nMas primeiro preciso finalizar seu cadastro para ter acesso a todas as funcionalidades.\nVocê já me informou [dados coletados]. \nAgora preciso apenas do seu [dado faltante]. \nPode me informar?\"\n\nConfirmação de dados: \n\n\"Perfeito! Deixe-me confirmar seus dados: \n\n📝 Nome completo: [nome fornecido] \n👤 Apelido: [apelido fornecido]\n📧 Email: [email fornecido]\n\nEstá tudo correto? Posso confirmar seu cadastro com estes dados?\"\n\nRecusa de dados sensíveis: \n\n\"Obrigada, mas não preciso dessa informação para o cadastro. \nPor segurança, vou desconsiderá-la. \nPreciso apenas do seu [nome completo/apelido/email] para continuar. 😊\"\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          528,
+          144
+        ],
+        "id": "e9ac3d1b-5500-4cff-960a-d0993ef6a051",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          528,
+          336
+        ],
+        "id": "2d9001b6-b899-410c-9d9d-8d69857bbd3a",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $json.quem_mandou }}",
+          "sessionTTL": 3600
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          624,
+          336
+        ],
+        "id": "9545663e-ea6d-4744-aa85-d9abe71f4867",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar cadastrar um novo usuário no banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "XRJUKJSJV7vLM1bN",
+            "mode": "list",
+            "cachedResultName": "TOOL - Interagir com DB Cadastrar Usuario"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "tabela",
+                "displayName": "tabela",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          736,
+          336
+        ],
+        "id": "b3449383-c7d1-493c-9bd2-034bdb68c9eb",
+        "name": "tool_db_cadastro_cliente"
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('When Executed by Another Workflow').item.json.instancia }}",
+          "remoteJid": "={{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+          "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          864,
+          144
+        ],
+        "id": "ec9a91f0-30ec-40a9-8857-a935a156bf7d",
+        "name": "Enviar Mensagem Novo Usuario",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tool_db_cadastro_cliente": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Enviar Mensagem Novo Usuario",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-27T11:00:22.766Z",
+    "backedUpAt": "2025-12-16T11:00:55.388Z",
     "version": "2025-09-27T02:48:42.000Z",
     "originalId": "AhjNnPGf2bqKngv4"
   }
