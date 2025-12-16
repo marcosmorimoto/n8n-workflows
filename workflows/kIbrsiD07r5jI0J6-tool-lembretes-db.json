@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-09-07T00:36:18.950Z",
   "updatedAt": "2025-09-18T22:49:58.000Z",
+  "createdAt": "2025-09-07T00:36:18.950Z",
   "id": "kIbrsiD07r5jI0J6",
   "name": "TOOL - Lembretes DB",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -193,19 +193,202 @@
     ]
   },
   "versionId": "4c05fa47-b3fa-40f0-adce-0d00c3f8f1ab",
+  "activeVersionId": "4c05fa47-b3fa-40f0-adce-0d00c3f8f1ab",
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-07T00:36:18.956Z",
       "updatedAt": "2025-09-07T00:36:18.956Z",
+      "createdAt": "2025-09-07T00:36:18.956Z",
       "role": "workflow:owner",
       "workflowId": "kIbrsiD07r5jI0J6",
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "4c05fa47-b3fa-40f0-adce-0d00c3f8f1ab",
+    "workflowId": "kIbrsiD07r5jI0J6",
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "prompt"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -160,
+          -16
+        ],
+        "id": "217cb8b2-5daa-4f55-8f43-72afeeb6a381",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.prompt }}",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "=Você é um profissional de banco de dados postgres e vai receber um prompt e precisa retornar a query ou a instrução SQL.\n\nInstruções para clausula WHERE\n- Use a função UPPER e a função TRANSLATE para deixar as letras maiusculas e tratar letras com acentuação quando o campo for do tipo TEXT tanto no campo filtrado quanto no valor que está sendo consultado. Use essa função APENAS em campos do tipo TEXT.\n\nPor exemplo, WHERE TRANSLATE(UPPER(coluna_tabela),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC') = TRANSLATE(UPPER('Texto consultado'),\n        'áàâãäéèêëíìîïóòôõöúùûüçÁÀÂÃÄÉÈÊËÍÌÎÏÓÒÔÕÖÚÙÛÜÇ',\n        'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC')\n\nATENÇÃO! Retorne somente a instrução SQL, em formato de string, e sem nenhuma informação adicional e sem markdown como por exemplo (``sql). \n\nExemplo de saida:\n\nSELECT * FROM nome_tabela WHERE coluna1 = XXX AND coluna2 = XXX AND coluna3 = XXX\n\nSegue abaixo a estrutura da tabela.\n\nCREATE TABLE public.tb_lembretes (\n    id bigint not null default func_gerar_id_lembrete(), \n    id_cliente bigint NOT NULL,\n    dt_cadastro timestamp not null default current_timestamp,\n    dt_desativacao timestamp,\n    dt_proxima_exec timestamp not null,\n    dsc_lembrete text,\n    prompt_lembrete text,\n    qtd_exec bigint,\n    dt_alteracao timestamp,\n    abortar_execucao_lembrete timestamp,\n    dt_ultima_exec timestamp\n);"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2,
+        "position": [
+          32,
+          -16
+        ],
+        "id": "bcdd9741-d615-4eb5-8c6c-4db201161b4d",
+        "name": "Gerar script SQL"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "{{ $json.sql_query }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          640,
+          -16
+        ],
+        "id": "c007a84f-bf8d-4af9-b79a-9e2607d436bb",
+        "name": "Execute a SQL query",
+        "notesInFlow": false,
+        "alwaysOutputData": true,
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        },
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "const input = $input.first().json.output;\n\nlet clean = input\n  .replace(/^```sql\\s*|\\s*```$/gi, '') // Remove blocos ```sql\n  .replace(/```/g, '')                  // Remove quaisquer ``` residuais\n  .replace(/^\\\"|\\\"$/g, '')              // Remove aspas iniciais/finais\n  .replace(/\\n/g, ' ')                  // Substitui quebras de linha por espaços\n  .replace(/\\s+/g, ' ')                 // Remove espaços excessivos\n  .trim();                              // Remove espaços extras no início/fim\n\n\nreturn { \n  json: { \n    sql_query: clean \n  } \n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          416,
+          -16
+        ],
+        "id": "043729dd-5e45-4f28-a4fe-f112f804a067",
+        "name": "Remover Markdown SQL"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4.1-nano",
+            "mode": "list",
+            "cachedResultName": "gpt-4.1-nano"
+          },
+          "options": {
+            "temperature": 0
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          32,
+          144
+        ],
+        "id": "1a1822a4-1649-4c89-9c71-32ff97506494",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Verifica se veio do PostgreSQL com dados reais\nconst items = $input.all();\n\n// Verifica se tem dados REAIS (não apenas item vazio)\nconst hasData = items.length > 0 && Object.keys(items[0].json).length > 0;\n\nif (!hasData) {\n  return [{\n    json: {\n      success: true,\n      hasData: false,\n      rowCount: 0,\n      message: \"Nenhum registro encontrado na consulta\",\n      data: []\n    }\n  }];\n}\n\n//Verifica se houve erro na operação\nconst firstInput = $input.first();\nif (firstInput && firstInput.json && firstInput.json.error && firstInput.json.error.description) {\n  return [{\n    json: {\n      success: false,\n      hasData: false,\n      rowCount: 0,\n      message: \"Erro na operação de banco de dados\",\n      data: []\n    }\n  }];\n}\n\n// Se tem dados reais\nreturn [{\n  json: {\n    success: true,\n    hasData: true,\n    rowCount: items.length,\n    message: `${items.length} registros encontrados`,\n    data: items\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          832,
+          -16
+        ],
+        "id": "ead2e4a4-36d9-42bd-b231-caf00d52746c",
+        "name": "Tratar erro e retorno vazio"
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Gerar script SQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Gerar script SQL": {
+        "main": [
+          [
+            {
+              "node": "Remover Markdown SQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "Tratar erro e retorno vazio",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Remover Markdown SQL": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Gerar script SQL",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-19T11:00:24.883Z",
+    "backedUpAt": "2025-12-16T11:00:55.636Z",
     "version": "2025-09-18T22:49:58.000Z",
     "originalId": "kIbrsiD07r5jI0J6"
   }
