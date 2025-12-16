@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-09-05T01:38:25.621Z",
   "updatedAt": "2025-10-14T22:00:09.000Z",
+  "createdAt": "2025-09-05T01:38:25.621Z",
   "id": "9peQ4R3TEY9EW658",
   "name": "My Sub-Workflow 1",
-  "active": false,
+  "active": true,
   "isArchived": true,
   "nodes": [
     {
@@ -48,19 +48,65 @@
   "meta": null,
   "pinData": {},
   "versionId": "792ba435-2beb-47c3-ad39-37f004262b7d",
+  "activeVersionId": "792ba435-2beb-47c3-ad39-37f004262b7d",
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-05T01:38:25.627Z",
       "updatedAt": "2025-09-05T01:38:25.627Z",
+      "createdAt": "2025-09-05T01:38:25.627Z",
       "role": "workflow:owner",
       "workflowId": "9peQ4R3TEY9EW658",
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "792ba435-2beb-47c3-ad39-37f004262b7d",
+    "workflowId": "9peQ4R3TEY9EW658",
+    "nodes": [
+      {
+        "id": "c055762a-8fe7-4141-a639-df2372f30060",
+        "typeVersion": 1.1,
+        "name": "When Executed by Another Workflow",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          260,
+          340
+        ],
+        "parameters": {}
+      },
+      {
+        "id": "b5942df6-0160-4ef7-965d-57583acdc8aa",
+        "name": "Replace me with your logic",
+        "type": "n8n-nodes-base.noOp",
+        "position": [
+          520,
+          340
+        ],
+        "parameters": {}
+      }
+    ],
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Replace me with your logic",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-10-15T11:00:22.331Z",
+    "backedUpAt": "2025-12-16T11:00:55.353Z",
     "version": "2025-10-14T22:00:09.000Z",
     "originalId": "9peQ4R3TEY9EW658"
   }
