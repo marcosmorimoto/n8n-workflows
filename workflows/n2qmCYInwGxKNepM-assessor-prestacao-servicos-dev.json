@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-08-04T01:37:33.219Z",
   "updatedAt": "2025-08-13T22:22:43.000Z",
+  "createdAt": "2025-08-04T01:37:33.219Z",
   "id": "n2qmCYInwGxKNepM",
   "name": "assessor_prestacao_servicos_dev",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -292,10 +292,294 @@
     ]
   },
   "versionId": "00d7ad1e-dd1b-4fe7-928b-8e7b6c6f7e01",
-  "triggerCount": 1,
+  "activeVersionId": "00d7ad1e-dd1b-4fe7-928b-8e7b6c6f7e01",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-08-04T01:37:33.225Z",
+      "createdAt": "2025-08-04T01:37:33.225Z",
+      "role": "workflow:owner",
+      "workflowId": "n2qmCYInwGxKNepM",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "00d7ad1e-dd1b-4fe7-928b-8e7b6c6f7e01",
+    "workflowId": "n2qmCYInwGxKNepM",
+    "nodes": [
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+          "sessionTTL": 3600,
+          "contextWindowLength": 0
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          416,
+          96
+        ],
+        "id": "54dfc64a-8b1f-4eeb-9bec-87027521248d",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algo no banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "ZcCClCQNB0RUwo25",
+            "mode": "list",
+            "cachedResultName": "TOOL - Interagir com DB"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "prompt"
+            ],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          528,
+          96
+        ],
+        "id": "05410050-924d-4da6-8270-cfa11e294c3c",
+        "name": "acessar_banco",
+        "notesInFlow": false,
+        "retryOnFail": false
+      },
+      {
+        "parameters": {
+          "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  \n  if ($input.first().json.output === \"OPERACAO_DE_BANCO-CRIAR\") {\n    return {\n      json: {\n        prompt: `**Criar novo serviço:**\n- Colete todos os dados obrigatórios do usuário. Se faltar informação, pergunte apenas pelo dado faltante, sem exibir prévia do serviço.\n- Utilize sempre o id_prestador fornecido na mensagem.\n- Defina pagou_total como \"SIM\" apenas se valor_pago ≥ valor_servico.\n- Normalize o campo servico em formato padronizado (ex.: \"Instalei um box\" → \"INSTALAÇÃO DE BOX\").\n- Não crie o serviço na primeira interação.\n- Após coletar todos os dados obrigatórios, exiba uma prévia com os campos (exceto id_servico e id_prestador) e solicite confirmação no formato:\n\n\"Esses foram os dados coletados, posso cadastrar o serviço?\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\"\n\n- Se o usuário solicitar alterações, atualize os dados e reenvie a prévia até a confirmação.\n- Após confirmação, chame a tool acessar_banco com os dados completos e formatados em maiúsculo, conforme exemplo:\n\n\"Operação: Inserir novo registro; id_prestador: XXX, local: XXX, nome_cliente: XXX...\".\n\nObs.: Todos os textos devem ser salvos em letras maiúsculas.`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-CONSULTAR\"){\n    return {\n      json: {\n        prompt: `**Consultar serviço (OPERACAO_DE_BANCO-CONSULTAR):**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-ATUALIZAR\"){\n    return {\n      json: {\n        prompt: `**Atualizar serviço (OPERACAO_DE_BANCO-ATUALIZAR):**\n- Para atualizar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja atualizar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer atualizar.\n- SEMPRE confirme com o usuário os dados que irá atualizar, mostrando uma prévia de como os dados ficartão após sua atualizaçãp.\n- ATENÇÃO! Com a confirmação do usuário, chame OBRIGATORIAMENTE a tool \"acessar_banco\" para atualizar a informação do serviço passando o id do serviço e a instrução de atualização de forma literal, como o exemplo abaixo.\n\n\"Operação: Atualizar registro; Atualizar o campo: valor_pago para XXX; Filtro: id: XXX\"\n\n- O campo pagou_total será SIM somente se valor_pago for igual ou maior que valor_servico.\n- Caso valor_pago seja igual ou maior que valor_servico, altere pagou_total para SIM.\n- Somente se o serviço for atualizado com sucesso no banco de dados chamando a tool \"acessar_banco\", informe ao usuário que o serviço foi atualizado, e exiba os dados do serviço atualizados, no formato abaixo.\n\nlocal: XXX\nnome_cliente: XXX\nservico: XXX\ntelefone_cliente: XXX\nvalor_servico: R$ XXX\ndata_servico: DD/MM/AAAA\npagou_total: XXX\nvalor_pago: R$ XXX\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\")\nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };\n  } else if ($input.first().json.output === \"OPERACAO_DE_BANCO-DELETAR\"){\n    return {\n      json: {\n        prompt: `**Deletar serviço (OPERACAO_DE_BANCO-DELETAR):**\n- Para deletar algum serviço o usuário deverá passar dados para que seja possivel localizar o serviço que deseja deletar.\n- Utilize os mesmos critérios de \"Consultar serviço\" para localizar o serviço.\n- Assim que localizar o(s) serviço(s), exiba os serviços encontrados para o usuário, com todas as informações do serviço.\n- Caso encontre mais de um serviço, solicite ao usuário para informar o ID do seviço que ele quer deletar.\n- ATENÇÃO! Delete o serviço apenas com a confirmação do usuário.\n- ATENÇÃO! Assim que tiver o serviço que deverá ser deletado, chame a tool \"acessar_banco\" passando o id do serviço e a instrução de deleção de forma literal, como o exemplo abaixo.\n\n\"Operação: Deletar registro; Filtro: id: XXX;\"\n\n- Se o registro for deletado com sucesso, informe ao usuário que o serviço foi apagado.\n\n**Consultar serviço:**\n- Consulte apenas dados do id_prestador fornecido na mensagem do usuário.\n- Para a consulta, exija pelo menos um dos filtros: local, nome_cliente, servico, telefone_cliente, valor_servico, data_servico, pagou_total ou valor_pago. \n- Caso nenhum seja informado, solicite ao usuário pelo menos uma dessas informações.\n- Chame a tool acessar_banco somente com o id_prestador e pelo menos um filtro válido , passando os dados em maiúsculo, conforme exemplo:\n\n\"Operação: Consultar registro; Filtro: id_prestador: XXX, pagou_total: NÃO\"\n\nRetorne os resultados ao usuário no formato:\n\nid_servico: XXX (Consulte no banco de dados usando a tool \"acessar_banco\") \nlocal: XXX  \nnome_cliente: XXX  \nservico: XXX  \ntelefone_cliente: XXX  \nvalor_servico: R$ XXX  \ndata_servico: DD/MM/AAAA  \npagou_total: XXX  \nvalor_pago: R$ XXX\n\n- Não exiba id_prestador.\n- Se ocorrer um erro na consulta, informe ao usuário que não conseguiu encontrar o serviço dos dados que ele passou (Ex. \"Não consegui encontrar os serviços do cliente ROMEO, esta correto o nome dele?\").`\n      }\n    };  \n  } else {\n    // Tipo de operação não reconhecido\n    return {\n      json: {\n        prompt: \"NULL\"\n      }\n    };\n  }\n  \n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          112,
+          -96
+        ],
+        "id": "d30d5259-785b-4145-9fa3-f5d870db139f",
+        "name": "Economia de tokens do prompt"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $('When Executed by Another Workflow').item.json.todas_mensagens }};\nid_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}; ",
+          "options": {
+            "systemMessage": "=Seu nome é \"Mori\" (Feminino) e será uma assessora especialista em administrar informações sobre serviços prestados.\nVocê será responsável por criar, consultar, atualizar e deletar dados referente a prestação de serviço na tabela tb_servicos de um banco postgres utilizando a tool \"acessar_banco\".\nA operação (consultar, criar, atualizar e deletar) será definida com base na interpretação da mensagem enviada pelo usuário.\n\nEstrutura de Dados da tabela de prestação de serviços:\n\nNome tabela: \ntable public.tb_servicos\n\nColunas:\nid bigint (id do serviço) (Gerada automaticamente pelo banco de dados);\nid_prestador text (Obrigatório);\nlocal text (Obrigatório);\nnome_cliente text (Obrigatório);\nservico text (Obrigatório);\ntelefone_cliente text (Opcional);\nvalor_servico double (Obrigatório);\ndata_servico date (Obrigatório) (formato: DD/MM/AAAA);\npagou_total text (Obrigatório) (valores possíveis: SIM, NÃO) (Definido pelo Agente);\nvalor_pago double (Obrigatório);\n\nData atual: {{ $now }}\n\n# Orientações e regras para cada tipo de operação:\n\n{{ $json.prompt }}\n\n# Orientações Adicionais:\n\n- Na mensagem final, seja objetivo e siga rigorosamente as instruções descritas.\n- Jamais exiba o id_prestador ao usuário; é uma informação interna de identificação.\n- Para o campo data_servico, use {{ $now }} como referência para interpretar termos como \"hoje\", \"ontem\", \"agora\", \"acabei\", ou outras palavras que indicam o tempo.\n- Não compartilhe detalhes técnicos do banco (ex.: nome da tabela, owner, schema) com o usuário.\n- Bloqueie a exclusão de todos os serviços da base. Caso solicitado, informe que, por segurança, não é permitido remover todos os dados.\n- Consulte sempre dados do id_prestador: {{ $('When Executed by Another Workflow').item.json.quem_mandou }}.\n- Se o usuário solicitar dados de outro id_prestador diferente de {{ $('When Executed by Another Workflow').item.json.quem_mandou }}, não chame a ferramenta acessar_banco e informe que não pode fornecer dados de outros usuários.\n- Não peça ao usuário para informar o valor de pagou_total; esse campo é definido automaticamente pelo agente.\n- Fale de uma forma mais descontraida e humana possivel.\n- Evite o uso de emojis em mensagens."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2,
+        "position": [
+          288,
+          -96
+        ],
+        "id": "fc700748-9939-4209-b9ff-f4df129ed9d4",
+        "name": "Operações de banco de dados",
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4.1",
+            "mode": "list",
+            "cachedResultName": "gpt-4.1"
+          },
+          "options": {
+            "temperature": 0.9
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          288,
+          256
+        ],
+        "id": "3377ebeb-04f8-4908-b978-fad764a191ca",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -96,
+          -96
+        ],
+        "id": "4e07da8b-4641-4354-8fb0-17a6bfabb4f7",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('When Executed by Another Workflow').item.json.instancia }}",
+          "remoteJid": "={{ $('When Executed by Another Workflow').item.json.quem_mandou }}",
+          "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+          "options_message": {
+            "delay": 4000
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          640,
+          -96
+        ],
+        "id": "0aa1cf9b-7f39-4045-96a4-db7503d34c7d",
+        "name": "Enviar texto",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "o4-mini",
+            "mode": "list",
+            "cachedResultName": "o4-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          288,
+          96
+        ],
+        "id": "72074365-1b92-456e-a86a-9f6dddbc6018",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Operações de banco de dados",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "acessar_banco": {
+        "ai_tool": [
+          [
+            {
+              "node": "Operações de banco de dados",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Economia de tokens do prompt": {
+        "main": [
+          [
+            {
+              "node": "Operações de banco de dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          []
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Economia de tokens do prompt",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Operações de banco de dados": {
+        "main": [
+          [
+            {
+              "node": "Enviar texto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Operações de banco de dados",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-08-14T11:00:30.762Z",
+    "backedUpAt": "2025-12-16T11:00:55.653Z",
     "version": "2025-08-13T22:22:43.000Z",
     "originalId": "n2qmCYInwGxKNepM"
   }
