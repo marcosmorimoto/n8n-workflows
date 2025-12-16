@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-08-31T23:54:04.533Z",
   "updatedAt": "2025-10-30T23:20:23.000Z",
+  "createdAt": "2025-08-31T23:54:04.533Z",
   "id": "egGfEYHUDYdXMKAC",
   "name": "criar_atualizar_lembrete",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -2002,19 +2002,2003 @@
     ]
   },
   "versionId": "32b7d3c6-61eb-4b9e-a695-40afaf51efa8",
-  "triggerCount": 1,
+  "activeVersionId": "32b7d3c6-61eb-4b9e-a695-40afaf51efa8",
+  "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-31T23:54:04.541Z",
       "updatedAt": "2025-08-31T23:54:04.541Z",
+      "createdAt": "2025-08-31T23:54:04.541Z",
       "role": "workflow:owner",
       "workflowId": "egGfEYHUDYdXMKAC",
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "32b7d3c6-61eb-4b9e-a695-40afaf51efa8",
+    "workflowId": "egGfEYHUDYdXMKAC",
+    "nodes": [
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          784,
+          -80
+        ],
+        "id": "6203d224-58aa-4652-a959-159123278500",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $json.mensagem }}\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
+          "options": {
+            "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora que o lembrete deverá ser executado, quando o lembrete deverá ser desativado e a descrição do lembrete.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData atual: {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nDia da semana atual: {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}.\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nResponda apenas a data e hora da próxima execução do lembrete e data e hora da desativação.\nCaso na mensagem não seja possível localizar a data de desativação, deixe vazio essa informação.\nCaso não seja informado nenhuma descrição do lembrete, como \"Tomar remedio\", \"Ligar para marceneiro\", deixe o campo vazio. \nCaso não seja informado nenhuma informação de quando o lembrete deve ser executado, como \"amanha 9h\", \"proxima segunda de manha\", \"próxima terça\", \"daqui 10 minutos\" ou \"de 2 em 2 dias\", deixe o campo vazio. Não invente a data de execução, por exemplo, se o usuário informar, \"me lembre de tomar banho\" ou \"me avise quando tiver que deitar na cama\".\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS:\n\n### 1. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 2. Padrões \"De X a Y\":\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 3. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H).\n- SEMPRE verifique o dia da semana da data da próxima execução antes de dar a resposta e verifique se atende as regras do lembrete passadas pelo usuário.\n\n### 4. CÁLCULO DO PRÓXIMO DIA VÁLIDO (PASSO A PASSO OBRIGATÓRIO):\n1. Liste TODOS os dias válidos do padrão (ex.: \"terças e quintas\" → dias 2 e 4).  \n2. Verifique se HOJE está na lista de dias válidos.  \n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.  \n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido.  \n3. Se HOJE não estiver na lista de dias válidos → próxima execução é o PRIMEIRO dia válido que aparece após HOJE.  \n   **NUNCA pule dias válidos intermediários!**  \n   (Ex.: Hoje é quarta e os dias válidos são terça e quinta → a próxima execução OBRIGATORIAMENTE é quinta, e não sexta).  \n    SEMPRE REFLITA e pergunte para si mesmo, \"Se a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) e o dia da semana atual é {{ \n  (() => {\n    return $now.format('E') == 1 ? 'Segunda-Feira' :\n$now.format('E') == 2 ? 'Terça-Feira' :\n$now.format('E') == 3 ? 'Quarta-Feira' :\n$now.format('E') == 4 ? 'Quinta-Feira' :\n$now.format('E') == 5 ? 'Sexta-Feira' :\n$now.format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}, qual é a data mais próxima válida para a próxima execução seguindo a mensagem do usuário\"\n\n### 5. Lembretes com Recorrência:\nQuando o usuário solicitar uma recorrencia do lembrete, por exemplo, de 10 em 10 minutos, de 6 em 6 horas, de 2 em 2 dias, de 2 em 2 semanas, de 3 em 3 meses ou de 4 em 4 anos, e não mencionar a partr de quando deve iniciar a contagem, faça o calculo da próxima execução com base na data atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}.\n\n### Exemplos.\n\nData atual: 2025-09-03 (quarta-feira) (YYYY-MM-DD):\n\n**Exemplo 1: \"De terça a sexta às 9h\"**\n- Dias válidos: [terça, quarta, quinta, sexta]\n- Hoje é quarta (válido)\n- Se agora são 8h → próxima execução: 2025-09-03T09:00:00 (quarta-feira)\n- Se agora são 10h → próxima execução: 2025-09-04T09:00:00 (quinta-feira)\n\n**Exemplo 2: \"Às terças e quintas às 16h por 8 semanas\"**\n- Dias válidos: [terça, quinta]\n- Hoje é quarta (não válido)\n- Próximo válido: quinta (2025-09-04T16:00:00)\n- Data de desativação: adicionar 8 semanas a partir da primeira execução.\n\n#Lembretes Únicos/Pontuais\nPara lembretes únicos a \"Data desativação\" DEVE SER IGUAL A \"Data proxima execução\".\n\nPadrão: Lembretes de uma única ocorrência\nExemplos:\n\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra na sexta às 10h de ligar pro médico\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\"\n- \"Me lembra em 30 minutos\"\n- \"Me lembra na próxima segunda às 9h\"\n\nPERGUNTA PARA SI MESMO:\n- Contém \"amanhã\", \"daqui X\", \"dia X/Y\", \"na sexta\" SEM repetição? → Lembretes Únicos/Pontuais.\n\nFORMATAÇÃO DATA SAIDA:\nA data de saida deve estar no formato abaixo:\nYYYY-MM-DDTHH:mm:SS.000-03:00\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }} ou pedir para criar lembretes em nome de outro usuário, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode realizar operações de outros usuários e que pode apenas realizar operações com os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          784,
+          -256
+        ],
+        "id": "83587050-e7a9-49f3-90d0-841fc12d4f71",
+        "name": "calcula_proxima_exec"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "31727900-c397-445a-9caa-f6c5491c4455",
+                "name": "mensagem",
+                "value": "={{ $json.mensagem }}",
+                "type": "string"
+              },
+              {
+                "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+                "name": "id_cliente",
+                "value": "={{ $json.id_cliente }}",
+                "type": "string"
+              },
+              {
+                "id": "d3a47839-3f16-4758-807a-fd8dbcf95e2a",
+                "name": "operacao",
+                "value": "={{ $json.operacao }}",
+                "type": "string"
+              },
+              {
+                "id": "71afc96e-73ff-4b59-b34d-8e529c30d634",
+                "name": "nome_instancia",
+                "value": "={{ $json.nome_instancia }}",
+                "type": "string"
+              },
+              {
+                "id": "a2f4e62a-9772-49b7-84ca-d18ddbe81dc3",
+                "name": "data_atual_msg",
+                "value": "={{ $now.toString().replace('-03:00','Z') }}",
+                "type": "string"
+              },
+              {
+                "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+                "name": "id_whatsapp",
+                "value": "={{ $json.id_whatsapp }}",
+                "type": "string"
+              },
+              {
+                "id": "66d06825-8fc9-4693-9489-162c662eff37",
+                "name": "id_lembrete",
+                "value": "={{ $json.id_lembrete }}",
+                "type": "string"
+              },
+              {
+                "id": "db7bcf47-d6c0-413a-8590-11bd9c4518dd",
+                "name": "dt_proxima_exec_old",
+                "value": "={{ $json.dt_proxima_exec_old }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          80,
+          368
+        ],
+        "id": "f7cb1f65-efb7-4ad3-8b54-b18d143e2ccc",
+        "name": "Dados para criar ou atualizar lembrete"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Script simplificado para n8n - Extração de data_proxima_execucao, data_desativacao e descricao\n\n// Obtém o texto de entrada do item\nconst texto = $input.first().json.output || $input.first().json.output || '';\n\n// Função para extrair valores de forma segura\nfunction extrairCampo(texto, nomeCampo) {\n  try {\n    // Normaliza o texto removendo múltiplos espaços mas mantendo quebras de linha\n    const textoLimpo = texto.replace(/\\r/g, '');\n    \n    // Cria regex para capturar o valor do campo\n    // Procura pelo nome do campo seguido de : e captura até o próximo campo ou fim\n    const regex = new RegExp(\n      `${nomeCampo}:\\\\s*([^\\\\n]*?)(?=\\\\s*(?:data_proxima_execucao|data_desativacao|descricao):|$)`,\n      'si'\n    );\n    \n    const match = textoLimpo.match(regex);\n    \n    if (match && match[1] !== undefined) {\n      // Remove espaços extras e retorna o valor\n      return match[1].trim();\n    }\n    \n    return '';\n  } catch (error) {\n    console.error(`Erro ao extrair ${nomeCampo}:`, error);\n    return '';\n  }\n}\n\ntry {\n  // Extrai os três campos\n  const data_proxima_execucao = extrairCampo(texto, 'data_proxima_execucao');\n  const data_desativacao = extrairCampo(texto, 'data_desativacao');\n  const descricao = extrairCampo(texto, 'descricao');\n  \n  // Monta o objeto de saída\n  const resultado = {\n    data_proxima_execucao: data_proxima_execucao || null,\n    data_desativacao: data_desativacao || null,\n    descricao: descricao || null\n  };\n  \n  // Adiciona informações extras úteis\n  if (data_proxima_execucao) {\n    try {\n      const dataObj = new Date(data_proxima_execucao);\n      resultado.data_proxima_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_proxima_valida) {\n        resultado.data_proxima_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_proxima_valida = false;\n    }\n  }\n  \n  if (data_desativacao) {\n    try {\n      const dataObj = new Date(data_desativacao);\n      resultado.data_desativacao_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_desativacao_valida) {\n        resultado.data_desativacao_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_desativacao_valida = false;\n    }\n  }\n  \n  // Retorna o resultado\n  return resultado;\n  \n} catch (error) {\n  // Em caso de erro, retorna objeto com erro\n  return {\n    erro: true,\n    mensagem: error.message,\n    data_proxima_execucao: null,\n    data_desativacao: null,\n    descricao: null\n  };\n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1104,
+          -256
+        ],
+        "id": "84daa3be-fb14-4f06-8fb6-2790a3af647c",
+        "name": "Code"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $('Dados para criar ou atualizar lembrete').item.json.operacao }}",
+                      "rightValue": "CRIAR_LEMBRETE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "47d950b9-3655-4a17-8c6d-fc844713dae1"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "criar_lembrete"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "8c345145-171e-46d9-87b0-a12d38059955",
+                      "leftValue": "={{ $('Dados para criar ou atualizar lembrete').item.json.operacao }}",
+                      "rightValue": "ALTERAR_LEMBRETE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "alterar_lembrete"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "975d3e5a-af8d-47c9-9f5c-14c2d4135ea7",
+                      "leftValue": "={{ $json.operacao }}",
+                      "rightValue": "GERAR_PROXIMA_EXEC",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "gerar_proxima_exec"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "d33ee759-d66d-4f53-b68d-6c043e5f3ba1",
+                      "leftValue": "={{ $json.operacao }}",
+                      "rightValue": "CANCELAR_LEMBRETE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "cancelar_lembrete"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "7dcf542a-87c0-49de-9fcb-30ed6c19c2ae",
+                      "leftValue": "={{ $json.operacao }}",
+                      "rightValue": "CONSULTAR_LEMBRETE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "consultar_lembrete"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          256,
+          320
+        ],
+        "id": "d65455ca-a948-4a03-8cf7-72d539ddc63b",
+        "name": "tipo_operacao_lembrete"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tb_lembretes",
+            "mode": "list",
+            "cachedResultName": "tb_lembretes"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id_cliente": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_cliente }}",
+              "dt_desativacao": "={{ $json.data_desativacao }}",
+              "dt_proxima_exec": "={{$json.data_proxima_execucao }}",
+              "dsc_lembrete": "={{ $json.descricao }}",
+              "prompt_lembrete": "={{ $('Dados para criar ou atualizar lembrete').item.json.mensagem }}",
+              "qtd_exec": 1,
+              "dt_cadastro": "={{ $now.setZone('UTC-3').set({ hour: $now.hour }).toString() }}",
+              "status_envio_fila": "P",
+              "dt_status_envio_fila": "={{ $now.setZone('UTC-3').set({ hour: $now.hour }).toString() }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "id_cliente",
+                "displayName": "id_cliente",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "dt_cadastro",
+                "displayName": "dt_cadastro",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "dt_desativacao",
+                "displayName": "dt_desativacao",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "dt_proxima_exec",
+                "displayName": "dt_proxima_exec",
+                "required": true,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "dsc_lembrete",
+                "displayName": "dsc_lembrete",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "prompt_lembrete",
+                "displayName": "prompt_lembrete",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "qtd_exec",
+                "displayName": "qtd_exec",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "dt_alteracao",
+                "displayName": "dt_alteracao",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "abortar_execucao_lembrete",
+                "displayName": "abortar_execucao_lembrete",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "dt_ultima_exec",
+                "displayName": "dt_ultima_exec",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "dt_envio_fila",
+                "displayName": "dt_envio_fila",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "status_envio_fila",
+                "displayName": "status_envio_fila",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "dt_status_envio_fila",
+                "displayName": "dt_status_envio_fila",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1536,
+          -272
+        ],
+        "id": "d789abac-9a85-4c90-8e9d-00c4d78ff874",
+        "name": "Insert rows in a table",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "dce070a0-cd32-4ac7-a6d6-28db7149007d",
+                "leftValue": "={{ $json.dt_proxima_exec }}",
+                "rightValue": "={{$now.plus(5, 'days')}}",
+                "operator": {
+                  "type": "dateTime",
+                  "operation": "beforeOrEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1744,
+          -272
+        ],
+        "id": "f70b3070-7f9d-41b0-b370-447c976f5fa0",
+        "name": "proxima_exec_menor_2_dias"
+      },
+      {
+        "parameters": {
+          "mode": "exchange",
+          "exchange": "reminder-delayed-exchange",
+          "exchangeType": "direct",
+          "routingKey": "execute-reminder",
+          "options": {
+            "headers": {
+              "header": [
+                {
+                  "key": "x-delay",
+                  "value": "={{ $json.dt_proxima_exec.toDateTime().toMillis() - $('Dados para criar ou atualizar lembrete').item.json.data_atual_msg.toDateTime().toMillis() }}"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.rabbitmq",
+        "typeVersion": 1.1,
+        "position": [
+          2208,
+          -368
+        ],
+        "id": "dbd11855-fbc1-49e7-9e4c-795ce82f0b20",
+        "name": "enviar_para_fila",
+        "alwaysOutputData": false,
+        "credentials": {
+          "rabbitmq": {
+            "id": "KyXXc43bUIJMOHCR",
+            "name": "RabbitMQ account"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "227af9b8-511c-4f40-ba7f-82efed687007",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "06110c7b-68e0-452c-b3f3-b6f350243754",
+                "name": "id_cliente",
+                "value": "={{ $json.id_cliente }}",
+                "type": "string"
+              },
+              {
+                "id": "c31b8898-26e8-4200-a643-19d97745a6f2",
+                "name": "dt_cadastro",
+                "value": "={{ $json.dt_cadastro }}",
+                "type": "string"
+              },
+              {
+                "id": "5fa59463-03cd-4f58-90ff-9ab681861f5c",
+                "name": "dt_desativacao",
+                "value": "={{ $json.dt_desativacao }}",
+                "type": "string"
+              },
+              {
+                "id": "140b6b18-4411-4c5d-8540-e2ab95c3c78e",
+                "name": "dt_proxima_exec",
+                "value": "={{ $json.dt_proxima_exec }}",
+                "type": "string"
+              },
+              {
+                "id": "c7dcca39-04de-4376-a1be-1c68714cadbc",
+                "name": "dsc_lembrete",
+                "value": "={{ $json.dsc_lembrete }}",
+                "type": "string"
+              },
+              {
+                "id": "41911450-0a73-4479-ba3e-b5ecaaaa413f",
+                "name": "qtd_exec",
+                "value": "={{ $json.qtd_exec }}",
+                "type": "string"
+              },
+              {
+                "id": "e891a7e8-87ea-4edb-b3ed-6bc7dd108080",
+                "name": "dt_alteracao",
+                "value": "={{ $json.dt_alteracao }}",
+                "type": "string"
+              },
+              {
+                "id": "9416aec8-7220-41a8-891b-0ad9d964053f",
+                "name": "id_whatsapp",
+                "value": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+                "type": "string"
+              },
+              {
+                "id": "9c6ee0c2-306f-46cf-b9b7-b486f4bd97d3",
+                "name": "nome_instancia",
+                "value": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+                "type": "string"
+              },
+              {
+                "id": "d8a24021-8102-47b7-8c2e-969955edd97f",
+                "name": "prompt_lembrete",
+                "value": "={{ $json.prompt_lembrete }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2000,
+          -368
+        ],
+        "id": "acd22f3d-b584-452a-90f6-532415a6390d",
+        "name": "selecionar_dados_para_fila"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -128,
+          368
+        ],
+        "id": "6514696d-2a03-4c5a-992c-7e8bb2f1a672",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "operation": "push",
+          "list": "=assessor_{{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageData": "={\"type\":\"human\",\"data\":{\"content\":\"Dados do lembrete:\\nid: {{ $('selecionar_dados_para_fila').item.json.id }},\\nid_cliente: {{ $('selecionar_dados_para_fila').item.json.id_cliente }},\\ndt_cadastro: {{ $('selecionar_dados_para_fila').item.json.dt_cadastro }},\\ndt_desativacao: {{ $('selecionar_dados_para_fila').item.json.dt_desativacao }},\\ndt_proxima_exec: {{ $('selecionar_dados_para_fila').item.json.dt_proxima_exec }},\\ndsc_lembrete: {{ $('selecionar_dados_para_fila').item.json.dsc_lembrete }},\\nprompt_lembrete: {{ $('selecionar_dados_para_fila').item.json.prompt_lembrete }}\",\"additional_kwargs\":{},\"response_metadata\":{}}}",
+          "tail": true
+        },
+        "type": "n8n-nodes-base.redis",
+        "typeVersion": 1,
+        "position": [
+          2848,
+          -480
+        ],
+        "id": "27371b4b-c025-49a3-ab1a-491d4d1a2289",
+        "name": "Armazena Contexto",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageText": "=Para criar o lembrete preciso que me fale quando exatamente quer que eu te lembre.\n\nPor exemplo... \"Me lembre amanhã a tarde\" ou \"Me lembre na próxima segunda as 9 da manha\"",
+          "options_message": {
+            "delay": 1000
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          1536,
+          -80
+        ],
+        "id": "b0f0eb53-800f-4d68-8dbc-51e8f25abc39",
+        "name": "mensagem_dados_invalidos",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          224
+        ],
+        "id": "8f423436-a568-4099-ae02-0bc83b232611",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "9c7dcf47-bdec-4bee-93ab-b1ec0dca6e7f",
+                "leftValue": "={{ $json.data_proxima_execucao }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1312,
+          -256
+        ],
+        "id": "bb62648a-131c-40d1-b02f-71e5de3cf186",
+        "name": "validar_data_proxima_exec"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "sessionTTL": 3600,
+          "contextWindowLength": 0
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          864,
+          224
+        ],
+        "id": "967ca32a-4623-44aa-992c-e676f14b24a0",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar alterações de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para alterar algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja alterar.\n- Caso não seja o lembrete que o usuário quer alterar ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser alterado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja alterar.\n- Assim que o usuário confirmar o lembrete que deve ser atualizado, informe ao usuário de uma forma gentil e agradavel que não é possivel atualizar o lembrete, e que para seguir com a alteração, sugira ao usuário para desativar o lembrete que ele deseja atualizar e criar um novo e já pergunte se pode seguir com a operação.\n- Caso o usuário confirme, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado e peça ao usuário para passar as instruções do novo lembrete, por exemplo, \"Me lembre amanhã às 3 da tarde de agendar uma reunião\".\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          768,
+          48
+        ],
+        "id": "ef7d1c8c-3d43-4a8d-bf77-cf7d7376e74e",
+        "name": "alterar_lembrete"
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "kIbrsiD07r5jI0J6",
+            "mode": "list",
+            "cachedResultName": "TOOL - Lembretes DB"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "prompt"
+            ],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          960,
+          224
+        ],
+        "id": "9c70b23b-f7fa-4524-91b4-8de5081c39c0",
+        "name": "Call n8n Workflow Tool"
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageText": "={{ $json.output.replaceAll('**','*') }}",
+          "options_message": {
+            "delay": 1000
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          1120,
+          48
+        ],
+        "id": "df0693c8-fae0-4a76-b34f-6b9050620b7f",
+        "name": "mensagem_dados_invalidos1",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageText": "=Lembrete criado com sucesso! 📝 \n\n{{ $json.dsc_lembrete ?? 'Sua solicitação: '+ $json.prompt_lembrete}}\n\nVou enviar uma mensagem para te lembrar {{ \n  (() => {\n    const data = DateTime.fromISO($('proxima_exec_menor_2_dias').item.json.dt_proxima_exec, { zone: 'utc' });\n    const hoje = DateTime.now().setZone('utc').startOf('day');\n    const amanha = hoje.plus({ days: 1 });\n    const dataInicioDia = data.startOf('day');\n    \n    return dataInicioDia.equals(hoje) ? `hoje às ${data.toFormat('HH:mm')}` :\n           dataInicioDia.equals(amanha) ? `amanhã às ${data.toFormat('HH:mm')}` :\n           `no dia ${data.toFormat('dd/MM/yyyy')} às ${data.toFormat('HH:mm')}`;\n  })()\n}}",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          2000,
+          -160
+        ],
+        "id": "85d67437-ca10-4624-9922-7ee3b5c0b4d1",
+        "name": "Enviar Mensagem Conversa",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update tb_lembretes\n   set dt_envio_fila =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS'),\n       status_envio_fila = 'S',\n       dt_status_envio_fila =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS'),\n       dt_alteracao =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('selecionar_dados_para_fila').item.json.id }}\n   and id_cliente = {{ $('selecionar_dados_para_fila').item.json.id_cliente }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2464,
+          -480
+        ],
+        "id": "cbc78548-80d6-4858-96e7-0e47635aca26",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          544
+        ],
+        "id": "8316615f-2a87-4c1b-b702-2357efaade55",
+        "name": "OpenAI Chat Model2",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $json.mensagem }}\nData da ultima execução: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\n\nDia da semana referencia: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n",
+          "options": {
+            "systemMessage": "=Você é um assistente especializado em processar solicitações de lembretes recorrentes para um sistema de WhatsApp. Sua função é analisar mensagens dos usuários e extrair a data e hora da próxima execução que o lembrete deverá ser executado.\n\n!!!ATENÇÃO!!! Considere como data, hora atual os valores abaixo:\nData e hora da ultima execução: {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H) (Considere hora, minuto, segundo) \nData e hora atual (HOJE): {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} \nDia da semana atual: {{ \n  (() => {\n    return DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 1 ? 'Segunda-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 2 ? 'Terça-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 3 ? 'Quarta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 4 ? 'Quinta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 5 ? 'Sexta-Feira' :\nDateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc-3' }).format('E') == 6 ? 'Sábado' :\n'Domingo';\n  })()\n}}\n\nNumeração dos dias da semana para referência:\n1: Domingo\n2: Segunda\n3: Terça\n4: Quarta\n5: Quinta\n6: Sexta\n7: Sabado\n\nLigação entre os dias da semana caso haja algum lembrete que atravessa a semana.\n1: Domingo -> 2: Segunda\n2: Segunda -> 3: Terça\n3: Terça -> 4: Quarta\n4: Quarta -> 5: Quinta\n5: Quinta -> 6: Sexta\n6: Sexta -> 7: Sabado\n7: Sabado -> 1: Domingo\n\nHorários Alternativos:\n\"manhã\" → \"09:00\"\n\"tarde\" → \"15:00\" \n\"noite\" → \"20:00\"\n\"almoço\" → \"12:00\"\n\"meio-dia\" → \"12:00\"\n\"meia-noite\" → \"00:00\"\n\nFormato de saída:\ndata_proxima_execucao: (data e hora)\ndata_desativacao: (data e hora)\ndescricao: (DESCRIÇÃO) (EM LETRA MAIUSCULA)\n\n## REGRAS CRÍTICAS DE PREENCHIMENTO:\n\n### REGRA FUNDAMENTAL - QUANDO DEIXAR CAMPOS VAZIOS:\n**APENAS** deixe campos vazios quando:\n1. **data_proxima_execucao**: SOMENTE se não houver NENHUMA informação temporal na mensagem (sem dia, hora, intervalo ou período)\n2. **data_desativacao**: Quando não for especificado término ou duração\n3. **descricao**: SOMENTE se não houver NENHUMA ação ou objeto mencionado\n\n### SEMPRE PREENCHA data_proxima_execucao quando houver:\n- Intervalos: \"de X em X minuto/hora/dia\"\n- Dias específicos: \"amanhã\", \"segunda\", \"dia 15\"\n- Horários: \"às 9h\", \"de manhã\", \"meio-dia\"\n- Períodos: \"toda manhã\", \"diariamente\", \"semanalmente\"\n\n## REGRAS ESPECÍFICAS:\n\n### 1. PADRÕES DE INTERVALO (DE X EM X TEMPO):\nQuando encontrar padrões como \"de X em X [minuto/hora/dia/semana/mês]\":\n- **SEMPRE calcule a próxima execução usando como referencia a instrução do usuário e a data e hora da ultima execução e a data e hora atual**\n- Exemplos:\n  - \"de 1 em 1 minuto\" → adicione 1 minuto à data da ultima execução.\n  - \"de 2 em 2 horas\" → adicione 2 horas à data da ultima execução.\n  - \"de 3 em 3 dias\" → adicione 3 dias à data da ultima execução.\n  - \"a cada 30 minutos\" → adicione 30 minutos à data da ultima execução.\n  - \"a cada hora\" → adicione 1 hora à data da ultima execução.\n\n### 2. Interpretação de Horários:\nQuando o usuário disser \"às Xh\":\n- \"às 8h\" = \"08:00:00\"\n- \"às 14h\" = \"14:00:00\"\n**NUNCA converta para PM ou adicione 12 horas.**\n\n### 3. Padrões \"De X a Y\" (dias da semana):\n- \"De terça a sexta\" = terça, quarta, quinta, sexta\n- \"De segunda a sexta\" = segunda, terça, quarta, quinta, sexta\n\n### 4. Data da próxima execução:\n- A data da próxima execução JAMAIS pode ser inferior a data e HORA atual {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}.\n- Para intervalos: some o intervalo especificado à data da ultima execução.\n- Para dias específicos: calcule conforme regras abaixo\n\n### 5. CÁLCULO DO PRÓXIMO DIA VÁLIDO (para dias da semana):\n1. Liste TODOS os dias válidos do padrão\n2. Verifique se HOJE está na lista de dias válidos:\n   - Se SIM e o horário ainda NÃO passou → próxima execução é HOJE.\n   - Se SIM e o horário JÁ passou → próxima execução é o PRÓXIMO dia válido\n3. Se HOJE não estiver na lista → próxima execução é o PRIMEIRO dia válido após HOJE\n\n### 6. Lembretes Únicos/Pontuais:\nPara lembretes únicos, a \"data_desativacao\" DEVE SER IGUAL à \"data_proxima_execucao\"\nExemplos de lembretes únicos:\n- \"Me lembra amanhã às 15h\"\n- \"Me lembra dia 25/12 às 14h\"\n- \"Me lembra daqui 2 horas\" (único, não recorrente)\n\n### 7. Lembretes Recorrentes:\nSão identificados por:\n- Padrões de intervalo: \"de X em X tempo\", \"a cada X tempo\"\n- Padrões semanais: \"toda segunda\", \"às terças e quintas\"\n- Padrões diários: \"todos os dias\", \"diariamente\"\n\nPara estes, deixe \"data_desativacao\" vazio, A MENOS que seja especificado um período (\"por 2 semanas\", \"até dia 30\", etc.)\n\n## EXEMPLOS PRÁTICOS:\n\nData da ultima execução: 08/09/2025 20:59:00\n\n**Exemplo 1: \"Me lembre de 1 em 1 minuto de olhar o celular\"**\n- Padrão: intervalo recorrente (de 1 em 1 minuto)\n- Cálculo: 20:59:00 + 1 minuto = 21:00:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 21:00:00\n  data_desativacao: \n  descricao: OLHAR O CELULAR\n\n**Exemplo 2: \"Me lembre a cada 2 horas de beber água\"**\n- Padrão: intervalo recorrente (a cada 2 horas)\n- Cálculo: 20:59:00 + 2 horas = 22:59:00\n- Resposta:\n  data_proxima_execucao: 08/09/2025 22:59:00\n  data_desativacao: \n  descricao: BEBER ÁGUA\n\n**Exemplo 3: \"Me lembre de tomar remédio\"**\n- Padrão: SEM informação temporal\n- Resposta:\n  data_proxima_execucao: \n  data_desativacao: \n  descricao: TOMAR REMÉDIO\n\n## PARA ANALISAR\n\n- Sempre que for calcular a data da próxima execução, reflita... \"Se a data da ultima execução foi em {{ DateTime.fromISO($json.dt_proxima_exec_old, { zone: 'utc' }).toFormat('dd/MM/yyyy HH:mm:ss') }} e a data atual é {{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }}, com base na mensagem do usuário, devo enviar a mensagem hoje? Qual será a próxima data de execução? Devo desativar a mensagem?\""
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          768,
+          368
+        ],
+        "id": "f08ff2b5-4236-4870-977e-fcf3a75eff8b",
+        "name": "calcula_proxima_exec1"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Script simplificado para n8n - Extração de data_proxima_execucao, data_desativacao e descricao\n\n// Obtém o texto de entrada do item\nconst texto = $input.first().json.output || $input.first().json.output || '';\n\n// Função para extrair valores de forma segura\nfunction extrairCampo(texto, nomeCampo) {\n  try {\n    // Normaliza o texto removendo múltiplos espaços mas mantendo quebras de linha\n    const textoLimpo = texto.replace(/\\r/g, '');\n    \n    // Cria regex para capturar o valor do campo\n    // Procura pelo nome do campo seguido de : e captura até o próximo campo ou fim\n    const regex = new RegExp(\n      `${nomeCampo}:\\\\s*([^\\\\n]*?)(?=\\\\s*(?:data_proxima_execucao|data_desativacao|descricao):|$)`,\n      'si'\n    );\n    \n    const match = textoLimpo.match(regex);\n    \n    if (match && match[1] !== undefined) {\n      // Remove espaços extras e retorna o valor\n      return match[1].trim();\n    }\n    \n    return '';\n  } catch (error) {\n    console.error(`Erro ao extrair ${nomeCampo}:`, error);\n    return '';\n  }\n}\n\ntry {\n  // Extrai os três campos\n  const data_proxima_execucao = extrairCampo(texto, 'data_proxima_execucao');\n  const data_desativacao = extrairCampo(texto, 'data_desativacao');\n  const descricao = extrairCampo(texto, 'descricao');\n  \n  // Monta o objeto de saída\n  const resultado = {\n    data_proxima_execucao: data_proxima_execucao || null,\n    data_desativacao: data_desativacao || null,\n    descricao: descricao || null\n  };\n  \n  // Adiciona informações extras úteis\n  if (data_proxima_execucao) {\n    try {\n      const dataObj = new Date(data_proxima_execucao);\n      resultado.data_proxima_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_proxima_valida) {\n        resultado.data_proxima_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_proxima_valida = false;\n    }\n  }\n  \n  if (data_desativacao) {\n    try {\n      const dataObj = new Date(data_desativacao);\n      resultado.data_desativacao_valida = !isNaN(dataObj.getTime());\n      if (resultado.data_desativacao_valida) {\n        resultado.data_desativacao_formatada = dataObj.toISOString();\n      }\n    } catch (e) {\n      resultado.data_desativacao_valida = false;\n    }\n  }\n  \n  // Retorna o resultado\n  return resultado;\n  \n} catch (error) {\n  // Em caso de erro, retorna objeto com erro\n  return {\n    erro: true,\n    mensagem: error.message,\n    data_proxima_execucao: null,\n    data_desativacao: null,\n    descricao: null\n  };\n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1104,
+          368
+        ],
+        "id": "4263e3b5-b633-437b-a780-55c88e561862",
+        "name": "Code1"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update tb_lembretes\n   set status_envio_fila = 'E',\n       dt_status_envio_fila = to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('selecionar_dados_para_fila').item.json.id }}\n   and id_cliente = {{ $('selecionar_dados_para_fila').item.json.id_cliente }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2464,
+          -288
+        ],
+        "id": "d42a93b1-88a3-4e18-82dc-7a0412ee3bc3",
+        "name": "Execute a SQL query1",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('selecionar_dados_para_fila').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('selecionar_dados_para_fila').item.json.id_whatsapp }}",
+          "messageText": "=Lembrete criado com sucesso! 📝 \n\nVou enviar uma mensagem para te lembrar {{ \n  (() => {\n    const data = DateTime.fromISO($('proxima_exec_menor_2_dias').item.json.dt_proxima_exec, { zone: 'utc' });\n    const hoje = DateTime.now().setZone('utc').startOf('day');\n    const amanha = hoje.plus({ days: 1 });\n    const dataInicioDia = data.startOf('day');\n    \n    return dataInicioDia.equals(hoje) ? `hoje às ${data.toFormat('HH:mm')}` :\n           dataInicioDia.equals(amanha) ? `amanhã às ${data.toFormat('HH:mm')}` :\n           `no dia ${data.toFormat('dd/MM/yyyy')} às ${data.toFormat('HH:mm')}`;\n  })()\n}}",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          2656,
+          -480
+        ],
+        "id": "e6e77bb0-561e-422e-94f3-922e5bfb7086",
+        "name": "Enviar Mensagem Lembrete Criado",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('selecionar_dados_para_fila').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('selecionar_dados_para_fila').item.json.id_whatsapp }}",
+          "messageText": "=Vish... tive um probleminha técnico para programar a execução do seu lembrete 🥺\n\nJá direcionei o erro para nossa equipe técnica analisar.\n\nAguarde um pouquinho que um de nossos analistas irá entrar em contato com você para explicar o ocorrido e passar novas orientações.",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          2656,
+          -288
+        ],
+        "id": "2d474080-00d1-4e7d-adfc-43e2bb9e8d23",
+        "name": "Mensagem Problema Envio Fila",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update tb_lembretes\n   set dt_proxima_exec =  to_timestamp('{{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\").toFormat('dd/MM/yyyy HH:mm:ss').toString()}}', 'DD/MM/YYYY HH24:MI:SS'), \n       status_envio_fila = 'P',\n       dt_envio_fila = null,\n       dt_status_envio_fila = to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS'),\n       dt_alteracao =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('Dados para criar ou atualizar lembrete').item.json.id_lembrete }}\n   and id_cliente = {{ $('Dados para criar ou atualizar lembrete').item.json.id_cliente }}\nreturning id, id_cliente, dt_cadastro, dt_proxima_exec, dt_desativacao, dsc_lembrete, qtd_exec, dt_alteracao, prompt_lembrete",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1520,
+          352
+        ],
+        "id": "72b10053-39c8-426b-a180-e528168ce272",
+        "name": "atualiza_dt_proxima_exec",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "exchange",
+          "exchange": "reminder-delayed-exchange",
+          "exchangeType": "direct",
+          "routingKey": "execute-reminder",
+          "options": {
+            "headers": {
+              "header": [
+                {
+                  "key": "x-delay",
+                  "value": "={{ $json.dt_proxima_exec.toDateTime().toMillis() - $('Dados para criar ou atualizar lembrete').item.json.data_atual_msg.toDateTime().toMillis() }}"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.rabbitmq",
+        "typeVersion": 1.1,
+        "position": [
+          1920,
+          352
+        ],
+        "id": "33cf8f19-56d4-40af-946d-2aa87aadd63a",
+        "name": "enviar_para_fila1",
+        "alwaysOutputData": false,
+        "credentials": {
+          "rabbitmq": {
+            "id": "KyXXc43bUIJMOHCR",
+            "name": "RabbitMQ account"
+          }
+        },
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "227af9b8-511c-4f40-ba7f-82efed687007",
+                "name": "id",
+                "value": "={{ $json.id }}",
+                "type": "string"
+              },
+              {
+                "id": "06110c7b-68e0-452c-b3f3-b6f350243754",
+                "name": "id_cliente",
+                "value": "={{ $json.id_cliente }}",
+                "type": "string"
+              },
+              {
+                "id": "c31b8898-26e8-4200-a643-19d97745a6f2",
+                "name": "dt_cadastro",
+                "value": "={{ $json.dt_cadastro }}",
+                "type": "string"
+              },
+              {
+                "id": "5fa59463-03cd-4f58-90ff-9ab681861f5c",
+                "name": "dt_desativacao",
+                "value": "={{ $json.dt_desativacao }}",
+                "type": "string"
+              },
+              {
+                "id": "140b6b18-4411-4c5d-8540-e2ab95c3c78e",
+                "name": "dt_proxima_exec",
+                "value": "={{ $json.dt_proxima_exec }}",
+                "type": "string"
+              },
+              {
+                "id": "c7dcca39-04de-4376-a1be-1c68714cadbc",
+                "name": "dsc_lembrete",
+                "value": "={{ $json.dsc_lembrete }}",
+                "type": "string"
+              },
+              {
+                "id": "41911450-0a73-4479-ba3e-b5ecaaaa413f",
+                "name": "qtd_exec",
+                "value": "={{ $json.qtd_exec }}",
+                "type": "string"
+              },
+              {
+                "id": "e891a7e8-87ea-4edb-b3ed-6bc7dd108080",
+                "name": "dt_alteracao",
+                "value": "={{ $json.dt_alteracao }}",
+                "type": "string"
+              },
+              {
+                "id": "9416aec8-7220-41a8-891b-0ad9d964053f",
+                "name": "id_whatsapp",
+                "value": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+                "type": "string"
+              },
+              {
+                "id": "9c6ee0c2-306f-46cf-b9b7-b486f4bd97d3",
+                "name": "nome_instancia",
+                "value": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+                "type": "string"
+              },
+              {
+                "id": "d8a24021-8102-47b7-8c2e-969955edd97f",
+                "name": "prompt_lembrete",
+                "value": "={{ $json.prompt_lembrete }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1728,
+          352
+        ],
+        "id": "7c4f9d83-c201-42ae-954d-e8c64284aeb4",
+        "name": "selecionar_dados_para_fila1"
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('selecionar_dados_para_fila1').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('selecionar_dados_para_fila1').item.json.id_whatsapp }}",
+          "messageText": "=Vish... tive um probleminha técnico para reprogramar a execução do seu lembrete abaixo 🥺\n\n{{ $('selecionar_dados_para_fila1').item.json.dsc_lembrete ?? 'Sua solicitação: '+ $('selecionar_dados_para_fila1').item.json.prompt_lembrete}}\n\nA data da próxima execução seria {{ DateTime.fromFormat($('selecionar_dados_para_fila1').item.json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\").toFormat('dd/MM/yyyy HH:mm:ss').toString().replace('-03:00','Z')}}.\nJá direcionei o erro para nossa equipe técnica analisar.\nAguarde um pouquinho que um de nossos analistas irá entrar em contato com você para explicar o ocorrido e passar novas orientações.",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          2352,
+          432
+        ],
+        "id": "380686d0-dd89-4555-ae03-c915bf7460b1",
+        "name": "Mensagem Problema Envio Fila1",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update tb_lembretes\n   set dt_envio_fila =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS'),\n       status_envio_fila = 'S',\n       dt_status_envio_fila =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS'),\n       dt_alteracao =  to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('selecionar_dados_para_fila1').item.json.id }}\n   and id_cliente = {{ $('selecionar_dados_para_fila1').item.json.id_cliente }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2160,
+          256
+        ],
+        "id": "62df3e0e-c89c-4f35-b332-2c8384ec97e3",
+        "name": "atualizar_data_proxima_exec",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update tb_lembretes\n   set status_envio_fila = 'E',\n       dt_status_envio_fila = to_timestamp('{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss')}}', 'DD/MM/YYYY HH24:MI:SS')\n where id = {{ $('selecionar_dados_para_fila1').item.json.id }}\n   and id_cliente = {{ $('selecionar_dados_para_fila1').item.json.id_cliente }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          2160,
+          432
+        ],
+        "id": "7c50a873-e07d-4c5c-9e23-15d1d23a6a19",
+        "name": "atualizar_lembrete_com_erro",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          784,
+          896
+        ],
+        "id": "f4d6619d-7fb9-4af9-b268-c1d3fa362f68",
+        "name": "OpenAI Chat Model3",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "sessionTTL": 3600,
+          "contextWindowLength": 0
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          880,
+          896
+        ],
+        "id": "afbecb60-b47c-45b5-b2db-942c43c90732",
+        "name": "Redis Chat Memory1",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageText": "={{ $json.output.replaceAll('**','*') }}",
+          "options_message": {
+            "delay": 1000
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          1136,
+          720
+        ],
+        "id": "5d073c0b-edc4-4767-a1bb-67662a31da2a",
+        "name": "mensagem_dados_invalidos2",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          784,
+          1232
+        ],
+        "id": "aeb4aee5-d897-4463-a86b-0d6ab90c030e",
+        "name": "OpenAI Chat Model4",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "sessionTTL": 3600,
+          "contextWindowLength": 0
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          880,
+          1232
+        ],
+        "id": "c6c207aa-929d-4441-bc22-44f373502876",
+        "name": "Redis Chat Memory2",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('Dados para criar ou atualizar lembrete').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('Dados para criar ou atualizar lembrete').item.json.id_whatsapp }}",
+          "messageText": "={{ $json.output.replaceAll('**','*') }}",
+          "options_message": {
+            "delay": 1000
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          1136,
+          1056
+        ],
+        "id": "7ced4936-e5d6-45b5-80ab-b192c2d55ac3",
+        "name": "mensagem_dados_invalidos3",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por cancelar/desativar/apagar/parar/remover lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Quando o usuário pedir para cancelar/desativar/apagar/parar/remover algum lembrete, consulte na \"Memory\" e veja se da para saber de qual lembrete o usuário está se referindo pelo contexto da conversa.\n- Se pelo contexto da conversa (Memory) conseguir descobrir de qual lembrete ele está se referindo, confirme com o usuário se realmente é esse lembrete que ele deseja cancelar/desativar/apagar/parar/remover.\n- Caso não seja o lembrete que o usuário quer cancelar/desativar/apagar/parar/remover ou se pelo contexto da conversa não foi possivel saber qual é o lembrete que deve ser desativado, consulte os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo) e liste os lembretes para o usuário informar qual ele deseja desativar.\n- Assim que o usuário confirmar o lembrete que deve ser desativado, desative o lembrete em questão, se a operação for realiazda com sucesso informe ao usuário que o lembrete foi desativado.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes1\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário no formato:\n\nLEMBRETE X 📝 (X = NUMERE EM ORDEM CRESCENTE)\nId do lembrete: XXX\nCriado em: DD/MM/AAAA HH:MI:SS\nPróxima execução: DD/MM/AAAA HH:MI:SS\nDescrição: \"XXX\"\nMensagem enviada: \"XXX\"\nUltima execução: DD/MM/AAAA HH:MI:SS\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes1\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima.\n\n#DESATIVAR LEMBRETE#\nPara realizar a desativação do lembretes, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Atualizar, Atualizar o campo (set): abortar_execucao_lembrete para {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} (dd/mm/yyyy); Filtro: id (id do lembrete): XXXX id_cliente: XXX\""
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          784,
+          720
+        ],
+        "id": "8027fcd5-970e-45d0-ac05-fd3ada542ab7",
+        "name": "cancelar_lembrete"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Mensagem: {{ $json.mensagem }}",
+          "options": {
+            "systemMessage": "=Seu nome é \"Mori\" (Feminino) e você será responsável por gerenciar consultas de lembretes.\n\nColunas da tabela de lembretes relevantes para o processo de alteração.\n\n- id (Id do lembrete)\n- id_cliente (Id do cliente) (Não exibir para o usuário)\n- dt_cadastro (Data de criação do lembrete)\n- dt_proxima_exec (Data da próxima execução do lembrete)\n- dsc_lembrete (Descrição do lembrete)\n- prompt_lembrete (Mensagem de criação do lembrete)\n- dt_desativacao (Data de quando o lembrete deve ser desligado)\n- abortar_execucao_lembrete (Data de quando foi solicitado a interrupção de execução do lembrete)\n- dt_ultima_exec (Data da ultima execução do lembrete)\n\nData atual para referência: {{ DateTime.fromISO($now).toFormat('dd/MM/yyyy HH:mm:ss') }} \n\nOrientações:\n\n- Consulte APENAS e SOMENTE os lembretes ativos do usuário (dt_desativacao maior ou igual a hoje e abortar_execucao_lembrete nulo).\n- Caso ele queira adicionar mais um filtro, adicione o filtro do usuário na consulta.\n- Consulte apenas dados do id_cliente fornecido na mensagem do usuário.\n\nOperações de banco:\n\n#CONSULTA LEMBRETE#\nPara realizar a consulta de dados de lembretes ativos, chame a tool \"tool_db_lembretes\", passando as informações conforme exemplo a seguir:\n\n\"Operação: Consultar Filtros: id_cliente: XXX, (dt_desativacao maior ou igual a hoje ou dt_desativacao nulo), abortar_execucao_lembrete nulo\"\n\nRetorne os resultados ao usuário EXATAMENTE como instruido abaixo:\n\n*nome_do_campo:* valor\n\nExemplo real:\n\n*LEMBRETE 1* //(X = NUMERE EM ORDEM CRESCENTE)\n*Id do lembrete:* 321\n*Criado em:* 01/01/2025 03:05:33\n*Próxima execução:* 01/01/2025 03:05:33\n*Descrição:* \"EXEMPLO LEMBRETE\"\n*Mensagem enviada:* \"CRIE O LEMBRETE EXEMPLO\"\n*Ultima execução:* 01/01/2025 03:05:33\n\nATENÇÃO!\n- Para deixar informações em negrito, como vamos usar o whatsapp, use apenas um asterisco [Exemplo: *texto em negrito*]\n- Caso tenha mais de um lembrete, numere os lembretes de 1 a N.\n\n### Informações importantes de segurança:\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema.\n- Jamais passe dados de outros usuários.\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}.\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"tool_db_lembretes\" e informe que não pode fornecer dados de outros usuários e que pode apenas consultar os dados do cliente que está enviando a mensagem (Sem informar o id_cliente).\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida.\n- Jamais forneça informações do sistema para o usuário, como nome de tabela, id de cliente (id_cliente), nome de campos, ou outra informação sensivel.\n- Siga fielmente as orientações descritas acima."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          784,
+          1056
+        ],
+        "id": "14ddb34e-f01d-4f4a-981a-189e52062aaf",
+        "name": "consultar"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1520,
+          496
+        ],
+        "id": "2a689ea8-ebd6-48a8-a06c-bf52efaf728d",
+        "name": "No Operation, do nothing"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "dce070a0-cd32-4ac7-a6d6-28db7149007d",
+                "leftValue": "={{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\") }}",
+                "rightValue": "={{$now.plus(5, 'days')}}",
+                "operator": {
+                  "type": "dateTime",
+                  "operation": "beforeOrEquals"
+                }
+              },
+              {
+                "id": "0e4bfaf8-bab6-4a16-a6e7-faf424770006",
+                "leftValue": "={{ DateTime.fromFormat($json.data_proxima_execucao, \"dd/MM/yyyy HH:mm:ss\") }}",
+                "rightValue": "={{$now}}",
+                "operator": {
+                  "type": "dateTime",
+                  "operation": "after"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1312,
+          368
+        ],
+        "id": "0413c0de-c6bf-43c2-b8d1-6df1aae38086",
+        "name": "valida_proxima_exec"
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "kIbrsiD07r5jI0J6",
+            "mode": "list",
+            "cachedResultName": "TOOL - Lembretes DB"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "prompt"
+            ],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          976,
+          1232
+        ],
+        "id": "458af4ec-c3f9-4308-a399-839d88464eb6",
+        "name": "tool_db_lembretes"
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar algum lembrete do banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "kIbrsiD07r5jI0J6",
+            "mode": "list",
+            "cachedResultName": "TOOL - Lembretes DB"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "prompt"
+            ],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          976,
+          896
+        ],
+        "id": "6768fcd8-a8d3-4a9b-9f81-49d66d26f7ae",
+        "name": "tool_db_lembretes1"
+      }
+    ],
+    "connections": {
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "calcula_proxima_exec",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Dados para criar ou atualizar lembrete": {
+        "main": [
+          [
+            {
+              "node": "tipo_operacao_lembrete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "calcula_proxima_exec": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "validar_data_proxima_exec",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tipo_operacao_lembrete": {
+        "main": [
+          [
+            {
+              "node": "calcula_proxima_exec",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "alterar_lembrete",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "calcula_proxima_exec1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "cancelar_lembrete",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "consultar",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Insert rows in a table": {
+        "main": [
+          [
+            {
+              "node": "proxima_exec_menor_2_dias",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "proxima_exec_menor_2_dias": {
+        "main": [
+          [
+            {
+              "node": "selecionar_dados_para_fila",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Enviar Mensagem Conversa",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "selecionar_dados_para_fila": {
+        "main": [
+          [
+            {
+              "node": "enviar_para_fila",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Dados para criar ou atualizar lembrete",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "enviar_para_fila": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Execute a SQL query1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Armazena Contexto": {
+        "main": [
+          []
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "alterar_lembrete",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "validar_data_proxima_exec": {
+        "main": [
+          [
+            {
+              "node": "Insert rows in a table",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "mensagem_dados_invalidos",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "alterar_lembrete",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call n8n Workflow Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "alterar_lembrete",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "alterar_lembrete": {
+        "main": [
+          [
+            {
+              "node": "mensagem_dados_invalidos1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "Enviar Mensagem Lembrete Criado",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "calcula_proxima_exec1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "calcula_proxima_exec1": {
+        "main": [
+          [
+            {
+              "node": "Code1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query1": {
+        "main": [
+          [
+            {
+              "node": "Mensagem Problema Envio Fila",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Enviar Mensagem Lembrete Criado": {
+        "main": [
+          [
+            {
+              "node": "Armazena Contexto",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code1": {
+        "main": [
+          [
+            {
+              "node": "valida_proxima_exec",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualiza_dt_proxima_exec": {
+        "main": [
+          [
+            {
+              "node": "selecionar_dados_para_fila1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "enviar_para_fila1": {
+        "main": [
+          [
+            {
+              "node": "atualizar_data_proxima_exec",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "atualizar_lembrete_com_erro",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "selecionar_dados_para_fila1": {
+        "main": [
+          [
+            {
+              "node": "enviar_para_fila1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "atualizar_data_proxima_exec": {
+        "main": [
+          []
+        ]
+      },
+      "atualizar_lembrete_com_erro": {
+        "main": [
+          [
+            {
+              "node": "Mensagem Problema Envio Fila1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model3": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "cancelar_lembrete",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory1": {
+        "ai_memory": [
+          [
+            {
+              "node": "cancelar_lembrete",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model4": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "consultar",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory2": {
+        "ai_memory": [
+          [
+            {
+              "node": "consultar",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "cancelar_lembrete": {
+        "main": [
+          [
+            {
+              "node": "mensagem_dados_invalidos2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "consultar": {
+        "main": [
+          [
+            {
+              "node": "mensagem_dados_invalidos3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "valida_proxima_exec": {
+        "main": [
+          [
+            {
+              "node": "atualiza_dt_proxima_exec",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Operation, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tool_db_lembretes": {
+        "ai_tool": [
+          [
+            {
+              "node": "consultar",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "tool_db_lembretes1": {
+        "ai_tool": [
+          [
+            {
+              "node": "cancelar_lembrete",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-10-31T11:00:22.486Z",
+    "backedUpAt": "2025-12-16T11:00:55.600Z",
     "version": "2025-10-30T23:20:23.000Z",
     "originalId": "egGfEYHUDYdXMKAC"
   }
