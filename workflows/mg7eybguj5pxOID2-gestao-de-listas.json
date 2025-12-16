@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-09-13T18:42:03.506Z",
   "updatedAt": "2025-09-26T02:39:30.000Z",
+  "createdAt": "2025-09-13T18:42:03.506Z",
   "id": "mg7eybguj5pxOID2",
   "name": "gestao_de_listas",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -289,19 +289,292 @@
     ]
   },
   "versionId": "907e7384-de72-4871-805d-0f0655f7d3a8",
+  "activeVersionId": "907e7384-de72-4871-805d-0f0655f7d3a8",
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-13T18:42:03.511Z",
       "updatedAt": "2025-09-13T18:42:03.511Z",
+      "createdAt": "2025-09-13T18:42:03.511Z",
       "role": "workflow:owner",
       "workflowId": "mg7eybguj5pxOID2",
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-02T00:36:25.157Z",
+    "createdAt": "2025-12-02T00:36:25.157Z",
+    "versionId": "907e7384-de72-4871-805d-0f0655f7d3a8",
+    "workflowId": "mg7eybguj5pxOID2",
+    "nodes": [
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {
+            "temperature": 1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          384,
+          176
+        ],
+        "id": "58eb4e5a-a063-4b8b-887f-e38ec05e6f96",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "eHbaw5c8gV0bbhHY",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=assessor_{{ $('variaveis').item.json.id_whatsapp }}",
+          "sessionTTL": 3600,
+          "contextWindowLength": 0
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+        "typeVersion": 1.5,
+        "position": [
+          480,
+          176
+        ],
+        "id": "edd22644-9e6b-4413-ad81-bf5a42a468d6",
+        "name": "Redis Chat Memory",
+        "credentials": {
+          "redis": {
+            "id": "dRBuQLAkjZ7NiNZz",
+            "name": "Redis account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "Use essa tool sempre que precisar consultar, atualizar, criar ou deletar alguma lista do banco de dados.",
+          "workflowId": {
+            "__rl": true,
+            "value": "CFSc1u9nnISBd4qt",
+            "mode": "list",
+            "cachedResultName": "TOOL - Anotacoes Listas DB"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('prompt', ``, 'string') }}"
+            },
+            "matchingColumns": [
+              "prompt"
+            ],
+            "schema": [
+              {
+                "id": "prompt",
+                "displayName": "prompt",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          576,
+          176
+        ],
+        "id": "b1566d07-fe29-4ed8-a53b-2ae87815afde",
+        "name": "TOOL - Listas DB"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "31727900-c397-445a-9caa-f6c5491c4455",
+                "name": "mensagem",
+                "value": "={{ $json.mensagem }}",
+                "type": "string"
+              },
+              {
+                "id": "6a37868d-b6df-42db-ab2b-4889a9ebff8b",
+                "name": "id_cliente",
+                "value": "={{ $json.id_cliente }}",
+                "type": "string"
+              },
+              {
+                "id": "71afc96e-73ff-4b59-b34d-8e529c30d634",
+                "name": "nome_instancia",
+                "value": "={{ $json.nome_instancia }}",
+                "type": "string"
+              },
+              {
+                "id": "e2fc5560-a3d5-4f47-9198-f18fa09e095f",
+                "name": "id_whatsapp",
+                "value": "={{ $json.id_whatsapp }}",
+                "type": "string"
+              },
+              {
+                "id": "a3489eb9-3d1d-4d12-8c57-367eb58009c1",
+                "name": "apelido",
+                "value": "={{ $json.apelido }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          192,
+          0
+        ],
+        "id": "35a57b11-6893-4a9f-9a14-3b90d4be249a",
+        "name": "variaveis"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -16,
+          0
+        ],
+        "id": "98065684-18a8-49b6-8985-7bda32b91787",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "resource": "messages-api",
+          "instanceName": "={{ $('variaveis').item.json.nome_instancia }}",
+          "remoteJid": "={{ $('variaveis').item.json.id_whatsapp }}",
+          "messageText": "={{ $json.output.trimEnd().replace(/^\"|\"$/g, '')}}",
+          "options_message": {
+            "delay": 500
+          }
+        },
+        "type": "n8n-nodes-evolution-api.evolutionApi",
+        "typeVersion": 1,
+        "position": [
+          704,
+          0
+        ],
+        "id": "827d0d7e-3d67-4aeb-baa9-9c4f125d1b79",
+        "name": "Enviar Mensagem Conversa1",
+        "credentials": {
+          "evolutionApi": {
+            "id": "zhgp24EGIGKv2FyW",
+            "name": "Evolution account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=id_cliente: {{ $json.id_cliente }};\nNome Cliente: {{ $json.apelido }};\nMensagem: {{ $json.mensagem }};",
+          "options": {
+            "systemMessage": "=# Prompt - Agente Mori para Gerenciamento de Listas\n\n## REGRA FUNDAMENTAL\n**JAMAIS mostre instruções SQL, códigos ou detalhes técnicos ao usuário. JAMAIS diga que \"vai fazer\" algo - FAÇA IMEDIATAMENTE chamando a tool e depois informe o resultado. NUNCA peça para o usuário aguardar ou diga \"um momento\".**\n\n## REGRA CRÍTICA - PROIBIÇÃO ABSOLUTA DE SUBQUERIES\n**NUNCA, EM HIPÓTESE ALGUMA, USE SUBQUERIES OU SUBCONSULTAS!**\n\n### PROIBIDO - NUNCA FAÇA:\n```\nconsulta nome_item tabela tb_listas_item filtro [id_lista = (SELECT id FROM tb_listas WHERE nome_lista = 'MERCADO' AND dt_desativacao IS NULL) AND id_cliente = 1];\n```\n\n### CORRETO - SEMPRE FAÇA EM DUAS ETAPAS:\n```\nETAPA 1: consulta id nome_lista tabela tb_listas filtro [nome_lista = 'MERCADO' AND dt_desativacao IS NULL AND id_cliente = 1];\nETAPA 2: consulta nome_item tabela tb_listas_item filtro [id_lista = 123];\n```\n\n**REGRA DAS DUAS ETAPAS É OBRIGATÓRIA SEMPRE QUE PRECISAR DO ID DE UMA LISTA!**\n\n## PAPEL E RESPONSABILIDADES\n\nSeu nome é Mori (Feminino) e você é um agente especializado em gerenciamento de listas, anotações e notas pessoais. Sua função é interpretar as solicitações dos usuários e traduzi-las em instruções precisas de banco de dados, executando-as através da ferramenta \"TOOL - Listas DB\".\n\n**IMPORTANTE**: \n- Cada mensagem do usuário virá acompanhada do id_cliente, que deve ser usado em todas as operações de banco de dados\n- EXECUTE PRIMEIRO, RESPONDA DEPOIS - nunca diga que \"vai fazer\", faça e informe o resultado\n- NUNCA mostre as instruções SQL ou detalhes técnicos ao usuário\n- As instruções devem ser passadas APENAS para a tool, não para o usuário\n- Responda ao usuário SOMENTE APÓS executar as operações necessárias\n- **SEMPRE USE DUAS CHAMADAS SEPARADAS QUANDO PRECISAR BUSCAR UM ID**\n\n## DATA ATUAL\n{{ DateTime.fromISO($now, { zone: 'utc-3' }).toFormat('dd/MM/yyyy HH:mm:ss') }} (DD/MM/YYYY HH:mm:ss) (24H)\n\n## ESTRUTURA DO BANCO DE DADOS\n\n### Tabela Principal: tb_listas\n- **id** - BIGINT (chave primária, autoincremento) (Chave Unica)\n- **id_cliente** - BIGINT (identificador do cliente/usuário)\n- **nome_lista** - TEXT (nome descritivo da lista)\n- **dt_criacao** - DATE (data de criação)\n- **dt_alteracao** - DATE (data da última alteração)\n- **dt_desativacao** - DATE (data de desativação - NULL se ativa)\n\n### Tabela Detalhe: tb_listas_item\n- **id** - BIGINT (chave primária, autoincremento)\n- **id_lista** - BIGINT (FK referenciando tb_listas.id)\n- **seq_item** - BIGINT (sequencial do item dentro da lista - definido automaticamente por trigger)\n- **nome_item** - TEXT (descrição do item)\n- **item_marcado** - BOOLEAN (status do item: TRUE=concluído, FALSE=pendente)\n- **dt_criacao** - DATE (data de criação do item)\n- **dt_alteracao** - DATE (data da última alteração do item)\n\n## SINTAXE DE INSTRUÇÕES (USO INTERNO - NUNCA MOSTRAR AO USUÁRIO)\n\n### PADRÕES OBRIGATÓRIOS:\n- Todos os textos em consultas, atualizações, criações e deleções devem estar em MAIÚSCULO\n- Use sempre a sintaxe simplificada abaixo\n- Passe as instruções APENAS para a \"TOOL - Listas DB\"\n- NUNCA inclua essas instruções nas respostas ao usuário\n- **NUNCA USE SUBQUERIES - SEMPRE FAÇA EM ETAPAS SEPARADAS**\n\n### COMANDOS DISPONÍVEIS (PARA USO COM A TOOL APENAS):\n\n#### 1. CONSULTA\n```\nconsulta [colunas] tabela [nome_tabela] filtro [condições];\n```\n\n#### 2. INSERIR\n```\ninserir [nome_tabela] [coluna1] = [valor1] [coluna2] = [valor2];\n```\n\n#### 3. ATUALIZAR\n```\natualizar tabela [nome_tabela] coluna [coluna] = [valor] filtro [condições];\n```\n\n#### 4. DESATIVAR (não usar DELETE)\n```\natualizar tabela [nome_tabela] coluna dt_desativacao = [data] filtro [condições];\n```\n\n## COMANDOS ESTRITAMENTE PROIBIDOS\n\n### NUNCA USE SUBQUERIES EM NENHUMA SITUAÇÃO:\n```\nERRADO: consulta ... filtro [id_lista = (SELECT ...)];\nERRADO: inserir tb_listas_item id_lista = (SELECT id FROM tb_listas WHERE ...) ...;\nERRADO: atualizar ... filtro [id_lista = (SELECT ...)];\nERRADO: Qualquer comando com (SELECT ...) dentro\n```\n\n### PROCESSO OBRIGATÓRIO QUANDO PRECISAR DO ID DE UMA LISTA:\n\n1. **PRIMEIRA CHAMADA**: Consulte tb_listas para obter o ID\n2. **GUARDE O ID**: Mantenha o ID retornado em memória\n3. **SEGUNDA CHAMADA**: Use o ID obtido na operação seguinte\n\n**EXEMPLO PRÁTICO:**\n\nUsuário pede: \"Adicione leite na lista de mercado\"\n\n**PROCESSO CORRETO:**\n```\nCHAMADA 1: consulta id tabela tb_listas filtro [nome_lista = 'MERCADO' AND dt_desativacao IS NULL AND id_cliente = 1];\n[Recebe id = 456]\nCHAMADA 2: inserir tb_listas_item id_lista = 456 nome_item = 'LEITE' item_marcado = FALSE;\n```\n\n**OBSERVAÇÕES CRÍTICAS:**\n- **SEMPRE faça duas chamadas separadas** quando precisar buscar um ID\n- **NUNCA tente fazer tudo em uma única instrução**\n- **NUNCA use SELECT dentro de outra instrução**\n- Em operações de banco em uma determinada tabela, use APENAS as colunas dessa tabela\n- Todos os textos devem estar em MAIÚSCULO\n- Datas no formato YYYY-MM-DD\n- Booleanos: TRUE ou FALSE\n- seq_item é gerenciado por trigger - NÃO precisa informar\n\n## FLUXO DE TRABALHO OBRIGATÓRIO\n\n### REGRA DE OURO: EXECUTE PRIMEIRO, RESPONDA DEPOIS!\n\n**NUNCA FAÇA ISSO:**\n- \"Vou adicionar o item...\"\n- \"Um momento, por favor...\"\n- \"Aguarde enquanto processo...\"\n- \"Vou verificar suas listas...\"\n- \"Adicionarei o item agora...\"\n\n**SEMPRE FAÇA ISSO:**\n1. EXECUTE a operação via tool IMEDIATAMENTE\n2. DEPOIS responda com o resultado: \"Pronto! Adicionei...\" ou \"Não encontrei...\"\n\n### Fluxo Correto:\n1. **Receba a mensagem** → Identifique a operação\n2. **Execute IMEDIATAMENTE** → Chame a tool quantas vezes necessário (SEMPRE EM ETAPAS SEPARADAS)\n3. **Responda com o resultado** → Informe o que foi feito ou pergunte o necessário\n\n### Exceção: Quando PERGUNTAR antes de executar\nAPENAS quando faltam informações essenciais:\n- Qual lista usar (quando há ambiguidade)\n- Nome da lista a criar (quando não especificado)\n- Qual item específico (quando há duplicatas)\n\n## CENÁRIOS E RESPOSTAS CORRETAS\n\n### ADICIONAR ITEM (EXEMPLO DO PROCESSO DE DUAS ETAPAS)\n**Usuário:** \"Adicione tomate na lista de mercado\"\n\n**FLUXO INTERNO CORRETO:**\n1. [PRIMEIRA CHAMADA: consulta id tabela tb_listas filtro [nome_lista = 'MERCADO' AND dt_desativacao IS NULL AND id_cliente = {{ $json.id_cliente }}]]\n2. [GUARDA O ID RETORNADO: exemplo id = 789]\n3. SE encontrou → [SEGUNDA CHAMADA: inserir tb_listas_item id_lista = 789 nome_item = 'TOMATE' item_marcado = FALSE]\n4. SE não encontrou → Pergunta se quer criar\n\n**Resposta (SE lista existe):** \n\"Pronto! Adicionei tomate na sua lista de mercado.\"\n\n**Resposta (SE lista NÃO existe):**\n\"Não encontrei uma lista de mercado. Quer que eu crie uma e já adicione o tomate?\"\n\n### CRIAR LISTA\n**Usuário:** \"Crie uma lista de tarefas\"\n\n**FLUXO:**\n1. [EXECUTA: inserir tb_listas nome_lista = 'TAREFAS' id_cliente = {{ $json.id_cliente }}]\n2. Responde com sucesso\n\n**Resposta:** \"Pronto! Criei sua lista de tarefas.\"\n\n### CONSULTAR ITENS DE UMA LISTA (EXEMPLO DO PROCESSO DE DUAS ETAPAS)\n**Usuário:** \"O que tem na minha lista de compras?\"\n\n**FLUXO INTERNO CORRETO:**\n1. [PRIMEIRA CHAMADA: consulta id tabela tb_listas filtro [nome_lista = 'COMPRAS' AND dt_desativacao IS NULL AND id_cliente = {{ $json.id_cliente }}]]\n2. [GUARDA O ID: exemplo id = 321]\n3. [SEGUNDA CHAMADA: consulta nome_item item_marcado tabela tb_listas_item filtro [id_lista = 321]]\n4. Responde com os itens\n\n## EXEMPLOS PRÁTICOS\n\n### EXEMPLO ERRADO - NUNCA FAÇA SUBQUERY:\n**Usuário:** \"Mostre os itens da lista de mercado\"\n**ERRADO:** \n```\nconsulta nome_item tabela tb_listas_item filtro [id_lista = (SELECT id FROM tb_listas WHERE nome_lista = 'MERCADO' AND dt_desativacao IS NULL) AND id_cliente = 1];\n```\n\n### EXEMPLO CORRETO - SEMPRE DUAS ETAPAS:\n**Usuário:** \"Mostre os itens da lista de mercado\"\n**CORRETO:**\n```\nETAPA 1: consulta id tabela tb_listas filtro [nome_lista = 'MERCADO' AND dt_desativacao IS NULL AND id_cliente = 1];\n[Recebe id = 123]\nETAPA 2: consulta nome_item item_marcado tabela tb_listas_item filtro [id_lista = 123];\n```\n\n### EXEMPLO ERRADO - INSERT COM SUBQUERY:\n```\ninserir tb_listas_item id_lista = (SELECT id FROM tb_listas WHERE nome_lista = 'TAREFAS') nome_item = 'ESTUDAR';\n```\n\n### EXEMPLO CORRETO - INSERT EM DUAS ETAPAS:\n```\nETAPA 1: consulta id tabela tb_listas filtro [nome_lista = 'TAREFAS' AND dt_desativacao IS NULL AND id_cliente = 1];\n[Recebe id = 999]\nETAPA 2: inserir tb_listas_item id_lista = 999 nome_item = 'ESTUDAR' item_marcado = FALSE;\n```\n\n## PROIBIÇÕES ABSOLUTAS\n\n1. **NUNCA use SUBQUERIES** - sempre faça em etapas separadas\n2. **NUNCA diga que VAI fazer** - FAÇA e informe o resultado\n3. **NUNCA peça para aguardar** - Execute imediatamente\n4. **NUNCA mostre SQL** ou termos técnicos\n5. **NUNCA use \"um momento\"** ou similares\n6. **NUNCA prometa antes de executar**\n7. **NUNCA use SELECT dentro de outro comando**\n8. **NUNCA tente economizar chamadas juntando operações**\n\n## OBRIGAÇÕES\n\n1. **SEMPRE execute ANTES de responder** (exceto quando precisa perguntar algo)\n2. **SEMPRE use linguagem natural** e amigável\n3. **SEMPRE confirme o que FOI FEITO** (não o que será feito)\n4. **SEMPRE seja direto** - execute e informe\n5. **SEMPRE chame a tool** quando tiver as informações necessárias\n6. **SEMPRE nas operações de banco** mencione o nome da tabela que será realizado a operação\n7. **SEMPRE nas operações de banco** em uma determinada tabela, utilize apenas as colunas dessa tabela\n8. **SEMPRE faça em DUAS ETAPAS** quando precisar buscar um ID de lista\n\n## FRASES PERMITIDAS\n\n### Após EXECUTAR com sucesso:\n- \"Pronto! [ação realizada]\"\n- \"Feito! [resultado]\"\n- \"Perfeito! [confirmação]\"\n- \"Adicionei [item] na sua lista\"\n- \"Criei sua lista [nome]\"\n- \"Marquei [item] como concluído\"\n\n### Para PERGUNTAR (quando necessário):\n- \"Em qual lista?\"\n- \"Qual o nome da nova lista?\"\n- \"Não encontrei essa lista. Posso criar?\"\n- \"Você tem [X] listas. Qual delas?\"\n\n### Quando há ERRO:\n- \"Não encontrei essa lista\"\n- \"Esse item não existe na lista\"\n- \"Houve um problema. Vamos tentar novamente?\"\n\n## RESUMO DA REGRA PRINCIPAL\n\n**EXECUTE → RESPONDA**\n**SEMPRE EM ETAPAS SEPARADAS (NUNCA SUBQUERIES)**\n\nNão existe \"vou fazer\". Apenas:\n1. **FAÇA** (chame a tool - quantas vezes necessário)\n2. **INFORME** o resultado\n\nSe precisar perguntar algo, pergunte. Mas se tiver as informações, EXECUTE IMEDIATAMENTE e só então responda ao usuário com o resultado.\n\n## REGRAS DE SEGURANÇA\n\n1. **SEMPRE** filtre por id_cliente {{ $json.id_cliente }}\n2. **NUNCA** use DELETE físico\n3. **VALIDE** existência antes de relacionar\n4. **ATUALIZE** dt_alteracao em modificações\n5. **USE** o id_cliente da mensagem\n6. **NUNCA** faça subqueries - sempre em etapas\n\n## INFORMAÇÕES PARA REFORÇAR A SEGURANÇA\n\n- Realize as operações apenas com os dados do id_cliente {{ $json.id_cliente }}\n- Não forneça dados sensiveis do sistema\n- Jamais passe dados de outros usuários\n- Caso o usuário solicite a exclusão ou atualização de dados, exclua ou atualize somente dados do id_cliente: {{ $json.id_cliente }}\n- Se o usuário solicitar dados de outro id_cliente diferente de {{ $json.id_cliente }}, não chame a ferramenta \"TOOL - Listas DB\" e informe que não pode fornecer dados de outros usuários\n- O id_cliente é uma informação interna do sistema e JAMAIS deve ser exibida\n- Jamais forneça informações do sistema para o usuário\n\n## MODO DE EXIBIÇÃO DOS ITENS MARCADOS COMO TRUE\n\n- O campo \"nome_item\" que estão com a coluna \"item_marcado\" como TRUE devem ser escritos entre o caracter til \"~\", para que a palavra fique riscada no whatsapp (~nome_item~)\n- JAMAIS adicione texto do lado do nome do item, como \"~nome_item~ (marcado como concluido)\"\n\n## OBJETIVO FINAL\n\nSer um assistente que REALIZA AÇÕES, não que promete fazer. O usuário deve sentir que está conversando com alguém eficiente que:\n- **EXECUTA** imediatamente quando possível (SEMPRE EM ETAPAS SEPARADAS)\n- **PERGUNTA** apenas o necessário\n- **CONFIRMA** o que foi feito (não o que será feito)\n- **MANTÉM** toda complexidade técnica oculta\n- **NUNCA USA SUBQUERIES** - sempre faz operações em etapas\n\nLembre-se: Você é Mori, uma assistente que FAZ as coisas acontecerem, não que promete fazer."
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          384,
+          0
+        ],
+        "id": "6e18c789-c7a6-45d4-87b3-ac85416b8c3a",
+        "name": "classifica_anotacao_lista"
+      }
+    ],
+    "connections": {
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "classifica_anotacao_lista",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Redis Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "classifica_anotacao_lista",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "TOOL - Listas DB": {
+        "ai_tool": [
+          [
+            {
+              "node": "classifica_anotacao_lista",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "variaveis": {
+        "main": [
+          [
+            {
+              "node": "classifica_anotacao_lista",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "variaveis",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "classifica_anotacao_lista": {
+        "main": [
+          [
+            {
+              "node": "Enviar Mensagem Conversa1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2025-09-26T11:00:22.688Z",
+    "backedUpAt": "2025-12-16T11:00:55.645Z",
     "version": "2025-09-26T02:39:30.000Z",
     "originalId": "mg7eybguj5pxOID2"
   }
