@@ -1,0 +1,243 @@
+{
+  "updatedAt": "2026-01-27T01:37:35.829Z",
+  "createdAt": "2026-01-23T16:07:56.830Z",
+  "id": "FgQBrhdRIhREwrIB5MHnm",
+  "name": "Validação WhatsApp Meta",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "679ebeca-19e6-4192-b494-ece68dde3cd5",
+      "name": "Webhook Meta Validation",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        112
+      ],
+      "webhookId": "e3e5a2c6-1234-4567-89ab-cdef01234567"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.query['hub.verify_token'] }}",
+              "value2": "tokeninterno"
+            }
+          ]
+        }
+      },
+      "id": "0ec77df5-6f9d-463d-8742-84fef118206e",
+      "name": "Check Token",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        144,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "id": "42e66d5c-5074-427c-8554-073ddb729578",
+      "name": "Respond Challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        352,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "Forbidden",
+        "options": {}
+      },
+      "id": "c2232783-6230-4126-b874-8b45db1c6f77",
+      "name": "Respond Forbidden",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        352,
+        208
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Meta Validation": {
+      "main": [
+        [
+          {
+            "node": "Check Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Token": {
+      "main": [
+        [
+          {
+            "node": "Respond Challenge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Forbidden",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
+  "activeVersionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-01-23T16:07:56.840Z",
+      "createdAt": "2026-01-23T16:07:56.840Z",
+      "role": "workflow:owner",
+      "workflowId": "FgQBrhdRIhREwrIB5MHnm",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-01-27T01:37:39.000Z",
+    "createdAt": "2026-01-27T01:37:35.830Z",
+    "versionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
+    "workflowId": "FgQBrhdRIhREwrIB5MHnm",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "webhook",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "id": "679ebeca-19e6-4192-b494-ece68dde3cd5",
+        "name": "Webhook Meta Validation",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          -96,
+          112
+        ],
+        "webhookId": "e3e5a2c6-1234-4567-89ab-cdef01234567"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "string": [
+              {
+                "value1": "={{ $json.query['hub.verify_token'] }}",
+                "value2": "tokeninterno"
+              }
+            ]
+          }
+        },
+        "id": "0ec77df5-6f9d-463d-8742-84fef118206e",
+        "name": "Check Token",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [
+          144,
+          112
+        ]
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "={{ $json.query['hub.challenge'] }}",
+          "options": {}
+        },
+        "id": "42e66d5c-5074-427c-8554-073ddb729578",
+        "name": "Respond Challenge",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          352,
+          16
+        ]
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "Forbidden",
+          "options": {}
+        },
+        "id": "c2232783-6230-4126-b874-8b45db1c6f77",
+        "name": "Respond Forbidden",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          352,
+          208
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook Meta Validation": {
+        "main": [
+          [
+            {
+              "node": "Check Token",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Check Token": {
+        "main": [
+          [
+            {
+              "node": "Respond Challenge",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Respond Forbidden",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Marcos Morimoto",
+    "name": "Version 6e8c4732",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2026-01-27T11:00:38.819Z",
+    "version": "2026-01-27T01:37:35.829Z",
+    "originalId": "FgQBrhdRIhREwrIB5MHnm"
+  }
+}
