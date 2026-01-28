@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-01-27T01:37:35.829Z",
+  "updatedAt": "2026-01-28T00:43:39.685Z",
   "createdAt": "2026-01-23T16:07:56.830Z",
   "id": "FgQBrhdRIhREwrIB5MHnm",
   "name": "Validação WhatsApp Meta",
@@ -72,6 +72,44 @@
         352,
         208
       ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        368
+      ],
+      "id": "aba0e6ac-0a65-4ffe-9ed7-5acf5b4e4641",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/872370005970388/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511980320036\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Td bem?\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        368
+      ],
+      "id": "5910802e-014e-492b-a4af-3f561ee526f8",
+      "name": "HTTP Request"
     }
   ],
   "connections": {
@@ -103,6 +141,17 @@
           }
         ]
       ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -112,8 +161,8 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
-  "activeVersionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
+  "versionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
+  "activeVersionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
   "triggerCount": 1,
   "shared": [
     {
@@ -125,9 +174,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-01-27T01:37:39.000Z",
-    "createdAt": "2026-01-27T01:37:35.830Z",
-    "versionId": "6e8c4732-de74-43c1-9e73-f4b6e16d6765",
+    "updatedAt": "2026-01-28T01:29:52.000Z",
+    "createdAt": "2026-01-28T00:43:39.686Z",
+    "versionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
     "workflowId": "FgQBrhdRIhREwrIB5MHnm",
     "nodes": [
       {
@@ -196,6 +245,44 @@
           352,
           208
         ]
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          368
+        ],
+        "id": "aba0e6ac-0a65-4ffe-9ed7-5acf5b4e4641",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://graph.facebook.com/v23.0/872370005970388/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511980320036\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Td bem?\"\n  }\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          128,
+          368
+        ],
+        "id": "5910802e-014e-492b-a4af-3f561ee526f8",
+        "name": "HTTP Request"
       }
     ],
     "connections": {
@@ -227,17 +314,28 @@
             }
           ]
         ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version 6e8c4732",
+    "name": "Version 425bc632",
     "description": "",
     "autosaved": true
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-01-27T11:00:38.819Z",
-    "version": "2026-01-27T01:37:35.829Z",
+    "backedUpAt": "2026-01-28T11:00:29.208Z",
+    "version": "2026-01-28T00:43:39.685Z",
     "originalId": "FgQBrhdRIhREwrIB5MHnm"
   }
 }
