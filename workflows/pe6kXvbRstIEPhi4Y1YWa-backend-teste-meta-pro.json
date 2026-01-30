@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-01-28T04:15:26.000Z",
+  "updatedAt": "2026-01-29T11:54:18.899Z",
   "createdAt": "2026-01-28T04:15:26.345Z",
   "id": "pe6kXvbRstIEPhi4Y1YWa",
   "name": "Backend Teste Meta Pro",
@@ -39,13 +39,13 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://graph.facebook.com/v21.0/SEU_PHONE_NUMBER_ID_AQUI/messages",
+        "url": "https://graph.facebook.com/v21.0/911347435402278/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer SEU_TOKEN_PERMANENTE_AQUI"
+              "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
             }
           ]
         },
@@ -136,9 +136,50 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "d203c406-e3f1-42f4-90de-bb395b1919bb",
-  "activeVersionId": "d203c406-e3f1-42f4-90de-bb395b1919bb",
+  "pinData": {
+    "Recebe do Site": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+            "content-length": "25",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "content-type": "application/json",
+            "origin": "https://tali-app.com.br",
+            "priority": "u=1, i",
+            "referer": "https://tali-app.com.br/",
+            "sec-ch-ua": "\"Google Chrome\";v=\"141\", \"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"141\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "45.180.149.98",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "3bd4eb13c34d",
+            "x-real-ip": "45.180.149.98"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "phone": "5511948456707"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/send-test-pro",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
+  "activeVersionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
   "triggerCount": 1,
   "shared": [
     {
@@ -150,9 +191,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-01-28T04:15:32.000Z",
-    "createdAt": "2026-01-28T04:15:26.374Z",
-    "versionId": "d203c406-e3f1-42f4-90de-bb395b1919bb",
+    "updatedAt": "2026-01-29T18:12:20.000Z",
+    "createdAt": "2026-01-29T11:54:18.900Z",
+    "versionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
     "workflowId": "pe6kXvbRstIEPhi4Y1YWa",
     "nodes": [
       {
@@ -188,13 +229,13 @@
       {
         "parameters": {
           "method": "POST",
-          "url": "https://graph.facebook.com/v21.0/SEU_PHONE_NUMBER_ID_AQUI/messages",
+          "url": "https://graph.facebook.com/v21.0/911347435402278/messages",
           "sendHeaders": true,
           "headerParameters": {
             "parameters": [
               {
                 "name": "Authorization",
-                "value": "Bearer SEU_TOKEN_PERMANENTE_AQUI"
+                "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
               }
             ]
           },
@@ -280,14 +321,14 @@
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version d203c406",
+    "name": "Version c02560fd",
     "description": "",
     "autosaved": true
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-01-28T11:00:30.121Z",
-    "version": "2026-01-28T04:15:26.000Z",
+    "backedUpAt": "2026-01-30T11:00:09.996Z",
+    "version": "2026-01-29T11:54:18.899Z",
     "originalId": "pe6kXvbRstIEPhi4Y1YWa"
   }
 }
