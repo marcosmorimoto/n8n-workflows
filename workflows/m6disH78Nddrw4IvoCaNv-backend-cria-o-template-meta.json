@@ -1,0 +1,303 @@
+{
+  "updatedAt": "2026-01-31T19:10:48.549Z",
+  "createdAt": "2026-01-31T19:02:40.674Z",
+  "id": "m6disH78Nddrw4IvoCaNv",
+  "name": "Backend Criação Template Meta",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "create-template",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "8c670199-30f7-42dd-920c-cc3a5383c34a",
+      "name": "Recebe do Site",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "127b5ea1-9348-4e37-b435-7c0b1c15498c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/2163495017802212/message_templates",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.body.name }}"
+            },
+            {
+              "name": "category",
+              "value": "={{ $json.body.category }}"
+            },
+            {
+              "name": "allow_category_change",
+              "value": true
+            },
+            {
+              "name": "language",
+              "value": "={{ $json.body.language }}"
+            },
+            {
+              "name": "components",
+              "value": "={{ [{\n  \"type\": \"BODY\",\n  \"text\": $json.body.text\n}] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a057314b-5026-4c6d-b75e-1fb6aa6020a2",
+      "name": "Cria Template na Meta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"{{ $json.error ? 'error' : 'success' }}\",\n  \"data\": {{ JSON.stringify($json) }}\n}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "b39cafa7-3602-4d87-8dfb-6cb2416e2c2e",
+      "name": "Responde ao Front",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Recebe do Site": {
+      "main": [
+        [
+          {
+            "node": "Cria Template na Meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cria Template na Meta": {
+      "main": [
+        [
+          {
+            "node": "Responde ao Front",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "5e8ed727-5550-478d-bbbe-098a183ccb30",
+  "activeVersionId": "5e8ed727-5550-478d-bbbe-098a183ccb30",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-01-31T19:02:40.686Z",
+      "createdAt": "2026-01-31T19:02:40.686Z",
+      "role": "workflow:owner",
+      "workflowId": "m6disH78Nddrw4IvoCaNv",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-01-31T19:11:19.000Z",
+    "createdAt": "2026-01-31T19:10:48.552Z",
+    "versionId": "5e8ed727-5550-478d-bbbe-098a183ccb30",
+    "workflowId": "m6disH78Nddrw4IvoCaNv",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "create-template",
+          "responseMode": "responseNode",
+          "options": {
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "name": "Access-Control-Allow-Headers",
+                  "value": "Content-Type"
+                }
+              ]
+            }
+          }
+        },
+        "id": "8c670199-30f7-42dd-920c-cc3a5383c34a",
+        "name": "Recebe do Site",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "127b5ea1-9348-4e37-b435-7c0b1c15498c"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://graph.facebook.com/v21.0/2163495017802212/message_templates",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "name",
+                "value": "={{ $json.body.name }}"
+              },
+              {
+                "name": "category",
+                "value": "={{ $json.body.category }}"
+              },
+              {
+                "name": "allow_category_change",
+                "value": true
+              },
+              {
+                "name": "language",
+                "value": "={{ $json.body.language }}"
+              },
+              {
+                "name": "components",
+                "value": "={{ [{\n  \"type\": \"BODY\",\n  \"text\": $json.body.text\n}] }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "a057314b-5026-4c6d-b75e-1fb6aa6020a2",
+        "name": "Cria Template na Meta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 3,
+        "position": [
+          224,
+          0
+        ],
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"status\": \"{{ $json.error ? 'error' : 'success' }}\",\n  \"data\": {{ JSON.stringify($json) }}\n}",
+          "options": {
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ]
+            }
+          }
+        },
+        "id": "b39cafa7-3602-4d87-8dfb-6cb2416e2c2e",
+        "name": "Responde ao Front",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          448,
+          0
+        ]
+      }
+    ],
+    "connections": {
+      "Recebe do Site": {
+        "main": [
+          [
+            {
+              "node": "Cria Template na Meta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Cria Template na Meta": {
+        "main": [
+          [
+            {
+              "node": "Responde ao Front",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Marcos Morimoto",
+    "name": "Version 5e8ed727",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2026-02-01T11:00:11.717Z",
+    "version": "2026-01-31T19:10:48.549Z",
+    "originalId": "m6disH78Nddrw4IvoCaNv"
+  }
+}
