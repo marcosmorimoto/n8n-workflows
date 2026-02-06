@@ -1,0 +1,351 @@
+{
+  "updatedAt": "2026-02-06T02:51:39.114Z",
+  "createdAt": "2026-02-06T02:49:47.815Z",
+  "id": "7cN48nkISNZsm_UMVNXN2",
+  "name": "Backend Troca Token Embedded Signup",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "exchange-waba-token",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a72b1f0c-c84a-47fa-9d0e-655b290a6064",
+      "name": "Recebe Code do Frontend",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "6c0740df-3b6e-40a9-8138-5e07631d2fa7"
+    },
+    {
+      "parameters": {
+        "url": "https://graph.facebook.com/v21.0/oauth/access_token",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "client_id",
+              "value": "844551511834404"
+            },
+            {
+              "name": "client_secret",
+              "value": "5976ae5fd8a81ca83097f81ef03f94f4"
+            },
+            {
+              "name": "code",
+              "value": "={{ $json.body.code }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e0d47502-5626-44e8-a2e5-4877efed00d9",
+      "name": "Troca Code por Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://graph.facebook.com/v21.0/me",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fields",
+              "value": "id,name,whatsapp_business_accounts"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8251fd1c-38c3-4ad7-ba43-a0affcc6cc26",
+      "name": "Pega WABA ID",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"user_token\": \"{{ $('Troca Code por Token').item.json.access_token }}\",\n  \"waba_id\": \"{{ $json.whatsapp_business_accounts.data[0].id }}\",\n  \"waba_name\": \"{{ $json.whatsapp_business_accounts.data[0].name }}\"\n}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "7574f455-82fe-4de0-b61b-b973f23d340d",
+      "name": "Retorna Dados",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Recebe Code do Frontend": {
+      "main": [
+        [
+          {
+            "node": "Troca Code por Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Troca Code por Token": {
+      "main": [
+        [
+          {
+            "node": "Pega WABA ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pega WABA ID": {
+      "main": [
+        [
+          {
+            "node": "Retorna Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
+  "activeVersionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-02-06T02:49:47.831Z",
+      "createdAt": "2026-02-06T02:49:47.831Z",
+      "role": "workflow:owner",
+      "workflowId": "7cN48nkISNZsm_UMVNXN2",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-02-06T02:52:07.000Z",
+    "createdAt": "2026-02-06T02:51:39.120Z",
+    "versionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
+    "workflowId": "7cN48nkISNZsm_UMVNXN2",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "exchange-waba-token",
+          "responseMode": "responseNode",
+          "options": {
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "name": "Access-Control-Allow-Headers",
+                  "value": "*"
+                }
+              ]
+            }
+          }
+        },
+        "id": "a72b1f0c-c84a-47fa-9d0e-655b290a6064",
+        "name": "Recebe Code do Frontend",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "6c0740df-3b6e-40a9-8138-5e07631d2fa7"
+      },
+      {
+        "parameters": {
+          "url": "https://graph.facebook.com/v21.0/oauth/access_token",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "client_id",
+                "value": "844551511834404"
+              },
+              {
+                "name": "client_secret",
+                "value": "5976ae5fd8a81ca83097f81ef03f94f4"
+              },
+              {
+                "name": "code",
+                "value": "={{ $json.body.code }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "e0d47502-5626-44e8-a2e5-4877efed00d9",
+        "name": "Troca Code por Token",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 3,
+        "position": [
+          224,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "url": "https://graph.facebook.com/v21.0/me",
+          "sendQuery": true,
+          "queryParameters": {
+            "parameters": [
+              {
+                "name": "fields",
+                "value": "id,name,whatsapp_business_accounts"
+              }
+            ]
+          },
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $json.access_token }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "8251fd1c-38c3-4ad7-ba43-a0affcc6cc26",
+        "name": "Pega WABA ID",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 3,
+        "position": [
+          448,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"status\": \"success\",\n  \"user_token\": \"{{ $('Troca Code por Token').item.json.access_token }}\",\n  \"waba_id\": \"{{ $json.whatsapp_business_accounts.data[0].id }}\",\n  \"waba_name\": \"{{ $json.whatsapp_business_accounts.data[0].name }}\"\n}",
+          "options": {
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Access-Control-Allow-Origin",
+                  "value": "*"
+                }
+              ]
+            }
+          }
+        },
+        "id": "7574f455-82fe-4de0-b61b-b973f23d340d",
+        "name": "Retorna Dados",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1,
+        "position": [
+          672,
+          0
+        ]
+      }
+    ],
+    "connections": {
+      "Recebe Code do Frontend": {
+        "main": [
+          [
+            {
+              "node": "Troca Code por Token",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Troca Code por Token": {
+        "main": [
+          [
+            {
+              "node": "Pega WABA ID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pega WABA ID": {
+        "main": [
+          [
+            {
+              "node": "Retorna Dados",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Marcos Morimoto",
+    "name": "Version 95bc6a93",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2026-02-06T11:00:59.279Z",
+    "version": "2026-02-06T02:51:39.114Z",
+    "originalId": "7cN48nkISNZsm_UMVNXN2"
+  }
+}
