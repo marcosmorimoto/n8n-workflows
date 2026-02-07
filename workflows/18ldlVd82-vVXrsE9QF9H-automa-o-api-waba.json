@@ -1,0 +1,225 @@
+{
+  "updatedAt": "2026-02-06T20:55:24.832Z",
+  "createdAt": "2026-02-06T20:12:45.835Z",
+  "id": "18ldlVd82-vVXrsE9QF9H",
+  "name": "Automação API WABA",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "webhook",
+        "options": {}
+      },
+      "id": "1cec3b60-1190-49a7-899b-77d8df4f650c",
+      "name": "Webhook WhatsApp",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "958cc44c-7bf6-451c-8261-8569c530db2f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.body.entry[0].changes[0].value.messages[0] }}",
+              "value2": "undefined"
+            }
+          ]
+        }
+      },
+      "id": "dd4ee614-3106-4621-b949-e14a99d33820",
+      "name": "É Mensagem de Texto?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6b69e34c-631b-4324-9c92-727dd52b5e92",
+      "name": "Agente IA (Snake King)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        464,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "id": "44542695-641c-44fb-a30d-117d025ee6fa",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        464,
+        192
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "REMOVED",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v24.0/986218857905842/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer EAAMAHXjbfyQBQrvqvB5Ccubj9hbVVYoU21mYob8zXX9Dwi1H3AjnZB4aUFP2Ux3LfQI391MPVAXCPSTv33Qw0sQSZAVEmsSMVkkZBe9SoxVwoUFzZCZCqiUlVJuGFz6KRQVgJyYvi5NfkWBYy4kiIzv95ypwDyS5CmPhVRykOdrSurZAyMhYoTzWQYvUmWmalKZCmEDxBpgRxZB6xaoNw4wa2AcmEr6ZB1fquuZBSYtPW70ZCzJAdcyNL1ORXRQQ2Ps16MN9HODIQRjkOwn21yhHUMNgsIAyIJOy3I7"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "messaging_product",
+              "value": "whatsapp"
+            },
+            {
+              "name": "to",
+              "value": "={{ $('Webhook WhatsApp').item.json.body.entry[0].changes[0].value.messages[0].from }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ {\"body\": $json.output } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6e485140-8b71-4953-a932-caba4f8fcacf",
+      "name": "Enviar Resposta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        832,
+        -16
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        560,
+        192
+      ],
+      "id": "6a8c221f-be20-40a4-b8af-1cc63bbee543",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "REMOVED",
+          "name": "Redis account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "É Mensagem de Texto?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "É Mensagem de Texto?": {
+      "main": [
+        [
+          {
+            "node": "Agente IA (Snake King)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente IA (Snake King)": {
+      "main": [
+        [
+          {
+            "node": "Enviar Resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente IA (Snake King)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente IA (Snake King)",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "71913d2d-312a-45fc-b1f3-4a595903d2be",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-06T20:12:45.843Z",
+      "createdAt": "2026-02-06T20:12:45.843Z",
+      "role": "workflow:owner",
+      "workflowId": "18ldlVd82-vVXrsE9QF9H",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2026-02-07T11:00:17.612Z",
+    "version": "2026-02-06T20:55:24.832Z",
+    "originalId": "18ldlVd82-vVXrsE9QF9H"
+  }
+}
