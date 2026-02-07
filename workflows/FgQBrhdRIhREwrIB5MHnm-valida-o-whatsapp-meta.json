@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-01-28T00:43:39.685Z",
+  "updatedAt": "2026-02-06T21:07:57.013Z",
   "createdAt": "2026-01-23T16:07:56.830Z",
   "id": "FgQBrhdRIhREwrIB5MHnm",
   "name": "Validação WhatsApp Meta",
@@ -87,7 +87,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://graph.facebook.com/v23.0/872370005970388/messages",
+        "url": "https://graph.facebook.com/v23.0/986218857905842/messages",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -99,7 +99,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511980320036\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Td bem?\"\n  }\n}",
+        "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"5511948456707\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"hello_world\",\n    \"language\": {\n      \"code\": \"en_US\"\n    }\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -161,7 +161,7 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
+  "versionId": "44dd77ff-3e7c-4ca8-991e-afc44a4e85ab",
   "activeVersionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
   "triggerCount": 1,
   "shared": [
@@ -334,8 +334,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-01-28T11:00:29.208Z",
-    "version": "2026-01-28T00:43:39.685Z",
+    "backedUpAt": "2026-02-07T11:00:17.786Z",
+    "version": "2026-02-06T21:07:57.013Z",
     "originalId": "FgQBrhdRIhREwrIB5MHnm"
   }
 }
