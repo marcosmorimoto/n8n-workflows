@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-06T02:51:39.114Z",
+  "updatedAt": "2026-02-06T20:54:51.605Z",
   "createdAt": "2026-02-06T02:49:47.815Z",
   "id": "7cN48nkISNZsm_UMVNXN2",
   "name": "Backend Troca Token Embedded Signup",
@@ -75,7 +75,7 @@
           "parameters": [
             {
               "name": "fields",
-              "value": "id,name,whatsapp_business_accounts"
+              "value": "id,name,assigned_whatsapp_business_accounts"
             }
           ]
         },
@@ -119,9 +119,56 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        672,
+        1104,
         0
       ]
+    },
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v24.0/{{ $json.assigned_whatsapp_business_accounts.data[0].id }}/phone_numbers",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Troca Code por Token').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        656,
+        0
+      ],
+      "id": "e86e6d1b-62cf-4892-806b-1c2abb735e5d",
+      "name": "Pegar ID Telefone"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v24.0/{{ $('Pega WABA ID').item.json.assigned_whatsapp_business_accounts.data[0].id }}/subscribed_apps",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Troca Code por Token').item.json.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        864,
+        0
+      ],
+      "id": "fd9b6a06-24b4-40c8-a112-a5937fa1914b",
+      "name": "Ativar a Assinatura"
     }
   ],
   "connections": {
@@ -151,6 +198,28 @@
       "main": [
         [
           {
+            "node": "Pegar ID Telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pegar ID Telefone": {
+      "main": [
+        [
+          {
+            "node": "Ativar a Assinatura",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ativar a Assinatura": {
+      "main": [
+        [
+          {
             "node": "Retorna Dados",
             "type": "main",
             "index": 0
@@ -165,9 +234,47 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
-  "activeVersionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
+  "pinData": {
+    "Recebe Code do Frontend": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.mx4solucoes.com.br",
+            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1",
+            "content-length": "441",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "pt-BR,pt;q=0.9",
+            "content-type": "application/json",
+            "origin": "https://tali-app.com.br",
+            "priority": "u=3, i",
+            "referer": "https://tali-app.com.br/",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "x-forwarded-for": "45.180.149.98",
+            "x-forwarded-host": "n8n.mx4solucoes.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "337d88d84da8",
+            "x-real-ip": "45.180.149.98"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "code": "AQDtHtapcLk-A906IRmLpbYYR5TlbaP0guqoxWCfEYAL7XrjHRSNAhRyFhAZg2ZPCxWut6dztrZ8XSnTJdUJCv22woa_pk-q5DVAs-7XUWzmvklLcisHW72E3uuSxxlwcJUBeZ6qqr9zUYaX8URCRCIa4h-Dc1pP5JufKJIbvE9QfWbUqYxUi4e2dHFRnZnqBVOFMbkv9ys1oT3GSmqz5SoSQpD0BzOj5qUcz79mYxB11LGDgIZGXgowWX2OZ5aG_fiKtNLOJanub15a1e-S_fo2dCaUqE6qdbrdka5ah7oA79I03Q9hy_nIit3knrijy_StVuZeS4ye7dAtFmKigR3klRli3iODcjuIjARFBH_QZj8IkQuJm7h_7fFcE_B5HNi7-tvmokmdJ7ZDq4pN9gvDlYgWmZK8ATselTwniGmBNw"
+          },
+          "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/exchange-waba-token",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "46949c1e-d180-4ade-be43-5c914c0fee3d",
+  "activeVersionId": "46949c1e-d180-4ade-be43-5c914c0fee3d",
   "triggerCount": 1,
   "shared": [
     {
@@ -179,9 +286,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-06T02:52:07.000Z",
-    "createdAt": "2026-02-06T02:51:39.120Z",
-    "versionId": "95bc6a93-e158-4ab6-8534-1f1f7a0fef72",
+    "updatedAt": "2026-02-06T20:12:30.000Z",
+    "createdAt": "2026-02-06T19:53:39.204Z",
+    "versionId": "46949c1e-d180-4ade-be43-5c914c0fee3d",
     "workflowId": "7cN48nkISNZsm_UMVNXN2",
     "nodes": [
       {
@@ -253,7 +360,7 @@
             "parameters": [
               {
                 "name": "fields",
-                "value": "id,name,whatsapp_business_accounts"
+                "value": "id,name,assigned_whatsapp_business_accounts"
               }
             ]
           },
@@ -297,9 +404,56 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1,
         "position": [
-          672,
+          1104,
           0
         ]
+      },
+      {
+        "parameters": {
+          "url": "=https://graph.facebook.com/v24.0/{{ $json.assigned_whatsapp_business_accounts.data[0].id }}/phone_numbers",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $('Troca Code por Token').item.json.access_token }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          656,
+          0
+        ],
+        "id": "e86e6d1b-62cf-4892-806b-1c2abb735e5d",
+        "name": "Pegar ID Telefone"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://graph.facebook.com/v24.0/{{ $('Pega WABA ID').item.json.assigned_whatsapp_business_accounts.data[0].id }}/subscribed_apps",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{ $('Troca Code por Token').item.json.access_token }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          864,
+          0
+        ],
+        "id": "fd9b6a06-24b4-40c8-a112-a5937fa1914b",
+        "name": "Ativar a Assinatura"
       }
     ],
     "connections": {
@@ -329,6 +483,28 @@
         "main": [
           [
             {
+              "node": "Pegar ID Telefone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Pegar ID Telefone": {
+        "main": [
+          [
+            {
+              "node": "Ativar a Assinatura",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Ativar a Assinatura": {
+        "main": [
+          [
+            {
               "node": "Retorna Dados",
               "type": "main",
               "index": 0
@@ -338,14 +514,14 @@
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version 95bc6a93",
+    "name": "Version 46949c1e",
     "description": "",
     "autosaved": true
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-06T11:00:59.279Z",
-    "version": "2026-02-06T02:51:39.114Z",
+    "backedUpAt": "2026-02-07T11:00:17.712Z",
+    "version": "2026-02-06T20:54:51.605Z",
     "originalId": "7cN48nkISNZsm_UMVNXN2"
   }
 }
