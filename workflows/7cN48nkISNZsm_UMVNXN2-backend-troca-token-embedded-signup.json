@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-06T20:54:51.605Z",
+  "updatedAt": "2026-02-07T18:43:32.045Z",
   "createdAt": "2026-02-06T02:49:47.815Z",
   "id": "7cN48nkISNZsm_UMVNXN2",
   "name": "Backend Troca Token Embedded Signup",
@@ -241,7 +241,7 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1",
-            "content-length": "441",
+            "content-length": "483",
             "accept": "*/*",
             "accept-encoding": "gzip, deflate, br",
             "accept-language": "pt-BR,pt;q=0.9",
@@ -252,17 +252,17 @@
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "cross-site",
-            "x-forwarded-for": "45.180.149.98",
+            "x-forwarded-for": "177.50.47.213",
             "x-forwarded-host": "n8n.mx4solucoes.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "337d88d84da8",
-            "x-real-ip": "45.180.149.98"
+            "x-forwarded-server": "7955191bc9c9",
+            "x-real-ip": "177.50.47.213"
           },
           "params": {},
           "query": {},
           "body": {
-            "code": "AQDtHtapcLk-A906IRmLpbYYR5TlbaP0guqoxWCfEYAL7XrjHRSNAhRyFhAZg2ZPCxWut6dztrZ8XSnTJdUJCv22woa_pk-q5DVAs-7XUWzmvklLcisHW72E3uuSxxlwcJUBeZ6qqr9zUYaX8URCRCIa4h-Dc1pP5JufKJIbvE9QfWbUqYxUi4e2dHFRnZnqBVOFMbkv9ys1oT3GSmqz5SoSQpD0BzOj5qUcz79mYxB11LGDgIZGXgowWX2OZ5aG_fiKtNLOJanub15a1e-S_fo2dCaUqE6qdbrdka5ah7oA79I03Q9hy_nIit3knrijy_StVuZeS4ye7dAtFmKigR3klRli3iODcjuIjARFBH_QZj8IkQuJm7h_7fFcE_B5HNi7-tvmokmdJ7ZDq4pN9gvDlYgWmZK8ATselTwniGmBNw"
+            "code": "AQBnTEF_-KHwlTcOo2qIamTB3fw1qda2nDhl5haRjrIGfAJbLUoi2r7XrVd0IlauNAFMYEH_-4ICJX6MYZHx5rRBQcH_Z_H33ay_PuYh5KpBkU1ihh_OC2F2pEp1PkcKr8qo-y_5FYZ_frvSrdH3ny7AzPzrTuArLU9D30v0SlkrpbD1Ktx3NeMBHv_JdU11mzAYJvRL7dQrZuT63J1Xf5Ofk1IRlEC3h_OsGAVqDzo-1Cd46D4l1WbOQP9WJFvB-9DrhsPhwd4QlLoGMPe9UvTO4ta-MXbQ5gqiiJJNjC4tJ23PHK7kPUrEKOAXDqjJKGGM9N10srvYedaLUEw9Wviy7ElMImks9vTbTbFgMYQiABujneWMYJ53yOCoO-_Y-uSsyTepYcTBxKBWfuF5ZgpGX4O5rJ0-A_RSci7R0AmmYD3j6d7or_44EUJ4_LlWAhgWdwTLyuQ94vJIj9VFk4Fe"
           },
           "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/exchange-waba-token",
           "executionMode": "production"
@@ -520,8 +520,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-07T11:00:17.712Z",
-    "version": "2026-02-06T20:54:51.605Z",
+    "backedUpAt": "2026-02-08T11:00:20.263Z",
+    "version": "2026-02-07T18:43:32.045Z",
     "originalId": "7cN48nkISNZsm_UMVNXN2"
   }
 }
