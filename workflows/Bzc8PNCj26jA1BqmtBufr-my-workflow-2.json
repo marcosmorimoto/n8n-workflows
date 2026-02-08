@@ -1,0 +1,92 @@
+{
+  "updatedAt": "2026-02-07T19:40:59.067Z",
+  "createdAt": "2026-02-07T19:07:52.415Z",
+  "id": "Bzc8PNCj26jA1BqmtBufr",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "60b9a701-21fe-406c-accf-0c1056637833",
+      "name": "Ao Clicar em Executar",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v24.0/1019014841288456/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer SEU_TOKEN_AQUI"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $('Webhook WhatsApp').item.json.body.entry.changes.value.messages.from }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": false,\n    \"body\": \"{{ $json.output }}\"\n  }\n}",
+        "options": {}
+      },
+      "id": "46997ce0-4c44-47ba-b7cf-836a75410e13",
+      "name": "Enviar Template Hello World",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        -16,
+        -112
+      ]
+    }
+  ],
+  "connections": {
+    "Ao Clicar em Executar": {
+      "main": [
+        [
+          {
+            "node": "Enviar Template Hello World",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "5c39351a-bbd5-43c8-8a7a-0c934d4c4ffc",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-07T19:07:52.420Z",
+      "createdAt": "2026-02-07T19:07:52.420Z",
+      "role": "workflow:owner",
+      "workflowId": "Bzc8PNCj26jA1BqmtBufr",
+      "projectId": "C5UsClgeI2kBLWfb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": [],
+  "backupMetadata": {
+    "backedUpAt": "2026-02-08T11:00:20.422Z",
+    "version": "2026-02-07T19:40:59.067Z",
+    "originalId": "Bzc8PNCj26jA1BqmtBufr"
+  }
+}
