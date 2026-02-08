@@ -1,15 +1,15 @@
 {
-  "updatedAt": "2026-02-06T21:07:57.013Z",
+  "updatedAt": "2026-02-07T17:12:35.000Z",
   "createdAt": "2026-01-23T16:07:56.830Z",
   "id": "FgQBrhdRIhREwrIB5MHnm",
   "name": "Validação WhatsApp Meta",
-  "active": true,
-  "isArchived": false,
+  "active": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "webhook",
+        "path": "webhook_old",
         "responseMode": "responseNode",
         "options": {}
       },
@@ -21,7 +21,8 @@
         -96,
         112
       ],
-      "webhookId": "e3e5a2c6-1234-4567-89ab-cdef01234567"
+      "webhookId": "e3e5a2c6-1234-4567-89ab-cdef01234567",
+      "disabled": true
     },
     {
       "parameters": {
@@ -41,7 +42,8 @@
       "position": [
         144,
         112
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -56,7 +58,8 @@
       "position": [
         352,
         16
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {
@@ -71,7 +74,8 @@
       "position": [
         352,
         208
-      ]
+      ],
+      "disabled": true
     },
     {
       "parameters": {},
@@ -82,7 +86,8 @@
         368
       ],
       "id": "aba0e6ac-0a65-4ffe-9ed7-5acf5b4e4641",
-      "name": "When clicking ‘Execute workflow’"
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
     },
     {
       "parameters": {
@@ -109,7 +114,8 @@
         368
       ],
       "id": "5910802e-014e-492b-a4af-3f561ee526f8",
-      "name": "HTTP Request"
+      "name": "HTTP Request",
+      "disabled": true
     }
   ],
   "connections": {
@@ -161,8 +167,8 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "44dd77ff-3e7c-4ca8-991e-afc44a4e85ab",
-  "activeVersionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
+  "versionId": "4e7feb25-17e6-4db7-9e9d-288819446d9e",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
@@ -173,169 +179,11 @@
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
-  "activeVersion": {
-    "updatedAt": "2026-01-28T01:29:52.000Z",
-    "createdAt": "2026-01-28T00:43:39.686Z",
-    "versionId": "425bc632-e7ee-4c0c-9582-6d4eadb06295",
-    "workflowId": "FgQBrhdRIhREwrIB5MHnm",
-    "nodes": [
-      {
-        "parameters": {
-          "httpMethod": "POST",
-          "path": "webhook",
-          "responseMode": "responseNode",
-          "options": {}
-        },
-        "id": "679ebeca-19e6-4192-b494-ece68dde3cd5",
-        "name": "Webhook Meta Validation",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 1,
-        "position": [
-          -96,
-          112
-        ],
-        "webhookId": "e3e5a2c6-1234-4567-89ab-cdef01234567"
-      },
-      {
-        "parameters": {
-          "conditions": {
-            "string": [
-              {
-                "value1": "={{ $json.query['hub.verify_token'] }}",
-                "value2": "tokeninterno"
-              }
-            ]
-          }
-        },
-        "id": "0ec77df5-6f9d-463d-8742-84fef118206e",
-        "name": "Check Token",
-        "type": "n8n-nodes-base.if",
-        "typeVersion": 1,
-        "position": [
-          144,
-          112
-        ]
-      },
-      {
-        "parameters": {
-          "respondWith": "text",
-          "responseBody": "={{ $json.query['hub.challenge'] }}",
-          "options": {}
-        },
-        "id": "42e66d5c-5074-427c-8554-073ddb729578",
-        "name": "Respond Challenge",
-        "type": "n8n-nodes-base.respondToWebhook",
-        "typeVersion": 1,
-        "position": [
-          352,
-          16
-        ]
-      },
-      {
-        "parameters": {
-          "respondWith": "text",
-          "responseBody": "Forbidden",
-          "options": {}
-        },
-        "id": "c2232783-6230-4126-b874-8b45db1c6f77",
-        "name": "Respond Forbidden",
-        "type": "n8n-nodes-base.respondToWebhook",
-        "typeVersion": 1,
-        "position": [
-          352,
-          208
-        ]
-      },
-      {
-        "parameters": {},
-        "type": "n8n-nodes-base.manualTrigger",
-        "typeVersion": 1,
-        "position": [
-          -80,
-          368
-        ],
-        "id": "aba0e6ac-0a65-4ffe-9ed7-5acf5b4e4641",
-        "name": "When clicking ‘Execute workflow’"
-      },
-      {
-        "parameters": {
-          "method": "POST",
-          "url": "https://graph.facebook.com/v23.0/872370005970388/messages",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
-              }
-            ]
-          },
-          "sendBody": true,
-          "specifyBody": "json",
-          "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511980320036\",\n  \"type\": \"text\",\n  \"text\": {\n    \"body\": \"Td bem?\"\n  }\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.3,
-        "position": [
-          128,
-          368
-        ],
-        "id": "5910802e-014e-492b-a4af-3f561ee526f8",
-        "name": "HTTP Request"
-      }
-    ],
-    "connections": {
-      "Webhook Meta Validation": {
-        "main": [
-          [
-            {
-              "node": "Check Token",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Check Token": {
-        "main": [
-          [
-            {
-              "node": "Respond Challenge",
-              "type": "main",
-              "index": 0
-            }
-          ],
-          [
-            {
-              "node": "Respond Forbidden",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "When clicking ‘Execute workflow’": {
-        "main": [
-          [
-            {
-              "node": "HTTP Request",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "Marcos Morimoto",
-    "name": "Version 425bc632",
-    "description": "",
-    "autosaved": true
-  },
+  "activeVersion": null,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-07T11:00:17.786Z",
-    "version": "2026-02-06T21:07:57.013Z",
+    "backedUpAt": "2026-02-08T11:00:20.873Z",
+    "version": "2026-02-07T17:12:35.000Z",
     "originalId": "FgQBrhdRIhREwrIB5MHnm"
   }
 }
