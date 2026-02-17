@@ -3,7 +3,7 @@
   "createdAt": "2026-01-28T04:15:26.345Z",
   "id": "pe6kXvbRstIEPhi4Y1YWa",
   "name": "Backend Teste Meta Pro",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -179,7 +179,7 @@
     ]
   },
   "versionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
-  "activeVersionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
@@ -190,144 +190,10 @@
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
-  "activeVersion": {
-    "updatedAt": "2026-01-29T18:12:20.000Z",
-    "createdAt": "2026-01-29T11:54:18.900Z",
-    "versionId": "c02560fd-5d93-4bc8-91bf-b1d4ef44369d",
-    "workflowId": "pe6kXvbRstIEPhi4Y1YWa",
-    "nodes": [
-      {
-        "parameters": {
-          "httpMethod": "POST",
-          "path": "send-test-pro",
-          "responseMode": "responseNode",
-          "options": {
-            "responseHeaders": {
-              "entries": [
-                {
-                  "name": "Access-Control-Allow-Origin",
-                  "value": "*"
-                },
-                {
-                  "name": "Access-Control-Allow-Headers",
-                  "value": "Content-Type"
-                }
-              ]
-            }
-          }
-        },
-        "id": "24d815d9-9c25-45fd-a87e-3b24c914e1da",
-        "name": "Recebe do Site",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 1,
-        "position": [
-          0,
-          0
-        ],
-        "webhookId": "826abd2b-e2bc-4f48-9190-0341ccc9772a"
-      },
-      {
-        "parameters": {
-          "method": "POST",
-          "url": "https://graph.facebook.com/v21.0/911347435402278/messages",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQqqapbENq13LqlbAZA9qDsyYUZAlwGSow8tjbzbjy9ItX6ewwj0rabM0P14RSZATZBZAzlREqYU6H9J4wXLXi0yk7PjtSqJ3iat8mV089fBZCgZAhL7oK07bWCADHkFfx3IU4NVhFjcP1fOY3hD7wWmvUhkEbWgIYOscxvesZAdSk2F9iAicMUfNNdV8JYGrsSj7vfFXIH3R0LCZCFM9qjwShBQpj"
-              }
-            ]
-          },
-          "sendBody": true,
-          "bodyParameters": {
-            "parameters": [
-              {
-                "name": "messaging_product",
-                "value": "whatsapp"
-              },
-              {
-                "name": "to",
-                "value": "={{ $json.body.phone }}"
-              },
-              {
-                "name": "type",
-                "value": "template"
-              },
-              {
-                "name": "template",
-                "value": "={{ {\"name\": \"hello_world\", \"language\": { \"code\": \"en_US\" } } }}"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "id": "2ecc20bb-0ecf-4c71-9f4b-04f416e5ff93",
-        "name": "Chama API Meta",
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 3,
-        "position": [
-          224,
-          0
-        ]
-      },
-      {
-        "parameters": {
-          "respondWith": "json",
-          "responseBody": "={\n  \"status\": \"success\",\n  \"meta_response\": {{ JSON.stringify($json) }},\n  \"timestamp\": \"{{ $now }}\"\n}",
-          "options": {
-            "responseHeaders": {
-              "entries": [
-                {
-                  "name": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ]
-            }
-          }
-        },
-        "id": "cfed3542-fad4-4c23-8d12-f1b7a6cf88ba",
-        "name": "Devolve Log JSON",
-        "type": "n8n-nodes-base.respondToWebhook",
-        "typeVersion": 1,
-        "position": [
-          448,
-          0
-        ]
-      }
-    ],
-    "connections": {
-      "Recebe do Site": {
-        "main": [
-          [
-            {
-              "node": "Chama API Meta",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Chama API Meta": {
-        "main": [
-          [
-            {
-              "node": "Devolve Log JSON",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "Marcos Morimoto",
-    "name": "Version c02560fd",
-    "description": "",
-    "autosaved": true
-  },
+  "activeVersion": null,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-01-30T11:00:09.996Z",
+    "backedUpAt": "2026-02-17T11:00:15.226Z",
     "version": "2026-01-29T11:54:18.899Z",
     "originalId": "pe6kXvbRstIEPhi4Y1YWa"
   }
