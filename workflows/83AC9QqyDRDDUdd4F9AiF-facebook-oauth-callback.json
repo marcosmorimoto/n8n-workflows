@@ -3,7 +3,7 @@
   "createdAt": "2026-01-28T03:11:02.237Z",
   "id": "83AC9QqyDRDDUdd4F9AiF",
   "name": "Facebook OAuth Callback",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -59,7 +59,7 @@
   "meta": null,
   "pinData": {},
   "versionId": "4f61bfc2-8b94-404b-bf53-fe279dbf3938",
-  "activeVersionId": "4f61bfc2-8b94-404b-bf53-fe279dbf3938",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
@@ -70,65 +70,10 @@
       "projectId": "C5UsClgeI2kBLWfb"
     }
   ],
-  "activeVersion": {
-    "updatedAt": "2026-01-28T03:11:07.000Z",
-    "createdAt": "2026-01-28T03:11:02.247Z",
-    "versionId": "4f61bfc2-8b94-404b-bf53-fe279dbf3938",
-    "workflowId": "83AC9QqyDRDDUdd4F9AiF",
-    "nodes": [
-      {
-        "parameters": {
-          "path": "facebook-callback",
-          "responseMode": "responseNode",
-          "options": {}
-        },
-        "id": "3d6657d8-5ef1-4433-8077-ae2d9bf67de7",
-        "name": "Webhook OAuth Callback",
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 1,
-        "position": [
-          0,
-          0
-        ],
-        "webhookId": "cb1a2b3c-4d5e-6f7g-8h9i-0j1k2l3m4n5o"
-      },
-      {
-        "parameters": {
-          "respondWith": "text",
-          "responseBody": "Login realizado com sucesso! Pode fechar esta janela.",
-          "options": {}
-        },
-        "id": "2eed2365-d1b1-4500-8136-a7e7710d62f9",
-        "name": "Responder ao Usuario",
-        "type": "n8n-nodes-base.respondToWebhook",
-        "typeVersion": 1,
-        "position": [
-          224,
-          0
-        ]
-      }
-    ],
-    "connections": {
-      "Webhook OAuth Callback": {
-        "main": [
-          [
-            {
-              "node": "Responder ao Usuario",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "Marcos Morimoto",
-    "name": "Version 4f61bfc2",
-    "description": "",
-    "autosaved": true
-  },
+  "activeVersion": null,
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-01-28T11:00:29.120Z",
+    "backedUpAt": "2026-02-17T11:00:15.011Z",
     "version": "2026-01-28T03:11:02.000Z",
     "originalId": "83AC9QqyDRDDUdd4F9AiF"
   }
