@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-07T18:43:32.045Z",
+  "updatedAt": "2026-02-18T03:05:29.502Z",
   "createdAt": "2026-02-06T02:49:47.815Z",
   "id": "7cN48nkISNZsm_UMVNXN2",
   "name": "Backend Troca Token Embedded Signup",
@@ -252,17 +252,17 @@
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "cross-site",
-            "x-forwarded-for": "177.50.47.213",
+            "x-forwarded-for": "191.39.135.175",
             "x-forwarded-host": "n8n.mx4solucoes.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "7955191bc9c9",
-            "x-real-ip": "177.50.47.213"
+            "x-forwarded-server": "fea23fee29be",
+            "x-real-ip": "191.39.135.175"
           },
           "params": {},
           "query": {},
           "body": {
-            "code": "AQBnTEF_-KHwlTcOo2qIamTB3fw1qda2nDhl5haRjrIGfAJbLUoi2r7XrVd0IlauNAFMYEH_-4ICJX6MYZHx5rRBQcH_Z_H33ay_PuYh5KpBkU1ihh_OC2F2pEp1PkcKr8qo-y_5FYZ_frvSrdH3ny7AzPzrTuArLU9D30v0SlkrpbD1Ktx3NeMBHv_JdU11mzAYJvRL7dQrZuT63J1Xf5Ofk1IRlEC3h_OsGAVqDzo-1Cd46D4l1WbOQP9WJFvB-9DrhsPhwd4QlLoGMPe9UvTO4ta-MXbQ5gqiiJJNjC4tJ23PHK7kPUrEKOAXDqjJKGGM9N10srvYedaLUEw9Wviy7ElMImks9vTbTbFgMYQiABujneWMYJ53yOCoO-_Y-uSsyTepYcTBxKBWfuF5ZgpGX4O5rJ0-A_RSci7R0AmmYD3j6d7or_44EUJ4_LlWAhgWdwTLyuQ94vJIj9VFk4Fe"
+            "code": "AQCWKaYWXDhPOAPKz7bw_sDMNU1l4McJkPLNlp7K9ILpdscaMqlGMxxaqQztjH4SYtOdcyTqWfNgGiI37kY_MzX71O1n6jCSM8MdkSDgU2nbushBVCjHp4Znldn2iDv_ea_qsfH9FvzZv_bR9y5MlzOaaFMqVjaDJlinw3kDnPg_CE91MZhIeHyJ-gHC4oX6OyHTg32njKoVRdRVlOeDZHT4TWxldmjwKoi49SUnk4m-N17lej60IuTaSO2DNZtuPZq7LB8djOJ7e9wKqUm5OQgd12o5NfIceYYSKoK-6z3KBfK1Z3I7R4BSs_S_IUuoVjig_hlovyQo_BXy_F7wnWZjS99h0LFYN2R0LSG3Q-NuKnEyz6MTi-5kDNHFMWTLD9s5KHXtPDhoI294iP6uCuYDn03aGLk4p8YqMvQuMsIsI0Kh2lAPgnLxluY2fqMwCKlrcYot5DFqXYN_cpDY3IgC"
           },
           "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/exchange-waba-token",
           "executionMode": "production"
@@ -520,8 +520,8 @@
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-08T11:00:20.263Z",
-    "version": "2026-02-07T18:43:32.045Z",
+    "backedUpAt": "2026-02-18T11:00:20.151Z",
+    "version": "2026-02-18T03:05:29.502Z",
     "originalId": "7cN48nkISNZsm_UMVNXN2"
   }
 }
