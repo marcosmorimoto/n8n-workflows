@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-20T02:48:42.551Z",
+  "updatedAt": "2026-02-21T19:59:24.438Z",
   "createdAt": "2026-02-06T20:12:45.835Z",
   "id": "18ldlVd82-vVXrsE9QF9H",
   "name": "Automação API WABA",
@@ -70,7 +70,7 @@
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer EAAMAHXjbfyQBQZBA0bd9uVo3gvzbq3poyyfOyiSHMwrgXwZAGJwdZCVCvNvnES33NsXffgL9y3kQlTtJuTVVQXCpsxH57aMFaHjGZBQSZCXrrHNoFb5SZCOABM8FRHdqvWa9S8Iaf5BV1JluOpomgzQBMJXD7alAwYuEZB1RDZCGdcxnqye661ajn6sWKcKCXPKBdaI4AJTk8y7k6JFnT4mHzII7n5IaAv3DpKtnZAJUxtTqDbKLCoQHlfaLt10MgzSA1ILHtoa5NhFgtMBDeKlbzEOZB7OW0EOsYf1moxUBwFbTzAkjyKmZCr9y87nXxErEVJ2Vc9yJ2cqBwaJtStixQZDZD"
+              "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
             },
             {
               "name": "Content-Type",
@@ -80,7 +80,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $('Webhook WhatsApp').item.json.body.entry[0].changes[0].value.messages[0].from }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": false,\n    \"body\": \"{{ $json.output }}\"\n  }\n}",
+        "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $('Webhook WhatsApp').item.json.body.entry[0].changes[0].value.contacts[0].wa_id }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": false,\n    \"body\": \"{{ $json.output }}\"\n  }\n}",
         "options": {}
       },
       "id": "6e485140-8b71-4953-a932-caba4f8fcacf",
@@ -88,7 +88,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.1,
       "position": [
-        864,
+        880,
         -16
       ]
     },
@@ -136,13 +136,13 @@
     },
     {
       "parameters": {
-        "url": "https://graph.facebook.com/v24.0/25668379536145006?fields=health_status",
+        "url": "https://graph.facebook.com/v24.0/985619224640489?fields=health_status",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer EAAMAHXjbfyQBQZBA0bd9uVo3gvzbq3poyyfOyiSHMwrgXwZAGJwdZCVCvNvnES33NsXffgL9y3kQlTtJuTVVQXCpsxH57aMFaHjGZBQSZCXrrHNoFb5SZCOABM8FRHdqvWa9S8Iaf5BV1JluOpomgzQBMJXD7alAwYuEZB1RDZCGdcxnqye661ajn6sWKcKCXPKBdaI4AJTk8y7k6JFnT4mHzII7n5IaAv3DpKtnZAJUxtTqDbKLCoQHlfaLt10MgzSA1ILHtoa5NhFgtMBDeKlbzEOZB7OW0EOsYf1moxUBwFbTzAkjyKmZCr9y87nXxErEVJ2Vc9yJ2cqBwaJtStixQZDZD"
+              "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
             }
           ]
         },
@@ -159,14 +159,13 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "https://graph.facebook.com/v19.0/1019014841288456/deregister",
+        "url": "https://graph.facebook.com/v24.0/985619224640489/settings",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "Authorization",
-              "value": "Bearer EAAMAHXjbfyQBQipuUqP77SLIHCIWZBq8lW2ygyu4ONy4HZBp823JX7ZAbdW15ZBlPCAQZBybz0DXNxGE1bS1zNZCsnZBSWHSSgbJ2Goo0l6ZAITOYCjXmprgDIuBRjRdrLbUkZACJcYzp9jbGXoDZCw2X5KSHaKWZCz70qiOzZC55sNujOz4BEDXHodVsm3tNxPAntJ4VPyEjoOys3C31ooZCeKw7kZC6k3saQCoZCy6K2VrmletNHZBdzyTuIec1WZCEZCWYodPPrjCZB7dR0MRu2gKxTl0OO1wEKbjYezkJdhjQ4CFNA1e5C8MY5NmaQHVcLRW7ZBJhxvdaTMA"
+              "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
             }
           ]
         },
@@ -175,70 +174,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        816,
+        832,
         352
       ],
-      "id": "5e373d61-02a6-4b3e-9d1b-cbf3c722054b",
+      "id": "df4ec54b-a391-4ca0-ba2c-65f180aace4e",
       "name": "HTTP Request1"
-    },
-    {
-      "parameters": {
-        "url": "https://graph.facebook.com/v21.0/1019014841288456",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "fields",
-              "value": "health_status"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer EAAMAHXjbfyQBQjUfByy9L4p2kN5ietCudtRou34YGhZBmxdZBX7lgy7unVuae0i8VYp3KLGYzyqQ0wyMllc5w9jiNZBeHUjobg8GXrodWZCvGZBNFvqJmD9KSff8BopGZBlPppNBGjw5PFT0Ugohy44aDZBYGRywXqWYO5SUAS59Ly8yvSCmMZCCxBAOZCFhK71yZBGMPKrcKqicohU8MzAU0H3KBJESC7QeyZCQfRhLTQH9tByrPwA1HLZB6Xx0EmnLRFMsm3UmD4BNwpEP9GVEwOpR0455mX7ulZChA"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        752,
-        528
-      ],
-      "id": "a6d2cf93-8506-4924-b5e1-524f485e3b34",
-      "name": "HTTP Request2"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://graph.facebook.com/v24.0/1019014841288456/messages",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer EAAMAHXjbfyQBQo6248QNP4XNZBuuvuKDEEQgnh1ACKy89Sxsgk4gb44fis5iljjoXJRGOoB1liGpUuMTBjZCjTtfHGyGNbKUyo8rgQMnknWnT21gg0DNjZBZBxIKUZAlUyN8vZCFtRIduCULZA8Vykhl04m5oBBPWJt2RvFQp4HCuY5qn3R7eODyCiJGLG6BzFDxmr4bH4bMHVi4Qbype8dCDzBOjrDstzBPF9YRAZAodEEItjyg5XtoBrSkZANlvu82jym80SV4bIxT2imlHbXXPAGDbR5hLxZC9aNdkMHAglfzZCcWBcoWZBPHI5WO3XtD504mSyrJ"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511948456707\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": true,\n    \"body\": \"Olá! Esta é uma mensagem livre dentro das 24h. Posso responder livremente!\"\n  }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        1104,
-        80
-      ],
-      "id": "99880b0d-7b7c-441e-95ed-1efccb3b0304",
-      "name": "Enviar Mensagem 2"
     }
   ],
   "connections": {
@@ -318,7 +258,9 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": null,
   "meta": {
@@ -331,18 +273,18 @@
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
             "user-agent": "facebookexternalua",
-            "content-length": "648",
+            "content-length": "496",
             "accept": "*/*",
             "accept-encoding": "deflate, gzip",
             "content-type": "application/json",
-            "x-forwarded-for": "173.252.95.40",
+            "x-forwarded-for": "173.252.95.54",
             "x-forwarded-host": "n8n.mx4solucoes.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "034979f07d8b",
-            "x-hub-signature": "sha1=efdf7405d834b730adf03671f66662b05d69fcae",
-            "x-hub-signature-256": "sha256=7a66bd990bf8343f5e1d30a882e76bf85f9ab9048a2a32c7c302060d54e84b89",
-            "x-real-ip": "173.252.95.40"
+            "x-forwarded-server": "7d782f80dbd7",
+            "x-hub-signature": "sha1=1259b8c7f1feea96317cf7e80cc44d50cc91a970",
+            "x-hub-signature-256": "sha256=17cc2710eefa99a639474ce4ca916dd8a5984357f847f85796a90b1cd82798d7",
+            "x-real-ip": "173.252.95.54"
           },
           "params": {},
           "query": {},
@@ -350,32 +292,27 @@
             "object": "whatsapp_business_account",
             "entry": [
               {
-                "id": "1427828302464900",
+                "id": "1655781245795951",
                 "changes": [
                   {
                     "value": {
                       "messaging_product": "whatsapp",
                       "metadata": {
                         "display_phone_number": "5511993921451",
-                        "phone_number_id": "1019014841288456"
+                        "phone_number_id": "985619224640489"
                       },
                       "statuses": [
                         {
-                          "id": "wamid.HBgNNTUxMTk5ODA5MzI0MxUCABEYEkY5QkQyODY4QzkxRDkyRDNERQA=",
-                          "status": "failed",
-                          "timestamp": "1771550235",
-                          "recipient_id": "5511998093243",
-                          "errors": [
-                            {
-                              "code": 131031,
-                              "title": "Business Account locked",
-                              "message": "Business Account locked",
-                              "error_data": {
-                                "details": "Business account has been locked."
-                              },
-                              "href": "https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/"
-                            }
-                          ]
+                          "id": "wamid.HBgNNTUxMTk0ODQ1NjcwNxUCABEYEkFBODIwRjgxMTcwMzFFOTNCOQA=",
+                          "status": "read",
+                          "timestamp": "1771703654",
+                          "recipient_id": "5511948456707",
+                          "pricing": {
+                            "billable": false,
+                            "pricing_model": "PMP",
+                            "category": "service",
+                            "type": "free_customer_service"
+                          }
                         }
                       ]
                     },
@@ -394,8 +331,8 @@
       }
     ]
   },
-  "versionId": "362b9d67-638d-4024-bf30-97dc4dc1ff7a",
-  "activeVersionId": "362b9d67-638d-4024-bf30-97dc4dc1ff7a",
+  "versionId": "e16e8921-9629-4f3a-addf-a0544e05e935",
+  "activeVersionId": "e16e8921-9629-4f3a-addf-a0544e05e935",
   "triggerCount": 1,
   "shared": [
     {
@@ -407,9 +344,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-20T02:48:52.000Z",
-    "createdAt": "2026-02-20T02:48:42.553Z",
-    "versionId": "362b9d67-638d-4024-bf30-97dc4dc1ff7a",
+    "updatedAt": "2026-02-21T19:59:28.000Z",
+    "createdAt": "2026-02-21T19:59:24.446Z",
+    "versionId": "e16e8921-9629-4f3a-addf-a0544e05e935",
     "workflowId": "18ldlVd82-vVXrsE9QF9H",
     "nodes": [
       {
@@ -476,7 +413,7 @@
             "parameters": [
               {
                 "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQZBA0bd9uVo3gvzbq3poyyfOyiSHMwrgXwZAGJwdZCVCvNvnES33NsXffgL9y3kQlTtJuTVVQXCpsxH57aMFaHjGZBQSZCXrrHNoFb5SZCOABM8FRHdqvWa9S8Iaf5BV1JluOpomgzQBMJXD7alAwYuEZB1RDZCGdcxnqye661ajn6sWKcKCXPKBdaI4AJTk8y7k6JFnT4mHzII7n5IaAv3DpKtnZAJUxtTqDbKLCoQHlfaLt10MgzSA1ILHtoa5NhFgtMBDeKlbzEOZB7OW0EOsYf1moxUBwFbTzAkjyKmZCr9y87nXxErEVJ2Vc9yJ2cqBwaJtStixQZDZD"
+                "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
               },
               {
                 "name": "Content-Type",
@@ -486,7 +423,7 @@
           },
           "sendBody": true,
           "specifyBody": "json",
-          "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $('Webhook WhatsApp').item.json.body.entry[0].changes[0].value.messages[0].from }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": false,\n    \"body\": \"{{ $json.output }}\"\n  }\n}",
+          "jsonBody": "={\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"{{ $('Webhook WhatsApp').item.json.body.entry[0].changes[0].value.contacts[0].wa_id }}\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": false,\n    \"body\": \"{{ $json.output }}\"\n  }\n}",
           "options": {}
         },
         "id": "6e485140-8b71-4953-a932-caba4f8fcacf",
@@ -494,7 +431,7 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.1,
         "position": [
-          864,
+          880,
           -16
         ]
       },
@@ -542,13 +479,13 @@
       },
       {
         "parameters": {
-          "url": "https://graph.facebook.com/v24.0/25668379536145006?fields=health_status",
+          "url": "https://graph.facebook.com/v24.0/985619224640489?fields=health_status",
           "sendHeaders": true,
           "headerParameters": {
             "parameters": [
               {
                 "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQZBA0bd9uVo3gvzbq3poyyfOyiSHMwrgXwZAGJwdZCVCvNvnES33NsXffgL9y3kQlTtJuTVVQXCpsxH57aMFaHjGZBQSZCXrrHNoFb5SZCOABM8FRHdqvWa9S8Iaf5BV1JluOpomgzQBMJXD7alAwYuEZB1RDZCGdcxnqye661ajn6sWKcKCXPKBdaI4AJTk8y7k6JFnT4mHzII7n5IaAv3DpKtnZAJUxtTqDbKLCoQHlfaLt10MgzSA1ILHtoa5NhFgtMBDeKlbzEOZB7OW0EOsYf1moxUBwFbTzAkjyKmZCr9y87nXxErEVJ2Vc9yJ2cqBwaJtStixQZDZD"
+                "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
               }
             ]
           },
@@ -565,14 +502,13 @@
       },
       {
         "parameters": {
-          "method": "POST",
-          "url": "https://graph.facebook.com/v19.0/1019014841288456/deregister",
+          "url": "https://graph.facebook.com/v24.0/985619224640489/settings",
           "sendHeaders": true,
           "headerParameters": {
             "parameters": [
               {
                 "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQipuUqP77SLIHCIWZBq8lW2ygyu4ONy4HZBp823JX7ZAbdW15ZBlPCAQZBybz0DXNxGE1bS1zNZCsnZBSWHSSgbJ2Goo0l6ZAITOYCjXmprgDIuBRjRdrLbUkZACJcYzp9jbGXoDZCw2X5KSHaKWZCz70qiOzZC55sNujOz4BEDXHodVsm3tNxPAntJ4VPyEjoOys3C31ooZCeKw7kZC6k3saQCoZCy6K2VrmletNHZBdzyTuIec1WZCEZCWYodPPrjCZB7dR0MRu2gKxTl0OO1wEKbjYezkJdhjQ4CFNA1e5C8MY5NmaQHVcLRW7ZBJhxvdaTMA"
+                "value": "Bearer EAAMAHXjbfyQBQzmJnvZBIWREkOmQqNZBkrUCuBQmojC9wELgqrvCUn7S3C4aAHWcxaeg2vW3TPO3c6yWnadoZAJ6Gn3hFgsk6vR3O2Ayb25gfkHzDkbgWwVzb7xqNA3pCJhFnqfgSdnBjNpzJwmnjCOd5ATogQ5eUMPQ5IrkxkbkqJRM0GaELES80fX6FWEjoalvsa0jZC8tPWwudwh6OAJwwHqBpPoJhVwRALam0o8psrgKzAM90h3LaDHBMwlqd68ELqPluWEYx4LZAy8GhMpwG26527676ZAlAYGeXVUk0wSIjKjRlfDyoLNf12oACm0cpR"
               }
             ]
           },
@@ -581,70 +517,11 @@
         "type": "n8n-nodes-base.httpRequest",
         "typeVersion": 4.4,
         "position": [
-          816,
+          832,
           352
         ],
-        "id": "5e373d61-02a6-4b3e-9d1b-cbf3c722054b",
+        "id": "df4ec54b-a391-4ca0-ba2c-65f180aace4e",
         "name": "HTTP Request1"
-      },
-      {
-        "parameters": {
-          "url": "https://graph.facebook.com/v21.0/1019014841288456",
-          "sendQuery": true,
-          "queryParameters": {
-            "parameters": [
-              {
-                "name": "fields",
-                "value": "health_status"
-              }
-            ]
-          },
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQjUfByy9L4p2kN5ietCudtRou34YGhZBmxdZBX7lgy7unVuae0i8VYp3KLGYzyqQ0wyMllc5w9jiNZBeHUjobg8GXrodWZCvGZBNFvqJmD9KSff8BopGZBlPppNBGjw5PFT0Ugohy44aDZBYGRywXqWYO5SUAS59Ly8yvSCmMZCCxBAOZCFhK71yZBGMPKrcKqicohU8MzAU0H3KBJESC7QeyZCQfRhLTQH9tByrPwA1HLZB6Xx0EmnLRFMsm3UmD4BNwpEP9GVEwOpR0455mX7ulZChA"
-              }
-            ]
-          },
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          752,
-          528
-        ],
-        "id": "a6d2cf93-8506-4924-b5e1-524f485e3b34",
-        "name": "HTTP Request2"
-      },
-      {
-        "parameters": {
-          "method": "POST",
-          "url": "https://graph.facebook.com/v24.0/1019014841288456/messages",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              {
-                "name": "Authorization",
-                "value": "Bearer EAAMAHXjbfyQBQo6248QNP4XNZBuuvuKDEEQgnh1ACKy89Sxsgk4gb44fis5iljjoXJRGOoB1liGpUuMTBjZCjTtfHGyGNbKUyo8rgQMnknWnT21gg0DNjZBZBxIKUZAlUyN8vZCFtRIduCULZA8Vykhl04m5oBBPWJt2RvFQp4HCuY5qn3R7eODyCiJGLG6BzFDxmr4bH4bMHVi4Qbype8dCDzBOjrDstzBPF9YRAZAodEEItjyg5XtoBrSkZANlvu82jym80SV4bIxT2imlHbXXPAGDbR5hLxZC9aNdkMHAglfzZCcWBcoWZBPHI5WO3XtD504mSyrJ"
-              }
-            ]
-          },
-          "sendBody": true,
-          "specifyBody": "json",
-          "jsonBody": "{\n  \"messaging_product\": \"whatsapp\",\n  \"recipient_type\": \"individual\",\n  \"to\": \"5511948456707\",\n  \"type\": \"text\",\n  \"text\": {\n    \"preview_url\": true,\n    \"body\": \"Olá! Esta é uma mensagem livre dentro das 24h. Posso responder livremente!\"\n  }\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.4,
-        "position": [
-          1104,
-          80
-        ],
-        "id": "99880b0d-7b7c-441e-95ed-1efccb3b0304",
-        "name": "Enviar Mensagem 2"
       }
     ],
     "connections": {
@@ -722,14 +599,14 @@
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version 362b9d67",
+    "name": "Version e16e8921",
     "description": "",
     "autosaved": true
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-20T11:00:20.792Z",
-    "version": "2026-02-20T02:48:42.551Z",
+    "backedUpAt": "2026-02-22T11:00:53.907Z",
+    "version": "2026-02-21T19:59:24.438Z",
     "originalId": "18ldlVd82-vVXrsE9QF9H"
   }
 }
