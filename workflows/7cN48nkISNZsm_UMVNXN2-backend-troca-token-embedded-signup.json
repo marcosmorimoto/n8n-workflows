@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-20T02:51:08.805Z",
+  "updatedAt": "2026-02-23T02:00:44.061Z",
   "createdAt": "2026-02-06T02:49:47.815Z",
   "id": "7cN48nkISNZsm_UMVNXN2",
   "name": "Backend Troca Token Embedded Signup",
@@ -119,7 +119,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
       "position": [
-        1024,
+        1216,
         0
       ]
     },
@@ -169,6 +169,27 @@
       ],
       "id": "fd9b6a06-24b4-40c8-a112-a5937fa1914b",
       "name": "Ativar a Assinatura"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "update stores\nset waba_code = '{{ $('Recebe Code do Frontend').item.json.body.code }}',\nwaba_access_token = '{{ $('Troca Code por Token').item.json.access_token }}',\nwaba_id = {{ $('Pega WABA ID').item.json.assigned_whatsapp_business_accounts.data[0].id }},\nwaba_phone_id = {{ $('Pegar ID Telefone').item.json.data[0].id }},\nembedded_signup_date = CURRENT_TIMESTAMP\nwhere id = '{{ $('Recebe Code do Frontend').item.json.body.storeId }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "4fbecc8d-f9fa-4bf2-a7b9-188f527977ae",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "REMOVED",
+          "name": "postgresql_db"
+        }
+      }
     }
   ],
   "connections": {
@@ -220,6 +241,17 @@
       "main": [
         [
           {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
             "node": "Retorna Dados",
             "type": "main",
             "index": 0
@@ -233,40 +265,39 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {
     "Recebe Code do Frontend": [
       {
         "json": {
           "headers": {
             "host": "n8n.mx4solucoes.com.br",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
-            "content-length": "505",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0",
+            "content-length": "511",
             "accept": "*/*",
             "accept-encoding": "gzip, deflate, br, zstd",
-            "accept-language": "pt-BR,pt;q=0.8",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
             "content-type": "application/json",
             "origin": "https://tali-app.com.br",
-            "priority": "u=1, i",
+            "priority": "u=4",
             "referer": "https://tali-app.com.br/",
-            "sec-ch-ua": "\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Brave\";v=\"144\"",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": "\"macOS\"",
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
             "sec-fetch-site": "cross-site",
-            "sec-gpc": "1",
-            "x-forwarded-for": "201.0.108.189",
+            "x-forwarded-for": "170.85.18.90",
             "x-forwarded-host": "n8n.mx4solucoes.com.br",
             "x-forwarded-port": "443",
             "x-forwarded-proto": "https",
-            "x-forwarded-server": "034979f07d8b",
-            "x-real-ip": "201.0.108.189"
+            "x-forwarded-server": "d9ed3e51a682",
+            "x-real-ip": "170.85.18.90"
           },
           "params": {},
           "query": {},
           "body": {
-            "code": "AQBfmC5ogiQsGP4u-T-ICCYYnHQXbbv_myGDg5QaI-RLxaWIXWw6OswAYWX5a9ym-zXcOpVX4CkPFsIW6v3TkZgnhu7jVLANUpRyC1Q-5Qq0bjFyFvYhL3jU_ToGSzRFyuTaOPG83WN44HZAhGffn-e19i_vQFCbb-_NYXpDlqLv0NzoC1kPmMKY3b205PQGwjglqFJ5k_LnrxtPlanlyiKYTC8gyj2pTaod81fGxZMWDFgVwmnHoSz0th48Wq_r60jB04dyjsC0eMCt8ThiiM-YJ71aihYcEPzAmpbmJVWNqgBD9U7SFXdDIT1d1h8iZEu8DDtaV98sb6spF6phUmmRPsDC5McO5clOlRLdJcRJOdMQzdF7doLzPXohDENMCNzPR4-muHQdUQlS6wE6LmSbFcMiA6JYzD-RpxMlrXSBvx-tIgPvYMl4KOq-Go1mCM0fRastYTQFr7vS75evTQF0zf3vKu6ko908DSp0KkXxbw"
+            "code": "AQA5Td1o7nQoUUlID2A37mBQggjTnNAx5nlgrvEJTxkS0nMGa85zruwQSgjWVOSt_TjbGUpIzxNFRHR1Sdi5C6G65W6573iAxJuvA2nukdP2uSo9_FoeAYuo7aOiHWKfpxOmg1_fXqkClGKWsLSfnxTbC_V1m0kBsPihiAtbZIW3XFir51OLuZYR6YuSPPcOQX6Pfx1usn8EU8jBMoenQ1I78YKC4rv7604iJVKSXg1HlqnAqXoKkvr4L3fK4gAyzEhn2brJopzyQo2y5cefskiqtFifDnXYu7HWhbY2QDpJUzzaNgUKkEqN2QhxpkbFeC7xxJEQKuGV-mjx2UEpZpIyAppXMWZcl7y_sZCILJ6l8tk2-KeQOjNhetKduynmsPzdIf7qiySlQvISu6b1XkZXP3V3HBIqNROCUiuUAlZAE0TTMWCH8x3HypWtdxoiaWU",
+            "storeId": "fe8cffea-66de-49a8-a172-5cf2c4840534"
           },
           "webhookUrl": "https://n8n.mx4solucoes.com.br/webhook/exchange-waba-token",
           "executionMode": "production"
@@ -277,8 +308,8 @@
       }
     ]
   },
-  "versionId": "233e4e5b-5e14-45af-9a9c-3ae7c70de237",
-  "activeVersionId": "233e4e5b-5e14-45af-9a9c-3ae7c70de237",
+  "versionId": "20ef91b2-01b6-407b-9bd5-467fda6a8609",
+  "activeVersionId": "20ef91b2-01b6-407b-9bd5-467fda6a8609",
   "triggerCount": 1,
   "shared": [
     {
@@ -290,9 +321,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-20T02:51:20.000Z",
-    "createdAt": "2026-02-20T02:51:08.807Z",
-    "versionId": "233e4e5b-5e14-45af-9a9c-3ae7c70de237",
+    "updatedAt": "2026-02-23T02:00:46.000Z",
+    "createdAt": "2026-02-23T02:00:44.064Z",
+    "versionId": "20ef91b2-01b6-407b-9bd5-467fda6a8609",
     "workflowId": "7cN48nkISNZsm_UMVNXN2",
     "nodes": [
       {
@@ -408,7 +439,7 @@
         "type": "n8n-nodes-base.respondToWebhook",
         "typeVersion": 1,
         "position": [
-          1024,
+          1216,
           0
         ]
       },
@@ -458,6 +489,27 @@
         ],
         "id": "fd9b6a06-24b4-40c8-a112-a5937fa1914b",
         "name": "Ativar a Assinatura"
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "update stores\nset waba_code = '{{ $('Recebe Code do Frontend').item.json.body.code }}',\nwaba_access_token = '{{ $('Troca Code por Token').item.json.access_token }}',\nwaba_id = {{ $('Pega WABA ID').item.json.assigned_whatsapp_business_accounts.data[0].id }},\nwaba_phone_id = {{ $('Pegar ID Telefone').item.json.data[0].id }},\nembedded_signup_date = CURRENT_TIMESTAMP\nwhere id = '{{ $('Recebe Code do Frontend').item.json.body.storeId }}'",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          1040,
+          0
+        ],
+        "id": "4fbecc8d-f9fa-4bf2-a7b9-188f527977ae",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "postgres": {
+            "id": "AiO26NkfV8oiyvKe",
+            "name": "postgresql_db"
+          }
+        }
       }
     ],
     "connections": {
@@ -509,6 +561,17 @@
         "main": [
           [
             {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
               "node": "Retorna Dados",
               "type": "main",
               "index": 0
@@ -518,14 +581,14 @@
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version 233e4e5b",
+    "name": "Version 20ef91b2",
     "description": "",
-    "autosaved": true
+    "autosaved": false
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-20T11:00:20.835Z",
-    "version": "2026-02-20T02:51:08.805Z",
+    "backedUpAt": "2026-02-23T11:00:26.773Z",
+    "version": "2026-02-23T02:00:44.061Z",
     "originalId": "7cN48nkISNZsm_UMVNXN2"
   }
 }
