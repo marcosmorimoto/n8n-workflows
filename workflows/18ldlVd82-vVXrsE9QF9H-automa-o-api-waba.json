@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-25T02:49:47.388Z",
+  "updatedAt": "2026-02-27T02:56:15.738Z",
   "createdAt": "2026-02-06T20:12:45.835Z",
   "id": "18ldlVd82-vVXrsE9QF9H",
   "name": "Automação API WABA",
@@ -1813,8 +1813,8 @@
       }
     ]
   },
-  "versionId": "58845b71-d476-4707-889f-b9c36f36a09e",
-  "activeVersionId": "58845b71-d476-4707-889f-b9c36f36a09e",
+  "versionId": "b23ebb53-87ec-4c04-a4bd-e6fdc0cacfa8",
+  "activeVersionId": "b23ebb53-87ec-4c04-a4bd-e6fdc0cacfa8",
   "triggerCount": 1,
   "shared": [
     {
@@ -1826,9 +1826,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-02-25T02:50:19.000Z",
-    "createdAt": "2026-02-25T02:49:47.390Z",
-    "versionId": "58845b71-d476-4707-889f-b9c36f36a09e",
+    "updatedAt": "2026-02-27T02:56:20.000Z",
+    "createdAt": "2026-02-27T02:56:15.741Z",
+    "versionId": "b23ebb53-87ec-4c04-a4bd-e6fdc0cacfa8",
     "workflowId": "18ldlVd82-vVXrsE9QF9H",
     "nodes": [
       {
@@ -3551,14 +3551,14 @@
       }
     },
     "authors": "Marcos Morimoto",
-    "name": "Version 58845b71",
+    "name": "Version b23ebb53",
     "description": "",
     "autosaved": true
   },
   "tags": [],
   "backupMetadata": {
-    "backedUpAt": "2026-02-25T11:00:25.873Z",
-    "version": "2026-02-25T02:49:47.388Z",
+    "backedUpAt": "2026-02-27T11:00:09.690Z",
+    "version": "2026-02-27T02:56:15.738Z",
     "originalId": "18ldlVd82-vVXrsE9QF9H"
   }
 }
